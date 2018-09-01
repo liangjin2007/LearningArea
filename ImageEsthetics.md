@@ -1,1 +1,0 @@
-# Image Esthetics Investigation
