@@ -1,5 +1,26 @@
 # Data Structure and Algorithm
 
+# 二叉搜索树（BST, Binary Search Tree）
+- 二叉搜索树例子
+    5
+   / \
+  3   6
+ / \   \
+2   4   7
+
+- C++例子
+```
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ * TreeNode *tree = ***;
+ */
+```
 # 红黑树： 一棵有n个内结点的红黑树的高度至多为2lg(n+1)
 
 二叉树的一种
