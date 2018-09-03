@@ -30,3 +30,9 @@
     cond(yes)->e
     cond(no)->op
     &```
+
+- 应用
+
+[Editor.md](https://pandao.github.io/editor.md/)
+可以用于给表格图片url打标，请自己脑补。
+
