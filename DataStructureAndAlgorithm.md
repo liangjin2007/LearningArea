@@ -1,10 +1,5 @@
 # Data Structure and Algorithm
 
-# 二叉树
-
-
-AVL树
-
 # 红黑树： 一棵有n个内结点的红黑树的高度至多为2lg(n+1)
 
 二叉树的一种
@@ -33,3 +28,23 @@ AVL树
 
 - C++例子
    - std::unordered_map
+
+# Two Sum
+
+```
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        std::unordered_map<int, int> finder;
+        for(int i = 0; i < nums.size(); ++i){
+            int num = nums[i];
+            auto f = finder.find(target-num);
+            if(f != finder.end()){
+                return vector<int>{f->second, i};
+            }else{
+                finder.insert({num, i});
+            }
+        }
+    }
+};
+```
