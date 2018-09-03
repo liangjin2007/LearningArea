@@ -24,3 +24,12 @@ AVL树
    - std::map
 
 # 哈希表
+- 哈希表
+   - 哈希值函数 hash_function(key)
+   - 一个大vector存指针
+   - 用来解决hash值冲突的链表
+- 哈希表例子
+   ![哈希表例子](https://img-blog.csdn.net/20150415084507621?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQmx1ZXMxMDIx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center "哈希表例子")
+
+- C++例子
+   - std::unordered_map
