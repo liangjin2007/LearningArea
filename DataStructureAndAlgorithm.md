@@ -18,7 +18,7 @@ AVL树
 5. 对于每个结点，从该结点到其子孙结点的所有路径上包含相同数目的黑色结点。
 
 - 红黑树例子
-   ![红黑树例子](http://img.my.csdn.net/uploads/201302/28/1362014952_9215.png "红黑树例子")
+   ![红黑树例子](https://github.com/liangjin2007/data_liangjin/blob/master/redblacktree.png?raw=true "红黑树例子")
 
 - C++例子
    - std::map
@@ -29,7 +29,7 @@ AVL树
    - 一个大vector存指针
    - 用来解决hash值冲突的链表
 - 哈希表例子
-   ![哈希表例子](https://gss1.bdstatic.com/-vo3dSag_xI4khGkpoWK1HF6hhy/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=249bc83ec45c10383073c690d378f876/c9fcc3cec3fdfc035f8e2b9cd63f8794a4c22624.jpg "哈希表例子")
+   ![哈希表例子](https://github.com/liangjin2007/data_liangjin/blob/master/hashtable.jpg?raw=true "哈希表例子")
 
 - C++例子
    - std::unordered_map
