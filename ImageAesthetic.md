@@ -13,7 +13,7 @@
    - Remove bad images
    - High, Medium, Low Classification
 
-- Experiment
+- Problems
    - Cannot compare images with different image types, e.g. scenery image and indoor image cannot be compared by score.
    - Actually it's not very useful.
    
