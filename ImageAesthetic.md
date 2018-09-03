@@ -1,8 +1,8 @@
 ## Image Aesthetic Assessment
 
 - Related Work
-[NIMA: Neural Image Assessment, 2017]https://arxiv.org/abs/1709.05424
-[github](https://github.com/titu1994/neural-image-assessment)
+   - [NIMA: Neural Image Assessment, 2017](https://arxiv.org/abs/1709.05424)
+   - [github](https://github.com/titu1994/neural-image-assessment)
 
 - How?
    - CNN based classification task
