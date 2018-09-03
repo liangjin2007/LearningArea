@@ -112,3 +112,57 @@ public:
     }
 };
 ```
+# Add Two Numbers By Lists
+```
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addThreeNumbers(ListNode* l1, ListNode* l2, int& increment){
+        if(!l1 && !l2 && increment == 0)
+            return 0;
+        
+        int sum = 0;
+        if(l1) sum += l1->val;
+        if(l2) sum += l2->val;
+        sum += increment;
+        
+        int digit = sum % 10;
+        ListNode *res = new ListNode(digit);
+        increment = sum/10;
+        
+        return res;
+    }
+    
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        int increment = 0;
+        vector<ListNode*> nodes;
+        while(l1 || l2 || increment){
+            auto n = addThreeNumbers(l1, l2, increment);
+            if(!n)
+                break;
+            nodes.push_back(n);
+            if(l1) l1 = l1->next;
+            if(l2) l2 = l2->next;
+        }
+        
+        if(nodes.size() > 0){
+            for(int i = 0; i < nodes.size()-1; i++)
+                nodes[i]->next = nodes[i+1];
+
+            nodes.back()->next = 0;
+            
+            return nodes[0];
+        }
+        
+        return 0;
+    }
+};
+```
+![流程图](https://github.com/liangjin2007/data_liangjin/blob/master/workflow.jpg?raw=true)
