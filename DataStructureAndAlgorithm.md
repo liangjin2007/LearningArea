@@ -2,11 +2,7 @@
 
 # 二叉搜索树（BST, Binary Search Tree）
 - 二叉搜索树例子
-    5
-   / \
-  3   6
- / \   \
-2   4   7
+![例子](https://github.com/liangjin2007/data_liangjin/blob/master/BST.jpg?raw=true)
 
 - C++例子
 ```
