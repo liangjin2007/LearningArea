@@ -65,3 +65,32 @@ public:
     }
 };
 ```
+
+# Two Sum of BST
+```
+class Solution {
+public:
+    void middleOrderTraverse(TreeNode* root, vector<TreeNode*>& orderedValues){
+        if(root->left)
+            middleOrderTraverse(root->left, orderedValues);
+        if(root)
+            orderedValues.push_back(root);
+        if(root->right)
+            middleOrderTraverse(root->right, orderedValues);
+    }
+    
+    bool findTarget(TreeNode* root, int k) {
+        vector<TreeNode*> orderedValues;
+        middleOrderTraverse(root, orderedValues);
+        
+        int i = 0, j = orderedValues.size()-1;
+        while(i < j){
+            int sum = orderedValues[i]->val + orderedValues[j]->val;
+            if(sum == k) return true;
+            else if(sum < k)i++;
+            else j--;
+        }
+        return false;
+    }
+};
+```
