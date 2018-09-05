@@ -166,3 +166,59 @@ public:
 };
 ```
 ![流程图](https://github.com/liangjin2007/data_liangjin/blob/master/workflow.jpg?raw=true)
+
+# 字符串处理之——不重复最长字串
+```
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        vector<int> dict(256, -1);
+        int maxLen = 0;
+        int start = -1;
+        for(int i = 0; i < s.length(); i++){
+            int c = s[i];
+            if(dict[c] > start)
+                start = dict[c];
+            dict[c] = i;
+            maxLen = max(maxLen, i-start);
+        }
+        return maxLen;
+    }
+};
+
+# 求中位数 Median of Two Sorted Arrays 思路融合两个已排序数组
+```
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> merged;
+        int size1 = nums1.size(), size2 = nums2.size();
+        merged.reserve(size1+size2);
+        int i = 0, j = 0;
+        while(i < size1 && j < size2){
+            if(nums1[i] <= nums2[j]){
+                merged.push_back(nums1[i]);
+                i++;
+            }
+            else{
+                merged.push_back(nums2[j]);
+                j++;
+            }
+        }
+        
+        for(int k = i; k < size1; k++){
+            merged.push_back(nums1[k]);
+        }
+        for(int k = j; k < size2; k++){
+            merged.push_back(nums2[k]);
+        }
+        
+        int middle = (merged.size()-1)/2;
+        if(merged.size() % 2 == 0)
+            return 0.5*(merged[middle]+merged[middle+1]);
+        return merged[middle]*1.0;
+    }
+};
+```
+
+# 
