@@ -28,13 +28,17 @@
    - 给图片配字幕 image captioning
    - 动作分类 action classification
    - object detection
+   - reasoning
 
 - CNN卷积神经网络for对象识别
 
-|YEAR|Who|# of transistors|# of pixels used in training|
-|:--|:--|:--|:--|
-|1998|LeCun|10^6|10^7|
-|2012|Krizhevsky|10^9|10^14|
+![](https://github.com/liangjin2007/data_liangjin/blob/master/semantic%20segmentation.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/layout.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/3d-relation.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/image-captioning.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/surface-attribute.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/vision-technology.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/hard-problem.jpg?raw=true)
 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
