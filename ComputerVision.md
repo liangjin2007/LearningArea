@@ -40,7 +40,7 @@
 ![](https://github.com/liangjin2007/data_liangjin/blob/master/vision-technology.jpg?raw=true)
 ![](https://github.com/liangjin2007/data_liangjin/blob/master/hard-problem.jpg?raw=true)
 
-- Course Philosophy
+- Course Philosophy课程哲学
    - Thorough透彻 and Detailed 详细
       - write from scratch, debug and train CNN
    - Practical实际
@@ -50,7 +50,23 @@
    - Fun欢乐
       - Fun topics e.g. Image Captionning(RNN)
       - DeepDream, NeuralStyle, etc
-   
+
+- Grading policy打分规则
+   - 3 Problem Sets: 15% x 3 = 45% 三个问题集共占45%
+   - Midterm Exam: 15% 其中考试占15%
+   - Final Course Project: 40%最后课程项目占40%
+      - Milestone: 5% 列出里程碑占5%
+      - Final write-up: 35% 最后写出占35%
+      - bonus points for exceptional poster presentation不同寻常的展示有加分
+   - Late Policy迟到策略
+      - 7 free late days - use them in your ways
+      - Afterwards, 25% off per day late
+      - Not accepted after 3 late days per PS
+      - Does not apply to Final Course Project
+   - Collaboration Policy
+      - Read the student code book, understand what is collaboration and what is academic infraction
+      
+
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
