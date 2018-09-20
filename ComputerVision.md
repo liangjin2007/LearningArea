@@ -40,6 +40,17 @@
 ![](https://github.com/liangjin2007/data_liangjin/blob/master/vision-technology.jpg?raw=true)
 ![](https://github.com/liangjin2007/data_liangjin/blob/master/hard-problem.jpg?raw=true)
 
+- Course Philosophy
+   - Thorough透彻 and Detailed 详细
+      - write from scratch, debug and train CNN
+   - Practical实际
+      - GPU， scale, distributed optimization, state of the art software tool e.g. Caffe, Torch and Tensorflow
+   - State of the art最新
+      - Past 1-3 years
+   - Fun欢乐
+      - Fun topics e.g. Image Captionning(RNN)
+      - DeepDream, NeuralStyle, etc
+   
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
