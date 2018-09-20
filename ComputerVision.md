@@ -1,5 +1,6 @@
 # Stanford University CS231: 
 - 视觉历史
+
 |1959|猫大脑视觉区的电子信号|Simple Cell, Complex Cell, Hypercomplex Cell|
 |:--|:--|:--|
 |1963|Block World|计算机显示模型，微分，选择的特征|
