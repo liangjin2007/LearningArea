@@ -1,7 +1,7 @@
 # Stanford University CS231: 
 - 视觉历史
 
-|1959|猫大脑视觉区的电子信号|Simple Cell, Complex Cell, Hypercomplex Cell|
+|1959|猫大脑视觉区的电子信号|Simple Cell, Complex Cell, Hypercomplex Cell, Stinulus|
 |:--|:--|:--|
 |1963|Block World|计算机显示模型，微分，选择的特征|
 |1966|The Summer Vision Project|MIT, AI group, pattern recognition|
@@ -15,6 +15,26 @@
 |2005|Histogram of Gradient(HOG)||
 |2006|Spatial Pyramid Matching||
 |2009|Deformable Part Model||
+|2006-2012|PASCAL Visual Object Challenge (20 object categories)|aeroplane,bicycle,bird,boat,bottle,bus,car,cat,chair,cow,diningtable,dog,horse,motorbike,person,pottedplant,sheep,sofa,train,tvmonitor|
+|2009|ImageNet|22K categories and 14M images|
+|2010-2014|LSVRC-Large Scale Visual Recognition Challenge|1000 categories 1430000 images|
+
+- 图像分类image classification任务
+   - google 图片识别
+   - 菜品识别 
+   - 酒店分类 hotel classification
+   - 商品识别 
+   - 对象检测 object detection
+   - 给图片配字幕 image captioning
+   - 动作分类 action classification
+   - object detection
+
+- CNN卷积神经网络for对象识别
+
+|YEAR|Who|# of transistors|# of pixels used in training|
+|:--|:--|:--|:--|
+|1998|LeCun|10^6|10^7|
+|2012|Krizhevsky|10^9|10^14|
 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
