@@ -9,8 +9,9 @@
 - 产品流程
 
 模糊前端创新
-![](https://github.com/liangjin2007/data_liangjin/blob/master/production-workflow.jpg?raw=true)
-![](https://github.com/liangjin2007/data_liangjin/blob/master/innovation-process.jpg?raw=true)
+
+![工作流](https://github.com/liangjin2007/data_liangjin/blob/master/production-workflow.jpg?raw=true)
+![创新过程](https://github.com/liangjin2007/data_liangjin/blob/master/innovation-process.jpg?raw=true)
 
 - 第一阶段 idea产生和评估
    - idea产生
@@ -51,7 +52,7 @@
    
 -产品研发的组织架构
 
-![](![](https://github.com/liangjin2007/data_liangjin/blob/master/organization.jpg?raw=true)
+![组织架构](https://github.com/liangjin2007/data_liangjin/blob/master/organization.jpg?raw=true)
 
    -产品负责人 Product Owner最终为产品的成功和失败负责的唯一角色
       - 商业负责人
