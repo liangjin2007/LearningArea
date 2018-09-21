@@ -6,11 +6,6 @@
 产品的成功归功于整个团队的精诚合作，产品的失败只归咎于产品负责人。
 结论：产品经理是苦逼的工作，没有激情和愿景干不久。
 
-   - 消费者获取解决方案不是计算机表示的解决方案
-   - 用户经验设计包含交互和可视设计
-   - 工程实现是重要且困难的，但是用户经验设计更加重要且更困难
-   - 为了想出强大的产品，产品的想法必须通过实际的目标用户被测试，越早越频繁越好
-   - 原型必须Scrum敏捷和Dedicated专注
 - 产品流程
 
 模糊前端创新
@@ -54,8 +49,34 @@
    - 市场插入
    - 连续制作验证
    
+-产品研发的组织架构
+![](![](https://github.com/liangjin2007/data_liangjin/blob/master/organization.jpg?raw=true)
 
 - 用户分布和增长曲线
+![](![](https://github.com/liangjin2007/data_liangjin/blob/master/user-distribution.jpg?raw=true)
+![](![](https://github.com/liangjin2007/data_liangjin/blob/master/user-curve.jpg?raw=true)
 
+- 用户原型测试User Prototype Testing
+   - 可用性测试
+      - 产品负责人观察
+      - 保持用户以使用心态来测试，而非批评心态的测试
+      - 利用第一印象的机会
+      - 不要提示或者帮助用户，不要引导证人
+   - 价值测试
+      - 产品负责人主导提问
+      - 目标是确定用户将实际购买或者选择使用产品，如果不是，那么什么能促成他们使用
+      - 对转换角度持开放态度
+      
+   - 消费者获取解决方案不是计算机表示的解决方案
+   
+   - 用户经验设计包含交互和可视设计
+   
+   - 工程实现是重要且困难的，但是用户经验设计更加重要且更困难
+   
+   - 为了想出强大的产品，产品的想法必须通过实际的目标用户被测试，越早越频繁越好
+   
+   - 原型必须Scrum敏捷和Dedicated专注
+   
 - 市场插入
 ![](![](https://github.com/liangjin2007/data_liangjin/blob/master/innovation-process.jpg?raw=true)
+
