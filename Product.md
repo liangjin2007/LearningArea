@@ -168,11 +168,11 @@
 
 - 用户分布和增长曲线
 
-![](![](https://github.com/liangjin2007/data_liangjin/blob/master/user-distribution.jpg?raw=true)
-![](![](https://github.com/liangjin2007/data_liangjin/blob/master/user-curve.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/user-distribution.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/user-curve.jpg?raw=true)
 
 - 市场插入
-![](![](https://github.com/liangjin2007/data_liangjin/blob/master/innovation-process.jpg?raw=true)
+![](https://github.com/liangjin2007/data_liangjin/blob/master/innovation-process.jpg?raw=true)
 
 
 
