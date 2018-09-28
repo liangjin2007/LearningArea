@@ -66,7 +66,23 @@
    - Collaboration Policy
       - Read the student code book, understand what is collaboration and what is academic infraction
       
-
+- 图像分类pipline
+   - Python Numpy Tutorial
+   - 任务：给定标注集合，给图片打上标注
+   - 图像表示： 3D, range[0,255], Channel
+   - 挑战：viewpoint change, illumination, deformation, occlusion, background clutter, intraclass variation,
+   - 数据驱动方法
+      - 收集图像和标注
+      - 用机器学习训练一个模型
+      - 预测位置的图像测试集
+   - 第一个分类器
+      - Nearest Neighbor Classifier
+      - 相似性定义： distance metric
+      - train部分只要记住训练集就可以
+   - 近似最近邻 ANN
+      - ANN
+      - FLANN
+   - KNN
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
