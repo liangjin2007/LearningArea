@@ -83,6 +83,14 @@
       - ANN
       - FLANN
    - KNN
+      - 最高准确率是多少？
+      - 距离用哪种最好？
+      - 最好的k是多少？
+      - 以上就是KNN的超参数
+      - 超参数跟具体问题有关，必须通过尝试才能知道
+      - 直接用测试集来改进训练的超参数是不对的，测试集用来衡量预测的泛化效果。
+      - 需要从训练集分化出验证集
+  
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
