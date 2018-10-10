@@ -92,7 +92,7 @@
 
 # The Graphics Processing Unit
 
-- ![](https://github.com/liangjin2007/data_liangjin/blob/master/graphicspipeline.jpg?raw=true,"graphics pipeline")
+- ![](https://github.com/liangjin2007/data_liangjin/blob/master/graphicspipeline.jpg?raw=true,"graphicspipeline")
 
 - ![](https://github.com/liangjin2007/data_liangjin/blob/master/graphicshardwaretimeline.jpg?raw=true,"timeline")
 
