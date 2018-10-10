@@ -26,9 +26,7 @@
          - 投影的结果为一个unit cube 称为 canonical view volume， 称为裁剪坐标clip coordinate（齐次坐标）
          - 正交投影orthographic
          - 透视投影perspective
-      
-      - clipping
-         - 输入是clip coordinate
+
    - 可选顶点处理Optional vertex processing
       - tessellation
          - hull shader
@@ -39,10 +37,45 @@
          - generate a square(two triangles) from a point
       - stream output
          - generate vertex arrays for CPU usage or GPU usage
-   - screen mapping
-   - 
+   
+   - 裁剪clipping
+      - 输入是clip coordinate齐次坐标，用于正确地处理插值和裁剪
+      - 三角形部分在视景体外时，需要裁剪
+      - 透视除法perspective division
+      - 输出归一化设备坐标 normalized device coordinates
+   
+   - 屏幕映射screen mapping
+      - 将归一化设备坐标变换到 window coordinate (x,y,z), z in [0,1] or [-1,1]
+      - 屏幕坐标screen coordinate(x,y)
+      - pixel index = floor(c)
+      - pixel center coordinate = pixel index + 0.5
+      
+   - model coordinate -> world coordinate -> view coordinate -> clip coordinate(4d) -> normalized device coordinate(3d) -> window coordinate
 - 光栅化 Rasterization
+   - 找pixels in 三角形
+   - 又称为scan conversion
+   - 判断pixel center是否在三角形内
+   - 或者用更多的采样， supersampling, multisampling aliasing
+   - 具体步骤
+      - Triangle Setup
+         - differentials
+         - edge equations
+      - Triangle Traversal
+         - 找到哪些pixel在三角形内，并生成fragment
+         - 透视正确的插值出fragment的属性
+   
 - 像素处理 Pixel Processing
+   - 输入是fragments
+   - 分两步：
+      - 像素着色pixel shading
+         - 为每个像素生成一个或者多个color, 即fragment color
+         - pixel shader or fragment shader
+            - texturing
+               - 把一个或者多个图像粘到对象上
+      - 融合merging
+         - 谁跟谁融合？
+            - fragment color
+            - color in color buffer
 - 整个管线
 
 # Texturing
