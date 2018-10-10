@@ -91,7 +91,7 @@
 - 整个管线
 
 # The Graphics Processing Unit
-
+![](https://github.com/liangjin2007/data_liangjin/blob/master/graphicspipeline.jpg?raw=true,"graphics pipeline")
 
 # Texturing
 
