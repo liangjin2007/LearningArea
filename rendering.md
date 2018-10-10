@@ -146,6 +146,19 @@
    - temporal prediction
    - compression
 
+# 着色基础 Shading Basics
+- 着色模型Shading Models
+   - Gooch shading model
+      - non-photorealistic rendering
+- 光源Light Sources
+- 实现细节
+- 走样和反走样 aliasing and antialiasing
+   - MSAA
+- 透明，alpha，复合 transparency, alpha, compositing
+   - depth peeling
+- 显示编码display encoding
+   - gamma correction
+
 # Texturing
 
 - Texturing Pipeline
