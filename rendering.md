@@ -96,6 +96,55 @@
 
 - ![](https://github.com/liangjin2007/data_liangjin/blob/master/graphicshardwaretimeline.jpg?raw=true,"timeline")
 
+- Vertex Shader
+   - ![](https://github.com/liangjin2007/data_liangjin/blob/master/vertexshader.jpg?raw=true,"vertexshader")
+   - instancing
+   - vertex blending
+   - silhouette rendering
+   - skinning
+   - morphing
+   - procedural deformation, flags, cloth, water
+   - particle creation
+   - lens distortion
+   - heat haze
+   - water ripples
+   - page curls
+   - terrain height field
+   
+- Tessellation Stage
+   - ![](https://github.com/liangjin2007/data_liangjin/blob/master/tessellation.jpg?raw=true,"tessellation")
+   - hull shader, tessellator, etc
+- Geometry Shader
+   - ![](https://github.com/liangjin2007/data_liangjin/blob/master/geometryshader.jpg?raw=true,"geometryshader")
+- Pixel Shader
+   - ![](https://github.com/liangjin2007/data_liangjin/blob/master/pixelshader.jpg?raw=true,"pixelshader")
+   - multiple render targets MRT, 4个或8个
+   - render target
+   - deferred shading
+   - UAV
+   - SSBO
+   - ROVs
+- Merging Stage
+   - early-z
+- Compute Shader
+   - ![](https://github.com/liangjin2007/data_liangjin/blob/master/computershader.jpg?raw=true,"computeshader")
+   - GPU to GPU
+   - distribution, average luminance twice faster than pixel shader
+   - particle system
+   - facial animation
+   - culling
+   - image filtering
+   - improving depth precision
+   - shadows
+   - depth of field
+
+# Transforms
+- Matrix, Basic Transforms, Special Matrix, Quaternions, Vertex Blending, Morphing, Projections
+- Geometry Cache Playback
+   - quantization
+   - spatial prediction
+   - temporal prediction
+   - compression
 
 # Texturing
 
