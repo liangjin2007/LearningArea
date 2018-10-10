@@ -1,4 +1,4 @@
-# 图形管线 Graphics Pipeline
+# 图形管线 Graphics Rendering Pipeline
 
 - 架构 Architecture
    - 管线？例子？理解并行执行？单个人干多个事情？no 多个人干多个事情
@@ -76,7 +76,22 @@
          - 谁跟谁融合？
             - fragment color
             - color in color buffer
+         - 称为 ROP raster operations(pipeline)或者render output unit或者blend operations
+         - 不可编程，但是可以配置，也可以实现各种各样的效果
+         - 解决visibility
+            - z buffer or depth buffer
+            - Transparency是缺点
+         - alpha channel
+         - stencil buffer
+         - framebuffer 包含所有的buffer
+         - double buffering双缓存
+            - back buffer
+            - front buffer
+         
 - 整个管线
+
+# The Graphics Processing Unit
+
 
 # Texturing
 
