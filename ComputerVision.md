@@ -90,7 +90,13 @@
       - 超参数跟具体问题有关，必须通过尝试才能知道
       - 直接用测试集来改进训练的超参数是不对的，测试集用来衡量预测的泛化效果。
       - 需要从训练集分化出验证集
-  
+   - Linear Classifier
+      - 参数化方法f(x, W) : x - > score [float]x10
+      - 输入是[32x32x3]
+      - 输出是score [10]
+      - 线性分类器 f(x,W)=Wx+b, W is 10x3072, b is 10x1
+         - 像素被转成1列
+         - 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
