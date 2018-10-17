@@ -97,9 +97,17 @@
       - 线性分类器 f(x,W)=Wx+b, W is 10x3072, b is 10x1
          - 像素被转成1列
    - 损失函数Loss Function
-      - 
+      - margin loss of SVM, similar to hingle loss
    - 优化方法Optimization
       - 求出恰当的W
+   - 权重正则化Weight Regularization
+      - L1
+      - L2
+      - Elastic net(L1+L2)
+      - Max Norm Regularization
+      - Dropout
+   - Softmax分类器 Softmax Classifier (多类别逻辑回归 multinomial Logistic Regression)
+
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
