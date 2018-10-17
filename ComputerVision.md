@@ -107,7 +107,11 @@
       - Max Norm Regularization
       - Dropout
    - Softmax分类器 Softmax Classifier (多类别逻辑回归 multinomial Logistic Regression)
-
+      - score
+      - 似然函数Likelihood，求参数使得以样本作为输入的条件下，条件概率最大。求出数据集最符合的概率分布。极大化似然概率。
+      - P(Y=k|X=xi) = e^sk/sumj(e^sj) 问题：这个公式为什么成立？
+        
+       
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
