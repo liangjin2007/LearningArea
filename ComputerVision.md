@@ -128,6 +128,16 @@
                - 微积分
             - gradient check
          - 梯度下降法 gradient descent
+         - minibatch梯度下降
+            - weights_grad = evaluate_gradient(loss, data_batch, weights)
+            - weights += step_size*weights_grad # perform parameters update
+            - update strategy: momentum, Adagrad, RMSProp, Adam, 
+         - Image Features
+         - Color Histogram
+         - HOG/SIFT Feature
+            - Many more: GIST, LBP, Texton, SSIM, ...
+         - Bag of Words
+         
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
