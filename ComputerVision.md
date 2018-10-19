@@ -98,8 +98,8 @@
          - 像素被转成1列
    - SVM分类器 SVM Classifier
    
-   - 损失函数Loss Function
-      - margin loss of SVM, similar to hingle loss
+- 损失函数Loss Function和优化optimization
+   - margin loss of SVM, similar to hingle loss
    - 优化方法Optimization
       - 求出恰当的W
    - 权重正则化Weight Regularization
@@ -137,7 +137,27 @@
          - HOG/SIFT Feature
             - Many more: GIST, LBP, Texton, SSIM, ...
          - Bag of Words
-         
+
+- 向后回代和神经网络
+   - 微分链式法则
+   - activations
+   - 神经网络
+      - 神经元
+         - 全连接层
+      - 层数
+         - 不包含输入层的数目
+   - backpropagation
+   - 每个node的backword() API
+      - 计算gradient
+   - 每个node的forward（）API
+      - 计算L
+   - 作业
+      - Assignment: Writing 2layer Net
+      - Stage your forward/backward computation!
+   - 激活函数
+      - ![激活函数](https://github.com/liangjin2007/data_liangjin/blob/master/activation_functions.jpg?raw=true)
+   - [基于ConvnetJS实现的2层神经网络Demo](https://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html)
+   - 总结
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
