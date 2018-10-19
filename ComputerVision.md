@@ -96,6 +96,8 @@
       - 输出是score [10]
       - 线性分类器 f(x,W)=Wx+b, W is 10x3072, b is 10x1
          - 像素被转成1列
+   - SVM分类器 SVM Classifier
+   
    - 损失函数Loss Function
       - margin loss of SVM, similar to hingle loss
    - 优化方法Optimization
@@ -107,11 +109,25 @@
       - Max Norm Regularization
       - Dropout
    - Softmax分类器 Softmax Classifier (多类别逻辑回归 multinomial Logistic Regression)
-      - score
+      - score function
       - 似然函数Likelihood，求参数使得以样本作为输入的条件下，条件概率最大。求出数据集最符合的概率分布。极大化似然概率。
       - P(Y=k|X=xi) = e^sk/sumj(e^sj) 问题：这个公式为什么成立？
-        
-       
+   - [Linear Classification Loss Visualization](http://vision.stanford.edu/teaching/cs231n-demos/linear-classify/)
+   - 完整损失函数Full loss
+      - ![score,loss,full loss](https://github.com/liangjin2007/data_liangjin/blob/master/loss_and_score.jpg?raw=true)
+      
+   - 优化optimization
+      - Strategy#1: Random Search, 15%
+      - Strategy#2: Follow the slope
+         - 1维 
+         - 多维
+            - gradients
+         - 如何求梯度
+            - 数值方法
+            - 分析方法
+               - 微积分
+            - gradient check
+         - 梯度下降法 gradient descent
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
