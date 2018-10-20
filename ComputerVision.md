@@ -158,6 +158,19 @@
       - ![激活函数](https://github.com/liangjin2007/data_liangjin/blob/master/activation_functions.jpg?raw=true)
    - [基于ConvnetJS实现的2层神经网络Demo](https://cs.stanford.edu/people/karpathy/convnetjs/demo/classify2d.html)
    - 总结
+   
+- 训练神经网络
+   - 迁移学习
+      - ![迁移学习](https://github.com/liangjin2007/data_liangjin/blob/master/transfer_learning.jpg?raw=true)
+      
+   - Caffe Model Zoo
+      - https://github.com/BVLC/caffe/wiki/Model-Zoo
+   - Minibatch SGD
+      - Sample a batch of data
+      - Forward prop it through the graph, get loss
+      - Backprop to calculate the gradients
+      - Update the parameters using gradients and optimization method
+      
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
