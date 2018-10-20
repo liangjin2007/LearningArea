@@ -160,9 +160,26 @@
    - gamma correction
 
 # Texturing
+利用图像，函数，或者其他资源，给曲面每个位置分配一个颜色
+例子，砖brick，砂浆mortar
+两个三角形
+砖是光泽的glossy
+砂浆是不光滑的matte
+如何修改粗糙度roughness，使用第二张图像
+砖太平了flat, 使用bump mapping
+parallex mapping
+parallex occlusion
+displacement mapping
+多图像texturing
+![coloring and bump mapping](https://github.com/liangjin2007/data_liangjin/blob/master/texturing.jpg?raw=true)
 
 - Texturing Pipeline
-
+修改着色方程shading equation中的值。
+texels
+修改颜色值
+修改normal
+修改roughness
+world space location -> 
 
 # Light Map
 
