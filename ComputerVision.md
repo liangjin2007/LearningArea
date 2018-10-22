@@ -170,7 +170,14 @@
       - Forward prop it through the graph, get loss
       - Backprop to calculate the gradients
       - Update the parameters using gradients and optimization method
-      
+
+   - 激活函数Activations(RELU)
+   - 数据预处理Data Preprocessing(subtract mean)
+   - 权重初始化Weight Initialization(use Xavier init)
+   - Batch Normalization
+   - Babysitting the Learning process
+   - Hyperparameter Optimization
+
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
