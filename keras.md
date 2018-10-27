@@ -1,6 +1,7 @@
 Keras_Demo笔记
 =====================================================================
-记录自己写不出的代码
+
+- numpy方法归一化
 ```
 x -= x.mean()
 x /= (x.std()+1e-5)
@@ -11,8 +12,86 @@ x *= 255
 x = np.clip(x, 0, 255).astype('uint8')
 ```
 
+- 用Callback画acc_loss曲线
+```
+#写一个LossHistory类，保存loss和acc
+class LossHistory(keras.callbacks.Callback):
+    def on_train_begin(self, logs={}):
+        self.losses = {'batch': [], 'epoch': []}
+        self.accuracy = {'batch': [], 'epoch': []}
+        self.val_loss = {'batch': [], 'epoch': []}
+        self.val_acc = {'batch': [], 'epoch': []}
 
+    def on_batch_end(self, batch, logs={}):
+        self.losses['batch'].append(logs.get('loss'))
+        self.accuracy['batch'].append(logs.get('acc'))
+        self.val_loss['batch'].append(logs.get('val_loss'))
+        self.val_acc['batch'].append(logs.get('val_acc'))
 
+    def on_epoch_end(self, batch, logs={}):
+        self.losses['epoch'].append(logs.get('loss'))
+        self.accuracy['epoch'].append(logs.get('acc'))
+        self.val_loss['epoch'].append(logs.get('val_loss'))
+        self.val_acc['epoch'].append(logs.get('val_acc'))
+
+    def loss_plot(self, loss_type):
+        iters = range(len(self.losses[loss_type]))
+        #创建一个图
+        plt.figure()
+        # acc
+        plt.plot(iters, self.accuracy[loss_type], 'r', label='train acc')#plt.plot(x,y)，这个将数据画成曲线
+        # loss
+        plt.plot(iters, self.losses[loss_type], 'g', label='train loss')
+        if loss_type == 'epoch':
+            # val_acc
+            plt.plot(iters, self.val_acc[loss_type], 'b', label='val acc')
+            # val_loss
+            plt.plot(iters, self.val_loss[loss_type], 'k', label='val loss')
+        plt.grid(True)#设置网格形式
+        plt.xlabel(loss_type)
+        plt.ylabel('acc-loss')#给x，y轴加注释
+        plt.legend(loc="upper right")#设置图例显示位置
+        plt.show()
+```
+
+- 数据增强
+```
+    # 这将做预处理和实时数据增加
+    datagen = ImageDataGenerator(
+        featurewise_center=False,  # 在数据集上将输入平均值设置为0
+        samplewise_center=False,  # 将每个样本均值设置为0
+        featurewise_std_normalization=False,  # 将输入除以数据集的std
+        samplewise_std_normalization=False,  # 将每个输入除以其std
+        zca_whitening=False,  # 应用ZCA白化
+        rotation_range=0,  # 在一个范围下随机旋转图像(degrees, 0 to 180)
+        width_shift_range=0.1,  # 水平随机移位图像（总宽度的分数）
+        height_shift_range=0.1,  # 随机地垂直移动图像（总高度的分数）
+        horizontal_flip=True,  # 随机翻转图像
+        vertical_flip=False)  # 随机翻转图像
+
+    # 计算特征方向归一化所需的数量
+    # (std, mean, and principal components if ZCA whitening is applied)
+    datagen.fit(X_train)
+```
+
+- 解释网络中一些概念
+```
+model.add(Convolution2D(nb_filters, kernel_size,strides=(1, 1),
+                        padding='valid',
+                        input_shape=input_shape))#用作第一层时，需要输入input_shape参数
+model.add(Activation('relu'))
+model.add(Convolution2D(nb_filters, kernel_size))
+model.add(Activation('relu'))
+model.add(MaxPooling2D(pool_size=pool_size))
+model.add(Dropout(0.25))#Dense()的前面要减少连接点，防止过拟合，故通常要Dropout层或池化层
+model.add(Flatten())#Dense()层的输入通常是2D张量，故应使用Flatten层或全局平均池化
+model.add(Dense(128))
+model.add(Activation('relu'))#Dense( )层的后面通常要加非线性化函数
+model.add(Dropout(0.5))
+model.add(Dense(nb_classes))
+model.add(Activation('softmax'))#分类
+model.summary()
+```
 
 FAQ
 =====================================================================
