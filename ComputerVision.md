@@ -255,8 +255,45 @@
       - 二阶优化方法
          - BGFS
          - L-BGFS
-         
-
+   - 正则化Regularization(Dropout)
+      - Force the network to have a redundant representation.
+      - Dropout is training a large ensemble of models (that share parameters)
+      - Each binary mask is one model, gets trained on only ~one datapoint.
+      - Monte Carlo approximation:do many forward passes with different dropout masks, average all predictions
+   - 梯度检查Gradient Checking
+      - Use double precision
+      - Use centered formula
+      - Use relative error for the comparison
+      - Use only few datapoints
+      - Be careful with the step size
+      - Gradcheck during a characteristic mode of operation
+      - Dont let the regularization overwhelm the data
+      - Remember to turn off dropout/augmentation
+      - Check only few dimensions
+   - CNN
+      - History
+      - ConvNet are everywhere
+         - Detection
+            - Faster R-CNN[2015]
+         - Segmentation
+            - Farabet[2012]
+         - Self-driving cars
+         - NVIDIA Tegra X1
+         - [Taigman et al 2014]face detection
+         - [Simonyan et al 2014] video detection
+         - [Goodfellow 2014] digital detection
+         - [Toshev et al 2014] Pose
+         - [Mnih 2013] Game 
+         - [Ciresan et al. 2013]
+         - [Sermanet et al 2011]Sign detection
+         - [Turaga et al., 2010]segmentation
+         - [Denil et al. 2014] 文字
+         - Whale recognition, Kaggle Challenge
+         - Mnih and Hinton, 2010 ? road detection
+         - [Vinyals et al., 2015] Image captioning
+         - Deep Dream
+         - Clustering
+         - 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
