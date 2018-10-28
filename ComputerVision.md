@@ -312,7 +312,7 @@
          - VGGNet[2013]
          - GoogleNet[2014]
             - Inception Module
-            - 
+            - ![inception module](https://github.com/liangjin2007/data_liangjin/blob/master/inception_module.jpg?raw=true)
          - ResNet[2015]
             - 2-3 weeks of training on 8 GPU machine
             - at runtime faster than a VGGNet, even though it has 8x more layers
@@ -325,6 +325,9 @@
             - Minibatch size 256
             - Weight decay of 1e-5
             - No dropout used
+            - ![resnet module](https://github.com/liangjin2007/data_liangjin/blob/master/resnet_layer.jpg?raw=true)
+            - ![trick](https://github.com/liangjin2007/data_liangjin/blob/master/resnet_and_inception_trick.jpg?raw=true)
+            
       - Summary
          - ConvNets stack CONV,POOL,FC layers
          - Trend towards smaller filters and deeper architectures
