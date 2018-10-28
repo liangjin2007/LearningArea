@@ -293,7 +293,46 @@
          - [Vinyals et al., 2015] Image captioning
          - Deep Dream
          - Clustering
-         - 
+      - Convolution Layer
+         - origianl width w
+         - filter kernel f
+         - stride s
+         - padding p
+         - (w-f+2p)/s+1
+      - Pooling Layer
+         - origianal width w
+         - filter kernel f
+         - stride s
+         - (w-f)/s+1
+      - Fully Connected Layer
+      - Case Study:
+         - LeNet-5[1998]
+         - AlexNet[2012]
+         - ZFNet[2013]
+         - VGGNet[2013]
+         - GoogleNet[2014]
+            - Inception Module
+            - 
+         - ResNet[2015]
+            - 2-3 weeks of training on 8 GPU machine
+            - at runtime faster than a VGGNet, even though it has 8x more layers
+            - Plain net
+            - Residual net
+            - Batch Normalization after every CONV layer
+            - Xavier/2 initialization
+            - SGD+Momentum(0.9)
+            - Learning Rate 0.1, divided by 10 when validation error plateaus
+            - Minibatch size 256
+            - Weight decay of 1e-5
+            - No dropout used
+      - Summary
+         - ConvNets stack CONV,POOL,FC layers
+         - Trend towards smaller filters and deeper architectures
+         - Trend towards getting rid of POOL/FC layers (just CONV)
+         - Typical architectures look like [(CONV-RELU)*N-POOL?]*M-(FC-RELU)*K,SOFTMAX where N is usually up to ~5, M is large, 0 <= K <= 2. 
+            - but recent advances such as ResNet/GoogLeNet challenge this paradigm
+            
+
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
