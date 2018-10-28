@@ -180,6 +180,7 @@
    - 神经网络架构
    
    - 训练网络
+      - ![training loop](https://github.com/liangjin2007/data_liangjin/blob/master/training_loop.jpg?raw=true)
       - 一次设置 One time setup
          - 激活函数， 预处理, 权重初始化，正则化，梯度检查
       - 动态训练 training dynamics 
@@ -202,11 +203,59 @@
       
    - 数据预处理Data Preprocessing(subtract mean)
    - 权重初始化Weight Initialization(use Xavier init)
-   - Batch Normalization
-   - Babysitting the Learning process
-   - Hyperparameter Optimization
+      - small random numbers
+      - [2010]Xavier initialization
+         - Can't work with Relu
+      - He et al[2015]
+  
+   - 批正则化Batch Normalization
+      - improve gradient flow through the network
+      - allow higher learning rate
+      - reduce the strong dependence on initialization
+      - acts as a form of regularization in a funny way, and slightly reduces the need for dropout
+      - at test stage, batch normalization diffs differently
+      
+   - 查看训练情况Babysitting the Learning process
+      - preprocess data
+      - select the architecture
+      - double check the loss is reasonable
+      - start with small regularization and find learning rate that makes the loss go down
+      - loss explode
+      - loss change little
+      
+   - 超参数优化Hyperparameter Optimization
+      - 交叉验证策略cross-validation strategy
+         - coarse to fine
+         - a few epochs
+      - Random search vs Grid search
+      - cross-validation center
+      - Visualize the loss curve
+      - Visualize the accuracy
+         - big gap = overfitting
+      - Visualize the weight updates/weight magnitutes
+      
    - 参数更新主题Parameter update schemes
-   - 
+      - simple gradient descent scheme x += - learning_rate*dx
+      - SGD x += - learning_rate*dx
+      - momentum update
+         - v = mu * v - learning_rate * dx
+         - x += v
+      - Nesterov Momentum update
+         - v = mu * v - learning_rate * d(x+mu*v)
+         - x += v
+      - AdaGrad update
+         - cache += dx**2
+         - x += -learning_rate*dx/(np.sqrt(cache)+1e-7)
+      - RMSProp update
+         - cache = decay_rate*cache + (1-decay_rate)*dx**2
+         - x += -learning_rate*dx/(np.sqrt(cache)+1e-7)
+      - Adam update
+         - ...
+      - SGD + Momentum, Adagrad, RMSProp, Adam
+      - 二阶优化方法
+         - BGFS
+         - L-BGFS
+         
 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
