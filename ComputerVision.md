@@ -170,13 +170,43 @@
       - Forward prop it through the graph, get loss
       - Backprop to calculate the gradients
       - Update the parameters using gradients and optimization method
-
+   
+   - 神经网络Neural Network
+      - ![neuron](https://github.com/liangjin2007/data_liangjin/blob/master/neuron.jpg?raw=true)
+   
+   - Example: torch/nn 
+      - [torch/nn](https://github.com/torch/nn)
+   
+   - 神经网络架构
+   
+   - 训练网络
+      - 一次设置 One time setup
+         - 激活函数， 预处理, 权重初始化，正则化，梯度检查
+      - 动态训练 training dynamics 
+         - babysitting the learning process
+         - 参数更新，超参数优化
+      - 估计 Estimation
+   
    - 激活函数Activations(RELU)
+      - ![activations](https://github.com/liangjin2007/data_liangjin/blob/master/activation_functions.jpg?raw=true)
+      - 饱和神经元杀掉梯度
+      - Sigmoid 输出并不是以零为中心的
+      - exp计算比较昂贵
+      - tanh 饱和的时候仍然会杀掉梯度
+      - Relu 不饱和，非常计算高效，收敛比sigmoid/tanh 快6倍
+      - Relu 缺点 死掉的Relu不会再激活，再也不会更新
+      - Leaky Relu 不会死掉, 非zero-mean centered
+      - PRelu 不会死掉 非zero-mean centered
+      - Elu 不会死掉， 接近zero-mean centered, 计算昂贵
+      - Maxout 双倍参数数， 不会死掉，不会饱和
+      
    - 数据预处理Data Preprocessing(subtract mean)
    - 权重初始化Weight Initialization(use Xavier init)
    - Batch Normalization
    - Babysitting the Learning process
    - Hyperparameter Optimization
+   - 参数更新主题Parameter update schemes
+   - 
 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
 # Stanford University CS231b: The Cutting Edge of Computer Vision
