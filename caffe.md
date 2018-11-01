@@ -273,3 +273,14 @@
 - Examples
    - caffe/examples/*
    - caffe/models/*
+
+- Installation
+   - CentOS 
+   
+   - Windows
+      - caffe windows branch
+      - download the windows version source code 
+      - scripts\build_win.cmd
+      - copy caffe/python/caffe to site_packages
+      - install dependencies ninja numpy scipy protobuf==3.1.0 six scikit-image pyyaml pydotplus graphviz
+      
