@@ -1,5 +1,104 @@
 # Network Design
 
+# Python Numpy Tutorial
+- [Stanford CS231n](https://cs231n.github.io/python-numpy-tutorial/)
+   - Python
+      - Basic data types
+         - Numbers, String, Booleans
+      - Container
+      - Function
+      - Class
+   - Numpy
+      [array manipulation](https://docs.scipy.org/doc/numpy/reference/routines.array-manipulation.html)
+      - Arrays
+         - np.array
+         - np.zeros
+         - np.ones
+         - np.full
+         - np.eye
+         - np.arange
+      - Slicing
+         - a[:2] first two rows
+         - a[:2, 1:3] forst two rows and columns 1 and 2
+         - a[2,2] = 3, modify one element
+         - a[:, 1] column 1
+       - Index Array Indexing
+         - example
+         ```
+         a = np.array([[1,2], [3, 4], [5, 6]])
+         # An example of integer array indexing.
+         # The returned array will have shape (3,) and
+         print(a[[0, 1, 2], [0, 1, 0]])  # Prints "[1 4 5]"
+
+         # The above example of integer array indexing is equivalent to this:
+         print(np.array([a[0, 0], a[1, 1], a[2, 0]]))  # Prints "[1 4 5]"
+
+         # When using integer array indexing, you can reuse the same
+         # element from the source array:
+         print(a[[0, 0], [1, 1]])  # Prints "[2 2]"
+         
+         b = np.array([0, 2, 0, 1])
+
+         # Select one element from each row of a using the indices in b
+         print(a[np.arange(4), b])
+         ```
+      - Boolean Array Indexing
+         - example
+         ```
+         a = np.array([[1,2], [3, 4], [5, 6]])
+         bool_idx = (a > 2)   # Find the elements of a that are bigger than 2;
+                              # this returns a numpy array of Booleans of the same
+                              # shape as a, where each slot of bool_idx tells
+                              # whether that element of a is > 2.
+         print(bool_idx)      # Prints "[[False False]
+                              #          [ True  True]
+                              #          [ True  True]]"
+         # We use boolean array indexing to construct a rank 1 array
+         # consisting of the elements of a corresponding to the True values
+         # of bool_idx
+         print(a[bool_idx])  # Prints "[3 4 5 6]"
+
+         # We can do all of the above in a single concise statement:
+         print(a[a > 2])     # Prints "[3 4 5 6]"
+         ```
+      - Datatypes
+         - a.dtype
+      - Array Math
+         - np.add
+         - np.substract
+         - np.divide
+         - np.multiply
+         - np.sqrt
+         - np.dot
+         - np.sum
+         - v.T
+         - np.copyto
+         - np.reshape(a,shape)
+         - np.ravel(a)
+         - ndarray.flat
+         - ndarray.flatten
+         - np.expand_dim
+         - np.squeeze
+      - Broadcasting
+         - large array and small array
+         - Broadcasting two arrays together follows these rules:
+
+            - If the arrays do not have the same rank, prepend the shape of the lower rank array with 1s until both shapes have the same length.
+            - The two arrays are said to be compatible in a dimension if they have the same size in the dimension, or if one of the arrays has size 1 in that dimension.
+            - The arrays can be broadcast together if they are compatible in all dimensions.
+            - After broadcasting, each array behaves as if it had shape equal to the elementwise maximum of shapes of the two input arrays.
+            - In any dimension where one array had size 1 and the other array had size greater than 1, the first array behaves as if it were copied along that dimension
+            
+       
+# Tensorflow Setup Detail
+- On MacOSX, No GPU Version
+- Only Support CUDA8.0 and cuDNN6
+- On Windows, Only Support Python3.5 and Python3.6
+
+# Course
+- stanford-tensorflow-tutorials on github
+
+
 # Tools
 
 - Visual Studio Code
