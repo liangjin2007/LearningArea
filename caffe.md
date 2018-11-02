@@ -280,7 +280,8 @@
    - Windows
       - caffe windows branch
       - download the windows version source code 
-      - scripts\build_win.cmd
+      - download ninja_win.zip and copy ninja.exe to C:/Program Files/CMake/bin/
+      - run scripts\build_win.cmd
       - copy caffe/python/caffe to site_packages
       - install dependencies ninja numpy scipy protobuf==3.1.0 six scikit-image pyyaml pydotplus graphviz
       
