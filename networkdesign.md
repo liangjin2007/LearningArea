@@ -10,6 +10,7 @@
       - Class
    - Numpy
       [array manipulation](https://docs.scipy.org/doc/numpy/reference/routines.array-manipulation.html)
+      [array math](https://docs.scipy.org/doc/numpy/reference/routines.math.html)
       - Arrays
          - np.array
          - np.zeros
@@ -79,6 +80,77 @@
          - ndarray.flatten
          - np.expand_dim
          - np.squeeze
+         - np.transpose
+         - np.moveaxis
+         - np.rollaxis
+         - np.swapaxis
+         - np.flatten
+         - np.asarray
+         - np.asscalar
+         - np.concatenate
+         - np.stack
+         - np.column_stack
+         - np.dstack
+         - np.vstack
+         - np.hstack
+         - np.block
+         - np.split
+         - np.vsplit
+         - np.hsplit
+         - np.dsplit
+         - np.delete
+         - np.append
+         - np.resize
+         - np.trim_zeros
+         - 
+         - np.sin
+         - np.cos
+         - np.tan
+         - np.arcsin
+         - np.arccos
+         - np.arctan
+         - np.hydot
+         - np.arctan2
+         - np.degrees
+         - np.radians
+         - np.unwrap
+         - np.deg2rad
+         - np.rad2deg
+         - np.sinh
+         - np.cosh
+         - np....
+         - 
+         - np.around
+         - np.fix
+         - np.rint
+         - np.floor
+         - np.ceil
+         - np.trunc
+         - 
+         - np.prod
+         - np.nanprod
+         - np.sum
+         - np.nansum
+         - np.cumsum
+         - np.cumprod
+         - np.nancumprod
+         - np.nancumsum
+         - np.diff
+         - np.ediff1d
+         - np.gradient
+         - np.cross
+         - np.trapz
+         - 
+         - log, exp, log2, log10, log1p, logaddexp, logaddexp2, exp2, expm1, exp2
+         - 
+         - np.signbit
+         - np.copysign
+         - 
+         - positive, negative, add, substract, ...
+         -
+         - maximum
+         - minimum
+         
       - Broadcasting
          - large array and small array
          - Broadcasting two arrays together follows these rules:
