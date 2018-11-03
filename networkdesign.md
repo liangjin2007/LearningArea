@@ -171,6 +171,137 @@
 - stanford-tensorflow-tutorials on github
    - [github](https://github.com/chiphuyen/stanford-tensorflow-tutorials)
    - [cs20si](https://web.stanford.edu/class/cs20si/syllabus.html)
+   - Data Flow Graph
+      - Tensor
+      - Nodes: operations, variables, constants
+      - Edges: Tensor
+      ```
+      a = tf.add(3, 5)
+      print(a) # >> Tensor("Add:0", shape=(), dtype=int32)
+      ```
+      - session
+      - subgraph
+      - GPU
+      - Distributed Computation
+         - with tf.device('/gpu:2'):
+         - sess = tf.Session(config=tf.ConfigProto(log_device_placement=True))
+      - default graph
+         - g = tf.get_default_graph()
+      - multiple graph
+      ```
+      g = tf.Graph()
+      with g.as_default():
+         x = tf.add(3, 5)
+      sess = tf.Session(graph=g)
+      with tf.Session() as sess:
+         sess.run(x)
+      ```
+   - Tensorflow Ops
+      - Warning Level
+         - os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+      - tensorboard visualization
+         - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/tensorboard.jpg?raw=true)
+         - [介绍](https://blog.csdn.net/lqfarmer/article/details/77239504)
+         - writer = tf.summary.FileWriter('./graphs/l2', sess.graph) writer.close()
+         - tensorboard --logdir='./graphs/l2'
+         - 数据连接
+         - 控制连接
+      - Constants, Sequences, Variables, Ops
+         - initializer
+            - tf.zeros()
+            - tf.zeros_like()
+            - tf.ones()
+            - tf.ones_like
+            - tf.fill
+            - tf.lin_space
+            - tf.range
+            - tf.set_random_seed(seed)
+            -tf.random_normal
+               tf.truncated_normal
+               tf.random_uniform
+               tf.random_shuffle
+               tf.random_crop
+               tf.multinomial
+               tf.random_gamma
+         - ![operations](https://github.com/liangjin2007/data_liangjin/blob/master/operations.jpg?raw=true)
+         - Arithmetic Ops
+            - abs, negative, square, round, sqrt, rsqrt, pow, exp
+         - Div
+            ```
+            a = tf.constant([2, 2], name='a')
+            b = tf.constant([[0, 1], [2, 3]], name='b')
+            with tf.Session() as sess:
+               print(sess.run(tf.div(b, a)))             ⇒ [[0 0] [1 1]]
+               print(sess.run(tf.divide(b, a)))          ⇒ [[0. 0.5] [1. 1.5]]
+               print(sess.run(tf.truediv(b, a)))         ⇒ [[0. 0.5] [1. 1.5]]
+               print(sess.run(tf.floordiv(b, a)))        ⇒ [[0 0] [1 1]]
+               print(sess.run(tf.realdiv(b, a)))         ⇒ # Error: only works for real values
+               print(sess.run(tf.truncatediv(b, a)))     ⇒ [[0 0] [1 1]]
+               print(sess.run(tf.floor_div(b, a)))       ⇒ [[0 0] [1 1]]
+            ```
+         - Data type
+            ```
+            t_0 = 19 			         			# scalars are treated like 0-d tensors
+            tf.zeros_like(t_0)                  			# ==> 0
+            tf.ones_like(t_0)                    			# ==> 1
+
+            t_1 = [b"apple", b"peach", b"grape"] 	# 1-d arrays are treated like 1-d tensors
+            tf.zeros_like(t_1)                   			# ==> [b'' b'' b'']
+            tf.ones_like(t_1)                    			# ==> TypeError: Expected string, got 1 of type 'int' instead.
+
+            t_2 = [[True, False, False],
+              [False, False, True],
+              [False, True, False]]         		# 2-d arrays are treated like 2-d tensors
+
+            tf.zeros_like(t_2)                   			# ==> 3x3 tensor, all elements are False
+            tf.ones_like(t_2)                    			# ==> 3x3 tensor, all elements are True
+            ```
+            - tf.float16, tf.float32, tf.float64, tf.bfloat16, tf.complex64, tf.int8, tf.uint6, tf.int16, tf.uint16, tf.int32, tf.uint32, tf.int64, tf.bool, tf.string, tf.resource
+            - can input numpy datatype
+         - Constants are stored in the graph definition
+            - tf.constant
+            - If constant is big, graph def will be very big
+         - print graph definition
+            - print(tf.get_default_graph().as_graph_def()) 
+            - print(sess.graph.as_graph_def())
+         - Variable
+            - Why tf.constant but tf.Variable?
+               - tf.constant is an op
+               - tf.Variable is a class with many ops
+               ```
+               tf.Variable holds several ops:
+               x = tf.Variable(...) 
+
+               x.initializer # init op
+               x.value() # read op
+               x.assign(...) # write op
+               x.assign_add(...) # and more
+
+               ```
+            - sess.run(tf.global_variables_initializer())
+            - sess.run(tf.variables_initializer([a, b]))
+            - sess.run(W.initializer)
+            - eval a variable
+               w.eval() similar to sess.run(W)
+            - Each session maintains its own copy of variables
+            ```
+            W = tf.Variable(10)
+            sess1 = tf.Session()
+            sess2 = tf.Session()
+
+            sess1.run(W.initializer)
+            sess2.run(W.initializer)
+
+            print(sess1.run(W.assign_add(10))) 		# >> 20
+            print(sess2.run(W.assign_sub(2))) 		# >> 8
+
+            print(sess1.run(W.assign_add(100))) 		# >> 120
+            print(sess2.run(W.assign_sub(50))) 		# >> -42
+
+            sess1.close()
+            sess2.close()
+
+            ```
    - feed_dict with placeholder
       - a = tf.placeholder(tf.float32, shape=[3])
       - sess.run(b, {a:[1,2,3]})
@@ -218,49 +349,8 @@
       - Op acts After it is run
       - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/UnderstandOperationInTheVisualization.jpg?raw=true)
          - This graph contains three separate operations : W/Assign, W, Assign, so need to call sess.run(W.initializer)+sess.run(W) or sess.run(assign_op)+sess.run(W)
-         
-   - Variables
-     
-   - sess.run
-      - document
-      ```
-       Runs operations and evaluates tensors in `fetches`.
-
-       This method runs one "step" of TensorFlow computation, by
-       running the necessary graph fragment to execute every `Operation`
-       and evaluate every `Tensor` in `fetches`, substituting the values in
-       `feed_dict` for the corresponding input values.
-
-       The `fetches` argument may be a single graph element, or an arbitrarily
-       nested list, tuple, namedtuple, dict, or OrderedDict containing graph
-       elements at its leaves.  A graph element can be one of the following types:
-
-       * An @{tf.Operation}.
-         The corresponding fetched value will be `None`.
-       * A @{tf.Tensor}.
-         The corresponding fetched value will be a numpy ndarray containing the
-         value of that tensor.
-       * A @{tf.SparseTensor}.
-         The corresponding fetched value will be a
-         @{tf.SparseTensorValue}
-         containing the value of that sparse tensor.
-       * A `get_tensor_handle` op.  The corresponding fetched value will be a
-         numpy ndarray containing the handle of that tensor.
-       * A `string` which is the name of a tensor or operation in the graph.
-
-       The value returned by `run()` has the same shape as the `fetches` argument,
-       where the leaves are replaced by the corresponding values returned by
-       TensorFlow.
-      ```
-   
    - 
-   - tensorboard visualization
-      - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/tensorboard.jpg?raw=true)
-      - [介绍](https://blog.csdn.net/lqfarmer/article/details/77239504)
-      - writer = tf.summary.FileWriter('./graphs/l2', sess.graph) writer.close()
-      - tensorboard --logdir='./graphs/l2'
-      - 数据连接
-      - 控制连接
+   
    - print graph definition
       - print(tf.get_default_graph().as_graph_def()) 
    - normal loading and lazy loading
