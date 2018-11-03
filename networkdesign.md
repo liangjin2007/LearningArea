@@ -172,6 +172,9 @@
    - [github](https://github.com/chiphuyen/stanford-tensorflow-tutorials)
    - [cs20si](https://web.stanford.edu/class/cs20si/syllabus.html)
    - Data Flow Graph
+      - A TF program often has 2 phases: 
+         - Assemble a graph 
+         - Use a session to execute operations in the graph.
       - Tensor
       - Nodes: operations, variables, constants
       - Edges: Tensor
@@ -202,6 +205,7 @@
       - tensorboard visualization
          - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/tensorboard.jpg?raw=true)
          - [介绍](https://blog.csdn.net/lqfarmer/article/details/77239504)
+         - [TensorBoard: Graph Visualization](https://www.tensorflow.org/guide/graph_viz#interaction)
          - writer = tf.summary.FileWriter('./graphs/l2', sess.graph) writer.close()
          - tensorboard --logdir='./graphs/l2'
          - 数据连接
@@ -265,6 +269,20 @@
             - print(tf.get_default_graph().as_graph_def()) 
             - print(sess.graph.as_graph_def())
          - Variable
+            - dtype
+            - shape
+            - create variable
+            ```
+            s = tf.Variable(2, name='scalar') 
+            m = tf.Variable([[0, 1], [2, 3]], name='matrix') 
+            W = tf.Variable(tf.zeros([784,10]), name='big_matrix')
+            V = tf.Variable(tf.truncated_normal([784, 10]), name='normal_matrix')
+
+            s = tf.get_variable('scalar', initializer=tf.constant(2)) 
+            m = tf.get_variable('matrix', initializer=tf.constant([[0, 1], [2, 3]]))
+            W = tf.get_variable('big_matrix', shape=(784, 10), initializer=tf.zeros_initializer())
+            V = tf.get_variable('normal_matrix', shape=(784, 10), initializer=tf.truncated_normal_initializer())
+            ```
             - Why tf.constant but tf.Variable?
                - tf.constant is an op
                - tf.Variable is a class with many ops
@@ -302,60 +320,217 @@
             sess2.close()
 
             ```
-   - feed_dict with placeholder
-      - a = tf.placeholder(tf.float32, shape=[3])
-      - sess.run(b, {a:[1,2,3]})
-   - feed_dict with variable
-      - a = tf.add(2,5)
-      - b = tf.multiply(a,3)
-      - sess.run(b, feed_dict={a:15})
-   - Operation
-      - Constant
-         - tf.constant(2)
-         - 
-      - VariableV2
-         - dtype
-         - shape
-         - create variables
+            - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/UnderstandOperationInTheVisualization.jpg?raw=true)
+            - This graph contains three separate operations : W/Assign, W, Assign, so need to call sess.run(W.initializer)+sess.run(W) or sess.run(assign_op)+sess.run(W)
+         - Control Dependencies
          ```
-         s = tf.Variable(2, name='scalar') 
-         m = tf.Variable([[0, 1], [2, 3]], name='matrix') 
-         W = tf.Variable(tf.zeros([784,10]), name='big_matrix')
-         V = tf.Variable(tf.truncated_normal([784, 10]), name='normal_matrix')
+         tf.Graph.control_dependencies(control_inputs)
+         # defines which ops should be run first
+         # your graph g have 5 ops: a, b, c, d, e
+         g = tf.get_default_graph()
+         with g.control_dependencies([a, b, c]):
+            # 'd' and 'e' will only run after 'a', 'b', and 'c' have executed.
+            d = ...
+            e = …
 
-         s = tf.get_variable('scalar', initializer=tf.constant(2)) 
-         m = tf.get_variable('matrix', initializer=tf.constant([[0, 1], [2, 3]]))
-         W = tf.get_variable('big_matrix', shape=(784, 10), initializer=tf.zeros_initializer())
-         V = tf.get_variable('normal_matrix', shape=(784, 10), initializer=tf.truncated_normal_initializer())
          ```
-         - variable.eval()
-         - assign value to variable
-         ```
-         W = tf.Variable(10)
-         W.assign(100)
-         with tf.Session() as sess:
-             sess.run(W.initializer)
-             print(sess.run(W))                    	# >> 10
-
-         W = tf.Variable(10)
-         assign_op = W.assign(100)
-         with tf.Session() as sess:
-             sess.run(assign_op)
-             print(W.eval())                     	# >> 100
-         ```
-         - initializer
-      - Idendity
-      - Assign
-      - Op acts After it is run
-      - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/UnderstandOperationInTheVisualization.jpg?raw=true)
-         - This graph contains three separate operations : W/Assign, W, Assign, so need to call sess.run(W.initializer)+sess.run(W) or sess.run(assign_op)+sess.run(W)
-   - 
+      - Placeholder
+         - Assemble the graph first without knowing the values needed for computation
+         
+         - feed_dict with placeholder
+            - a = tf.placeholder(tf.float32, shape=[3])
+            - sess.run(b, {a:[1,2,3]})
+         - feed_dict with variable, Feeding values to TF ops 
+            - a = tf.add(2,5)
+            - b = tf.multiply(a,3)
+            - sess.run(b, feed_dict={a:15})
+         - tf.Graph.is_feedable(tensor)
+         - Extremely helpful for testing
+            - Feed in dummy values to test parts of a large graph
+         - lazy loading
+            - Separate definition of ops from computing/running ops 
+            - Use Python property to ensure function is also loaded once the first time it is called*
    
-   - print graph definition
-      - print(tf.get_default_graph().as_graph_def()) 
-   - normal loading and lazy loading
-      
+   -Basic Model in Tensorflow
+      - Steps:
+         - Read in data
+         - Create placeholders for inputs and labels
+         - Create weight and bias
+         - Inference
+         - Specify loss function
+         - Create optimizer
+         - Train our model
+            - Write log files using a FileWriter
+         - See it on TensorBoard
+         - Plot the results with matplotlib
+         - Huber loss
+         ```
+         def huber_loss(labels, predictions, delta=14.0):
+         residual = tf.abs(labels - predictions)
+         def f1(): return 0.5 * tf.square(residual)
+         def f2(): return delta * residual - 0.5 * tf.square(delta)
+         return tf.cond(residual < delta, f1, f2)
+         ```
+      - Linear Regression
+         - Find a linear relationship between X and Y to predict Y from X
+         - Inference: Y_predicted = w * X + b
+         - Mean squared error: E[(y - y_predicted)2]
+         - start.py
+         ```
+         """ Starter code for simple linear regression example using placeholders
+         Created by Chip Huyen (huyenn@cs.stanford.edu)
+         CS20: "TensorFlow for Deep Learning Research"
+         cs20.stanford.edu
+         Lecture 03
+         """
+         import os
+         os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+         import time
 
+         import numpy as np
+         import matplotlib.pyplot as plt
+         import tensorflow as tf
+
+         import utils
+
+         DATA_FILE = 'data/birth_life_2010.txt'
+
+         # Step 1: read in data from the .txt file
+         data, n_samples = utils.read_birth_life_data(DATA_FILE)
+
+         # Step 2: create placeholders for X (birth rate) and Y (life expectancy)
+         # Remember both X and Y are scalars with type float
+         X, Y = None, None
+         #############################
+         ########## TO DO ############
+         #############################
+
+         # Step 3: create weight and bias, initialized to 0.0
+         # Make sure to use tf.get_variable
+         w, b = None, None
+         #############################
+         ########## TO DO ############
+         #############################
+
+         # Step 4: build model to predict Y
+         # e.g. how would you derive at Y_predicted given X, w, and b
+         Y_predicted = None
+         #############################
+         ########## TO DO ############
+         #############################
+
+         # Step 5: use the square error as the loss function
+         loss = None
+         #############################
+         ########## TO DO ############
+         #############################
+
+         # Step 6: using gradient descent with learning rate of 0.001 to minimize loss
+         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001).minimize(loss)
+
+         start = time.time()
+
+         # Create a filewriter to write the model's graph to TensorBoard
+         #############################
+         ########## TO DO ############
+         #############################
+
+         with tf.Session() as sess:
+             # Step 7: initialize the necessary variables, in this case, w and b
+             #############################
+             ########## TO DO ############
+             #############################
+
+             # Step 8: train the model for 100 epochs
+             for i in range(100):
+                 total_loss = 0
+                 for x, y in data:
+                     # Execute train_op and get the value of loss.
+                     # Don't forget to feed in data for placeholders
+                     _, loss = ########## TO DO ############
+                     total_loss += loss
+
+                 print('Epoch {0}: {1}'.format(i, total_loss/n_samples))
+
+             # close the writer when you're done using it
+             #############################
+             ########## TO DO ############
+             #############################
+             writer.close()
+
+             # Step 9: output the values of w and b
+             w_out, b_out = None, None
+             #############################
+             ########## TO DO ############
+             #############################
+
+         print('Took: %f seconds' %(time.time() - start))
+
+         # uncomment the following lines to see the plot 
+         # plt.plot(data[:,0], data[:,1], 'bo', label='Real data')
+         # plt.plot(data[:,0], data[:,0] * w_out + b_out, 'r', label='Predicted data')
+         # plt.legend()
+         # plt.show()
+         ```
+         - TF Control Flow
+            - Control Flow Ops
+               - tf.group, tf.count_up_to, tf.cond, tf.case, tf.while_loop, ...
+            - Comparison Ops
+               - tf.equal, tf.not_equal, tf.less, tf.greater, tf.where, ...
+            - Logical Ops
+               - tf.logical_and, tf.logical_not, tf.logical_or, tf.logical_xor
+            - Debugging Ops
+               - tf.is_finite, tf.is_inf, tf.is_nan, tf.Assert, tf.Print, ...
+         -
+      - tf.data
+         - Placeholder
+            - Pro: put the data processing outside TensorFlow, making it easy to do in Python
+            - Cons: users often end up processing their data in a single thread and creating data bottleneck that slows execution down.
+         - Instead of doing inference with placeholders and feeding in data later, do inference directly with data
+         - Store data in tf.data.Dataset
+            - tf.data.Dataset.from_tensor_slices((features, labels))
+            - tf.data.Dataset.from_generator(gen, output_types, output_shapes)
+            - dataset = tf.data.Dataset.from_tensor_slices((data[:,0], data[:,1]))
+         - Can also create Dataset from files
+            - tf.data.TextLineDataset(filenames)
+            - tf.data.FixedLengthRecordDataset(filenames)
+            - tf.data.TFRecordDataset(filenames)
+      - tf.Iterator
+         - Create an iterator to iterate through samples in Dataset
+         - iterator = dataset.make_one_shot_iterator()
+            - Iterates through the dataset exactly once. No need to initialization.
+         - iterator = dataset.make_initializable_iterator()
+            - Iterates through the dataset as many times as we want. Need to initialize with each epoch.
+      - Handling data in TensorFlow  
+      ```
+      dataset = dataset.shuffle(1000)
+      dataset = dataset.repeat(100)
+      dataset = dataset.batch(128)
+      dataset = dataset.map(lambda x: tf.one_hot(x, 10)) 
+      ```
+      - Does tf.data really perform better?
+         - With placeholder: 9.05271519 seconds
+         - With tf.data: 6.12285947 seconds
+      - Should we always use tf.data?
+         - For prototyping, feed dict can be faster and easier to write (pythonic)
+         - tf.data is tricky to use when you have complicated preprocessing or multiple data sources
+         - NLP data is normally just a sequence of integers. In this case, transferring the data over to GPU is pretty quick, so the speedup of tf.data isn't that large
+   - Optimizer
+   ```
+   optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
+   _, l = sess.run([optimizer, loss], feed_dict={X: x, Y:y})
+      
+   ```
+   - Session looks at all trainable variables that loss depends on and update them
+   - Trainable variables
+      - tf.Variable(initial_value=None, trainable=True,...)
+   - Eager execution
+   ```
+   import tensorflow # version >= 1.50
+   import tensorflow.contrib.eager as tfe
+   tfe.enable_eager_execution()
+   ```
+   
 # Tools
 
 - Visual Studio Code
