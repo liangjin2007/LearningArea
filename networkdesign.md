@@ -169,7 +169,102 @@
 
 # Course
 - stanford-tensorflow-tutorials on github
+   - [github](https://github.com/chiphuyen/stanford-tensorflow-tutorials)
+   - [cs20si](https://web.stanford.edu/class/cs20si/syllabus.html)
+   - feed_dict with placeholder
+      - a = tf.placeholder(tf.float32, shape=[3])
+      - sess.run(b, {a:[1,2,3]})
+   - feed_dict with variable
+      - a = tf.add(2,5)
+      - b = tf.multiply(a,3)
+      - sess.run(b, feed_dict={a:15})
+   - Operation
+      - Constant
+         - tf.constant(2)
+         - 
+      - VariableV2
+         - dtype
+         - shape
+         - create variables
+         ```
+         s = tf.Variable(2, name='scalar') 
+         m = tf.Variable([[0, 1], [2, 3]], name='matrix') 
+         W = tf.Variable(tf.zeros([784,10]), name='big_matrix')
+         V = tf.Variable(tf.truncated_normal([784, 10]), name='normal_matrix')
 
+         s = tf.get_variable('scalar', initializer=tf.constant(2)) 
+         m = tf.get_variable('matrix', initializer=tf.constant([[0, 1], [2, 3]]))
+         W = tf.get_variable('big_matrix', shape=(784, 10), initializer=tf.zeros_initializer())
+         V = tf.get_variable('normal_matrix', shape=(784, 10), initializer=tf.truncated_normal_initializer())
+         ```
+         - variable.eval()
+         - assign value to variable
+         ```
+         W = tf.Variable(10)
+         W.assign(100)
+         with tf.Session() as sess:
+             sess.run(W.initializer)
+             print(sess.run(W))                    	# >> 10
+
+         W = tf.Variable(10)
+         assign_op = W.assign(100)
+         with tf.Session() as sess:
+             sess.run(assign_op)
+             print(W.eval())                     	# >> 100
+         ```
+         - initializer
+      - Idendity
+      - Assign
+      - Op acts After it is run
+      - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/UnderstandOperationInTheVisualization.jpg?raw=true)
+         - This graph contains three separate operations : W/Assign, W, Assign, so need to call sess.run(W.initializer)+sess.run(W) or sess.run(assign_op)+sess.run(W)
+         
+   - Variables
+     
+   - sess.run
+      - document
+      ```
+       Runs operations and evaluates tensors in `fetches`.
+
+       This method runs one "step" of TensorFlow computation, by
+       running the necessary graph fragment to execute every `Operation`
+       and evaluate every `Tensor` in `fetches`, substituting the values in
+       `feed_dict` for the corresponding input values.
+
+       The `fetches` argument may be a single graph element, or an arbitrarily
+       nested list, tuple, namedtuple, dict, or OrderedDict containing graph
+       elements at its leaves.  A graph element can be one of the following types:
+
+       * An @{tf.Operation}.
+         The corresponding fetched value will be `None`.
+       * A @{tf.Tensor}.
+         The corresponding fetched value will be a numpy ndarray containing the
+         value of that tensor.
+       * A @{tf.SparseTensor}.
+         The corresponding fetched value will be a
+         @{tf.SparseTensorValue}
+         containing the value of that sparse tensor.
+       * A `get_tensor_handle` op.  The corresponding fetched value will be a
+         numpy ndarray containing the handle of that tensor.
+       * A `string` which is the name of a tensor or operation in the graph.
+
+       The value returned by `run()` has the same shape as the `fetches` argument,
+       where the leaves are replaced by the corresponding values returned by
+       TensorFlow.
+      ```
+   
+   - 
+   - tensorboard visualization
+      - ![节点符号表](https://github.com/liangjin2007/data_liangjin/blob/master/tensorboard.jpg?raw=true)
+      - [介绍](https://blog.csdn.net/lqfarmer/article/details/77239504)
+      - writer = tf.summary.FileWriter('./graphs/l2', sess.graph) writer.close()
+      - tensorboard --logdir='./graphs/l2'
+      - 数据连接
+      - 控制连接
+   - print graph definition
+      - print(tf.get_default_graph().as_graph_def()) 
+   - normal loading and lazy loading
+      
 
 # Tools
 
