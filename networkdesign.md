@@ -606,14 +606,15 @@
       plt.show()
 
       ```
-   - Word Embedding in TensorFlow
-      - word2vec
-      - Structure Model in TF
-      - Model as class
-      - Embedding visualization
-         - t-SNE Visualization
-      - grouping together nodes
-         - tf.name_scope() 
+   - Manage Experiments
+      - Word Embedding in TensorFlow
+         - word2vec
+         - Structure Model in TF
+         - Model as class
+         - Embedding visualization
+            - t-SNE Visualization
+         - grouping together nodes
+            - tf.name_scope() 
       - Variable Sharing
          - Want multiple inputs to use same weights and bias
          - tf.variable_scope()
@@ -633,7 +634,7 @@
          ```
          - ![result1](https://github.com/liangjin2007/data_liangjin/blob/master/two_twolayers.jpg?raw=true)
          - Two sets of variables are created.
-         
+
          - Put your variables within a scope and reuse all variables within that scope
             - use tf.variable_scope('two_layers') as scope
             - scope.reuse_variables()
@@ -671,9 +672,163 @@
                 logits1 = two_hidden_layers(x1)
                 logits2 = two_hidden_layers(x2)
             ```
-            - ![result3](https://github.com/liangjin2007/data_liangjin/blob/master/shared_variables1.jpg?raw=true)
+            - ![result3](https://github.com/liangjin2007/data_liangjin/blob/master/shared_variables2.jpg?raw=true)
+      - Manage Experiment
+         - tf.train.Saver
+            - saves graph’s variables in binary files
+            - Only save variables, not graph
+            - Checkpoints map variable names to tensors
+            - Can also choose to save certain variables
+            - You can save your variables in one of three ways:
+               - v1 = tf.Variable(..., name='v1') 
+               - v2 = tf.Variable(..., name='v2') 
+               - saver = tf.train.Saver({'v1': v1, 'v2': v2})
+               - saver = tf.train.Saver([v1, v2])
+               - saver = tf.train.Saver({v.op.name: v for v in [v1, v2]}) # similar to a dict
+
+         - Saves sessions, not graphs!
+            - tf.train.Saver.save(sess, save_path, global_step=None...)
+            - tf.train.Saver.restore(sess, save_path)
+            ```
+            # define model
+            model = SkipGramModel(params)
+
+            # create a saver object
+            saver = tf.train.Saver()
+
+            with tf.Session() as sess:
+               for step in range(training_steps): 
+                  sess.run([optimizer])
+
+                  # save model every 1000 steps
+                  if (step + 1) % 1000 == 0:
+                     saver.save(sess, 
+            'checkpoint_directory/model_name',
+            global_step=step)
+            ```
+            - global step
+               - global_step = tf.Variable(0, dtype=tf.int32, trainable=False, name='global_step')
+               - Need to tell optimizer to increment global step, This can also help your optimizer know when to decay learning rate
+               ```
+               optimizer = tf.train.AdamOptimizer(lr).minimize(loss, global_step=global_step)
+               ```
+         - Restore variables
+            - saver.restore(sess, 'checkpoints/name_of_the_checkpoint') # need to first build graph
+         - Restore the latest checkpoint
+            ```
+            # check if there is checkpoint
+            ckpt = tf.train.get_checkpoint_state(os.path.dirname('checkpoints/checkpoint'))
+
+            # check if there is a valid checkpoint path
+            if ckpt and ckpt.model_checkpoint_path:
+                 saver.restore(sess, ckpt.model_checkpoint_path)
+            ```
+         - tf.summary()
+            - summary is operation
+            - Step 1: create summary
+               - merge them all into one summary op to make managing them easier
+               ```
+               with tf.name_scope("summaries"):
+                   tf.summary.scalar("loss", self.loss)
+                   tf.summary.scalar("accuracy", self.accuracy)            
+                   tf.summary.histogram("histogram loss", self.loss)
+                   summary_op = tf.summary.merge_all()
+               ```
+            - Step 2: run them
+               ```
+               loss_batch, _, summary = sess.run([loss, 
+                     optimizer, 
+                     summary_op])
+               ```
+            - Step 3: write summary to file
+               ```
+               writer.add_summary(summary, global_step=step)
+               ```
+            - Putting it together
+               ```
+               tf.summary.scalar("loss", self.loss)
+               tf.summary.histogram("histogram loss", self.loss)
+               summary_op = tf.summary.merge_all()
+
+               saver = tf.train.Saver() # defaults to saving all variables
+
+               with tf.Session() as sess:
+                   sess.run(tf.global_variables_initializer())
+                   ckpt = tf.train.get_checkpoint_state(os.path.dirname('checkpoints/checkpoint'))
+                   if ckpt and ckpt.model_checkpoint_path:
+                       saver.restore(sess, ckpt.model_checkpoint_path)
+
+                   writer = tf.summary.FileWriter('./graphs', sess.graph)
+                   for index in range(10000):
+                       ...
+                       loss_batch, _, summary = sess.run([loss, optimizer, summary_op])
+                       writer.add_summary(summary, global_step=index)
+
+                       if (index + 1) % 1000 == 0:
+                           saver.save(sess, 'checkpoints/skip-gram', index)
+               ```
+            - See summaries on TensorBoard
+      
+      - Control Randomization
+         - Op level random seed
+            - my_var = tf.Variable(tf.truncated_normal((-1.0,1.0), stddev=0.1, seed=0))
+         - Sessions keep track of random state
+            - Each new session restarts the random state
+            ```
+            c = tf.random_uniform([], -10, 10, seed=2)
+            with tf.Session() as sess:
+               print(sess.run(c)) # >> 3.57493
+               print(sess.run(c)) # >> -5.97319
+
+            c = tf.random_uniform([], -10, 10, seed=2)
+
+            with tf.Session() as sess:
+               print(sess.run(c)) # >> 3.57493
+
+            with tf.Session() as sess:
+               print(sess.run(c)) # >> 3.57493
+
+            ```
+         - Op level seed: each op keeps its own seed
+         - Graph level seed
+            - Note that the result is different from op-level seed
+            ```
+            tf.set_random_seed(2)
+            c = tf.random_uniform([], -10, 10)
+            d = tf.random_uniform([], -10, 10)
+
+            with tf.Session() as sess:
+                print(sess.run(c)) # >> -4.00752
+                print(sess.run(d)) # >> -2.98339
+
+            ```
+      - Autodiff
+         - Where are the gradients?
+         - TensorFlow builds the backward path for you!
+         - tf.gradients(y, [xs])
+            - Take derivative of y with respect to each tensor in the list [xs]
+            ```
+            x = tf.Variable(2.0)
+            y = 2.0 * (x ** 3)
+            z = 3.0 + y ** 2
+            grad_z = tf.gradients(z, [x, y])
+            with tf.Session() as sess:
+               sess.run(x.initializer)
+               print(sess.run(grad_z)) # >> [768.0, 32.0]
+            # 768 is the gradient of z with respect to x, 32 with respect to y
+
+            ```
+         - Gradient Computation
+            ```
+            tf.gradients(ys, xs, grad_ys=None, ...)
+            tf.stop_gradient(input, name=None)
+            # prevents the contribution of its inputs to be taken into account
+            tf.clip_by_value(t, clip_value_min, clip_value_max, name=None)
+            tf.clip_by_norm(t, clip_norm, axes=None, name=None)
+            ```
+         - Vanishing/exploding gradients
          
-   - 
+   - PPTn
 # Tools
 
 - Visual Studio Code
