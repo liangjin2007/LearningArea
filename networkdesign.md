@@ -472,6 +472,7 @@
          # plt.legend()
          # plt.show()
          ```
+         
          - TF Control Flow
             - Control Flow Ops
                - tf.group, tf.count_up_to, tf.cond, tf.case, tf.while_loop, ...
@@ -502,12 +503,12 @@
          - iterator = dataset.make_initializable_iterator()
             - Iterates through the dataset as many times as we want. Need to initialize with each epoch.
       - Handling data in TensorFlow  
-      ```
-      dataset = dataset.shuffle(1000)
-      dataset = dataset.repeat(100)
-      dataset = dataset.batch(128)
-      dataset = dataset.map(lambda x: tf.one_hot(x, 10)) 
-      ```
+         ```
+         dataset = dataset.shuffle(1000)
+         dataset = dataset.repeat(100)
+         dataset = dataset.batch(128)
+         dataset = dataset.map(lambda x: tf.one_hot(x, 10)) 
+         ```
       - Does tf.data really perform better?
          - With placeholder: 9.05271519 seconds
          - With tf.data: 6.12285947 seconds
@@ -515,22 +516,28 @@
          - For prototyping, feed dict can be faster and easier to write (pythonic)
          - tf.data is tricky to use when you have complicated preprocessing or multiple data sources
          - NLP data is normally just a sequence of integers. In this case, transferring the data over to GPU is pretty quick, so the speedup of tf.data isn't that large
-   - Optimizer
-   ```
-   optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
-   _, l = sess.run([optimizer, loss], feed_dict={X: x, Y:y})
+      - Optimizer
+      ```
+      optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
+      _, l = sess.run([optimizer, loss], feed_dict={X: x, Y:y})
       
-   ```
-   - Session looks at all trainable variables that loss depends on and update them
-   - Trainable variables
+      ```
+      - Session looks at all trainable variables that loss depends on and update them
+      - Trainable variables
       - tf.Variable(initial_value=None, trainable=True,...)
    - Eager execution
-   ```
-   import tensorflow # version >= 1.50
-   import tensorflow.contrib.eager as tfe
-   tfe.enable_eager_execution()
-   ```
+      - TF 1.5
+      - Similar to Numpy Python
+      - Can use pdb to debug code
+      ```
+      import tensorflow # version >= 1.50
+      import tensorflow.contrib.eager as tfe
+      tfe.enable_eager_execution()
+      ```
+   - Word Embedding in TensorFlow
+      - word2vec
    
+   - 
 # Tools
 
 - Visual Studio Code
