@@ -376,113 +376,15 @@
          - Inference: Y_predicted = w * X + b
          - Mean squared error: E[(y - y_predicted)2]
          - start.py
-         ```
-         """ Starter code for simple linear regression example using placeholders
-         Created by Chip Huyen (huyenn@cs.stanford.edu)
-         CS20: "TensorFlow for Deep Learning Research"
-         cs20.stanford.edu
-         Lecture 03
-         """
-         import os
-         os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
-         import time
-
-         import numpy as np
-         import matplotlib.pyplot as plt
-         import tensorflow as tf
-
-         import utils
-
-         DATA_FILE = 'data/birth_life_2010.txt'
-
-         # Step 1: read in data from the .txt file
-         data, n_samples = utils.read_birth_life_data(DATA_FILE)
-
-         # Step 2: create placeholders for X (birth rate) and Y (life expectancy)
-         # Remember both X and Y are scalars with type float
-         X, Y = None, None
-         #############################
-         ########## TO DO ############
-         #############################
-
-         # Step 3: create weight and bias, initialized to 0.0
-         # Make sure to use tf.get_variable
-         w, b = None, None
-         #############################
-         ########## TO DO ############
-         #############################
-
-         # Step 4: build model to predict Y
-         # e.g. how would you derive at Y_predicted given X, w, and b
-         Y_predicted = None
-         #############################
-         ########## TO DO ############
-         #############################
-
-         # Step 5: use the square error as the loss function
-         loss = None
-         #############################
-         ########## TO DO ############
-         #############################
-
-         # Step 6: using gradient descent with learning rate of 0.001 to minimize loss
-         optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001).minimize(loss)
-
-         start = time.time()
-
-         # Create a filewriter to write the model's graph to TensorBoard
-         #############################
-         ########## TO DO ############
-         #############################
-
-         with tf.Session() as sess:
-             # Step 7: initialize the necessary variables, in this case, w and b
-             #############################
-             ########## TO DO ############
-             #############################
-
-             # Step 8: train the model for 100 epochs
-             for i in range(100):
-                 total_loss = 0
-                 for x, y in data:
-                     # Execute train_op and get the value of loss.
-                     # Don't forget to feed in data for placeholders
-                     _, loss = ########## TO DO ############
-                     total_loss += loss
-
-                 print('Epoch {0}: {1}'.format(i, total_loss/n_samples))
-
-             # close the writer when you're done using it
-             #############################
-             ########## TO DO ############
-             #############################
-             writer.close()
-
-             # Step 9: output the values of w and b
-             w_out, b_out = None, None
-             #############################
-             ########## TO DO ############
-             #############################
-
-         print('Took: %f seconds' %(time.time() - start))
-
-         # uncomment the following lines to see the plot 
-         # plt.plot(data[:,0], data[:,1], 'bo', label='Real data')
-         # plt.plot(data[:,0], data[:,0] * w_out + b_out, 'r', label='Predicted data')
-         # plt.legend()
-         # plt.show()
-         ```
-         
-         - TF Control Flow
-            - Control Flow Ops
-               - tf.group, tf.count_up_to, tf.cond, tf.case, tf.while_loop, ...
-            - Comparison Ops
-               - tf.equal, tf.not_equal, tf.less, tf.greater, tf.where, ...
-            - Logical Ops
-               - tf.logical_and, tf.logical_not, tf.logical_or, tf.logical_xor
-            - Debugging Ops
-               - tf.is_finite, tf.is_inf, tf.is_nan, tf.Assert, tf.Print, ...
-         -
+      - TF Control Flow
+         - Control Flow Ops
+            - tf.group, tf.count_up_to, tf.cond, tf.case, tf.while_loop, ...
+         - Comparison Ops
+            - tf.equal, tf.not_equal, tf.less, tf.greater, tf.where, ...
+         - Logical Ops
+            - tf.logical_and, tf.logical_not, tf.logical_or, tf.logical_xor
+         - Debugging Ops
+            - tf.is_finite, tf.is_inf, tf.is_nan, tf.Assert, tf.Print, ...
       - tf.data
          - Placeholder
             - Pro: put the data processing outside TensorFlow, making it easy to do in Python
@@ -502,13 +404,6 @@
             - Iterates through the dataset exactly once. No need to initialization.
          - iterator = dataset.make_initializable_iterator()
             - Iterates through the dataset as many times as we want. Need to initialize with each epoch.
-      - Handling data in TensorFlow  
-         ```
-         dataset = dataset.shuffle(1000)
-         dataset = dataset.repeat(100)
-         dataset = dataset.batch(128)
-         dataset = dataset.map(lambda x: tf.one_hot(x, 10)) 
-         ```
       - Does tf.data really perform better?
          - With placeholder: 9.05271519 seconds
          - With tf.data: 6.12285947 seconds
@@ -517,23 +412,112 @@
          - tf.data is tricky to use when you have complicated preprocessing or multiple data sources
          - NLP data is normally just a sequence of integers. In this case, transferring the data over to GPU is pretty quick, so the speedup of tf.data isn't that large
       - Optimizer
-      ```
-      optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.01).minimize(loss)
-      _, l = sess.run([optimizer, loss], feed_dict={X: x, Y:y})
-      
-      ```
       - Session looks at all trainable variables that loss depends on and update them
       - Trainable variables
       - tf.Variable(initial_value=None, trainable=True,...)
+      - Code Exampe:
+         ```
+         import os
+         os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
+
+         import numpy as np
+         import tensorflow as tf
+         import time
+
+         import utils
+
+         # Define paramaters for the model
+         learning_rate = 0.01
+         batch_size = 128
+         n_epochs = 30
+         n_train = 60000
+         n_test = 10000
+
+         # Step 1: Read in data
+         mnist_folder = 'data/mnist'
+         utils.download_mnist(mnist_folder)
+         train, val, test = utils.read_mnist(mnist_folder, flatten=True)
+
+         # Step 2: Create datasets and iterator
+         train_data = tf.data.Dataset.from_tensor_slices(train)
+         train_data = train_data.shuffle(10000) # if you want to shuffle your data
+         train_data = train_data.batch(batch_size)
+
+         test_data = tf.data.Dataset.from_tensor_slices(test)
+         test_data = test_data.batch(batch_size)
+
+         iterator = tf.data.Iterator.from_structure(train_data.output_types, 
+                                                    train_data.output_shapes)
+         img, label = iterator.get_next()
+
+         train_init = iterator.make_initializer(train_data)	# initializer for train_data
+         test_init = iterator.make_initializer(test_data)	# initializer for train_data
+
+         # Step 3: create weights and bias
+         # w is initialized to random variables with mean of 0, stddev of 0.01
+         # b is initialized to 0
+         # shape of w depends on the dimension of X and Y so that Y = tf.matmul(X, w)
+         # shape of b depends on Y
+         w = tf.get_variable(name='weights', shape=(784, 10), initializer=tf.random_normal_initializer(0, 0.01))
+         b = tf.get_variable(name='bias', shape=(1, 10), initializer=tf.zeros_initializer())
+
+         # Step 4: build model
+         # the model that returns the logits.
+         # this logits will be later passed through softmax layer
+         logits = tf.matmul(img, w) + b 
+
+         # Step 5: define loss function
+         # use cross entropy of softmax of logits as the loss function
+         entropy = tf.nn.softmax_cross_entropy_with_logits(logits=logits, labels=label, name='entropy')
+         loss = tf.reduce_mean(entropy, name='loss') # computes the mean over all the examples in the batch
+
+         # Step 6: define training op
+         # using gradient descent with learning rate of 0.01 to minimize loss
+         optimizer = tf.train.AdamOptimizer(learning_rate).minimize(loss)
+
+         # Step 7: calculate accuracy with test set
+         preds = tf.nn.softmax(logits)
+         correct_preds = tf.equal(tf.argmax(preds, 1), tf.argmax(label, 1))
+         accuracy = tf.reduce_sum(tf.cast(correct_preds, tf.float32))
+
+         writer = tf.summary.FileWriter('./graphs/logreg', tf.get_default_graph())
+         with tf.Session() as sess:
+
+             start_time = time.time()
+             sess.run(tf.global_variables_initializer())
+
+             # train the model n_epochs times
+             for i in range(n_epochs): 	
+                 sess.run(train_init)	# drawing samples from train_data
+                 total_loss = 0
+                 n_batches = 0
+                 try:
+                     while True:
+                         _, l = sess.run([optimizer, loss])
+                         total_loss += l
+                         n_batches += 1
+                 except tf.errors.OutOfRangeError:
+                     pass
+                 print('Average loss epoch {0}: {1}'.format(i, total_loss/n_batches))
+             print('Total time: {0} seconds'.format(time.time() - start_time))
+
+             # test the model
+             sess.run(test_init)			# drawing samples from test_data
+             total_correct_preds = 0
+             try:
+                 while True:
+                     accuracy_batch = sess.run(accuracy)
+                     total_correct_preds += accuracy_batch
+             except tf.errors.OutOfRangeError:
+                 pass
+
+             print('Accuracy {0}'.format(total_correct_preds/n_test))
+         writer.close()
+         ```
    - Eager execution
       - TF 1.5
       - Similar to Numpy Python
       - Can use pdb to debug code
-      ```
-      import tensorflow # version >= 1.50
-      import tensorflow.contrib.eager as tfe
-      tfe.enable_eager_execution()
-      ```
    - Word Embedding in TensorFlow
       - word2vec
    
