@@ -827,7 +827,102 @@
             tf.clip_by_norm(t, clip_norm, axes=None, name=None)
             ```
          - Vanishing/exploding gradients
-         
+   - Convolutional Network
+      - convolution layer
+         - tf.layers.conv2d
+         - ![formula](https://github.com/liangjin2007/data_liangjin/blob/master/convolutionlayer.jpg?raw=true)
+      - pooling layer
+         - ![formula](https://github.com/liangjin2007/data_liangjin/blob/master/poolinglayer.jpg?raw=true)
+      - Visualize ConvNet Features
+         - Look at filters
+         - First layers: networks learn similar features
+         - Last layers：Nearest Neighbor in 4096d feature spaces
+         - Last layers: Dimensionality Reduction
+            - t-SNE
+         - (guided) backprop
+            - How does the chosen neuron respond to the image?
+            - Step 1: Feed image into net
+            - Step 2: Set gradient of chosen layer to all zero, except 1 for the chosen neuron
+            - Step 3: Backprop to image
+            - 
+         - Gradient ascent
+            - Generate a synthetic image that maximally activates a neuron
+            - I* = arg maxI f(I) + R(I)
+            - Step 1: Initialize image to zeros
+            - Step 2: Repeat:
+               - 2. Forward image to compute current scores
+               - 3. Set gradient of scores to be 1 for target class, 0 for others
+               - 4. Backprop to get gradient on image
+               - 5. Make a small update to the image
+
+   - Convolution Network in TF
+      - tf.nn.conv2d
+      - tf.nn.max_pool
+      - fully connected
+         - fc = tf.matmul(pool2, w) + b
+      - softmax
+         - Loss function
+            - tf.nn.softmax_cross_entropy_with_logits(labels=Y, logits=logits)
+         - Predict
+            - tf.nn.softmax(logits_batch)
+      - tf.layers
+         - tf.layers.conv2d
+         - tf.layers.max_pooling2d
+         - tf.layers.dense
+         - tf.layers.dropout
+   - Style Transfer
+      - TFRecord
+         - The recommended format for TensorFlow
+         - A serialized tf.train.Example protobuf object
+         - Why binary
+            - make better use of disk cache
+            - faster to move around
+            - can handle data of different types e.g. you can put both images and labels in one place
+         - Convert to TFRecord format
+            - Feature: an image
+            - Label: a number
+            ```
+            # Step 1: create a writer to write tfrecord to that file
+            writer = tf.python_io.TFRecordWriter(out_file)
+
+            # Step 2: get serialized shape and values of the image
+            shape, binary_image = get_image_binary(image_file)
+
+            # Step 3: create a tf.train.Features object
+            features = tf.train.Features(feature={'label': _int64_feature(label),
+                                                'shape': _bytes_feature(shape),
+                                                'image': _bytes_feature(binary_image)})
+
+            # Step 4: create a sample containing of features defined above
+            sample = tf.train.Example(features=features)
+
+            # Step 5: write the sample to the tfrecord file
+            writer.write(sample.SerializeToString())
+            writer.close()
+            def _int64_feature(value):
+                return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+
+            def _bytes_feature(value):
+                return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+            ```
+         - Read TFRecord
+            - Using tf.data.TFRecordDataset
+            ```
+            dataset = tf.data.TFRecordDataset(tfrecord_files)
+            dataset = dataset.map(_parse_function)
+            def _parse_function(tfrecord_serialized):
+               features={'label': tf.FixedLenFeature([], tf.int64),
+                          'shape': tf.FixedLenFeature([], tf.string),
+                          'image': tf.FixedLenFeature([], tf.string)}
+
+               parsed_features = tf.parse_single_example(tfrecord_serialized, features)
+
+               return parsed_features['label'], parsed_features['shape'], parsed_features['image']
+
+            ```
+      - Style Transfer
+   
    - PPTn
 # Tools
 
