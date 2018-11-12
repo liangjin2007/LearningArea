@@ -351,7 +351,7 @@
             - Separate definition of ops from computing/running ops 
             - Use Python property to ensure function is also loaded once the first time it is called*
    
-   -Basic Model in Tensorflow
+   - Basic Model in Tensorflow
       - Steps:
          - Read in data
          - Create placeholders for inputs and labels
