@@ -14,6 +14,8 @@
          - gradient ascending optimization
       - Visualizing Neurons with Regularization/Priors
          - Still not natural
+      - Visualizing Neurons with Better Regularization/Priors
+      - 
 # 可视化特征
 
 回顾了一下研究网络可视化的论文。
