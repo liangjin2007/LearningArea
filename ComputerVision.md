@@ -1,4 +1,6 @@
 # Stanford University CS231: 
+- [cs231n 2017](http://cs231n.stanford.edu/slides/2017/)
+
 - 视觉历史
 
 |1959|猫大脑视觉区的电子信号|Simple Cell, Complex Cell, Hypercomplex Cell, Stinulus|
