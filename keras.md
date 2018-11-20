@@ -1,5 +1,17 @@
+Usage
+=====================================================================
+alexnet for keras
+- [alexnet](https://github.com/lunardog/convnets-keras)
+note:
+not https://github.com/heuritech/convnets-keras
+
+
+
 Keras_Demo笔记
 =====================================================================
+
+
+
 
 - numpy方法归一化
 ```
