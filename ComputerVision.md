@@ -339,6 +339,32 @@
             
 
 # Stanford University CS231a: Computer Vision, From 3D Reconstruction to Recognition
+- Camera Model 相机模型
+   - Pinhole Camera Model针孔相机模型
+      - object物体
+      - barrier遮挡物
+      - aperture孔
+      - film or image or retinal plane图像平面
+      - pinhole O or center of the camera针孔或者相机中心
+      - focal length f焦距
+      - virtual image or virtual retinal plane虚像
+      - camera reference system or camera coordinate system
+         - i, j, k
+         - O, C'
+         - optical axis
+         - P [x, y, z]
+         - P'[x', y']
+         - similar triangle相似三角形 PO(0,0,z) and P'C'O
+      - projected onto the image plane 投影
+   - Cameras and Lenses相机和透镜
+      - aperture孔
+      - 
+- Single View Metrology
+- Epipolar Geometry
+- Stereo Systems
+- Active Volumetric Stereo
+
+
 # Stanford University CS231b: The Cutting Edge of Computer Vision
 # Stanford University CS231n: CNN for Visual Recognition
 # Stanford University CS331: Advanced Reading in Computer Vision
