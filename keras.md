@@ -10,6 +10,10 @@ not https://github.com/heuritech/convnets-keras
 
 Keras_Demo笔记
 =====================================================================
+- GAN and VAE
+- [](https://spaces.ac.cn/archives/5253/comment-page-1)
+
+
 - VGG16
     ```
     from keras.applications.vgg16 import preprocess_input,decode_predictions
@@ -118,7 +122,7 @@ Keras_Demo笔记
 - visualize convolution filter
    - 如何将一个网络中的某卷积层作为loss
    - 使滤波器的激活最大化，输入图像就是要可视化的滤波器 ？ 
-   - 构建损失函数，计算输入图像的梯度
+   - 构建损失函数，计算输入图像的梯度。损失函数
    - 如何自己写梯度更新
    - 如何对多维数据根据某一维排序
    - 如何把多个小图片堆积到一起显示
@@ -163,6 +167,7 @@ Keras_Demo笔记
 
     #提取滤波器
     #通过梯度上升，修改输入图像，使得滤波器的激活最大化。这是的输入图像就是我们要可视化的滤波器。
+    
     kept_filters = []
     for filter_index in range(0, 200):
         # 我们只扫描前200个滤波器，
@@ -265,7 +270,13 @@ Keras_Demo笔记
     # (std, mean, and principal components if ZCA whitening is applied)
     datagen.fit(X_train)
     ```
-
+    ```
+    val_datagen = ImageDataGenerator(rescale=1./255)
+    val_generator = datagen.flow(
+                x_val, y_val,
+                batch_size=batch_size,
+    )
+    ```
 - 解释网络中一些概念
     ```
     model.add(Convolution2D(nb_filters, kernel_size,strides=(1, 1),
