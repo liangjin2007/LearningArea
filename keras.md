@@ -10,6 +10,15 @@ not https://github.com/heuritech/convnets-keras
 
 Keras_Demo笔记
 =====================================================================
+- VGG16
+    ```
+    from keras.applications.vgg16 import preprocess_input,decode_predictions
+    model = VGG16(include_top=True, weights='imagenet')
+    preds = model.predict(x)
+    # 将结果解码成一个元组列表（类、描述、概率）（批次中每个样本的一个这样的列表）
+    print('Predicted:', decode_predictions(preds, top=3)[0])
+    ```
+
 - utils
     ```
     from keras.utils import np_utils
@@ -30,10 +39,10 @@ Keras_Demo笔记
     X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
     ```
 - network
-
-model.add(Flatten()) 可以把多维结构压平成一维
-model.add(Activation('relu')) 激活可以是单独一层
-
+    ```
+    model.add(Flatten()) 可以把多维结构压平成一维
+    model.add(Activation('relu')) 激活可以是单独一层
+    ```
 
 - Imagenet prediction to class and score
     - Various sorting
@@ -284,10 +293,6 @@ model.add(Activation('relu')) 激活可以是单独一层
     model.summary()
     plot_model(model, to_file='lstm_model.png')
     ```
-
-- VGG16
-
-
 
 FAQ
 =====================================================================
