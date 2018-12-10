@@ -11,24 +11,24 @@ not https://github.com/heuritech/convnets-keras
 Keras_Demo笔记
 =====================================================================
 - utils
+    ```
+    from keras.utils import np_utils
 
-from keras.utils import np_utils
+    np_utils.to_categorical(y_train, nb_classes)
 
-np_utils.to_categorical(y_train, nb_classes)
-
-from keras.utils.vis_utils import plot_model
-
+    from keras.utils.vis_utils import plot_model
+    ```
 - datasets
+    ```
+    from keras.datasets import mnist
+    from keras.datasets import cifar10
 
-from keras.datasets import mnist
-from keras.datasets import cifar10
+    (X_train, y_train), (X_test, y_test) = mnist.load_data()
+    (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 
-(X_train, y_train), (X_test, y_test) = mnist.load_data()
-(X_train, y_train), (X_test, y_test) = cifar10.load_data()
-
-X_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
-X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
-
+    X_train = X_train.reshape(X_train.shape[0], img_rows, img_cols, 1)
+    X_test = X_test.reshape(X_test.shape[0], img_rows, img_cols, 1)
+    ```
 - network
 
 model.add(Flatten()) 可以把多维结构压平成一维
@@ -37,7 +37,7 @@ model.add(Activation('relu')) 激活可以是单独一层
 
 - Imagenet prediction to class and score
     - Various sorting
-```
+    ```
     CLASS_INDEX = None
     CLASS_INDEX_PATH = 'https://s3.amazonaws.com/deep-learning-models/image-models/imagenet_class_index.json'
     fpath = get_file('imagenet_class_index.json',
@@ -51,18 +51,18 @@ model.add(Activation('relu')) 激活可以是单独一层
         result = [tuple(CLASS_INDEX[str(i)]) + (pred[i],) for i in top_indices]
         result.sort(key=lambda x: x[2], reverse=True)
         results.append(result)
-```
+    ```
 - numpy方法归一化
 
-```
-x -= x.mean()
-x /= (x.std()+1e-5)
-x *= 0.1
-x += 0.5
-x = np.clip(x, 0, 1)
-x *= 255
-x = np.clip(x, 0, 255).astype('uint8')
-```
+    ```
+    x -= x.mean()
+    x /= (x.std()+1e-5)
+    x *= 0.1
+    x += 0.5
+    x = np.clip(x, 0, 1)
+    x *= 255
+    x = np.clip(x, 0, 255).astype('uint8')
+    ```
 
 - 用Callback画acc_loss曲线
 ```
