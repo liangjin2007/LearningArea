@@ -1,5 +1,16 @@
 Usage
 
+=====================================================================
+# K.arange, K.expand_dims, K.stack, K.shape
+# tf.argsort(values)
+# tf.gather(values, tf.argsort(values))
+n = K.shape(y_pred)[0]
+
+c = tf.contrib.framework.argsort(y_true[:, 0])
+d = tf.contrib.framework.argsort(y_pred[:, 0])
+return 1.0 - (K.sum(K.square(c-d))*6.0/(K.pow(n, 3)-n))
+
+
 alexnet for keras
 =====================================================================
 
