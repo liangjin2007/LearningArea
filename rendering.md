@@ -195,7 +195,65 @@ texels
    - memory lookup
    - computation of a function
    
-
+- Image Texturing
+   - magnification
+   - minification
+      - antialiasing: mipmap
+      - overblurring: summed-area table
+      - Unconstrained Anisotropic Filtering
+   - volume texture
+   - cube map
+   - texture representation
+      - texture compression
+      - texture atlas, texture arrays, bindless textures
+   - texture compression
+      - ETC
+      - BC1-BC5
+      - BC6H
+      - BC7
+      - ETC2
+      - EAC
+      - DXT5
+      - PVRTC
+      - ASTC
+- Procedural Texturing
+   - volume textures
+   - noise function
+      - octave
+      - turbulence
+- Texture Animation
+   - changing texture coordinates
+   - changing texture
+- Material Mapping
+   - use texture to modify material properties
+   - diffuse color map or albedo color map
+   - linear relationship: 
+   - nonlinear relationship: roughness or bump mapping 
+- Alpha Mapping
+   - alpha blending or alpha testing
+   - decaling
+   - cutouts
+   - cross tree
+   - grass: three cross
+   - billboarding
+   - combine texture animation and alpha maps
+      - plant growth, explosion, atmospheric effects
+   - antialiasing the object edges
+   - alpha testing
+      - problem with mipmap
+         - too transparent
+      - black edge
+- Bump Mapping
+   - modify normal direction
+   - can compute tangent-space basis on the fly in the shader
+   - Blinn's Method
+      - bu, bv
+      - height field
+         - use height field to get bu, bv
+   - Normal Mapping
+      - filtering normal map is hard
+   - 
+   
 
 # Light Map
 
