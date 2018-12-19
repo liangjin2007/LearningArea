@@ -179,7 +179,23 @@ texels
 修改颜色值
 修改normal
 修改roughness
-world space location -> 
+
+- ![texturing pipeline](https://github.com/liangjin2007/data_liangjin/blob/master/texturepipeline.jpg?raw=true)
+
+- projection function
+   - cylinder, planar, spherical, polymap, parameterization, unwrap
+
+- corresponder function
+   - wrap, repeat or tile
+   - mirror
+   - clamp or clamp to edge
+   - border or clamp to border
+   
+- get texture value
+   - memory lookup
+   - computation of a function
+   
+
 
 # Light Map
 
