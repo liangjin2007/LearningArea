@@ -252,6 +252,11 @@ texels
          - use height field to get bu, bv
    - Normal Mapping
       - filtering normal map is hard
+- Parallex Mapping
+   - Parallex Occlusion Map or relief map
+   - height field 代表的是一个曲面，当视角不同的时候看到的是不同的。
+      - height field tracing
+- Textured Light
    - 
    
 
