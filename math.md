@@ -12,6 +12,7 @@
   - tf.image.ssim
   - [skimage](http://scikit-image.org/docs/dev/auto_examples/transform/plot_ssim.html)
   - [github](https://github.com/jterrace/pyssim)
+  - f(l(x,y)*c(x,y)*s(x,y))
 
 - Luminance
   - mean intensity : l(x) = mean(x) = sum(x)/N
@@ -26,5 +27,10 @@
 - normalize
   - (x-l(x))/contrast(x)
 
+- l(x,y) range in 0~1 and avoid numeric overflow
+  - (2*l(x)*l(y)+C)/(square(l(x))+square(l(y))+C
 
+- structure comparison
+  - correlation(inner product) correlation(x, y) = sum((xi-l(x))*(yi-l(y))/(N-1)
+  - s(x,y) = (correlation(x, y)+C)/((contrast(x)*contrast(y))+C)
 # 算法/方法方面
