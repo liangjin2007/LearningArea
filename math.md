@@ -33,4 +33,12 @@
 - structure comparison
   - correlation(inner product) correlation(x, y) = sum((xi-l(x))*(yi-l(y))/(N-1)
   - s(x,y) = (correlation(x, y)+C)/((contrast(x)*contrast(y))+C)
+
+
 # 算法/方法方面
+- [2017][ICCV]Deep Adaptive Image Clustering.pdf
+    逐对训练
+
+- 
+
+
