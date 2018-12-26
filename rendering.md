@@ -274,7 +274,8 @@ texels
       - 运用投影矩阵到物体上，然后用暗色无光照着色。要做适当偏移，以免跟地面出现zigzag。
       - 更安全的做法：先画地面，再画投影阴影（关闭z buffer），再画其他物体。
       - 如果地面是个矩形区域，画阴影超出矩形区域，则使用stencil buffer。先把矩形地面画到屏幕和stencil buffer，然后把z buffer关掉，用stencil buffer去控制绘制投影阴影在该画的区域，最后再画其他物体。
-      - 另一个技术是把阴影画到
+      - 另一个技术是把阴影画到纹理上，然后用纹理去调整曲面亮度。缺点是用纹理的话常常会精度不够，一个texel cover多个pixel（magnified）。
+      - 
       
 
 # Light Map
