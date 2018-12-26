@@ -690,7 +690,8 @@
 
 - 条件随机场CRF
 
-   
+- 十大算法
+   - [文字表述](https://blog.csdn.net/u011067360/article/details/24368085)
    
    
 - PReLU
