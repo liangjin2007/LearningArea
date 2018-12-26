@@ -683,6 +683,8 @@
 - 最大熵模型
 
 - EM
+   - [例子](https://www.tuicool.com/articles/Av6NVzy)
+   
 
 - 隐马尔可夫模型HMM
 
