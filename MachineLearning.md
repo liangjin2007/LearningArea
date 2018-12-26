@@ -369,6 +369,10 @@
       return 0;  
    }
    ```
+
+- 逻辑回归Logistic Regression
+
+
 - PReLU
    - [[2015][iccv]Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification](https://arxiv.org/pdf/1502.01852v1.pdf)
    - f(x) = alpha * x for x < 0,  f(x) = x for x>=0
