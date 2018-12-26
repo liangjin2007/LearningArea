@@ -1,5 +1,7 @@
 # words
 
+anatomy解剖，部位 
+
 degradation屈辱
 
 consensus一致意见
