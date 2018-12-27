@@ -1,3 +1,11 @@
+# 数学原理
+- Jensen不等式 
+  - 如果f是凸函数，X是随机变量，那么E[f(X)] >= f(E[X])
+  
+- EM
+  - [博客](http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html)
+
+
 # 度量方面
 
 - Earth Mover's Distance(EMD)
