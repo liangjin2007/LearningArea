@@ -1,4 +1,5 @@
 # words
+approximate近似
 
 anatomy解剖，部位 
 
