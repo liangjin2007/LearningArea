@@ -275,7 +275,21 @@ texels
       - 更安全的做法：先画地面，再画投影阴影（关闭z buffer），再画其他物体。
       - 如果地面是个矩形区域，画阴影超出矩形区域，则使用stencil buffer。先把矩形地面画到屏幕和stencil buffer，然后把z buffer关掉，用stencil buffer去控制绘制投影阴影在该画的区域，最后再画其他物体。
       - 另一个技术是把阴影画到纹理上，然后用纹理去调整曲面亮度。缺点是用纹理的话常常会精度不够，一个texel cover多个pixel（magnified）。
-      - 
+   - Soft Shadow
+      - 面积光 area light
+      - 绘制方法1：采样面积光得到多个点光源，投影阴影，叠加平均。这种方式很慢。
+      - 绘制方法2：采样面积光得到多个点光源，n pass绘制到texture，叠加平均。同样很慢。可以用来生成对比其他更快算法的baseline。
+      - convolution or filtering
+         - 得到半透明的阴影纹理
+         - 与现实世界复合
+         - 缺点是在物体与地面接触的地方看起来会不自然
+- Shadows on Curved Surface
+   - projective texture
+   - 用uv来定位位置
+   - drop shadow
+   - shadow to mipmap
+   - 
+      
       
 
 # Light Map
