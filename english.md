@@ -1,4 +1,7 @@
 # words
+
+elaborate 复杂的，精巧的
+
 excessive cost过度的开销
 
 encompass围绕包围 
