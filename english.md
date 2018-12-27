@@ -1,4 +1,12 @@
 # words
+excessive cost过度的开销
+
+encompass围绕包围 
+
+untenable 站不住脚的
+
+punctual准时 he is always punctual.
+
 approximate近似
 
 anatomy解剖，部位 
