@@ -6,46 +6,90 @@
 
 # 形状分析
 - 介绍
-  - 欧氏几何 Euclidean Geometry
-  - 微分几何 Differential Geometry
-  - 流形 Manifold
-  - 高斯曲率 K
-  - 平均曲率 H
-  - 第一基本形式 I
-  - 第二基本形式 II
-  - 形状属性 shape properties
-  - 距离 distance
-  - 流和向量场 flow and vector field
-  - 微分算子 differential operators
-  - 黎曼观点
-    - 认为只需要角度和距离
-    - 蚂蚁的观点
-  - 几何物理 geometry mechanic
-  - 测度几何 metric geometry
-  - 最优传输 optimal transport
-  - 微分拓扑
-    - Differential/Morse/Persistent topology
-  - 形状的概念
-    - 三角形网格 triangle mesh
-    - 点云 point cloud
-    - 逐对距离矩阵 distance matrix
-    - 图 graph
-    - 三角形汤 triangle soup
-    - 以上几乎都是跟近似，距离，曲率相关
-    - 近似光滑曲面 smooth surface
-  - 三角网格是否有曲率
-  - 组合光滑与离散
-    - 离散微分几何
-    - 离散化
-  - 离散理论平行与微分几何
-  - 结构保留
-    - 从连续理论里是对的东西在离散化版本中也对
-  - 旋转数 turning number
-    - ![旋转数](https://github.com/liangjin2007/data_liangjin/blob/master/turning_number.jpg?raw=true)
-  
-  
-连续 -> 离散化 -> 离散
-
-- 旋转数 turning number
+  - 理论工具箱
+    - 欧氏几何 Euclidean Geometry
+    - 微分几何 Differential Geometry
+    - 流形 Manifold
+    - 高斯曲率 K
+    - 平均曲率 H
+    - 第一基本形式 I
+    - 第二基本形式 II
+    - 形状属性 shape properties
+    - 距离 distance
+    - 流和向量场 flow and vector field
+    - 微分算子 differential operators
+    - 黎曼观点
+      - 认为只需要角度和距离
+      - 蚂蚁的观点
+    - 几何物理 geometry mechanic
+    - 测度几何 metric geometry
+    - 最优传输 optimal transport
+    - 微分拓扑
+      - Differential/Morse/Persistent topology
+  - 计算工具箱
+    - 形状的概念
+      - 三角形网格 triangle mesh
+      - 点云 point cloud
+      - 逐对距离矩阵 distance matrix
+      - 图 graph
+      - 三角形汤 triangle soup
+      - 以上几乎都是跟近似，距离，曲率相关
+      - 近似光滑曲面 smooth surface
+    - 三角网格是否有曲率
+    - 组合光滑与离散
+      - 离散微分几何 discrete differential geometry
+      - 离散化 discretization
+    - 离散理论平行与微分几何
+      - 结构保留
+        - 从连续理论里是对的东西在离散化版本中也对
+        - 旋转数 turning number
+          - ![旋转数](https://github.com/liangjin2007/data_liangjin/blob/master/turning_number.jpg?raw=true)
+      - 收敛
+        - 当离散化增进近似对质量
+        - 能否把所有连续理论都离散化,no
+      - 连续 -> 离散化 -> 离散
+    - 数值偏微分方程 Numerical PDE
+      - Fast Mean Curvature Flow via Finite-Elements Tracking
+    - 光滑优化 Smooth Optimization
+      - Bijective parameterization with free boundaries
+    - 离散优化 Discrete Optimization
+      - Mixed-integer quadrangulation
+    - 线性代数 Linear Algebra
+      - Consistent shape maps via semidefinite programming
+      - Efficient preconditioning of Laplacian matrices for computer graphics
+    - The Geometry of Geometry
+      - Splines in the space of shells
+    - 代数和表示理论
+      - SO(3)/~
+  - 应用领域 Application areas
+    - 图形学 Graphics
+      - 转化 transfer
+      - 探索模式exploiting patterns
+      - 提取 retrieval
+      - 编辑 editing
+    - 视觉 Vision
+      - 识别
+      - 导航
+      - 重建
+      - 分割
+    - 医疗图像
+      - 分析
+      - 分割
+      - 注册
+    - 制造业
+      - 扫描
+      - 差品检测
+    - 建筑
+      - 设计和分析
+    - 形状集分析
+    - 对应
+    - 变形迁移
+    - 模拟
+    - 模拟
+    - 科学可视化
+    - 分割
+    - 计算机视觉
+    - 机器学习
+    - 统计
 
 
