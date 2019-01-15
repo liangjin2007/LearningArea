@@ -91,5 +91,33 @@
     - 计算机视觉
     - 机器学习
     - 统计
-
+- 数值工具
+  - 线性问题
+    - 线性算子
+    - 线性方程组
+    - 求逆，尽量避免求逆
+    - Direct
+      - Dense
+        - 高斯消去
+      - Sparse
+        - Reordering(SuiteSparse, Eigen)
+    - Iterative
+      - 正定
+        - 共轭梯度
+      - 对称
+        - MINRES, GMRES
+      - Generic
+        - LSQR
+      
+    
+    - Direct
+    - Direct
+  - 优化问题
+    数学分析 -> 梯度 -> Jacobian -> 
+  - 无限制优化
+    - 牛顿，共轭梯度，等
+  - 等式限制优化
+    - 拉格朗日法
+  - 变分问题
+    - ？
 
