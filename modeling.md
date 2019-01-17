@@ -129,4 +129,24 @@
     - 拉格朗日法
   - 变分问题
     - ？
+ 
+- curves
+- surfaces
+- curvature
+- geodesic distance
+- inverse distance problem
+  - 降维
+    - Manifold learning
+    - Dimension Reduction
+    - Embedding
+    - Multidimensional scaling
+  - 问题：已知流型上任意2点间的测地距离，求曲面
+  - 测度空间（M,d）
+    - d(x,y) >= 0
+    - d(x,y) = 0  <-> x = y
+    - d(x,y) = d(y,x)
+    - 三角不等式
+      - d(x,z) <= d(x,y)+d(y,z)
+  - Rxn, d(x,y) = ||x-y||
+  
 
