@@ -1,4 +1,14 @@
+# 图像特征
+- SIFT,HOG,...
+- CNN
+
 # 分类
+- SVM
+- CNN
+- Softmax
+- L-Softmax
+
+
 # 物体检测
 - [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
   - ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)
@@ -11,6 +21,7 @@
       - 颜色直方图
     - texture similarity
       - 高斯梯度直方图
+  - 
 # 语义分割
 # 实例分割
 # 机器人
