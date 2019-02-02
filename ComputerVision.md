@@ -1,7 +1,16 @@
 # 图像特征
 - SIFT,HOG,...
 - CNN
-
+- Visual Word
+  - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
+  - Collect all the SIFTS of all the pictures
+  - K-Means Cluster Fine K cluster centers named as W1,W2,...,WK.
+  - Build Inverted File Index逆文件索引
+    - W1: pic1, pic2, picn
+    - W2: pic3, pic6
+    - ...
+  - Bag Of Visual Words
+  
 # 分类
 - SVM
 - CNN
