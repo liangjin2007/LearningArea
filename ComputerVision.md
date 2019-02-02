@@ -10,6 +10,8 @@
     - W2: pic3, pic6
     - ...
   - Bag Of Visual Words
+    - histogram of visual words
+    - term frequency-inverse document frequency (tf-idf)
   
 # 分类
 - SVM
