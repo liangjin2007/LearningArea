@@ -21,14 +21,25 @@ An Open Source Framework For Geometry Processing Programming.
 - 可视化插件
 - 可视化标量
   - viewer.data().set_colors(C); // #C must be #F or #V.
-- 
+  - igl::jet(Z, true, C); // transform Z to C.
+- Overlays（挂件？覆盖）
+  - viewer.data().add_points(P, Eigen::RowVector3d(r,g,b));
+  - viewer.data().add_edges(P1,P2,Eigen::RowVector3d(r,g,b));
+  - viewer.data().add_label(p,str);
+- 使用矩阵可以避免循环写法
+  - 
 
 # Eigen
 
-Eigen::MatrixXd V;
+Eigen::MatrixXd V; // #V x 3
 
-Eigen::MatrixXi F;
+Eigen::MatrixXi F; // #F x 3
 
+Eigen::VectorXd Z; Z = V.col(2); // #V x 1
+
+Eigen::RowVector3d(r, g, b); // 1 x 3
+
+Eigen::Vector3d 
 # GUI
 
 
