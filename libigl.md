@@ -27,8 +27,17 @@ An Open Source Framework For Geometry Processing Programming.
   - viewer.data().add_edges(P1,P2,Eigen::RowVector3d(r,g,b));
   - viewer.data().add_label(p,str);
 - 使用矩阵可以避免循环写法
-  - 
-
+  - colwise().minCoeff()
+- 菜单
+  - ImGui
+  ```
+  igl::opengl::glfw::Viewer viewer;
+  igl::opengl::glfw::imgui::ImGuiMenu menu;
+  viewer.plugins.push_back(&menu);
+  menu.callback_draw_viewer_menu = [&](){}
+  ```
+  - [menu example](https://github.com/libigl/libigl/blob/master/tutorial/106_ViewerMenu/main.cpp)
+-
 # Eigen
 
 Eigen::MatrixXd V; // #V x 3
@@ -39,7 +48,8 @@ Eigen::VectorXd Z; Z = V.col(2); // #V x 1
 
 Eigen::RowVector3d(r, g, b); // 1 x 3
 
-Eigen::Vector3d 
+Eigen::Vector3d m = V.colwise().minCoeff(); // avoid to write for loops.
+Eigen::Vector3d M = V.colwise().maxCoeff(); 
 # GUI
 
 
