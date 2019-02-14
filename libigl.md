@@ -101,7 +101,7 @@ An Open Source Framework For Geometry Processing Programming.
         - cotangent Laplacian
         - divergence theorem to vertex one-rings.
    - 数学
-     - $E=mc^2$
+     - $$E=mc^2$$
      
 # Eigen
 
