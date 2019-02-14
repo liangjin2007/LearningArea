@@ -1,23 +1,17 @@
-Usage
-
+Keras API
 =====================================================================
-# K.arange, K.expand_dims, K.stack, K.shape
-# tf.argsort(values)
-# tf.gather(values, tf.argsort(values))
-n = K.shape(y_pred)[0]
+K.arange, 
+K.expand_dims
+K.stack
+K.shape
+tf.argsort(values)
+tf.gather(values, tf.argsort(values))
 
-c = tf.contrib.framework.argsort(y_true[:, 0])
-d = tf.contrib.framework.argsort(y_pred[:, 0])
-return 1.0 - (K.sum(K.square(c-d))*6.0/(K.pow(n, 3)-n))
-
-
-alexnet for keras
-=====================================================================
-
-- [alexnet](https://github.com/lunardog/convnets-keras)
-note:
-not https://github.com/heuritech/convnets-keras
-
+def spearman_loss(y_true, y_pred):
+    n = K.shape(y_pred)[0]
+    c = tf.contrib.framework.argsort(y_true[:, 0])
+    d = tf.contrib.framework.argsort(y_pred[:, 0])
+    return 1.0 - (K.sum(K.square(c-d))*6.0/(K.pow(n, 3)-n))
 
 Keras_Demo笔记
 =====================================================================
@@ -307,9 +301,14 @@ Keras_Demo笔记
     model.summary()
     ```
 
-- LSTM使用（一）
-将图像高度作为time
+- LSTM使用，长短期记忆，一种特殊的循环神经网络RNN
+    - 将图像高度作为time
+    - 知乎上的图解 https://zhuanlan.zhihu.com/p/32085405
     ```
+    nb_lstm_outputs = 30
+    nb_time_steps = 28
+    dim_input_vector - 28
+    input_shape = (nb_time_steps, dim_input_vector)
     model.add(LSTM(nb_lstm_outputs, input_shape=input_shape))
     model.add(Dense(nb_classes, activation='softmax', kernel_initializer=initializers.random_normal(stddev=0.01)))
     model.summary()
