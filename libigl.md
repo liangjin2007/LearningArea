@@ -17,10 +17,6 @@ An Open Source Framework For Geometry Processing Programming.
     VectorXd U;
     igl::readDMAT(TUTORIAL_SHARED_PATH "/cheburashka-scalar.dmat",U);
     
-    // Compute gradient operator: #F*3 by #V
-    SparseMatrix<double> G;
-    igl::grad(V,F,G);
-    
     // Compute per-face normals
     igl::per_face_normals(V,F,N_faces);
     
@@ -59,6 +55,35 @@ An Open Source Framework For Geometry Processing Programming.
     
     // Average edge length for sizing
     const double avg = igl::avg_edge_length(V,F);
+    
+    // Compute gradient operator: #F*3 by #V
+    SparseMatrix<double> G;
+    igl::grad(V,F,G);
+    // Compute gradient of U
+    MatrixXd GU = Map<const MatrixXd>((G*U).eval().data(),F.rows(),3);
+    // Compute gradient magnitude
+    const VectorXd GU_mag = GU.rowwise().norm();
+
+    // Compute Laplace-Beltrami operator: #V by #V
+    igl::cotmatrix(V,F,L);
+
+    // Alternative construction of same Laplacian
+    SparseMatrix<double> G,K;
+    // Gradient/Divergence
+    igl::grad(V,F,G);
+    // Diagonal per-triangle "mass matrix"
+    VectorXd dblA;
+    igl::doublearea(V,F,dblA);
+    // Place areas along diagonal #dim times
+    const auto & T = 1.*(dblA.replicate(3,1)*0.5).asDiagonal();
+    // Laplacian K built as discrete divergence of gradient or equivalently
+    // discrete Dirichelet energy Hessian
+    K = -G.transpose() * T * G;
+    cout<<"|K-L|: "<<(K-L).norm()<<endl;
+    
+    // Smoothing
+    
+    
     ```
   - 可视化曲面
     ```
@@ -72,7 +97,9 @@ An Open Source Framework For Geometry Processing Programming.
     viewer.data().add_edges(P1,P2,Eigen::RowVector3d(r,g,b)); // 挂件
     viewer.data().add_label(p,str); // 挂件
     viewer.data().show_lines = false; // 关掉wireframe
-    
+    viewer.data().set_vertices(U);
+    viewer.data().compute_normals();
+    viewer.core.align_camera_center(U,F);
     viewer.launch();
     ```
   - 菜单
@@ -90,9 +117,17 @@ An Open Source Framework For Geometry Processing Programming.
       - Per-corner效果最好
     - 高斯曲率 https://github.com/libigl/libigl/blob/master/tutorial/202_GaussianCurvature/main.cpp
     - 平均曲率，主曲率 https://github.com/libigl/libigl/blob/master/tutorial/203_CurvatureDirections/main.cpp
-    - 梯度Gradient
+    - 梯度 https://github.com/libigl/libigl/blob/master/tutorial/204_Gradient/main.cpp
       - hat function defined on 1-ring of a vertex.
-    
+    - 拉普拉斯相关
+      - 欧氏空间中的拉普拉斯算子
+        - 梯度的散度
+      - Laplace-Beltrami operator
+        - 一般化到曲面
+        - 离散情况有许多种方式
+        - cotangent Laplacian
+        - divergence theorem to vertex one-rings.
+        
 # Eigen
 
 Eigen::MatrixXd V; // #V x 3
