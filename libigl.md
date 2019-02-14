@@ -85,6 +85,39 @@ An Open Source Framework For Geometry Processing Programming.
     
     
     ```
+- 第二章 离散几何量和算子
+    - 法向 https://github.com/libigl/libigl/blob/master/tutorial/201_Normals/main.cpp
+      - Per-corner效果最好
+    - 高斯曲率 https://github.com/libigl/libigl/blob/master/tutorial/202_GaussianCurvature/main.cpp
+    - 平均曲率，主曲率 https://github.com/libigl/libigl/blob/master/tutorial/203_CurvatureDirections/main.cpp
+    - 梯度 https://github.com/libigl/libigl/blob/master/tutorial/204_Gradient/main.cpp
+      - hat function defined on 1-ring of a vertex.
+    - 拉普拉斯相关
+      - 欧氏空间中的拉普拉斯算子
+        - 梯度的散度
+      - Laplace-Beltrami operator
+        - 一般化到曲面
+        - 离散情况有许多种方式
+        - cotangent Laplacian
+        - divergence theorem to vertex one-rings.
+   - 数学
+     - $E=mc^2$
+     
+# Eigen
+
+Eigen::MatrixXd V; // #V x 3
+
+Eigen::MatrixXi F; // #F x 3
+
+Eigen::VectorXd Z; Z = V.col(2); // #V x 1
+
+Eigen::RowVector3d(r, g, b); // 1 x 3
+
+Eigen::Vector3d m = V.colwise().minCoeff(); // avoid to write for loops.
+Eigen::Vector3d M = V.colwise().maxCoeff(); 
+
+Eigen::SparseMatrix<double>
+# GUI
   - 可视化曲面
     ```
     igl::opengl::glfw::Viewer viewer;
@@ -112,38 +145,5 @@ An Open Source Framework For Geometry Processing Programming.
     ```
     - [menu example](https://github.com/libigl/libigl/blob/master/tutorial/106_ViewerMenu/main.cpp)
     
-- 第二章 离散几何量和算子
-    - 法向 https://github.com/libigl/libigl/blob/master/tutorial/201_Normals/main.cpp
-      - Per-corner效果最好
-    - 高斯曲率 https://github.com/libigl/libigl/blob/master/tutorial/202_GaussianCurvature/main.cpp
-    - 平均曲率，主曲率 https://github.com/libigl/libigl/blob/master/tutorial/203_CurvatureDirections/main.cpp
-    - 梯度 https://github.com/libigl/libigl/blob/master/tutorial/204_Gradient/main.cpp
-      - hat function defined on 1-ring of a vertex.
-    - 拉普拉斯相关
-      - 欧氏空间中的拉普拉斯算子
-        - 梯度的散度
-      - Laplace-Beltrami operator
-        - 一般化到曲面
-        - 离散情况有许多种方式
-        - cotangent Laplacian
-        - divergence theorem to vertex one-rings.
-        
-# Eigen
 
-Eigen::MatrixXd V; // #V x 3
-
-Eigen::MatrixXi F; // #F x 3
-
-Eigen::VectorXd Z; Z = V.col(2); // #V x 1
-
-Eigen::RowVector3d(r, g, b); // 1 x 3
-
-Eigen::Vector3d m = V.colwise().minCoeff(); // avoid to write for loops.
-Eigen::Vector3d M = V.colwise().maxCoeff(); 
-
-Eigen::SparseMatrix<double>
-# GUI
-
-
-# Algorithm
 
