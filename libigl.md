@@ -83,7 +83,51 @@ An Open Source Framework For Geometry Processing Programming.
     
     // Smoothing
     
+    igl::exact_geodesic(V,F,VS,FS,VT,FT,d);
     
+    // matrix and linear algebra
+    igl::slice(A,R,C,B);
+    igl::sort(X,1,true,Y,I);
+    igl::sortrows(X,true,Y,I);
+    // Find boundary edges
+    MatrixXi E;
+    igl::boundary_facets(F,E);
+    // Find boundary vertices
+    VectorXi b,IA,IC;
+    igl::unique(E,b,IA,IC);
+    // List of all vertex indices
+    VectorXi all,in;
+    igl::colon<int>(0,V.rows()-1,all);
+    // List of interior indices
+    igl::setdiff(all,b,in,IA);
+
+    // Construct and slice up Laplacian
+    SparseMatrix<double> L,L_in_in,L_in_b;
+    igl::cotmatrix(V,F,L);
+    igl::slice(L,in,in,L_in_in);
+    igl::slice(L,in,b,L_in_b);
+
+    // Dirichlet boundary conditions from z-coordinate
+    VectorXd bc;
+    VectorXd Z = V.col(2);
+    igl::slice(Z,b,bc);
+
+    // Solve PDE
+    SimplicialLLT<SparseMatrix<double > > solver(-L_in_in);
+    VectorXd Z_in = solver.solve(L_in_b*bc);
+    // slice into solution
+    igl::slice_into(Z_in,in,Z);
+
+    // Alternative, short hand
+    igl::min_quad_with_fixed_data<double> mqwf;
+    // Linear term is 0
+    VectorXd B = VectorXd::Zero(V.rows(),1);
+    // Empty constraints
+    VectorXd Beq;
+    SparseMatrix<double> Aeq;
+    // Our cotmatrix is _negative_ definite, so flip sign
+    igl::min_quad_with_fixed_precompute((-L).eval(),b,Aeq,true,mqwf);
+    igl::min_quad_with_fixed_solve(mqwf,B,bc,Beq,Z);
     ```
 - 第二章 离散几何量和算子
     - 法向 https://github.com/libigl/libigl/blob/master/tutorial/201_Normals/main.cpp
@@ -100,8 +144,12 @@ An Open Source Framework For Geometry Processing Programming.
         - 离散情况有许多种方式
         - cotangent Laplacian
         - divergence theorem to vertex one-rings.
-   - 数学
-     - $$E=mc^2$$
+    - 质量矩阵
+    - 精确离散测地距离
+- 第三章 矩阵和线性代数
+  - Matlab风格的函数
+  - 拉普拉斯方程
+  
      
 # Eigen
 
