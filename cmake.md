@@ -1,7 +1,50 @@
 # [VSCode + CMake + C++]
+- Windows上用gcc编译
 - [知乎链接](https://zhuanlan.zhihu.com/p/45528705)
 - [github模版工程](https://github.com/1079805974/CppProjectTemplate)
+- 配置C++相关
+    - c_cpp_properties.json
+    ```
+    {
+        "configurations": [
+            {
+                "name": "ChessE",
+                "includePath": [
+                    "${workspaceFolder}/include",
+                    "/usr/local/Cellar/cppunit/1.14.0/include/"
+                ],
+                "defines": [
+                    "_DEBUG",
+                    "UNICODE",
+                    "_UNICODE"
+                ],
+                "intelliSenseMode": "gcc-x64"       
+            }
+        ],
+        "version": 4
+    }
+    ```
+    - launch.json
+    - settings.json
+    ```
+    {
+        "cmake.configureOnOpen": true,
+        "cmake.debugConfig": {
+            "MIMode": "gdb"
+        },
+        "C_Cpp.configurationWarnings": "Disabled",
+        "C_Cpp.intelliSenseEngineFallback": "Disabled",
+        "C_Cpp.errorSquiggles": "Disabled"
+    }
+    ```
+    - tasks.json
+    
 - 如何编译
+    - 配置c_cpp_properties.json
+        - name
+        - includePath
+        - defines
+        - intelliSenseMode
     - 方式1
         装CMake插件，然后通过界面上的tab及按钮触发
     - 方式2
@@ -10,7 +53,8 @@
         cmake ..
         make
 - 如何调试
-    -
+    - 添加一个可执行文件项目需要在tasks.json中进行配置
+        - 
 
 # CMake
 cmake_minimum_required(VERSION 3.7)
@@ -20,6 +64,8 @@ message()
 project()
 
 find_package(OpenCV REQUIRED)
+
+PROJECT_SOURCE_DIR
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 SET(CMAKE_C_COMPILER "/usr/bin/gcc")
