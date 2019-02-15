@@ -24,7 +24,17 @@
     - 从[github](https://github.com/liangjin2007/vscode_cpp_template)上下载代码到本地
     - 使用vscode打开
 
-- 调试chess
-    - 从vscode开始左侧
-   
+    - 调试chess
+        - 从vscode左侧tab打开调试页面，选择chess，点击启动按钮，程序会自动断点到main函数第一行。
+        - 从调试菜单点击第一个或者第二个菜单项。
+
+    - 关闭断到main函数第一行
+        - launch.json中设置stopAtEntry为false
+
+    - 关闭调试
+        - 在CMakeLists.txt中设置ET(CMAKE_BUILD_TYPE "Release")
+
+    - 日志输出
+        - 会新起独立的terminal，显示print结果。
+        
 
