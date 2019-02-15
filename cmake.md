@@ -1,4 +1,4 @@
-# cmake
+# CMake
 cmake_minimum_required(VERSION 3.7)
 
 message()
@@ -20,4 +20,6 @@ add_custom_command(TARGET xxxx POST_BUILD
     ${CMAKE_SOURCE_DIR}/jni/xxx.java
     ${CMAKE_CURRENT_BINARY_DIR}/xxx.java)
 
-# [VSCode + CMake + C++](https://zhuanlan.zhihu.com/p/45528705)
+# [VSCode + CMake + C++]
+- [知乎链接](https://zhuanlan.zhihu.com/p/45528705)
+- [github模版工程](https://github.com/1079805974/CppProjectTemplate)
