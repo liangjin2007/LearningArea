@@ -16,27 +16,15 @@
 ### 第二步 下载代码并用VSCode开始开发
 - Windows
 
-请下载参考资料中的模版工程进行更改即可。
+请下载参考资料中的模版工程进行更改，不能保证一定成功。此处忽略。
 
 - Mac
+    - 安装单元测试库cppunit
+        - brew install cppunit
+    - 从[github](https://github.com/liangjin2007/vscode_cpp_template)上下载代码到本地
+    - 使用vscode打开
 
-从[github](https://github.com/1079805974/CppProjectTemplate)上下载代码到本地。此代码与参考资料中的代码的区别是我修改了launch.json
-```
-{
-    "name": "chess",
-    "type": "cppdbg",
-    "request": "launch",
-    "program": "${workspaceFolder}/bin/chess",
-    "args": [],
-    "preLaunchTask": "build",
-    "stopAtEntry": true,
-    "cwd": "${workspaceFolder}",
-    "environment": [],
-    "externalConsole": true,
-    "MIMode": "lldb"
-}
-```
+- 调试chess
+    - 从vscode开始左侧
+   
 
-
-
-        
