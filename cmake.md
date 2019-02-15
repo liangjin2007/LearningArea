@@ -1,10 +1,15 @@
 # VSCode上使用CMake开发C++程序
 
+
 为了在Mac机器上使用现在非常流形的编程环境VSCode来开发C++程序，目前没有可以拿来即用的开源代码或者比较详细的文档。这里通过网络上收集资料及自己整合，开发了一个在Mac上能直接下载下来就能使用的模版。
 
 ### 参考资料：
 - [VSCode + CMake + C++](https://zhuanlan.zhihu.com/p/45528705)
 - [github模版工程](https://github.com/1079805974/CppProjectTemplate)
+- [简书](https://www.jianshu.com/p/050fa455bc74)
+
+### Windows上开发
+请下载参考资料中的
 
 ### 第一步 安装VSCode插件
 - C/C++
@@ -14,8 +19,23 @@
 - CMake Tools Helper
 - CMake
 
-### 第二步 下载初始模版代码
-首先，从[github](https://github.com/1079805974/CppProjectTemplate)上下载代码到本地。
+### 第二步 下载代码并用VSCode开始开发
+从[github](https://github.com/1079805974/CppProjectTemplate)上下载代码到本地。此代码与参考资料中的代码的区别是我修改了launch.json
+```
+{
+    "name": "chess",
+    "type": "cppdbg",
+    "request": "launch",
+    "program": "${workspaceFolder}/bin/chess",
+    "args": [],
+    "preLaunchTask": "build",
+    "stopAtEntry": true,
+    "cwd": "${workspaceFolder}",
+    "environment": [],
+    "externalConsole": true,
+    "MIMode": "lldb"
+}
+```
 
 
 # CMake
