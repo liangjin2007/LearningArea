@@ -19,3 +19,5 @@ add_custom_command(TARGET xxxx POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${CMAKE_SOURCE_DIR}/jni/xxx.java
     ${CMAKE_CURRENT_BINARY_DIR}/xxx.java)
+
+# [VSCode + CMake + C++](https://zhuanlan.zhihu.com/p/45528705)
