@@ -1,60 +1,22 @@
-# [VSCode + CMake + C++]
-- Windows上用gcc编译
-- [知乎链接](https://zhuanlan.zhihu.com/p/45528705)
+# VSCode上使用CMake开发C++程序
+
+为了在Mac机器上使用现在非常流形的编程环境VSCode来开发C++程序，目前没有可以拿来即用的开源代码或者比较详细的文档。这里通过网络上收集资料及自己整合，开发了一个在Mac上能直接下载下来就能使用的模版。
+
+### 参考资料：
+- [VSCode + CMake + C++](https://zhuanlan.zhihu.com/p/45528705)
 - [github模版工程](https://github.com/1079805974/CppProjectTemplate)
-- 配置C++相关
-    - c_cpp_properties.json
-    ```
-    {
-        "configurations": [
-            {
-                "name": "ChessE",
-                "includePath": [
-                    "${workspaceFolder}/include",
-                    "/usr/local/Cellar/cppunit/1.14.0/include/"
-                ],
-                "defines": [
-                    "_DEBUG",
-                    "UNICODE",
-                    "_UNICODE"
-                ],
-                "intelliSenseMode": "gcc-x64"       
-            }
-        ],
-        "version": 4
-    }
-    ```
-    - launch.json
-    - settings.json
-    ```
-    {
-        "cmake.configureOnOpen": true,
-        "cmake.debugConfig": {
-            "MIMode": "gdb"
-        },
-        "C_Cpp.configurationWarnings": "Disabled",
-        "C_Cpp.intelliSenseEngineFallback": "Disabled",
-        "C_Cpp.errorSquiggles": "Disabled"
-    }
-    ```
-    - tasks.json
-    
-- 如何编译
-    - 配置c_cpp_properties.json
-        - name
-        - includePath
-        - defines
-        - intelliSenseMode
-    - 方式1
-        装CMake插件，然后通过界面上的tab及按钮触发
-    - 方式2
-        命令行方式
-        cd build
-        cmake ..
-        make
-- 如何调试
-    - 添加一个可执行文件项目需要在tasks.json中进行配置
-        - 
+
+### 第一步 安装VSCode插件
+- C/C++
+- C/C++ Clang Command Adapter
+- C/C++ Compile Run
+- CMake Tools
+- CMake Tools Helper
+- CMake
+
+### 第二步 下载初始模版代码
+首先，从[github](https://github.com/1079805974/CppProjectTemplate)上下载代码到本地。
+
 
 # CMake
 cmake_minimum_required(VERSION 3.7)
