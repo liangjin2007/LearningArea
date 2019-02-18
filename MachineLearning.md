@@ -1,6 +1,10 @@
 # Machine Learning
 # 深度学习
 - LSTM https://zhuanlan.zhihu.com/p/32085405
+- RNN
+- VAE
+   - github Keras_Demo/09xxxx
+- 
 
 # 传统机器学习
 - Decision Tree
