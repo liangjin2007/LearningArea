@@ -1,5 +1,5 @@
 # 图像特征
-- SIFT,HOG,...
+- SIFT,HOG,Haar...
 - CNN
 - Visual Word
   - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
@@ -33,6 +33,24 @@
     - texture similarity
       - 高斯梯度直方图
   - 
+- CSC420
+  - 相机和图像
+    - 针孔相机模型
+    - 数字相机
+    - 图像生成
+    - 数字图像
+    - 线性滤波
+      - 去噪，提取信息
+      - 高斯滤波，correlation and convolution
+  - 边检测
+    - 法向不连续，深度不连续，颜色不连续，照明不连续
+    - 用卷积实现导数
+    - 偏导数
+    - 有限差分滤波
+    - 图像梯度
+    - 卷积的导数理论
+    - 高斯导数
+    - 
 # 语义分割
 # 实例分割
 # 机器人
