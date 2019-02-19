@@ -354,6 +354,8 @@ Keras_Demo笔记
     model.summary()
     plot_model(model, to_file='lstm_model.png')
     ```
+- 图像去噪
+  - 使用autoencoder去噪
 
 FAQ
 =====================================================================
