@@ -1,5 +1,44 @@
-Keras API
+Keras sklearn wrapper
 =====================================================================
+```
+from keras.wrappers.scikit_learn import KerasClassifier
+from sklearn.grid_search import GridSearchCV
+
+model = Model(...)
+my_classifier = KerasClassifier(make_model, batch_size=32)
+#[32]是一个输出维度为32的Dense，[32,32]是两个输出维度为32的Dense
+dense_size_candidates = [[32], [64], [32, 32], [64, 64]]
+#使用sklearn的分类器接口：第一个参数是可调用的函数或类对象，第二个参数是模型参数和训练参数
+my_classifier = KerasClassifier(make_model, batch_size=32)
+#sklearn中的GridSearchCV函数
+#说明：对估计器的指定参数值进行穷举搜索。
+validator = GridSearchCV(my_classifier,
+                         param_grid={'dense_layer_sizes': dense_size_candidates,
+                                     # nb_epoch可用于调整，即使不是模型构建函数的参数
+                                     'nb_epoch': [3, 6],
+                                     'nb_filters': [8],
+                                     'nb_conv': [3],
+                                     'nb_pool': [2]},
+                         scoring='log_loss',
+                         n_jobs=1)
+validator.fit(X_train, y_train)
+#打印最好模型的参数
+print('The parameters of the best model are: ')
+print(validator.best_params_)
+#返回模型
+best_model = validator.best_estimator_.model
+metric_names = best_model.metrics_names
+metric_values = best_model.evaluate(X_test, y_test)
+print('\n')
+#返回名称和数值
+for metric, value in zip(metric_names, metric_values):
+    print(metric, ': ', value)
+```
+
+
+Keras Sort
+=====================================================================
+```
 K.arange, 
 K.expand_dims
 K.stack
@@ -12,6 +51,7 @@ def spearman_loss(y_true, y_pred):
     c = tf.contrib.framework.argsort(y_true[:, 0])
     d = tf.contrib.framework.argsort(y_pred[:, 0])
     return 1.0 - (K.sum(K.square(c-d))*6.0/(K.pow(n, 3)-n))
+```
 
 Keras_Demo笔记
 =====================================================================
