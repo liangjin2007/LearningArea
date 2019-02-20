@@ -49,7 +49,9 @@
     - 有限差分滤波
     - 图像梯度
     - 卷积的导数理论
-    - 高斯导数
+    - Derivative of Gaussians
+    - Laplace of Gaussians
+    - 定位边 Canny's Edge Detector
     - 
 # 语义分割
 # 实例分割
