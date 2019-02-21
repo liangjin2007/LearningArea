@@ -37,7 +37,9 @@
   - 相机和图像
     - 针孔相机模型, 数字相机, 图像生成, 数字图像, 线性滤波(去噪，提取信息等), 高斯滤波，correlation and convolution
   - 边检测
-    - 法向不连续，深度不连续，颜色不连续，照明不连续, 用卷积实现导数，偏导数, 有限差分滤波, 图像梯度, 卷积的导数理论, Derivative of Gaussians, Laplace of Gaussians, 定位边 Canny's Edge Detector, 非极大抑制NMS, 训练边检测
+    - 法向不连续，深度不连续，颜色不连续，照明不连续, 用卷积实现导数，偏导数, 有限差分滤波, 图像梯度, 卷积的导数理论, Derivative of Gaussians, Laplace of Gaussians, 定位边 Canny's Edge Detector, 非极大抑制NMS, 训练边检测，Seam Carving(动态规划法求最小梯度能量路径)
+  - 图像金字塔Image Pyramids
+  
 # 语义分割
 # 实例分割
 # 机器人
