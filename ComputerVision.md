@@ -1,17 +1,5 @@
 # 图像特征
-- SIFT,HOG,Haar...
-- CNN
-- Visual Word
-  - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
-  - Collect all the SIFTS of all the pictures
-  - K-Means Cluster Fine K cluster centers named as W1,W2,...,WK.
-  - Build Inverted File Index逆文件索引
-    - W1: pic1, pic2, picn
-    - W2: pic3, pic6
-    - ...
-  - Bag Of Visual Words
-    - histogram of visual words
-    - term frequency-inverse document frequency (tf-idf)
+
   
 # 分类
 - SVM
@@ -45,8 +33,22 @@
 # 图像特征
 - 图像局部或者全局的描述。不同的任务要选择不同的特征;提取哪里的特征？提取什么特征？特征如何匹配？；地标检测：不同的位置称为keypoints,不同的特征称为descriptors;跟踪tracking（场景或者人物在往哪里移动）：有特点的关键点及有特点的特征;视频中完全不同的帧的检测：全局特征
 ，descriptors可以简单，比如只用颜色；角色后的场景是什么类型；图片中两个杯子类型是否一样：每个杯子一个patch,一个patch一个descriptor, descriptor可以比较简单；在图片中找某个patch:每个位置匹配一下，比较像素值，仿射变换不变性；Detection（keypoints or densely）检测，Description描述符(空间范围及内容)，匹配；关键点keypoint检测,应用于图像stitching，[x,y,[x1,x2,...,xn]]，keypoint不能太少也不能太多，结构不清的patch不能检测，带有高对比度改变（梯度）容易检测，直线段不好检测，有两个方向的梯度最容易检测(corners)；Corner的特点是某点（x,y）处的patch往任何方向移动的时候，亮度变化都很大（注意不是说取不同方向的像素时，亮度差值都很大）;如何建模patch的移动呢: Harris Corner Detector。 计算Ix, Iy, 计算Ix^2, Iy^2, Ix.Iy， 计算M， 计算Cornerness Score， R=det(M)-alpha trace(M), 找到那些R大于某个threshold的点，非极大抑制得到局部极大的点; 旋转、旋转不变，但不是Scale不变。[WSSD](https://github.com/liangjin2007/data_liangjin/blob/master/wssd1.jpg?raw=true)
-- Scale Invariant Interest Point Detection, SIFT, LoG, EBR, IBR, MSER, Harris-Laplacian, Salient Regions; 计算高斯图像金字塔，计算高斯差(是对LoG的近似)， 计算局部极值according to (x,y,octave), one octave包含5张图片，下一个octave在空间上比前一个octave尺寸变成一半。
+- 伸缩不变特征点检测：Scale Invariant Interest Point Detection; Lowe's DoG scale invariant interest points 计算高斯图像金字塔，计算高斯差(是对LoG的近似)， 计算局部极值according to (x,y,octave), one octave包含5张图片，下一个octave在空间上比前一个octave尺寸变成一半。
+- 图像局部描述符 SIFT,HOG,GLOH，SURF,DAISY, LBP, Shape Contexts, Color Histograms...；SIFT 位置，scale, 主要定向，128维特征；
+- 在新的视点匹配平的对象：1.仿射变换 Scale， Rotation, Shear， Mirror变换， ；线性变换：原点映射到原点，线映射到线，平行线仍然是平行的，比率保留下来，多个线性变换相乘仍然是线性变换；仿射变换，线性变换+平移，原点不一定映射到原点，线映射到线，平行线仍然平行，比率保留，封闭，矩形变成平行四边形；计算仿射变换，找到匹配点，去掉outlier, 最小二乘; RANSAC, 从最少采样点开始，拟合直线，记数inliers数目，重复这个过程，选择inliers数最多的参数。 2.Homography 平行线不再平行以及比率不保持，矩形变成四边形，仿射变换是Homography的特殊形式，物体较远时可以用仿射变换替代homography;什么是Homography, 把四边形变换为矩形。
 
+- CNN
+- Visual Word
+  - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
+  - Collect all the SIFTS of all the pictures
+  - K-Means Cluster Fine K cluster centers named as W1,W2,...,WK.
+  - Build Inverted File Index逆文件索引
+    - W1: pic1, pic2, picn
+    - W2: pic3, pic6
+    - ...
+  - Bag Of Visual Words
+    - histogram of visual words
+    - term frequency-inverse document frequency (tf-idf)
 
 # 语义分割
 # 实例分割
