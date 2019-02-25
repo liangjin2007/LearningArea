@@ -43,7 +43,7 @@
 
 # 图像特征
 - 图像局部或者全局的描述。不同的任务要选择不同的特征;提取哪里的特征？提取什么特征？特征如何匹配？；地标检测：不同的位置称为keypoints,不同的特征称为descriptors;跟踪tracking（场景或者人物在往哪里移动）：有特点的关键点及有特点的特征;视频中完全不同的帧的检测：全局特征
-，descriptors可以简单，比如只用颜色；角色后的场景是什么类型；图片中两个杯子类型是否一样：每个杯子一个patch,一个patch一个descriptor, descriptor可以比较简单；在图片中找某个patch:每个位置匹配一下，比较像素值，仿射变换不变性；Detection（keypoints or densely）检测，Description描述符(空间范围及内容)，匹配；关键点keypoint检测,应用于图像stitching，[x,y,[x1,x2,...,xn]]，keypoint不能太少也不能太多，结构不清的patch不能检测，带有高对比度改变（梯度）容易检测，直线段不好检测，有两个方向的梯度最容易检测(corners)；如何比较两个patch, WSSD(weighted summed square difference), 数学
+，descriptors可以简单，比如只用颜色；角色后的场景是什么类型；图片中两个杯子类型是否一样：每个杯子一个patch,一个patch一个descriptor, descriptor可以比较简单；在图片中找某个patch:每个位置匹配一下，比较像素值，仿射变换不变性；Detection（keypoints or densely）检测，Description描述符(空间范围及内容)，匹配；关键点keypoint检测,应用于图像stitching，[x,y,[x1,x2,...,xn]]，keypoint不能太少也不能太多，结构不清的patch不能检测，带有高对比度改变（梯度）容易检测，直线段不好检测，有两个方向的梯度最容易检测(corners)；Corner的特点是某点（x,y）处的patch往任何方向移动的时候，亮度变化都很大（注意不是说取不同方向的像素时，亮度差值都很大）。如何建模patch的移动呢？
 # 语义分割
 # 实例分割
 # 机器人
