@@ -37,13 +37,12 @@
 # 相机和图像
   - 针孔相机模型, 数字相机, 图像生成, 数字图像, 线性滤波(去噪，提取信息等), 高斯滤波，correlation and convolution
 # 边检测
-  - 法向不连续，深度不连续，颜色不连续，照明不连续, 用卷积实现导数，偏导数, 有限差分滤波, 图像梯度, 卷积的导数理论, Derivative of Gaussians, Laplace of Gaussians, 定位边 Canny's Edge Detector, 非极大抑制NMS, 训练边检测，Seam Carving(动态规划法求最小梯度能量路径)
+  - 法向不连续，深度不连续，颜色不连续，照明不连续, 用卷积实现导数，偏导数, 有限差分滤波, 图像梯度, 卷积的导数理论, Derivative of Gaussians, Laplace of Gaussians, 定位边 Canny's Edge Detector, sqrt(square(Gx)+square(Gy)), theta = atan2(Gy, Gx), 非极大抑制NMS, 训练边检测，Seam Carving(动态规划法求最小梯度能量路径)。
 # 图像金字塔Image Pyramids
 - 图像下采样， 走样问题（采样频率不够时出现），需要了解图像的结构，极小采样率Nyquist rate； 通过傅立叶变换找到信号的最高频率，设置Nyquist rate为此频率的两倍；高频率由尖锐的边导致，为了1/2下采样能更好的工作，需要降低原图像的最高频率，解决方法：Gaussian滤波来模糊图像，所以图像金子塔的构建过程是这样的，blur->subsampling->blur->subsampling->blur->subsampling...称为Gaussian Pyramids，图形学里称为mip map；
-
 # 图像特征
 - 图像局部或者全局的描述。不同的任务要选择不同的特征;提取哪里的特征？提取什么特征？特征如何匹配？；地标检测：不同的位置称为keypoints,不同的特征称为descriptors;跟踪tracking（场景或者人物在往哪里移动）：有特点的关键点及有特点的特征;视频中完全不同的帧的检测：全局特征
-，descriptors可以简单，比如只用颜色；角色后的场景是什么类型；图片中两个杯子类型是否一样：每个杯子一个patch,一个patch一个descriptor, descriptor可以比较简单；在图片中找某个patch:每个位置匹配一下，比较像素值，仿射变换不变性；Detection（keypoints or densely）检测，Description描述符(空间范围及内容)，匹配；关键点keypoint检测,应用于图像stitching，[x,y,[x1,x2,...,xn]]，keypoint不能太少也不能太多，结构不清的patch不能检测，带有高对比度改变（梯度）容易检测，直线段不好检测，有两个方向的梯度最容易检测(corners)；Corner的特点是某点（x,y）处的patch往任何方向移动的时候，亮度变化都很大（注意不是说取不同方向的像素时，亮度差值都很大）。如何建模patch的移动呢？
+，descriptors可以简单，比如只用颜色；角色后的场景是什么类型；图片中两个杯子类型是否一样：每个杯子一个patch,一个patch一个descriptor, descriptor可以比较简单；在图片中找某个patch:每个位置匹配一下，比较像素值，仿射变换不变性；Detection（keypoints or densely）检测，Description描述符(空间范围及内容)，匹配；关键点keypoint检测,应用于图像stitching，[x,y,[x1,x2,...,xn]]，keypoint不能太少也不能太多，结构不清的patch不能检测，带有高对比度改变（梯度）容易检测，直线段不好检测，有两个方向的梯度最容易检测(corners)；Corner的特点是某点（x,y）处的patch往任何方向移动的时候，亮度变化都很大（注意不是说取不同方向的像素时，亮度差值都很大）;如何建模patch的移动呢: Harris Corner Detector。 计算Ix, Iy, 计算Ix^2, Iy^2, Ix.Iy， 计算M， 计算Cornerness Score， R=det(M)-alpha trace(M), 找到那些R大于某个threshold的点，非极大抑制得到局部极大的点; 旋转、旋转不变，但不是Scale不变。
 # 语义分割
 # 实例分割
 # 机器人
