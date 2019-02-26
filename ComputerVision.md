@@ -46,8 +46,11 @@ transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；
   - [hough voting algorithm](https://github.com/liangjin2007/data_liangjin/blob/master/hough_voting.jpg?raw=true)
   - 一般化的Hough Voting。
 - Mean Shift
-- 滑动窗口方法 sliding windows：
+- 滑动窗口方法 sliding windows
+构建图像金字塔，扫描图像(location, scale)，提取窗口特征，在每个位置跑SVM分类器，融合多次检测（location, scale）， 带包围盒的对象检测； 提取特征HOG（直方图of梯度）；二分类问题；找到很多有重叠区域的bounding box， 非极大抑制NMS（每次选择分数最高的bounding box，删掉跟它重合度超过某个界限的boundingbox）
+- DPM Method
 - Generate region proposals
+  - 分割算法， Graph based Segmentation, SLIC, SEEDS, Normalized Cuts, gPb, Hierarchical Graph-based Video Segmentation, Temporal Superpixels
 # 分类
 - SVM
 - CNN
