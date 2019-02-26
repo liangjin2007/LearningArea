@@ -40,7 +40,7 @@
 # 相机模型
 相机与人眼，针孔相机模型；光圈aperture,光圈太小会出现衍射效果diffraction；镜片把光线汇聚到film上，特殊距离焦距；成像Imaging，真实世界的2d投影，捕获两类信息：几何的和测光的，复杂的3D-2D关系，相机模型近似这些关系；投影矩阵，透视投影，正交投影，虚像，具体请看计算机图形学中关于投影矩阵的推导。
 # Homography
-transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；透视投影特点：所有平行线相交于1点，称为消失点；Stereo 立体照片；从单张图片获取深度，shape from shading， shape from texture, 遮挡可以给我们深度的提示，从Google街景Z-Buffer中获得深度，然后绘制比较酷的场景； 来自两个View的深度：Stereo， 极线几何，并行标定相机， 输入左右两张图片，获取视差映射，在扫描线上匹配xl和xr（使用SSD或者normalized correlation（即内积））， 更大的patch，视差映射更光滑，Z = f T/(xr-xl)。[disparity map](https://github.com/liangjin2007/data_liangjin/blob/master/disparity_map.jpg?raw=true)
+transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；透视投影特点：所有平行线相交于1点，称为消失点；Stereo 立体照片；从单张图片获取深度，shape from shading， shape from texture, 遮挡可以给我们深度的提示，从Google街景Z-Buffer中获得深度，然后绘制比较酷的场景； 来自两个View的深度：Stereo， 极线几何，并行标定相机， 输入左右两张图片，获取视差映射，在扫描线上匹配xl和xr（使用SSD或者normalized correlation（即内积））， 更大的patch，视差映射更光滑，Z = f T/(xr-xl)。[disparity map](https://github.com/liangjin2007/data_liangjin/blob/master/disparity_map.jpg?raw=true); Superpixels.
 
 - CNN
 - Visual Word
