@@ -1,17 +1,3 @@
-# 物体检测
-- [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
-  - ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)
-  - selective search
-    - segment image into 1k or 2k regions
-    - similarity computation
-    - merge similar regions
-  - similarity
-    - color similarity
-      - 颜色直方图
-    - texture similarity
-      - 高斯梯度直方图
-  - 
-
 # 相机和图像
   - 针孔相机模型, 数字相机, 图像生成, 数字图像, 线性滤波(去噪，提取信息等), 高斯滤波，correlation and convolution
 # 滤波器
@@ -26,7 +12,18 @@
 - 伸缩不变特征点检测：Scale Invariant Interest Point Detection; Lowe's DoG scale invariant interest points 计算高斯图像金字塔，计算高斯差(是对LoG的近似)， 计算局部极值according to (x,y,octave), one octave包含5张图片，下一个octave在空间上比前一个octave尺寸变成一半。
 - 图像局部描述符 SIFT,HOG,GLOH，SURF,DAISY, LBP, Shape Contexts, Color Histograms...；SIFT 位置，scale, 主要定向，128维特征；
 - 在新的视点匹配平的对象：1.仿射变换 Scale， Rotation, Shear， Mirror变换， ；线性变换：原点映射到原点，线映射到线，平行线仍然是平行的，比率保留下来，多个线性变换相乘仍然是线性变换；仿射变换，线性变换+平移，原点不一定映射到原点，线映射到线，平行线仍然平行，比率保留，封闭，矩形变成平行四边形；计算仿射变换，找到匹配点，去掉outlier, 最小二乘; RANSAC, 从最少采样点开始，拟合直线，记数inliers数目，重复这个过程，选择inliers数最多的参数。 2.Homography 平行线不再平行以及比率不保持，矩形变成四边形，仿射变换是Homography的特殊形式，物体较远时可以用仿射变换替代homography;什么是Homography, 把四边形变换为矩形; 全景缝合： Homography变换，然后用Laplacian Pyramid Blending 去掉缝。
-
+- Visual Word 可视单词
+  - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
+  - Collect all the SIFTS of all the pictures
+  - K-Means Cluster Fine K cluster centers named as W1,W2,...,WK.
+  - Build Inverted File Index逆文件索引
+    - W1: pic1, pic2, picn
+    - W2: pic3, pic6
+    - ...
+  - Bag Of Visual Words
+    - histogram of visual words
+    - term frequency-inverse document frequency (tf-idf)
+- CNN Feature
 # 相机模型
 相机与人眼，针孔相机模型；光圈aperture,光圈太小会出现衍射效果diffraction；镜片把光线汇聚到film上，特殊距离焦距；成像Imaging，真实世界的2d投影，捕获两类信息：几何的和测光的，复杂的3D-2D关系，相机模型近似这些关系；投影矩阵，透视投影，正交投影，虚像，具体请看计算机图形学中关于投影矩阵的推导。
 # Homography
@@ -56,19 +53,9 @@ transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；
 - CNN
 - Softmax
 - L-Softmax
-
-- CNN
-- Visual Word
-  - Each image contain several local feature descriptors(e.g. SIFT), array of 128-dim vectors
-  - Collect all the SIFTS of all the pictures
-  - K-Means Cluster Fine K cluster centers named as W1,W2,...,WK.
-  - Build Inverted File Index逆文件索引
-    - W1: pic1, pic2, picn
-    - W2: pic3, pic6
-    - ...
-  - Bag Of Visual Words
-    - histogram of visual words
-    - term frequency-inverse document frequency (tf-idf)
+# 最新物体检测
+- [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
+![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)， selective search, segment image into 1k or 2k regions, similarity computation, merge similar regions;  similarity: color similarity, 颜色直方图, texture similarity, 高斯梯度直方图; 
 
 # 语义分割
 # 实例分割
