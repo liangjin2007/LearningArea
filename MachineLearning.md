@@ -1,6 +1,7 @@
 # Machine Learning
 # 深度学习
 - LSTM https://zhuanlan.zhihu.com/p/32085405
+- GRU
 - RNN
 - VAE
    - github Keras_Demo/09xxxx
