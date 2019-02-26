@@ -1,13 +1,3 @@
-# 图像特征
-
-  
-# 分类
-- SVM
-- CNN
-- Softmax
-- L-Softmax
-
-
 # 物体检测
 - [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
   - ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)
@@ -41,6 +31,26 @@
 相机与人眼，针孔相机模型；光圈aperture,光圈太小会出现衍射效果diffraction；镜片把光线汇聚到film上，特殊距离焦距；成像Imaging，真实世界的2d投影，捕获两类信息：几何的和测光的，复杂的3D-2D关系，相机模型近似这些关系；投影矩阵，透视投影，正交投影，虚像，具体请看计算机图形学中关于投影矩阵的推导。
 # Homography
 transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；透视投影特点：所有平行线相交于1点，称为消失点；Stereo 立体照片；从单张图片获取深度，shape from shading， shape from texture, 遮挡可以给我们深度的提示，从Google街景Z-Buffer中获得深度，然后绘制比较酷的场景； 来自两个View的深度：Stereo， 极线几何，并行标定相机， 输入左右两张图片，获取视差映射，在扫描线上匹配xl和xr（使用SSD或者normalized correlation（即内积））， 更大的patch，视差映射更光滑，Z = f T/(xr-xl)。[disparity map](https://github.com/liangjin2007/data_liangjin/blob/master/disparity_map.jpg?raw=true); Superpixels.
+# 识别
+图片内容是什么地标？ 场景分类（室内/室外，城市，森林，工厂，etc），分类(对象是人，车，etc)， 图像标注（街道，人物，室内），检测（找到某个特定类别的物体，比如行人），分割（哪些像素属于某个类型），姿势估计（每个对象的姿势），属性识别（估计对象颜色，尺寸，等）,商业化（推荐应该穿什么衣服才能找到女朋友），动作识别（图像中正在发生什么？是不是在步行），监控（为什么那两个人跪着）; template matching模版匹配（normalized correlation内积）， 相似性提取(以图搜图)；识别很困难，因为遮挡，伸缩，变形，背景混乱，照明，视点，对象姿势，类内变化很大，类别太多（约有10000到30000），以神经网络输出特征为描述符，比SIFT要好； 检测，找到感兴趣的物体； RCNN， Selective Search, Superpixels, PASCAL VOC challenge 20 object classes, 1万图像for training， 1万for testing。
+# 检测
+- interest point 基于兴趣点的方法：比如Harris Corners, 然后Hough voting; 找到图片中的直线：Hough Transform
+- Hough Transform
+  - 图像空间 与 Hough（参数）空间之间的关系
+    - 图像空间中的直线对应于Hough空间中的一个点
+    - 图像空间中的一个点给经过这个点的所有直线投票，经过这个点的所有直线在Hough空间中是一条直线。即每个点对应于Hough空间中一条直线。
+    - Hough空间中两条直线相交的点对应于图像空间中一条直线
+  - 用每个图像点进行vote
+  - 在Hough空间中找到peaks，每个peak在图像中是一条直线。
+  - Hough空间会进行量化（离散化），用计数的方式进行voting。
+  - [hough voting algorithm](https://github.com/liangjin2007/data_liangjin/blob/master/hough_voting.jpg?raw=true)
+- 滑动窗口方法 sliding windows：
+- Generate region proposals
+# 分类
+- SVM
+- CNN
+- Softmax
+- L-Softmax
 
 - CNN
 - Visual Word
