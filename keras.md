@@ -1,3 +1,21 @@
+Keras R-CNN代码阅读
+=====================================================================
+训练集数据格式
+网络输入输出及架构
+
+boxes: box 1x4 , [lbx, lby, rtx, rty], lbx range in [0, 1]
+iou threshold: 0.5
+
+- backend
+1.common.py 
+2.tensorflow_backend.py 
+    - crop_and_resize(image, boxes, size)
+    - non_maximum_suppression(boxes, scores, maximum, threshold=0.5)
+    - tensorflow.image.non_max_suppression(boxes=boxes, iou_threshold=threshold, max_output_size=maximum, scores=scores)
+    - 
+
+
+
 Keras 新闻分类,词向量，Embedding
 =====================================================================
 ```
