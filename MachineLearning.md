@@ -55,4 +55,22 @@ def svm_loss(x, y, W):
    loss_i = np.sum(margins)
    return loss_i
 ```
+- softmax loss
+```
+def softmax_loss(y_true, y_pred):
+   return -log(y_pred[one_hot_to_category(y_true)])
+```
+- KL Divergence loss
+```
+def KLDivergence_loss(y_true, y_pred):
+   y_true = K.clip(y_true, epsilon(), 1.0-epsilon())
+   res = K.sum(y_true*(K.log(y_true)-K.log(y_pred)) # note that it equals to simper -log 
+   return res
+```
+   
+- cross entropy loss
+```
+def cross_entropy_loss(y_true, y_pred):
+   return -K.sum(y_true*log(y_pred)) # actually = -log(pi)
+```
 
