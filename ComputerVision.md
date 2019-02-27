@@ -51,7 +51,7 @@ transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；
 - Generate region proposals
   - 分割算法， Graph based Segmentation, SLIC, SEEDS, Normalized Cuts, gPb, Hierarchical Graph-based Video Segmentation, Temporal Superpixels
 # 图像分类
-Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1 曼哈顿距离Manhattan, L2欧氏距离；训练集，验证集，测试集；交叉验证，k-fold交叉验证；线性分类器f(x)=Wx, 代数视角，可视化视角，几何视角； 损失函数Loss Function, 总体上是每个样本上损失函数的和；每个样本的损失函数， 多类SVM loss（线性SVM）， 正则化， L2正则化，正则化倾向于更简单的模型；Softmax分类（多项逻辑回归）， 理解粗糙的分类分数为概率， P(Y=k|X=xi)=e^sk/sum(e^sj), 预测条件概率， KL散度，
+Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1 曼哈顿距离Manhattan, L2欧氏距离；训练集，验证集，测试集；交叉验证，k-fold交叉验证；线性分类器f(x)=Wx, 代数视角，可视化视角，几何视角； 损失函数Loss Function, 总体上是每个样本上损失函数的和；每个样本的损失函数， 多类SVM loss（线性SVM）， 正则化， L2正则化，正则化倾向于更简单的模型；Softmax分类（多项逻辑回归）， 理解粗糙的分类分数为概率， P(Y=k|X=xi)=e^sk/sum(e^sj), 预测条件概率， KL散度，交叉熵;优化方法，随机搜索，跟随斜率，梯度下降，随机梯度下降（minibatch近似）；神经网络， 卷积层公式(W-F+2P)/S+1, W原来宽度，F filter尺寸， P padding, S stride; 池化层，(W-F)/S+1； 训练神经网络，数据预处理，激活函数，Batch Normalization for 激活函数（zero-mean, unit variance）,选择网络架构，看损失函数是否合理；CNN， AlexNet, ZFNet, VGG, GoogLeNet, Inception, ResNet, Network in Network(NiN), Wide ResNet, ResNetXt, Stochastic Depth, Good Practices for Deep Feature Fusion
 - SVM
 - CNN
 - Softmax
