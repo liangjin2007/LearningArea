@@ -40,3 +40,19 @@
 - 十大算法
    - [文字表述](https://blog.csdn.net/u011067360/article/details/24368085)
    
+# 损失函数
+- hinge loss
+```
+def hinge(y_true, y_pred):
+    return K.mean(K.maximum(1. - y_true * y_pred, 0.), axis=-1)
+```
+- Multiclass SVM loss
+```
+def svm_loss(x, y, W):
+   score = W.dot(x)
+   margins = np.maximum(0, scores - scores[y] + 1)
+   margins[y] = 0
+   loss_i = np.sum(margins)
+   return loss_i
+```
+
