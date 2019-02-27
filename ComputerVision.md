@@ -1,3 +1,5 @@
+# 视觉历史
+1959开始研究猫脑中哪些部分影响视觉， 1963年Block World， 1965年第一个暑期视觉项目， 1970年出视觉方面的第一本书David Marr，处于视觉表示阶段， 1979年Generalized Cylinder, 1973年Pictorial Structure, 1987年边检测，1997年Normalized Cut, 2001年Face Detection Viola & Jones, 1999年SIFT&对象检测， 2006年Spatial Pyramid Matching， 2005年HoG, 2009年DPM, 2006-2012， PASCAL Visual Object Challenge, 2009年ImageNet, 2015年Image Classification Challenge
 # 相机和图像
   - 针孔相机模型, 数字相机, 图像生成, 数字图像, 线性滤波(去噪，提取信息等), 高斯滤波，correlation and convolution
 # 滤波器
@@ -48,7 +50,8 @@ transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；
 - DPM Method
 - Generate region proposals
   - 分割算法， Graph based Segmentation, SLIC, SEEDS, Normalized Cuts, gPb, Hierarchical Graph-based Video Segmentation, Temporal Superpixels
-# 分类
+# 图像分类
+Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1 曼哈顿距离Manhattan, L2欧氏距离；训练集，验证集，测试集；交叉验证，k-fold交叉验证；线性分类器f(x)=Wx, 代数视角，可视化视角，几何视角； 损失函数Loss Function
 - SVM
 - CNN
 - Softmax
