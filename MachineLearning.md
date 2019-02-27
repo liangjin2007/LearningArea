@@ -5,8 +5,14 @@
 - RNN
 - VAE
    - github Keras_Demo/09xxxx
-- 
-
+- Attention Mechanism注意力机制 [知乎](https://zhuanlan.zhihu.com/p/46313756)
+   - 权重计算函数
+      - 方法1 多层感知机. 主要是先将query和key进行拼接，然后接一个激活函数为tanh的全连接层，然后再与一个网络定义的权重矩阵做乘积。
+      - 方法2 Bilnear. 通过一个权重矩阵直接建立q和k的关系映射，比较直接，且计算速度较快。
+      - 方法3 Dot Product. 不需要参数，条件是q和k需要维度相同
+      - 方法4 Scaled-dot Product. 
+   - self-attention
+      - 
 # 传统机器学习
 - Decision Tree
 - Random Forest
