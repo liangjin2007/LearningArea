@@ -1,3 +1,18 @@
+Keras caption_generator 代码阅读
+=====================================================================
+https://github.com/anuragmishracse/caption_generator
+- 安装
+    - pip install -r requirements.txt
+- 网络架构
+    - Embedding层，只能用作模型的第一层，输入尺寸为(batch_size, sequence_length)，输出为(batch_size, sequence_length, output_dim)
+- 概念
+    - vocab_size 单词数
+    - caps
+    - max_cap_len Image标注最多包含几个单词，也就是一句话最多多少个单词（40）。
+    - Embedding(vocab_size, 256, input_length=self.max_cap_len), 输入为
+
+
+
 Keras R-CNN代码阅读
 =====================================================================
 - RCNN系列知识
