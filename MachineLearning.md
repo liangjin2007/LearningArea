@@ -6,8 +6,8 @@
 
 # 深度学习
 - LSTM https://zhuanlan.zhihu.com/p/32085405
-- GRU
-- RNN
+- GRU https://zhuanlan.zhihu.com/p/32481747
+- RNN https://zhuanlan.zhihu.com/p/32085405
 - VAE
    - github Keras_Demo/09xxxx
 - Attention Mechanism注意力机制 [知乎](https://zhuanlan.zhihu.com/p/46313756)
