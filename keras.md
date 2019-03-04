@@ -6,19 +6,33 @@ Keras R-CNN代码阅读
 2. 候选区域/窗 + 深度学习分类：通过提取候选区域，并对相应区域进行以深度学习方法为主的分类的方案，如：
 R-CNN（Selective Search + CNN + SVM）
 SPP-net（ROI Pooling）
-Fast R-CNN（Selective Search + CNN + ROI）
+Fast R-CNN（Selective Search + 7x7x512 ROI Pooling + CNN + ROI）
 Faster R-CNN（RPN + CNN + ROI）
+    - RPN means regionn proposal network
+    - 
+
 R-FCN
 等系列方法；
 
 3. 基于深度学习的回归方法：YOLO/SSD/DenseBox 等方法；以及最近出现的结合RNN算法的RRC detection；结合DPM的Deformable CNN等
 [总结](https://github.com/liangjin2007/data_liangjin/blob/master/rcnn.jpg?raw=true)
 
+- Python 语法
+@property
+@staticmethod
+
 - keras实践
 
 1. K.cast([0.5, 1, 2], K.floatx())会将list转成Tensor; 
+K.round(anchors)取整
 
 2. 形状为(1,)的张量转成(1,1)张量K.reshape(t, (-1,1)) # 使用-1可以不用指定输入向量的长度。
+
+3. broadcast
+形状为(1,1)的张量减去形状为（3,）的张量结果为(1, 3)的张量。
+(1，1)+(3,)=> (1，3)
+(1,1,1)+(3,) => (1,1,3)
+(1,1,2)+(3,) => broadcast error
 
 
 - 基于Faster RCNN实现
@@ -30,6 +44,9 @@ R-FCN
     - iou threshold: 0.5, i means intersection, u means union
     - anchor: [box1， box2, box3, ...], w, h,x_ctr, y_ctr, size=w*h, size_ratios = size*ratios, ws.K.sqrt(size_ratios)
         - ratio = w/h
+        - scales
+        - result: (15, 4), 15 boxes each anchor. each row is lx, ly, rx, ry
+    - 
         
 - backend
 1.common.py 
