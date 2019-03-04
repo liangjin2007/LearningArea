@@ -1,8 +1,28 @@
 Keras R-CNN代码阅读
 =====================================================================
+RCNN系列知识
+1. 传统的目标检测算法：Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；
+
+2. 候选区域/窗 + 深度学习分类：通过提取候选区域，并对相应区域进行以深度学习方法为主的分类的方案，如：
+R-CNN（Selective Search + CNN + SVM）
+SPP-net（ROI Pooling）
+Fast R-CNN（Selective Search + CNN + ROI）
+Faster R-CNN（RPN + CNN + ROI）
+R-FCN
+等系列方法；
+
+3. 基于深度学习的回归方法：YOLO/SSD/DenseBox 等方法；以及最近出现的结合RNN算法的RRC detection；结合DPM的Deformable CNN等
+[总结](https://github.com/liangjin2007/data_liangjin/blob/master/rcnn.jpg?raw=true)
+
+--------------------- 
+作者：v_JULY_v 
+来源：CSDN 
+原文：https://blog.csdn.net/v_JULY_v/article/details/80170182 
+版权声明：本文为博主原创文章，转载请附上博文链接！
 - keras实践
 K.cast([0.5, 1, 2], K.floatx())会将list转成Tensor; 
 
+- 基于Faster RCNN实现
 - 训练集数据格式
 - generator如何写
 - 网络输入输出及架构
