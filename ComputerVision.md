@@ -51,7 +51,12 @@ transpose([wx,wy,w]) = P transpose([X,Y,Z,1]) = K[R | t] transpose([X,Y,Z,1])；
 - Generate region proposals
   - 分割算法， Graph based Segmentation, SLIC, SEEDS, Normalized Cuts, gPb, Hierarchical Graph-based Video Segmentation, Temporal Superpixels
 # 图像分类
-Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1 曼哈顿距离Manhattan, L2欧氏距离；训练集，验证集，测试集；交叉验证，k-fold交叉验证；线性分类器f(x)=Wx, 代数视角，可视化视角，几何视角； 损失函数Loss Function, 总体上是每个样本上损失函数的和；每个样本的损失函数， 多类SVM loss（线性SVM）， 正则化， L2正则化，正则化倾向于更简单的模型；Softmax分类（多项逻辑回归）， 理解粗糙的分类分数为概率， P(Y=k|X=xi)=e^sk/sum(e^sj), 预测条件概率， KL散度，交叉熵;优化方法，随机搜索，跟随斜率，梯度下降，随机梯度下降（minibatch近似）；神经网络， 卷积层公式(W-F+2P)/S+1, W原来宽度，F filter尺寸， P padding, S stride; 池化层，(W-F)/S+1； 训练神经网络，数据预处理，激活函数，Batch Normalization for 激活函数（zero-mean, unit variance）,选择网络架构，看损失函数是否合理；CNN， AlexNet, ZFNet, VGG, GoogLeNet, Inception, ResNet, Network in Network(NiN), Wide ResNet, ResNetXt, Stochastic Depth, Good Practices for Deep Feature Fusion;回归神经网络：图像Captioning，输入图像给出一系列单词，一系列单词->情感，机器翻译；RNN计算图，多对多，多对1， 1对多；sequence to sequence : 多对1+，; 字符级语言模型; 搜索可理解的cell；图像标注；带注意力机制的图像标注； 
+Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1 曼哈顿距离Manhattan, L2欧氏距离；训练集，验证集，测试集；交叉验证，k-fold交叉验证；线性分类器f(x)=Wx, 代数视角，可视化视角，几何视角； 损失函数Loss Function, 总体上是每个样本上损失函数的和；每个样本的损失函数， 多类SVM loss（线性SVM）， 正则化， L2正则化，正则化倾向于更简单的模型；Softmax分类（多项逻辑回归）， 理解粗糙的分类分数为概率， P(Y=k|X=xi)=e^sk/sum(e^sj), 预测条件概率， KL散度，交叉熵;优化方法，随机搜索，跟随斜率，梯度下降，随机梯度下降（minibatch近似）；神经网络， 卷积层公式(W-F+2P)/S+1, W原来宽度，F filter尺寸， P padding, S stride; 池化层，(W-F)/S+1； 训练神经网络，数据预处理，激活函数，Batch Normalization for 激活函数（zero-mean, unit variance）,选择网络架构，看损失函数是否合理；CNN， AlexNet, ZFNet, VGG, GoogLeNet, Inception, ResNet, Network in Network(NiN), Wide ResNet, ResNetXt, Stochastic Depth, Good Practices for Deep Feature Fusion;
+
+# 图像标注和回归神经网络
+图像Captioning，输入图像给出一系列单词，一系列单词->情感，机器翻译；RNN计算图，多对多（机器翻译，帧级视频分类），多对1(情感分类， 编码一个序列为单独的向量)， 1对多（图像标注），顺序处理非序列数据;某个时间步上的输入向量，老状态，新状态;  字符级语言模型; 向后Backpropagation,truncated back propagation; 搜索可理解的cell；图像标注；带注意力机制的图像标注；
+[prepare-photo-caption-dataset-training-deep-learning-model](https://machinelearningmastery.com/prepare-photo-caption-dataset-training-deep-learning-model/) ;Dataset Flickr8k_Dataset.zip, Flickr8k_text.zip;
+
 
 # 最新物体检测
 - [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
