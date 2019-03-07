@@ -1,9 +1,11 @@
 Keras caption_generator 代码阅读
 =====================================================================
 https://github.com/anuragmishracse/caption_generator
+paper: 
 - 安装
     - pip install -r requirements.txt
 - 网络架构
+    - ![lstm image caption](https://github.com/liangjin2007/data_liangjin/blob/master/model_lstm.png?raw=true)
     - Embedding层，只能用作模型的第一层，输入尺寸为(batch_size, sequence_length)，输出为(batch_size, sequence_length, output_dim)
 - 训练数据集
 Flickr_8k.trainImages.txt
@@ -49,8 +51,6 @@ Flickr8k.token.txt
     - caps
     - max_cap_len Image标注最多包含几个单词，也就是一句话最多多少个单词（40）。
     - Embedding(vocab_size, 256, input_length=self.max_cap_len), 输入为(None，40)的整数矩阵，整数值为[0,vocab_size-1]。输出为（None，40， 256)
-    - LSTM
-    - TimeDistributed
     - <start>, <end>
     
 
