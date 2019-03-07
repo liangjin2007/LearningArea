@@ -6,6 +6,44 @@ https://github.com/anuragmishracse/caption_generator
 - 网络架构
     - Embedding层，只能用作模型的第一层，输入尺寸为(batch_size, sequence_length)，输出为(batch_size, sequence_length, output_dim)
 - 训练数据集
+Flickr_8k.trainImages.txt
+```
+2513260012_03d33305cf.jpg
+2903617548_d3e38d7f88.jpg
+3338291921_fe7ae0c8f8.jpg
+488416045_1c6d903fe0.jpg
+2644326817_8f45080b87.jpg
+...
+```
+flickr_8k_train_dataset.txt
+```
+image_id	captions
+2513260012_03d33305cf.jpg	<start> A black dog is running after a white dog in the snow . <end>
+2513260012_03d33305cf.jpg	<start> Black dog chasing brown dog through snow <end>
+2513260012_03d33305cf.jpg	<start> Two dogs chase each other across the snowy ground . <end>
+2513260012_03d33305cf.jpg	<start> Two dogs play together in the snow . <end>
+2513260012_03d33305cf.jpg	<start> Two dogs running through a low lying body of water . <end>
+2903617548_d3e38d7f88.jpg	<start> A little baby plays croquet . <end>
+2903617548_d3e38d7f88.jpg	<start> A little girl plays croquet next to a truck . <end>
+2903617548_d3e38d7f88.jpg	<start> The child is playing croquette by the truck . <end>
+2903617548_d3e38d7f88.jpg	<start> The kid is in front of a car with a put and a ball . <end>
+2903617548_d3e38d7f88.jpg	<start> The little boy is playing with a croquet hammer and ball beside the car . <end>
+...
+```
+Flickr8k.token.txt
+```
+1000268201_693b08cb0e.jpg#0	A child in a pink dress is climbing up a set of stairs in an entry way .
+1000268201_693b08cb0e.jpg#1	A girl going into a wooden building .
+1000268201_693b08cb0e.jpg#2	A little girl climbing into a wooden playhouse .
+1000268201_693b08cb0e.jpg#3	A little girl climbing the stairs to her playhouse .
+1000268201_693b08cb0e.jpg#4	A little girl in a pink dress going into a wooden cabin .
+1001773457_577c3a7d70.jpg#0	A black dog and a spotted dog are fighting
+1001773457_577c3a7d70.jpg#1	A black dog and a tri-colored dog playing with each other on the road .
+1001773457_577c3a7d70.jpg#2	A black dog and a white dog with brown spots are staring at each other in the street .
+1001773457_577c3a7d70.jpg#3	Two dogs of different breeds looking at each other on the road .
+1001773457_577c3a7d70.jpg#4	Two dogs on pavement moving toward each other .
+...
+```
 - 概念
     - vocab_size 单词数
     - caps
