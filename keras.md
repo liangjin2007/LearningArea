@@ -5,13 +5,16 @@ https://github.com/anuragmishracse/caption_generator
     - pip install -r requirements.txt
 - 网络架构
     - Embedding层，只能用作模型的第一层，输入尺寸为(batch_size, sequence_length)，输出为(batch_size, sequence_length, output_dim)
+- 训练数据集
 - 概念
     - vocab_size 单词数
     - caps
     - max_cap_len Image标注最多包含几个单词，也就是一句话最多多少个单词（40）。
     - Embedding(vocab_size, 256, input_length=self.max_cap_len), 输入为(None，40)的整数矩阵，整数值为[0,vocab_size-1]。输出为（None，40， 256)
     - LSTM
-
+    - TimeDistributed
+    - <start>, <end>
+    
 
 
 Keras R-CNN代码阅读
