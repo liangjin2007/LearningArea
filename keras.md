@@ -47,11 +47,15 @@ Flickr8k.token.txt
 ...
 ```
 - 概念
+    - 标注 描述图片的一句话
+    - 训练集和测试集中每张图片可以有多个标注
     - vocab_size 单词数
-    - caps
-    - max_cap_len Image标注最多包含几个单词，也就是一句话最多多少个单词（40）。
+    - caps 所有单词
+    - max_cap_len  图像标注最多包含几个单词，也就是一句话最多多少个单词（40）。
+    - 需要把单词嵌入到一个高维空间中，且保证相近到词在这个空间中比较近。
     - Embedding(vocab_size, 256, input_length=self.max_cap_len), 输入为(None，40)的整数矩阵，整数值为[0,vocab_size-1]。输出为（None，40， 256)
-    - <start>, <end>
+    - 一张图片
+    - 每句标注<start>, <end>
     
 
 
