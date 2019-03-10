@@ -57,6 +57,12 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
 图像Captioning，输入图像给出一系列单词，一系列单词->情感，机器翻译；RNN计算图，多对多（机器翻译，帧级视频分类），多对1(情感分类， 编码一个序列为单独的向量)， 1对多（图像标注），顺序处理非序列数据;某个时间步上的输入向量，老状态，新状态;  字符级语言模型; 向后Backpropagation,truncated back propagation; 搜索可理解的cell；图像标注；带注意力机制的图像标注；
 [prepare-photo-caption-dataset-training-deep-learning-model](https://machinelearningmastery.com/prepare-photo-caption-dataset-training-deep-learning-model/) ;Dataset Flickr8k_Dataset.zip, Flickr8k_text.zip;
 
+# 检测和分割
+-语义分割（对象及背景）
+每个pixel打个标签，不区分实例；滑动窗口法，分类patch中心
+
+； 分类和定位（一个对象），对象检测（多个对象），实例分割（多个对象）
+
 
 # 最新物体检测
 - [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
