@@ -5,6 +5,10 @@
 
 
 # 深度学习
+- SPP https://github.com/yhenon/keras-spp
+   - SPP
+   - RoiPooling ![RoiPooling](https://github.com/liangjin2007/data_liangjin/blob/master/RoiPooling.jpg?raw=true)
+   - RoiPoolingConv
 - LSTM https://zhuanlan.zhihu.com/p/32085405
 - GRU https://zhuanlan.zhihu.com/p/32481747
 - RNN https://zhuanlan.zhihu.com/p/32085405
@@ -17,6 +21,8 @@
       - 方法3 Dot Product. 不需要参数，条件是q和k需要维度相同
       - 方法4 Scaled-dot Product. 
    - self-attention
+   - keras-attention-mechanism https://github.com/philipperemy/keras-attention-mechanism
+      - attention_dense
       - 
 # 传统机器学习
 - Decision Tree
@@ -46,7 +52,9 @@
    - [文字表述](https://blog.csdn.net/u011067360/article/details/24368085)
    
 # 损失函数
-- hinge loss
+- hinge loss即svm loss
+中文翻译为合页损失函数,具体在知乎上有解释https://www.zhihu.com/question/47746939?sort=created
+普通样本对应于hingeloss的零区域,所以所有的普通样本都不参与最终超平面的决定。
 ```
 def hinge(y_true, y_pred):
     return K.mean(K.maximum(1. - y_true * y_pred, 0.), axis=-1)
