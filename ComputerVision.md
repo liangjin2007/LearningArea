@@ -85,15 +85,18 @@ Mask R-CNN: 分割姿势
 监督学习：->
 无监督学习：K-means Clustering; PCA 降维;  t-SNE; Autoencoders自编码器； 特征学习；密度估计; 
 生成模型：给定训练数据的概率分布，想要学习一个近似于训练数据分布的近似分布，并用这个近似分布去生成数据。处理的是密度估计问题;生成模型的why? 时序数据的生成模型可以用来模拟和计划,etc;[生成模型分类](https://github.com/liangjin2007/data_liangjin/blob/master/generative_model.jpg?raw=true);
-- Fully visible belief network
-  完全可视置信度网络，显示密度模型，将图像表达为似然函数并用链式法则分解为逐像素的条件概率。
-- PixelRNN
-  从图像角落开始生成像素，依赖于之前的以RNN建模的像素;缺点是非常慢
-- PixelCNN
-从图像角落开始生成像素，依赖于之前的以CNN建模的像素; 训练极大似然估计； 似然函数=联合密度函数；比PixelRNN要快，但是仍然慢。
-
-
-
+- 显式模型，易处理密度，能直接预测极大似然值
+  - Fully visible belief network
+    完全可视置信度网络，显示密度模型，将图像表达为似然函数并用链式法则分解为逐像素的条件概率。
+    p(x;theta) = Product(p(xi|x0,...xi_1;theta))
+  - PixelRNN
+    从图像角落开始生成像素，依赖于之前的以RNN建模的像素;缺点是非常慢
+  - PixelCNN
+  从图像角落开始生成像素，依赖于之前的以CNN建模的像素; 训练极大似然估计； 似然函数=联合密度函数；比PixelRNN要快，但是仍然慢。
+- 近似密度估计
+  - 变分自编码器 VAE
+    从无打标训练数据学习一个低维度的特征表示；从线性，非线性，到深度全连接，到ReLU CNN; 想要用特征来捕获数据里有意义的变化；编码，解码；图像分类中的CNN可以看成一个编码器；特征捕获了训练集中的变化因素；与自编码器的区别：自编码器学习的隐藏特征能尽量重现输入图像，而变分自编码器能重建输入数据的模型情况,假设训练数据是从latent z重建出来的，假设z服从某个先验分布，比如gaussian；直觉：x是输入图像，z是隐藏因素，用来重建x：属性，定向等； p(z;theta)~guassian, p(x|z;theta)比较复杂，用神经网络表示；
+    p(x;theta) = Integrate(p(z;theta)p(x|z;theta)dz)
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
 # 自动驾驶领域
