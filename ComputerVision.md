@@ -96,8 +96,12 @@ Mask R-CNN: 分割姿势
 - 近似密度估计
   - VAE
 # 变分自编码器 VAE
-从无打标训练数据学习一个低维度的特征表示；从线性，非线性，到深度全连接，到ReLU CNN; 想要用特征来捕获数据里有意义的变化；编码，解码；图像分类中的CNN可以看成一个编码器；特征捕获了训练集中的变化因素；与自编码器的区别：自编码器学习的隐藏特征能尽量重现输入图像，而变分自编码器能重建输入数据的模型情况,假设训练数据是从latent z重建出来的，假设z服从某个先验分布，比如gaussian；直觉：x是输入图像，z是隐藏因素，用来重建x：属性，定向等； p(z;theta)~guassian, p(x|z;theta)比较复杂，用神经网络表示；
-p(x;theta) = Integrate(p(z;theta)p(x|z;theta), dz)
+从无打标训练数据学习一个低维度的特征表示；从线性，非线性，到深度全连接，到ReLU CNN; 想要用特征来捕获数据里有意义的变化；编码，解码；图像分类中的CNN可以看成一个编码器；特征捕获了训练集中的变化因素；与自编码器的区别：自编码器学习的隐藏特征能尽量重现输入图像，而变分自编码器能重建输入数据的模型情况,假设训练数据是从latent z重建出来的，假设z服从某个先验分布，比如gaussian；直觉：x是输入图像，z是隐藏因素，用来重建x：属性，定向等； p(z;theta)~guassian, p(x|z;theta)比较复杂，用神经网络表示；具体看cs231n_2018_lecture12.pdf中的具体推导，如何去解决训练复杂的似然函数p(x;theta) = Integrate(p(z;theta)p(x|z;theta), dz)的问题。 另外可以查看trello上已完成的autoencoder. https://trello.com/b/bwqk2uTp/jinl-roadmap
+
+# GAN
+两个玩家的游戏，生成网络，判别网路, minmax game；
+- the GAN zoo https://github.com/hindupuravinash/the-gan-zoo
+- the coolest GAN is from NVIDIA
 
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
