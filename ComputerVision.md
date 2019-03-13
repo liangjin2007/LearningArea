@@ -66,6 +66,7 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
 每个图像需要有不同数目的输出；把对象检测看成分类;
   - Proposal类方法
   滑动窗口，需要运用很多CNN到子窗口上，huge number of locations, scales and aspect ratio；Region Proposal/Selective Search; R-CNN: 从某种proposal方法得到Region of Interest->CNN on ROI -> bbox回归+SVM ； Fast R-CNN： 整个图像作为卷积网络输入->从某一层进行Proposal得到ROI->RoiPooling层->Softmax+bbox回归; Faster R-CNN： Region Proposal Network(RPN)预测proposals from features;
+  ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)， selective search, segment image into 1k or 2k regions, similarity computation, merge similar regions;  similarity: color similarity, 颜色直方图, texture similarity, 高斯梯度直方图; 
   - 非Proposal类方法
   YOLO/SSD： Divide image into 7x7 grid-> 每个格子里面回归 dx_ci,dy_ci,dh_ci,dw_ci,confidence_ci->输出7x7x(5*B+C)
 
@@ -82,12 +83,6 @@ Mask R-CNN: 分割姿势
 - RGB-Depth相机
 - 点云体素化
 
-# 最新物体检测
-- [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
-![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)， selective search, segment image into 1k or 2k regions, similarity computation, merge similar regions;  similarity: color similarity, 颜色直方图, texture similarity, 高斯梯度直方图; 
-
-# 语义分割
-# 实例分割
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
 # 自动驾驶领域
