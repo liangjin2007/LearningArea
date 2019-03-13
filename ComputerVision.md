@@ -69,10 +69,8 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
   ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)， selective search, segment image into 1k or 2k regions, similarity computation, merge similar regions;  similarity: color similarity, 颜色直方图, texture similarity, 高斯梯度直方图; 
   - 非Proposal类方法
   YOLO/SSD： Divide image into 7x7 grid-> 每个格子里面回归 dx_ci,dy_ci,dh_ci,dw_ci,confidence_ci->输出7x7x(5*B+C)
-
 - 实例分割（多个对象）
 Mask R-CNN: 分割姿势
-
 - 密集标注
 - 可视化基因
 - 场景图生成
@@ -82,6 +80,19 @@ Mask R-CNN: 分割姿势
   - Faster RCNN in 3D
 - RGB-Depth相机
 - 点云体素化
+
+# 生成模型
+监督学习：->
+无监督学习：K-means Clustering; PCA 降维;  t-SNE; Autoencoders自编码器； 特征学习；密度估计; 
+生成模型：给定训练数据的概率分布，想要学习一个近似于训练数据分布的近似分布，并用这个近似分布去生成数据。处理的是密度估计问题;生成模型的why? 时序数据的生成模型可以用来模拟和计划,etc;[生成模型分类](https://github.com/liangjin2007/data_liangjin/blob/master/generative_model.jpg?raw=true);
+- Fully visible belief network
+  完全可视置信度网络，显示密度模型，将图像表达为似然函数并用链式法则分解为逐像素的条件概率。
+- PixelRNN
+  从图像角落开始生成像素，依赖于之前的以RNN建模的像素;缺点是非常慢
+- PixelCNN
+从图像角落开始生成像素，依赖于之前的以CNN建模的像素; 训练极大似然估计； 似然函数=联合密度函数；比PixelRNN要快，但是仍然慢。
+
+
 
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
