@@ -59,13 +59,28 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
 
 # 检测和分割
 - 语义分割（对象及背景）
-每个pixel打个标签，不区分实例；滑动窗口法，分类patch中心;方法2，全卷积(same)；学习反卷积，下采样，In-netwrk上采样(Unpooling, Max-Unpooling)，Learnable Upsampling(转置卷积,也称为-Deconvolution (bad) -Upconvolution -Fractionally strided convolution -Backward strided convolution)
+每个pixel打个标签，不区分实例；滑动窗口法，分类patch中心;方法2，全卷积(same)；学习反卷积，下采样，In-netwrk上采样(Unpooling, Max-Unpooling)，Learnable Upsampling(转置卷积,也称为-Deconvolution (bad) -Upconvolution -Fractionally strided convolution -Backward strided convolution) ; Multi-view 3D 重建 ：2D下采样（编码器）-> 3D卷积LSTM -> 3D上采样（解码器）-> 3D softmax loss；
 - 分类和定位（一个对象）
 看成两个任务，定位看成一个回归问题，一个Softmax loss，一个L2 loss； 即多任务loss；前面部分用迁移学习；
 - 对象检测（多个对象）
-每个图像需要有不同数目的输出；把对象检测看成分类;滑动窗口，需要运用很多CNN到子窗口上，huge number of locations, scales and aspect ratio；Region Proposal/Selective Search; R-CNN: Region of Interest
-- 实例分割（多个对象）
+每个图像需要有不同数目的输出；把对象检测看成分类;
+  - Proposal类方法
+  滑动窗口，需要运用很多CNN到子窗口上，huge number of locations, scales and aspect ratio；Region Proposal/Selective Search; R-CNN: 从某种proposal方法得到Region of Interest->CNN on ROI -> bbox回归+SVM ； Fast R-CNN： 整个图像作为卷积网络输入->从某一层进行Proposal得到ROI->RoiPooling层->Softmax+bbox回归; Faster R-CNN： Region Proposal Network(RPN)预测proposals from features;
+  - 非Proposal类方法
+  YOLO/SSD： Divide image into 7x7 grid-> 每个格子里面回归 dx_ci,dy_ci,dh_ci,dw_ci,confidence_ci->输出7x7x(5*B+C)
 
+- 实例分割（多个对象）
+Mask R-CNN: 分割姿势
+
+- 密集标注
+- 可视化基因
+- 场景图生成
+- 3D对象检测
+  - 单个相机
+  - 相机+雷达
+  - Faster RCNN in 3D
+- RGB-Depth相机
+- 点云体素化
 
 # 最新物体检测
 - [RCNN](https://web.njit.edu/~usman/courses/cs698_spring18/RCNN.pdf)
