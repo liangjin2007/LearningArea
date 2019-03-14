@@ -68,7 +68,11 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
   滑动窗口，需要运用很多CNN到子窗口上，huge number of locations, scales and aspect ratio；Region Proposal/Selective Search; R-CNN: 从某种proposal方法得到Region of Interest->CNN on ROI -> bbox回归+SVM ； Fast R-CNN： 整个图像作为卷积网络输入->从某一层进行Proposal得到ROI->RoiPooling层->Softmax+bbox回归; Faster R-CNN： Region Proposal Network(RPN)预测proposals from features;
   ![两步法](https://github.com/liangjin2007/data_liangjin/blob/master/RCNN.jpg?raw=true)， selective search, segment image into 1k or 2k regions, similarity computation, merge similar regions;  similarity: color similarity, 颜色直方图, texture similarity, 高斯梯度直方图; 
   - 非Proposal类方法
-  YOLO/SSD： Divide image into 7x7 grid-> 每个格子里面回归 dx_ci,dy_ci,dh_ci,dw_ci,confidence_ci->输出7x7x(5*B+C)
+  YOLO： Divide image into 7x7 grid-> 每个格子里面回归 dx_ci,dy_ci,dh_ci,dw_ci,confidence_ci->输出7x7x(5*B+C)
+  YOLO2:Better and Faster
+  SSD: Slower but more accurate than YOLO; Faster but less accurate than Faster R-CNN
+  MASK R-CNN: Region Proposal Network(RPN), Region of interest feature alignment RoiAlign
+  Seg-Net: Encoder-Decoder framework
 - 实例分割（多个对象）
 Mask R-CNN: 分割姿势
 - 密集标注
