@@ -3,11 +3,26 @@
 
 # list.sort
 a = [("a",0.1),("b",0.05),("c",0.06)]
+
 a.sort(key=lambda x:x[1], reverse=True)
+
+# 取numpy数组中某一个axis
+a[0,:] # 取第一行
+
+a[:,:,1] # 2维
+
+a[:,:,0:1] # 3维
+
+# 取字符串子串
+a="abcc_def"
+a[5:] # "def"
+
+# make tuple longer
+a = (None,)+(3,5) # (None, 3, 5)
 
 # datatime
 datetime在python中比较常用，主要用来处理时间日期，使用前先倒入datetime模块。下面总结下本人想到的几个常用功能。
-
+```
 1、当前时间：
 >>> print datetime.datetime.now()
 2015-07-17 16:39:15.712000
@@ -61,3 +76,5 @@ timestamp转datetime:
 datetime.datetime(2015, 7, 17, 17, 3, 32)
 >>> print datetime.datetime.fromtimestamp(1437123812.0)
 2015-07-17 17:03:32
+```
+
