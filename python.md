@@ -29,6 +29,10 @@ options = {
 
 function_A(**options)
 
+# method
+- Python 语法
+@property
+@staticmethod
 
 # datatime
 datetime在python中比较常用，主要用来处理时间日期，使用前先倒入datetime模块。下面总结下本人想到的几个常用功能。
