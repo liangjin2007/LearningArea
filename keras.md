@@ -61,45 +61,27 @@ Flickr8k.token.txt
 
 Keras R-CNN代码阅读
 =====================================================================
-- RCNN系列知识
-1. 传统的目标检测算法：Cascade + HOG/DPM + Haar/SVM以及上述方法的诸多改进、优化；
+- 一些Python/Keras相关的使用技巧
+取整，类型转化，张量与list相互转化，张量与numpy相互转化， broadcast（非常难），张量reshape（expand_dims, reshape(-1, 1)）；
+将二维数组压平
+继承Model：只需重载__init__, compile, predict三个方法
+继承Layer: 只需重载__init__, build, call, compute_output_shape, get_config, 
 
-2. 候选区域/窗 + 深度学习分类：通过提取候选区域，并对相应区域进行以深度学习方法为主的分类的方案，如：
-R-CNN（Selective Search + CNN + SVM）
-SPP-net（ROI Pooling）
-Fast R-CNN（Selective Search + 7x7x512 ROI Pooling + CNN + ROI）
-Faster R-CNN（RPN + CNN + ROI）
-    - RPN means regionn proposal network
-    - 
-
-R-FCN
-等系列方法；
-
-3. 基于深度学习的回归方法：YOLO/SSD/DenseBox 等方法；以及最近出现的结合RNN算法的RRC detection；结合DPM的Deformable CNN等
-[总结](https://github.com/liangjin2007/data_liangjin/blob/master/rcnn.jpg?raw=true)
-
-- Python 语法
-@property
-@staticmethod
-
-- keras实践
-
-1. K.cast([0.5, 1, 2], K.floatx())会将list转成Tensor; 
-K.round(anchors)取整
-
-2. 形状为(1,)的张量转成(1,1)张量K.reshape(t, (-1,1)) # 使用-1可以不用指定输入向量的长度。
-
-3. broadcast
-形状为(1,1)的张量减去形状为（3,）的张量结果为(1, 3)的张量。
-(1，1)+(3,)=> (1，3)
+broadcast例子：形状为(1,1)的张量减去形状为（3,）的张量结果为(1, 3)的张量。
+(1，1)+(3,)=> (1，3) # 左侧是更短的数组，右侧更长，所以先把短的扩充到跟长的一样长。
 (1,1,1)+(3,) => (1,1,3)
 (1,1,2)+(3,) => broadcast error
-
-
+(15,4)+(196,1,4) ==> (196,15,4)
+```
+General Broadcasting Rules¶
+When operating on two arrays, NumPy compares their shapes element-wise. It starts with the trailing dimensions, and works its way forward. Two dimensions are compatible when
+they are equal, or
+one of them is 1
+If these conditions are not met, a ValueError: operands could not be broadcast together exception is thrown, indicating that the arrays have incompatible shapes. The size of the resulting array is the maximum size along each dimension of the input arrays.
+```
 - 基于Faster RCNN实现
 - 训练集数据格式
 - generator如何写
-- 网络输入输出及架构
 - 概念
     - boxes: box 1x4 , [lbx, lby, rtx, rty], lbx range in [0, 1]
     - iou threshold: 0.5, i means intersection, u means union
@@ -107,16 +89,24 @@ K.round(anchors)取整
         - ratio = w/h
         - scales
         - result: (15, 4), 15 boxes each anchor. each row is lx, ly, rx, ry
-    - 
-        
-- backend
-1.common.py 
-2.tensorflow_backend.py 
-    - crop_and_resize(image, boxes, size)
-    - non_maximum_suppression(boxes, scores, maximum, threshold=0.5)
-    -
-    - 
+    - anchor_size: 8 or 16
+    - anchor_aspect_ratio
+    - anchor_aspect_scale
+    
+- 网络输入输出及架构
+    - 输入
+    inputs=[target_bounding_boxes, target_categories, target_image, target_mask, target_metadata]
+    - 输出
+    outputs=[output_bounding_boxes, output_categories] # batch_size* [maximum_proposals*4, maximum_proposals]
+    - VGG->Conv(64)
 
+    - 训练
+    - 预测
+        - target_bounding_boxes默认值形状: (image_count, 1, 4), 值为0
+        - target_categories默认值形状： (image_count, 1, n_categories)， 值为0
+        - target_mask默认值形状： (1, 1, 28, 28)，值为0
+        - target_metadata默认值形状: 形状为(1, 3)值为[[224, 224, 1.0]]
+        
 
 
 Keras 新闻分类,词向量，Embedding
