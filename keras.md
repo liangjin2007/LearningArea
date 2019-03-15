@@ -98,15 +98,25 @@ If these conditions are not met, a ValueError: operands could not be broadcast t
     inputs=[target_bounding_boxes, target_categories, target_image, target_mask, target_metadata]
     - 输出
     outputs=[output_bounding_boxes, output_categories] # batch_size* [maximum_proposals*4, maximum_proposals]
-    - VGG->Conv(64)
-
+    - VGG
+    - 3x3: Conv(64) 输出(None, 14, 14, 64)
+    - deltas1: Conv 3x3 (None, 14, 14, 32)
+    - scores1: Conv 1x1 (None, 14, 14, 9)
+    - target_bounding_boxes: Input (None, None, 4)
+    - target_metadata: Input (None, 3), None=>1 # 记录原图尺寸
+    - 
+    - Anchor层
+        - 通过类似于numpy的操作，产生候补boundingboxes
+        - 判断inside
+        - 根据metadata及padding信息裁剪boundingboxes
+        - 
     - 训练
     - 预测
         - target_bounding_boxes默认值形状: (image_count, 1, 4), 值为0
         - target_categories默认值形状： (image_count, 1, n_categories)， 值为0
         - target_mask默认值形状： (1, 1, 28, 28)，值为0
         - target_metadata默认值形状: 形状为(1, 3)值为[[224, 224, 1.0]]
-        
+    - 
 
 
 Keras 新闻分类,词向量，Embedding
