@@ -35,8 +35,6 @@
 - 逻辑回归 Logistic Regression
 - k最近邻 k-Nearest Neighbor
 - 支持向量机 SVM
-- 回归树 Regression Tree（CART）和集成Ensemble
-   -叶子节点有权重的二叉回归树
 - 基于树的方法
    - 决策树 Decision Tree: 分类， 使用时跟普通的模型一样只要调用tree.fit(x, y)即可。
       - 优点：
@@ -48,12 +46,6 @@
       不稳定
       NP-hard:实际都是贪婪算法或者启发式算法
       数据不平衡则树不平衡
-      
-   - 随机森林 Random Forest
-   - XGBoost(extreme gradient boost)
-      - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型
-      - 博客 https://snaildove.github.io/2018/10/02/get-started-XGBoost/
-   - GBDT
 - 判别分析
    - 比如LDA
    - 降维的一种， 假设数据服从正太分布
@@ -64,7 +56,13 @@
       - 基于[2001]Rapid Object Detection using a Boosted Cascade of Simple Features
       - 只处理face
 - 集成方法
-      - 只处理face
+   - 回归树 Regression Tree（CART）和集成Ensemble
+      -叶子节点有权重的二叉回归树
+- 随机森林 Random Forest
+   - XGBoost(extreme gradient boost)
+      - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型
+      - 博客 https://snaildove.github.io/2018/10/02/get-started-XGBoost/
+   - GBDT
 - 装袋算法Bagging
 - 多专家模型
    - 合并多神经网络的结果
