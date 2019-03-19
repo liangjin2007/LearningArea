@@ -35,8 +35,20 @@
 - 逻辑回归 Logistic Regression
 - k最近邻 k-Nearest Neighbor
 - 支持向量机 SVM
+- 回归树 Regression Tree（CART）和集成Ensemble
+   -叶子节点有权重的二叉回归树
 - 基于树的方法
-   - 决策树 Decision Tree
+   - 决策树 Decision Tree: 分类， 使用时跟普通的模型一样只要调用tree.fit(x, y)即可。
+      - 优点：
+      能处理属性是数值的数据或者属性是类目的数据
+      预测效率log(N_train)
+      能处理多输出问题
+      - 缺点：
+      过拟合，需要通过pruning
+      不稳定
+      NP-hard:实际都是贪婪算法或者启发式算法
+      数据不平衡则树不平衡
+      
    - 随机森林 Random Forest
    - XGBoost(extreme gradient boost)
       - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型
