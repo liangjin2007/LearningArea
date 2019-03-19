@@ -109,6 +109,8 @@ If these conditions are not met, a ValueError: operands could not be broadcast t
         - 通过类似于numpy的操作，产生候补boundingboxes
         - 判断inside
         - 根据metadata及padding信息裁剪boundingboxes
+        - 根据anchors, indices_inside, targets得到与anchors重叠的gt boxes
+            - 用到了类似于numpy的broadcast
         - 
     - 训练
     - 预测
