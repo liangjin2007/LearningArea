@@ -39,7 +39,8 @@
    - 决策树 Decision Tree
    - 随机森林 Random Forest
    - XGBoost(extreme gradient boost)
-      - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型，
+      - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型
+      - 博客 https://snaildove.github.io/2018/10/02/get-started-XGBoost/
    - GBDT
 - 判别分析
    - 比如LDA
