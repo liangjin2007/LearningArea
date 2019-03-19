@@ -31,11 +31,16 @@
 -弱监督公式
 
 # 传统机器学习
-- Decision Tree
-- Random Forest
-- Bayes Classifier
-- SVM
-- 逻辑回归Logistic Regression
+- 线性回归 Linear Regression
+- 逻辑回归 Logistic Regression
+- k最近邻 k-Nearest Neighbor
+- 支持向量机 SVM
+- 基于树的方法
+   - 决策树 Decision Tree
+   - 随机森林 Random Forest
+   - XGBoost(extreme gradient boost)
+      - paper XGBoost: A Scalable Tree Boosting System， 2016； 树集成模型，
+   - GBDT
 - 判别分析
    - 比如LDA
    - 降维的一种， 假设数据服从正太分布
@@ -45,10 +50,12 @@
       - [文档](https://docs.opencv.org/3.4.3/d7/d8b/tutorial_py_face_detection.html)
       - 基于[2001]Rapid Object Detection using a Boosted Cascade of Simple Features
       - 只处理face
-      - 
+- 集成方法
+      - 只处理face
 - 装袋算法Bagging
 - 多专家模型
    - 合并多神经网络的结果
+- Bayes Classifier
 - 最大熵模型
 - EM
    - [例子](https://www.tuicool.com/articles/Av6NVzy)
@@ -56,7 +63,10 @@
 - 条件随机场CRF
 - 十大算法
    - [文字表述](https://blog.csdn.net/u011067360/article/details/24368085)
-   
+
+- Active Learning
+
+
 # 损失函数
 - hinge loss即svm loss
 中文翻译为合页损失函数,具体在知乎上有解释https://www.zhihu.com/question/47746939?sort=created
