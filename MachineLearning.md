@@ -104,3 +104,7 @@ def cross_entropy_loss(y_true, y_pred):
    return -K.sum(y_true*log(y_pred)) # actually = -log(pi)
 ```
 
+- lasso L1 Loss
+
+- L2 Loss
+
