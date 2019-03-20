@@ -5,6 +5,8 @@
 
 
 # 深度学习
+- Receptive Field 感受野 及可视化 https://zhuanlan.zhihu.com/p/24833574?utm_source=tuicool&utm_medium=referral
+
 - SPP https://github.com/yhenon/keras-spp
    - SPP
    - RoiPooling ![RoiPooling](https://github.com/liangjin2007/data_liangjin/blob/master/RoiPooling.jpg?raw=true)
