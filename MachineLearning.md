@@ -2,7 +2,7 @@
 
 # 数据集
 - [Microsoft COCO](https://zhuanlan.zhihu.com/p/32566503)
-
+- [Places](http://places2.csail.mit.edu/explore.html)
 
 # 深度学习
 - Receptive Field 感受野 及可视化 https://zhuanlan.zhihu.com/p/24833574?utm_source=tuicool&utm_medium=referral
@@ -31,7 +31,10 @@
    - 具体实现看这里 https://github.com/yu4u/mixup-generator/blob/master/mixup_generator.py
    - 第一步、取得打乱的样本索引；逐对batch进行计算
 -弱监督公式
-
+   - 不完全训练
+      - 主动学习
+      - 半监督学习
+   
 # 传统机器学习
 - 线性回归 Linear Regression
 - 逻辑回归 Logistic Regression
