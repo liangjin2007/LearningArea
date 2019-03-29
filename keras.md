@@ -64,9 +64,20 @@ Keras R-CNN代码阅读
 - 一些Python/Keras相关的使用技巧
 取整，类型转化，张量与list相互转化，张量与numpy相互转化， broadcast（非常难），张量reshape（expand_dims, reshape(-1, 1)）；
 将二维数组压平
-继承Model：只需重载__init__, compile, predict三个方法
-继承Layer: 只需重载__init__, build, call, compute_output_shape, get_config, 
 
+- 继承Model：只需重载__init__, compile, predict三个方法
+- 继承Layer: 只需重载__init__, build, call, compute_output_shape, get_config, 
+- 字典如何拼接
+```
+def get_config(self):
+    configuration = {
+        "maximum_proposals": self.maximum_proposals,
+        "minimum_size": self.minimum_size,
+        "stride": self.stride
+    }
+    return {**super(ObjectProposal, self).get_config(), **configuration}
+```
+- broadcast
 broadcast例子：形状为(1,1)的张量减去形状为（3,）的张量结果为(1, 3)的张量。
 (1，1)+(3,)=> (1，3) # 左侧是更短的数组，右侧更长，所以先把短的扩充到跟长的一样长。
 (1,1,1)+(3,) => (1,1,3)
@@ -79,6 +90,7 @@ they are equal, or
 one of them is 1
 If these conditions are not met, a ValueError: operands could not be broadcast together exception is thrown, indicating that the arrays have incompatible shapes. The size of the resulting array is the maximum size along each dimension of the input arrays.
 ```
+
 - 基于Faster RCNN实现
 - 训练集数据格式
 - generator如何写
@@ -111,7 +123,10 @@ If these conditions are not met, a ValueError: operands could not be broadcast t
         - 根据metadata及padding信息裁剪boundingboxes
         - 根据anchors, indices_inside, targets得到与anchors重叠的gt boxes
             - 用到了类似于numpy的broadcast
-        - 
+        -
+    - RPN层
+        - 只是添加了两个loss函数
+    - ObjectProposal
     - 训练
     - 预测
         - target_bounding_boxes默认值形状: (image_count, 1, 4), 值为0
