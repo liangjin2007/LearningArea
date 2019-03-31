@@ -73,6 +73,7 @@ Nearest Neighbor， K-Nearest Neighbors, majority vote from K closest points, L1
   SSD: Slower but more accurate than YOLO; Faster but less accurate than Faster R-CNN
   MASK R-CNN: Region Proposal Network(RPN), Region of interest feature alignment RoiAlign
   Seg-Net: Encoder-Decoder framework
+  UNet
 - 实例分割（多个对象）
 Mask R-CNN: 分割姿势
 - 密集标注
@@ -107,6 +108,15 @@ Mask R-CNN: 分割姿势
 - the GAN zoo https://github.com/hindupuravinash/the-gan-zoo
 - the coolest GAN is from NVIDIA
 
+# 可视化和理解深度神经网络
+- 第一层filter/kernel的可视化
+再高层的可视化没有那么令人感兴趣
+- 最后一层特征层的可视化
+  - knn最近邻（l2范数）; 降维到二维： 包括PCA，t-SNE； 可视化激活： conv5 feature map 128x13x13可视化成128个13x13的图像； 
+  - Maximally activating patches: 选择一个层，选择一个通道(channel)，用网络预测许多图片，记录预测的通道上的值，visualize image patches that corresponding to maximal activations；
+  - 显著性：用遮挡的方法去看盖住哪些像素对预测概率影响最大；显著性映射saliency map：通过BP, compute gradient of unnormalized class score with respect to image pixels, take absolute value and max over RGB channels; Saliency Maps: 用来做分割， use graphcut on saliency map;  
+  - Intermediate Features via (guided) backprop: Pick a single intermediate neuron, e.g. one value in 128 x 13 x 13 conv5 feature map, Compute gradient of neuron value with respect to image pixels；
+ 
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
 # 自动驾驶领域
