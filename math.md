@@ -1,4 +1,6 @@
 # 数学原理
+- Covariance Matrix
+- Gram Matrix
 - Jensen不等式 
   - 如果f是凸函数，X是随机变量，那么E[f(X)] >= f(E[X])
   
