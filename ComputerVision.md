@@ -113,20 +113,42 @@ Mask R-CNN: 分割姿势
 再高层的可视化没有那么令人感兴趣
 - 最后一层特征层的可视化
   - knn最近邻（l2范数）; 降维到二维： 包括PCA，t-SNE； 可视化激活： conv5 feature map 128x13x13可视化成128个13x13的图像； 
-  - Maximally activating patches: 选择一个层，选择一个通道(channel)，用网络预测许多图片，记录预测的通道上的值，visualize image patches that corresponding to maximal activations；
-  - 显著性：用遮挡的方法去看盖住哪些像素对预测概率影响最大；
-  - 显著性映射saliency map：通过BP
+- Maximally activating patches: 选择一个层，选择一个通道(channel)，用网络预测许多图片，记录预测的通道上的值，visualize image patches that corresponding to maximal activations；
+- 显著性：用遮挡的方法去看盖住哪些像素对预测概率影响最大；
+- 显著性映射saliency map：通过BP
   compute gradient of unnormalized class score with respect to image pixels, take absolute value and max over RGB channels; Saliency Maps: 用来做分割， use graphcut on saliency map;  
-  - Intermediate Features via (guided) backprop
+- Intermediate Features via (guided) backprop
   具体做法：Pick a single intermediate neuron, e.g. one value in 128 x 13 x 13 conv5 feature map, Compute gradient of neuron value with respect to image pixels, Guided BP是用来找到图像中对应于某个神经元的区域。
-  - 可视化CNN特征：Gradient Ascent
+- 可视化CNN特征：Gradient Ascent
   产生一张合成的图像，这张图像会最大化某个神经元。
-  - 欺骗图像/对抗例子
+- 欺骗图像/对抗例子
   具体做法：(1) Start from an arbitrary image，(2) Pick an arbitrary class， (3) Modify the image to maximize the class， (4) Repeat until network is fooled
-  - DeepDream：增强存在的特征
+- DeepDream：增强存在的特征
   增强网络中某一层的神经元激活；具体做法： Choose an image and a layer in a CNN; repeat：1. Forward: compute activations at chosen layer 2. Set gradient of chosen layer equal to its activation 3. Backward: Compute gradient on image 4. Update image
-  
- 
+- 特征反转feature inversion
+输入特征，找一张图使得它的特征尽可能跟给定特征相近且自然， 正则化使用Total Variation regularizer，使得空间上更光滑。
+- 纹理合成texture synthesis
+输入一个小纹理，产生一个大纹理。
+- 神经纹理合成neural texture synthesis
+每一层计算一个Gram矩阵，大小为CxC, 做Gram重建； Gram Reconstruction; Texture=Artwork
+```
+1. Pretrain a CNN on ImageNet (VGG-19)
+2. Run input texture forward through CNN, record activations on every layer; layer i
+gives feature map of shape Ci × Hi × Wi
+3. At each layer compute the Gram matrix
+giving outer product of features: (shape Ci × Ci)
+4. Initialize generated image from random noise
+5. Pass generated image through CNN, compute Gram matrix on each layer
+6. Compute loss: weighted sum of L2 distance between Gram matrices
+7. Backprop to get gradient on image
+8. Make gradient step on image
+9. GOTO 5
+```
+- 神经风格转化 neural style transfer
+feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
+- Fast style transfer
+
+
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
 # 自动驾驶领域
