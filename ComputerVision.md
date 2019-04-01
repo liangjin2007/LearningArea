@@ -148,6 +148,9 @@ giving outer product of features: (shape Ci × Ci)
 feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 - Fast style transfer
 
+# 弱监督学习
+
+
 
 # 机器人
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
