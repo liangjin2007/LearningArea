@@ -156,6 +156,8 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 - 折衣服 https://www.youtube.com/watch?v=gy5g33S0Gzo
 # 自动驾驶领域
 - https://www.youtube.com/watch?v=4fxFDypHZLs
+# 低秩矩阵恢复
+
 # 补洞
 # 从单张图片制作视频
 - http://www.cs.cmu.edu/~om3d/
