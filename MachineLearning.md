@@ -53,7 +53,7 @@
       不稳定
       NP-hard:实际都是贪婪算法或者启发式算法
       数据不平衡则树不平衡
-   - 决策回归树CART
+   - 决策回归树CART和集成模型
       - 决策规则与决策树的一样。
       - 每个叶子节点上都包含了一个权重，也有人叫做分数。
       - 回归树的集成模型Ensemble sum(fk(xi))
@@ -61,8 +61,17 @@
       ![parameters](https://github.com/liangjin2007/data_liangjin/blob/master/decisiontree_models.jpg?raw=true)
       - 在单一变量上学习一棵树：定义一个目标函数，优化它 
       ![step function example](https://github.com/liangjin2007/data_liangjin/blob/master/decisiontree_stepfunction.jpg?raw=true)
-      
-   - 集成模型
+      - 目标函数 vs 启发式
+         - 启发式: 按信息增益；对树剪枝；最大深度；对叶子节点进行平滑
+         - 启发式映射到目标函数：
+            - 信息增益->训练误差
+            - 剪枝->按照树节点对数目定义对正则化项
+            - 最大深度 -> 限制函数空间
+            - 对叶子值进行平滑操作->叶子权重对L2正则化项
+      - 回归树不仅仅用于回归
+         - 还可以用于分类，排序，取决于怎么定义目标函数
+   - 梯度提升Gradient Boosting
+      - 
 - 判别分析
    - 比如LDA
    - 降维的一种， 假设数据服从正太分布
