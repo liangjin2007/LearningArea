@@ -58,6 +58,7 @@
       - 每个叶子节点上都包含了一个权重，也有人叫做分数。
       - 回归树的集成模型Ensemble sum(fk(xi))
       - 模型和参数：学习的是每棵树的结构和每片叶子的权重（分数）
+      ![parameters](https://github.com/liangjin2007/data_liangjin/blob/master/decisiontree_models.jpg?raw=true)
       - 在单一变量上学习一棵树：定义一个目标函数，优化它 
       ![step function example](https://github.com/liangjin2007/data_liangjin/blob/master/decisiontree_stepfunction.jpg?raw=true)
       
