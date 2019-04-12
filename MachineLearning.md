@@ -40,7 +40,9 @@
 - 逻辑回归 Logistic Regression
 - k最近邻 k-Nearest Neighbor
 - 支持向量机 SVM
+
 - 基于树的方法
+   - Obj(Θ)=L(Θ)+Ω(Θ), 在上式中 L(Θ) 代表的是训练误差，表示该模型对于训练集的匹配程度。Ω(Θ) 代表的是正则项，表明的是模型的复杂度
    - 决策树 Decision Tree: 分类， 使用时跟普通的模型一样只要调用tree.fit(x, y)即可。
       - 优点：
       能处理属性是数值的数据或者属性是类目的数据
@@ -51,6 +53,15 @@
       不稳定
       NP-hard:实际都是贪婪算法或者启发式算法
       数据不平衡则树不平衡
+   - 决策回归树CART
+      - 决策规则与决策树的一样。
+      - 每个叶子节点上都包含了一个权重，也有人叫做分数。
+      - 回归树的集成模型Ensemble sum(fk(xi))
+      - 模型和参数：学习的是每棵树的结构和每片叶子的权重（分数）
+      - 在单一变量上学习一棵树：定义一个目标函数，优化它 
+      ![step function example](https://github.com/liangjin2007/data_liangjin/blob/master/decisiontree_stepfunction.jpg?raw=true)
+      
+   - 集成模型
 - 判别分析
    - 比如LDA
    - 降维的一种， 假设数据服从正太分布
