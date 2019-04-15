@@ -1,3 +1,11 @@
+# sklearn APIs
+- sklearn.base
+- sklearn.calibration
+- sklearn.cluster
+- sklearn.compose
+- sklearn.covariance
+- sklearn.cross_decomposition 
+
 # 量化
 
 - 量化Quantization
