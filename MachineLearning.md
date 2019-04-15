@@ -72,7 +72,7 @@
          - 还可以用于分类，排序，取决于怎么定义目标函数
    - 梯度提升Gradient Boosting
    - GBDT
-      - 在函数空间中利用梯度下降法进行优化
+      - 在函数空间中利用梯度下降法进行优化, http://wepon.me/files/gbdt.pdf
       - XGBoost
          - 在函数空间中用牛顿法进行优化
 
