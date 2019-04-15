@@ -1,15 +1,20 @@
 # sklearn APIs
 - sklearn.base
-- sklearn.calibration
 - sklearn.cluster
+- sklearn.neighbors
 - sklearn.compose
 - sklearn.covariance
-- sklearn.cross_decomposition 
 - sklearn.datasets
 - sklearn.decomposition
 - sklearn.discriminant_analysis
-- sklearn.dummy
 - sklearn.ensemble
+- sklearn.pipeline
+- sklearn.preprocessing
+- sklearn.semi_supervised
+- sklearn.svm
+  - sklearn.svm.libsvm
+- sklearn.tree
+- sklearn.utils
 - sklearn.exceptions
 - sklearn.feature_extraction
   - sklearn.feature_extraction.image
@@ -17,18 +22,26 @@
 - sklearn.feature_selection
 - skleran.gaussian_process
   - sklearn.gaussian_process.kernels
-- sklearn.isotonic
-- sklearn.impute
-- sklearn.kernel_approximation
-- sklearn.kernel_ridge
 - sklearn.linear_model
 - sklearn.manifold
 - sklearn.metrics
   - sklearn.metrics.pairwise
 - sklearn.mixture
+- sklearn.neural_network
 - sklearn.model_selection
+- sklearn.kernel_approximation
+- sklearn.kernel_ridge
 - sklearn.multiclass
-- sklearn.
+- sklearn.multioutput
+- sklearn.naive_bayes
+- sklearn.cross_decomposition 
+- sklearn.calibration
+- sklearn.random_projection
+- sklearn.dummy
+- sklearn.isotonic
+- sklearn.impute
+
+
 # 量化
 
 - 量化Quantization
