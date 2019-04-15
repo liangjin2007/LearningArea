@@ -5,7 +5,30 @@
 - sklearn.compose
 - sklearn.covariance
 - sklearn.cross_decomposition 
-
+- sklearn.datasets
+- sklearn.decomposition
+- sklearn.discriminant_analysis
+- sklearn.dummy
+- sklearn.ensemble
+- sklearn.exceptions
+- sklearn.feature_extraction
+  - sklearn.feature_extraction.image
+  - sklearn.feature_extraction.text
+- sklearn.feature_selection
+- skleran.gaussian_process
+  - sklearn.gaussian_process.kernels
+- sklearn.isotonic
+- sklearn.impute
+- sklearn.kernel_approximation
+- sklearn.kernel_ridge
+- sklearn.linear_model
+- sklearn.manifold
+- sklearn.metrics
+  - sklearn.metrics.pairwise
+- sklearn.mixture
+- sklearn.model_selection
+- sklearn.multiclass
+- sklearn.
 # 量化
 
 - 量化Quantization
