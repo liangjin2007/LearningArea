@@ -2,4 +2,4 @@
   - openvdb
 
 - js
-  -video.js
+  - video.js
