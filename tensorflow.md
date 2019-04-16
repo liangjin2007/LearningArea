@@ -1,23 +1,22 @@
 # Tensorflow学习
 - reference [链接](https://www.tensorflow.org/programmers_guide/)
 - Eager Execution
+  - 需要最新的tensorflow
+  - 如何启用eager模式 tf.enable_eager_execution()
+  - 检查eager状态 tf.executing_eagerly()
+  - 动态控制流，python的if
   - 使用tf.keras的框架来写训练程序，注意整个程序的写法 https://www.tensorflow.org/guide/eager
-  ```
-  ...
-  for (batch, (images, labels)) in enumerate(dataset.take(400)):
-  if batch % 80 == 0:
-    print()
-  print('.', end='')
-  with tf.GradientTape() as tape:
-    logits = mnist_model(images, training=True)
-    loss_value = tf.losses.sparse_softmax_cross_entropy(labels, logits)
-
-  loss_history.append(loss_value.numpy())
-  grads = tape.gradient(loss_value, mnist_model.variables)
-  optimizer.apply_gradients(zip(grads, mnist_model.variables),
-                            global_step=tf.train.get_or_create_global_step())
-  ...
-  ```
-- 
+  - tfe=tf.contrib.eager
+  - 如何在keras框架下自己写训练循环
+  - tfe.metrics
+  - 
+# Tensorflow APIs
+- tf.convert_to_tensor(...)
+- tf.train
+  - tf.train.latest_checkpoint(path)
+  - tf.train.Checkpoint(optimizer, model, optimizer_step)
+  - tf.train.get_or_create_global_step()
+  - tf.train.Checkpoint(x=tf_variable).save(path)
+  - tf.train.GradientDesceneOptimizer(leraning_rate=0.01)
 - 
 
