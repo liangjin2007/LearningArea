@@ -4,7 +4,7 @@
   - tbb: Intel Threading Building Blocks. [parallel_for](https://software.intel.com/en-us/node/505530)
   - godot: 开源游戏引擎; 代码可读性比unreal要强，有有趣的demo。
   - flann：近似最近邻算法。 看例子，使用起来比较简单。
-  
+  - Line3Dpp：3D线段重建。接在其他SfM框架后面，比如OpenMVG, colormap, VisualSfM, bundler, Pix4D, mavmap等。
 - js
   - video.js：视频展示
   - gpu.js：基于GPU的运算
@@ -12,7 +12,7 @@
     - 特殊的html css风格，用来实现在浏览器中展示代码编辑器的功能。
     - 跟threejsmesh转换
     - site页面非常不错。一目了然。
-
+  - Famous Engine: 物理引擎，绘制引擎
 - Python
   - snake-ai：是否真的是AI？确实是的
   
