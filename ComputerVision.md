@@ -205,7 +205,12 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 - OpenPose
 # 视觉跟踪
 # 场景分类
-# 图像处理
+# 图像处理 
+- 图像增强Image Enhancement [2015][TOG]Automatic Photo Adjustment Using Deep Neural Networks https://sites.google.com/site/homepagezhichengyan/home/dl_img_adjust
+  - 自动风格化和色调调整
+  - 前景突出效果
+  - Local Xpro effect
+  - 水彩效果
 # SLAM
 # 视频码率优化
 # 蒸馏学习
