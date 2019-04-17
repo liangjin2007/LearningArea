@@ -211,6 +211,7 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
   - 前景突出效果
   - Local Xpro effect
   - 水彩效果
+  - 具体做法：语义分割
 # SLAM
 # 视频码率优化
 # 蒸馏学习
