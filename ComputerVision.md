@@ -159,6 +159,7 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 # 低秩矩阵恢复
 
 # 补洞
+- https://github.com/tadax/glcic
 # 从单张图片制作视频
 - http://www.cs.cmu.edu/~om3d/
 # 可视化和游戏分析
