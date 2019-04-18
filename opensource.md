@@ -5,6 +5,7 @@
   - godot: 开源游戏引擎; 代码可读性比unreal要强，有有趣的demo。
   - flann：近似最近邻算法。 看例子，使用起来比较简单。
   - Line3Dpp：3D线段重建。接在其他SfM框架后面，比如OpenMVG, colormap, VisualSfM, bundler, Pix4D, mavmap等。
+  - C++ AMP: C++ AMP是微软公司基于DirectX 11技术实现的一个并行计算库. parallel_for_each
 - js
   - video.js：视频展示
   - gpu.js：基于GPU的运算
