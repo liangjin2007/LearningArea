@@ -53,21 +53,27 @@
   ```
   
   ```
+
+# 多标签
 - sklearn.preprocessing.MultiLabelBinarier
-return a binary matrix indicating the presence of a class label.
-```
->>> from sklearn.preprocessing import MultiLabelBinarizer
->>> mlb = MultiLabelBinarizer()
->>> mlb.fit_transform([(1, 2), (3,)])
-array([[1, 1, 0],
-       [0, 0, 1]])
->>> mlb.classes_
-array([1, 2, 3])
->>>
->>> mlb.fit_transform([set(['sci-fi', 'thriller']), set(['comedy'])])
-array([[0, 1, 1],
-       [1, 0, 0]])
->>> list(mlb.classes_)
-['comedy', 'sci-fi', 'thriller']
-```
+  return a binary matrix indicating the presence of a class label.
+  ```
+  >>> from sklearn.preprocessing import MultiLabelBinarizer
+  >>> mlb = MultiLabelBinarizer()
+  >>> mlb.fit_transform([(1, 2), (3,)])
+  array([[1, 1, 0],
+         [0, 0, 1]])
+  >>> mlb.classes_
+  array([1, 2, 3])
+  >>>
+  >>> mlb.fit_transform([set(['sci-fi', 'thriller']), set(['comedy'])])
+  array([[0, 1, 1],
+         [1, 0, 0]])
+  >>> list(mlb.classes_)
+  ['comedy', 'sci-fi', 'thriller']
+  ```
+
+# 数据预处理
+- LOF: 根据kdtree或者聚类方法把outlier去掉。
+
 
