@@ -34,6 +34,9 @@
    - 不完全训练
       - 主动学习
       - 半监督学习
+
+- GAN
+   - CVPR2018 Tutorials on GANs https://sites.google.com/view/cvpr2018tutorialongans/
    
 # 传统机器学习
 - 线性回归 Linear Regression
