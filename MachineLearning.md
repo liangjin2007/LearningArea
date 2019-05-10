@@ -30,11 +30,21 @@
    - 实现简单
    - 具体实现看这里 https://github.com/yu4u/mixup-generator/blob/master/mixup_generator.py
    - 第一步、取得打乱的样本索引；逐对batch进行计算
-- 弱监督公式
-   - 不完全训练
-      - 主动学习
-      - 半监督学习
-
+- 弱监督学习
+   - 主动学习：假定没打标的实例的GT标签能通过专家查询得到，目标之一是极小化查询次数。给定一个比较小的打标好的数据集，主动学习会从没打标的数据中选择最有价值的实例进行专家查询。
+      - 信息量：减少统计模型的uncertainty
+      - 代表性：尽量好地表示输入模式的结构
+   - 半监督学习
+      - 数据分布假定
+         - 聚类假定
+         - 流形假定
+      - 方法
+         - 生成方法:
+            假定
+         - 基于图的方法
+         - low-density separation method
+         - disagreement-based method
+      - 
 - GAN
    - CVPR2018 Tutorials on GANs https://sites.google.com/view/cvpr2018tutorialongans/
    
