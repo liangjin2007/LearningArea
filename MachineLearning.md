@@ -92,6 +92,10 @@
 - 判别分析
    - 比如LDA
    - 降维的一种， 假设数据服从正太分布
+   
+- 集成方法Ensemble Methods <Foundations and Algorithms>
+   - Boosting： 一系列弱学习器组合成强学习器
+
 - 提升算法Boosting
    - 比如AdaBoost
    - 例子 opencv
