@@ -31,7 +31,6 @@
    - 具体实现看这里 https://github.com/yu4u/mixup-generator/blob/master/mixup_generator.py
    - 第一步、取得打乱的样本索引；逐对batch进行计算
 - 弱监督学习
-   - ![Snorkel](https://github.com/liangjin2007/data_liangjin/blob/master/Snorkel.png?raw=true)
    - 主动学习：假定没打标的实例的GT标签能通过专家查询得到，目标之一是极小化查询次数。给定一个比较小的打标好的数据集，主动学习会从没打标的数据中选择最有价值的实例进行专家查询。
       - 信息量：减少统计模型的uncertainty
       - 代表性：尽量好地表示输入模式的结构
