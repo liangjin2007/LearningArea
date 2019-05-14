@@ -1,5 +1,6 @@
 ### [Snorkel实践](https://github.com/liangjin2007/data_liangjin/blob/master/Snorkel.png?raw=true)
 
+#### Snorkel APIs
 - Candidates如何定义
   - 定义于Sentence中的Span之上
   - Span代表概念类目
@@ -57,6 +58,8 @@
   - 计算lf度量
     - snorkel.lf_helpers.test_LF
   
+
+#### Snorkel： 提取Spouse关系
 
 
 
