@@ -25,7 +25,7 @@
    - self-attention
    - keras-attention-mechanism https://github.com/philipperemy/keras-attention-mechanism
       - attention_dense
-      - 
+
 - Mixup数据增强机制 
    - 实现简单
    - 具体实现看这里 https://github.com/yu4u/mixup-generator/blob/master/mixup_generator.py
