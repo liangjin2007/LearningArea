@@ -204,6 +204,23 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 # 姿态识别
 - OpenPose
 # 视觉跟踪
+# 老照片修复
+https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8utjw/edit#slide=id.gffed9d51e_1_21
+问题：折叠，缺失，曝光和颜色协调性问题
+  - 算法流程
+    - 找出问题区域
+    - 分割图像： No Face or Face
+    - No Face
+      - 小的折叠或者洞-> Inpainting
+      - 大的洞 -> fragment based image completion
+              -> scene completion
+    - Face
+      - Non-fine-grained features(cheeks, forehead):
+        - Small (Image Inpainting [4])
+        - Patch (Segmented-based image completion[8])
+      - Fine-grained features (Missing patches):
+        - Graph Laplace for Occluded Face Completion[6][7]
+        - Stronger conditional Generative Adversarial Network [5]
 # 场景分类
 # 图像处理 
 - 图像增强Image Enhancement [2015][TOG]Automatic Photo Adjustment Using Deep Neural Networks https://sites.google.com/site/homepagezhichengyan/home/dl_img_adjust
