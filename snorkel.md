@@ -42,6 +42,46 @@ Categorical_Classes.ipynb
 
 6. 如何训练生成模型？
 
+7. 如何理解StableLabel, GoldLabel, GoldLabelKey, Context, Candidate...
+7.1.StableLabel靠近用户的打标结果
+StableLabel.context_stable_ids
+StableLabel.annotator_name打标者名字
+StableLabel.split数据分区
+
+7.2.reload_annotator_labels
+关键词：GoldLabelKey, GoldLabel
+
+首先，xxxxKey代表的是表中的字段
+而GoldLabelKey既是字段又是一张表。GoldLabelKey.name == annotator_name， 从这句可以看出GoldLabelKey记录的是标注者的名字。
+
+GoldLabel表有一个GoldLabel.key字段，存的是GoldLabelKey。
+GoldLabel表还有一个字段GoldLabel.candidate存的是candidate.
+
+
+具体reload_annotator_labels做了什么呢？
+对每个StableLabel对象，
+   7.2.1.根据StableLabel.context_stable_ids获取Context.stable_id，根据Context.stable_id找到对应的Context对象s
+   比如StableLabel对应两个context人名, 会包含两个context.stable_id,就能找到两个context. 
+   7.2.2.根据找到的context查找到对应的candidate。如何没找到candidate，创建candidate。
+   7.2.3.
+
+7.3.Context
+Context.stable_id
+
+7.4.Candidate
+Candidate.__argnames__
+getattr(Candidate, Candidate.__argnames__[0])对应于别的context对象。
+Candidate.get_contexts()
+
+7.5.query多级查询
+找对应query.first(), query.all(), query.count()
+
+
+
+
+
+
+
 
 
 
