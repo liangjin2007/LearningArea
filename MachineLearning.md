@@ -47,7 +47,9 @@
       - 
 - GAN
    - CVPR2018 Tutorials on GANs https://sites.google.com/view/cvpr2018tutorialongans/
-   
+- Model Ensemble
+   - [Model Ensemble](http://cs231n.github.io/neural-networks-3/#ensemble)
+
 # 传统机器学习
 - 线性回归 Linear Regression
 - 逻辑回归 Logistic Regression
