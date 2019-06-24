@@ -51,7 +51,9 @@
    - [Model Ensemble](http://cs231n.github.io/neural-networks-3/#ensemble)
 - EMA
    - https://www.investopedia.com/ask/answers/122314/what-exponential-moving-average-ema-formula-and-how-ema-calculated.asp
-
+- SMA
+   - 
+   - 
 # 传统机器学习
 - 线性回归 Linear Regression
 - 逻辑回归 Logistic Regression
