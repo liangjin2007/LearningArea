@@ -1,4 +1,9 @@
 # Machine Learning
+http://www.vlfeat.org/overview/
+http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
+- mean-shift
+   - Objective : Find the densest region
+
 
 # 数据集
 - [Microsoft COCO](https://zhuanlan.zhihu.com/p/32566503)
