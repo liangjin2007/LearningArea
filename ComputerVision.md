@@ -204,6 +204,9 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 # 姿态识别
 - OpenPose
 # 视觉跟踪
+# 图像全景生成
+- ImageStitch方法：[2007]AutoStitch, [2013]APAP, [2014]SPHP + APAP, [215]AANAP, 
+
 # 老照片修复
 https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8utjw/edit#slide=id.gffed9d51e_1_21
 问题：折叠，缺失，曝光和颜色协调性问题
