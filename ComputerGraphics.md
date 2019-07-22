@@ -5,6 +5,8 @@
     - ws：与像素相关的特征保留权重或者称为相似性权函数是 ws=exp(-x^2/sigma_s^2)
     - https://github.com/liangjin2007/data_liangjin/blob/master/bilateral_filtering.jpg?raw=true
 - [2004]A Remeshing Approach to Multiresolution Modeling
+  - **free from modeling**
+  选择编辑区域，然后使用boundary constraint method
   - 历史
     - NURBS难以处理复杂的物体,导致出现了很多方法是先把NURBS离散化成三角网格，然后再在三角网格上进行处理。
     - Subdivision Mesh要求semi-regular拓扑连接关系。
