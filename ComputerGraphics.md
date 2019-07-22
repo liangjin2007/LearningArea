@@ -1,6 +1,41 @@
 # Latex公式编辑
 - 在线公式编辑器 https://www.codecogs.com/latex/eqneditor.php
-- Latex语法 
+### 常用Latex语法
+#### 上下标
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\dot{x}&space;&&space;=&space;\sigma(y-x)&space;\\&space;\dot{y}&space;&&space;=&space;\rho&space;x&space;-&space;y&space;-&space;xz&space;\\&space;\dot{z}&space;&&space;=&space;-\beta&space;z&space;&plus;&space;xy&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\dot{x}&space;&&space;=&space;\sigma(y-x)&space;\\&space;\dot{y}&space;&&space;=&space;\rho&space;x&space;-&space;y&space;-&space;xz&space;\\&space;\dot{z}&space;&&space;=&space;-\beta&space;z&space;&plus;&space;xy&space;\end{aligned}" title="\begin{aligned} \dot{x} & = \sigma(y-x) \\ \dot{y} & = \rho x - y - xz \\ \dot{z} & = -\beta z + xy \end{aligned}" /></a>
+
+#### 求和和积分
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\sum_{i=1}^{n}x_{i}=\int_{0}^{1}f(x)\mathrm{d}x&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\sum_{i=1}^{n}x_{i}=\int_{0}^{1}f(x)\mathrm{d}x&space;\end{aligned}" title="\begin{aligned} \sum_{i=1}^{n}x_{i}=\int_{0}^{1}f(x)\mathrm{d}x \end{aligned}" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\sum_{&space;1\leqslant&space;i\leq&space;n&space;\atop&space;1\leqslant&space;j\leq&space;n&space;}a_{ij}&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\sum_{&space;1\leqslant&space;i\leq&space;n&space;\atop&space;1\leqslant&space;j\leq&space;n&space;}a_{ij}&space;\end{aligned}" title="\begin{aligned} \sum_{ 1\leqslant i\leq n \atop 1\leqslant j\leq n }a_{ij} \end{aligned}" /></a>
+
+#### 极限
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\lim_{n&space;\to&space;\infty&space;}\sin&space;x_{n}=0&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\lim_{n&space;\to&space;\infty&space;}\sin&space;x_{n}=0&space;\end{aligned}" title="\begin{aligned} \lim_{n \to \infty }\sin x_{n}=0 \end{aligned}" /></a>
+
+#### 根式
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;x=\sqrt[m]{1&plus;x^{p}}&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;x=\sqrt[m]{1&plus;x^{p}}&space;\end{aligned}" title="\begin{aligned} x=\sqrt[m]{1+x^{p}} \end{aligned}" /></a>
+
+#### 绝对值
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\left&space;|&space;a&plus;b&space;\right&space;|=\coprod_{m}^{n}&space;\frac{e}{f}&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\left&space;|&space;a&plus;b&space;\right&space;|=\coprod_{m}^{n}&space;\frac{e}{f}&space;\end{aligned}" title="\begin{aligned} \left | a+b \right |=\coprod_{m}^{n} \frac{e}{f} \end{aligned}" /></a>
+
+#### 矩阵
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\begin{pmatrix}&space;1&space;&&space;3&space;&&space;5&space;\\&space;2&space;&&space;4&space;&&space;6&space;\end{pmatrix}&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\begin{pmatrix}&space;1&space;&&space;3&space;&&space;5&space;\\&space;2&space;&&space;4&space;&&space;6&space;\end{pmatrix}&space;\end{aligned}" title="\begin{aligned} \begin{pmatrix} 1 & 3 & 5 \\ 2 & 4 & 6 \end{pmatrix} \end{aligned}" /></a>
+
+#### 花括号
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;\overbrace{a&plus;b&plus;\cdots&space;&plus;y&plus;z}^{26}_{=\alpha&space;&plus;\beta}&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;\overbrace{a&plus;b&plus;\cdots&space;&plus;y&plus;z}^{26}_{=\alpha&space;&plus;\beta}&space;\end{aligned}" title="\begin{aligned} \overbrace{a+b+\cdots +y+z}^{26}_{=\alpha +\beta} \end{aligned}" /></a>
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;a&plus;\underbrace{b&plus;\cdots&space;&plus;y}_{24}&plus;z&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;a&plus;\underbrace{b&plus;\cdots&space;&plus;y}_{24}&plus;z&space;\end{aligned}" title="\begin{aligned} a+\underbrace{b+\cdots +y}_{24}+z \end{aligned}" /></a>
+
+#### 堆砌
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;y\stackrel{\rm&space;def}{=}&space;f(x)&space;\stackrel{x\rightarrow&space;0}{\rightarrow}&space;A&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;y\stackrel{\rm&space;def}{=}&space;f(x)&space;\stackrel{x\rightarrow&space;0}{\rightarrow}&space;A&space;\end{aligned}" title="\begin{aligned} y\stackrel{\rm def}{=} f(x) \stackrel{x\rightarrow 0}{\rightarrow} A \end{aligned}" /></a>
+
+#### 微分
+
+
+
+
+
+
 
 # 已读论文列表
 - [2003]Bilateral Mesh Denoising 
