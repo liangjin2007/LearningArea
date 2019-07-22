@@ -1,3 +1,7 @@
+# Latex公式编辑
+- 在线公式编辑器 https://www.codecogs.com/latex/eqneditor.php
+- Latex语法 
+
 # 已读论文列表
 - [2003]Bilateral Mesh Denoising 
   - 两套权重相乘wc, ws
@@ -7,7 +11,9 @@
 - [2004]A Remeshing Approach to Multiresolution Modeling
   - laplace operator离散化
   - Euler-Lagrange PDE算子线性离散化
-  
+  - multigrid solver
+  - direct solver
+  - iterative solver 
 - [2002]Spanning Tree Seams for Reducing Parameterization Distortion of Triangulated Surfaces
   - Dijkstra shortest path algorithm
   - Minimal Spanning Tree algorithm
@@ -16,5 +22,6 @@
   - laplace smoothing
   - OPTIMAL DELAUNAY TRIANGULATION Smoother
   - Centroid Voronoi Tesselation Smoother
+  - 此论文一堆公式，最终得出的是类似于laplace smoothing一样的算子，唯一的不同是权重。
+  
 
-<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align}\notag&space;\dot{x}&=\mathbf{A}x&plus;\mathbf{B}u\\&space;y&=\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}x&plus;\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}u&space;\end{align}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{align}\notag&space;\dot{x}&=\mathbf{A}x&plus;\mathbf{B}u\\&space;y&=\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}x&plus;\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}u&space;\end{align}" title="\begin{align}\notag \dot{x}&=\mathbf{A}x+\mathbf{B}u\\ y&=\begin{bmatrix}1&0\\ 0&1\end{bmatrix}x+\begin{bmatrix}1&0\\ 0&1\end{bmatrix}u \end{align}" /></a>
