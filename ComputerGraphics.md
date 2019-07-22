@@ -5,13 +5,16 @@
     - ws：与像素相关的特征保留权重或者称为相似性权函数是 ws=exp(-x^2/sigma_s^2)
     - https://github.com/liangjin2007/data_liangjin/blob/master/bilateral_filtering.jpg?raw=true
 - [2004]A Remeshing Approach to Multiresolution Modeling
-  - **free from modeling**
-  选择编辑区域，然后使用boundary constraint method
-  - 历史
-    - NURBS难以处理复杂的物体,导致出现了很多方法是先把NURBS离散化成三角网格，然后再在三角网格上进行处理。
-    - Subdivision Mesh要求semi-regular拓扑连接关系。
-    - 三角网格非常自由。
-  - 多分辨率建模：
-    - 把曲面分成低频的base mesn和高频的细节
-    - a freeform modeling operator deforming the base surface
-    - a reconstruction operator adding the detail information back onto a modified version of the base surface
+  - laplace operator离散化
+  - Euler-Lagrange PDE算子线性离散化
+  
+- [2002]Spanning Tree Seams for Reducing Parameterization Distortion of Triangulated Surfaces
+  - Dijkstra shortest path algorithm
+  - Minimal Spanning Tree algorithm
+  
+- [2004]MESH SMOOTHING SCHEMES BASED ON OPTIMAL DELAUNAY TRIANGULATIONS
+  - laplace smoothing
+  - OPTIMAL DELAUNAY TRIANGULATION Smoother
+  - Centroid Voronoi Tesselation Smoother
+
+<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{align}\notag&space;\dot{x}&=\mathbf{A}x&plus;\mathbf{B}u\\&space;y&=\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}x&plus;\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}u&space;\end{align}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{align}\notag&space;\dot{x}&=\mathbf{A}x&plus;\mathbf{B}u\\&space;y&=\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}x&plus;\begin{bmatrix}1&0\\&space;0&1\end{bmatrix}u&space;\end{align}" title="\begin{align}\notag \dot{x}&=\mathbf{A}x+\mathbf{B}u\\ y&=\begin{bmatrix}1&0\\ 0&1\end{bmatrix}x+\begin{bmatrix}1&0\\ 0&1\end{bmatrix}u \end{align}" /></a>
