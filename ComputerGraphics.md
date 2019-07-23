@@ -182,3 +182,7 @@ A \supset B
   - 共形映射：把圆映射到圆
   - 如何把问题进行转化
   
+- [2002]Surface Simplification Using Quadric Error Metrics
+  - 优先队列
+  - edge swap
+  - edge clapse
