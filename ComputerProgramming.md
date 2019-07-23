@@ -1,13 +1,88 @@
 # 设计模式
 ### 创建型模式
 - 工厂模式
+```
+class Factory
+{
+  public:
+  Product* createProduct(string product_type_name)
+}
+```
+- 抽象工厂模式
+创建大的复杂对象
+```
+class AbstractFactory
+{
+  public:
+  virtual void createProductA()
+  virtual void createProductB()
+}
+class Factory1 public AbstractFactory{}
+class Factory2 public AbstractFactory{}
+```
 - 原型模式
+```
+class Prototype
+{
+public:
+  virtual Clone()
+}
+class ConcretePrototype
+{
+public:
+virtual Clone()
+}
+```
 - 构建者模式
+```
+class Builder
+{
+  public:
+    BuildPartA()
+    BuildPartB()
+    BuildPartC()
+    GetProduct()
+}
+```
 - 单例模式
+```
+class Singleton
+{
+public:
+  Object *getInstance()
+}
+```
 ### 结构型模式
 - 组合模式
+
 - 过滤器模式
 - 桥接模式
+```
+class Abstraction
+{
+public:
+virtual operation()
+private:
+AbstractionImp *pImp;
+}
+
+class RefinedAbstraction public Abstraction
+{
+public:
+virtual operation()
+}
+
+class AbstractionImp
+{
+public:
+virtual operation()
+}
+class ConcreteAbstractionImp public AbstractionImp
+{
+public:
+virtual operation()
+}
+```
 - 适配器模式
 - 装饰者模式
 - 门面模式
