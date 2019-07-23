@@ -178,4 +178,7 @@ A \supset B
   - Centroid Voronoi Tesselation Smoother
   - 此论文一堆公式，最终得出的是类似于laplace smoothing一样的算子，唯一的不同是权重。
   
-
+- [2002]Least Squares Conformal Maps for Automatic Texture Atlas Generation
+  - 共形映射：把圆映射到圆
+  - 如何把问题进行转化
+  
