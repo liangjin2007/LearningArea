@@ -242,5 +242,64 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 - robust statistics方法
 - 关键词 room reconstruction, room layout reconstruction
 # 图片美学
-- [2016][ECCV]photo aesthetics ranking network with attributes and content adaptation
+- paper列别
+```
+[2004]Classification of Digital Photos Taken by Photographers or Home Users.pdf
+[2004][ijcv]Distinctive Image Features from Scale-Invariant Keypoints.pdf
+[2006]Graph-Based Visual Saliency.pdf
+[2006][ECCV]Studying Aesthetics in Photographic Images Using a Computational Approach.pdf
+[2007]Learning Visual Attributes.pdf
+[2007][cvpr]Learning to Detect A Salient Object.pdf
+[2008]Algorithmic inferencing of aesthetics and emotion in natural images- An exposition.pdf
+[2008][eccv]Photo and Video Quality Evaluation- Focusing on the Subject.pdf
+[2009]Sensation-based Photo Cropping.pdf
+[2009][cvpr]Describing Objects by their Attributes.pdf
+[2009][cvpr]Learning To Detect Unseen Object Classes by Between-Class Attribute Transfer.pdf
+[2010]A Framework for Photo-Quality Assessment and Enhancement based on Visual Aesthetics.pdf
+[2010]ACQUINE- Aesthetic Quality Inference Engine – Real-time Automatic Rating of Photo Aesthetics.pdf
+[2011]Assessing the aesthetic quality of photographs using generic image descriptors.pdf
+[2011]Clustering-An Analysis of Single-Layer Networks in Unsupervised Feature Learning.pdf
+[2011][CVPR]Aesthetic Quality Classification of Photographs Based on Color Harmony.pdf
+[2011][CVPR]High level describable attributes for predicting aesthetics and interestingness.pdf
+[2011][ICCV]Content-Based Photo Quality Assessment.pdf
+[2011][cvpr]Learning to Predict the Perceived Visual Quality of Photos.pdf
+[2012]AVA Dataset.pdf
+[2012][cvpr]Meta-Class Features for Large-Scale Object Categorization on a Budget.pdf
+[2013]Learning beautiful (and ugly) attributes.pdf
+[2013]Size Does Matter- How Image Size Affects Aesthetic Perception.pdf
+[2014]RAPID--Rating Pictorial Aesthetics using Deep Learning.pdf
+[2014]Recognizing image style.pdf
+[2014][ijcv]Discovering beautiful attributes for aesthetic image analysis.pdf
+[2015][iccv]Deep Multi-Patch Aggregation Network for Image Style, Aesthetics, and Quality Estimation.pdf
+[2016]A Color Intensity Invariant Low Level Feature Optimization Framework for Image Quality Assessment.pdf
+[2016]Brain-Inspired Deep Networks for Image Aesthetics Assessment.pdf
+[2016]Hierarchical aesthetic quality assessment using deep convolutional neural networks.pdf
+[2016]ILGNet--Deep Image Aesthetics Classification using Inception Modules and Fine-tuning Connected Layer.pdf
+[2016]Image Aesthetic Assessment- An Experimental Survey.pdf
+[2016]Visual Aesthetic Quality Assessment with Multi-task Deep Learning.pdf
+[2016][CVPR]Composition-preserving Deep Photo Aesthetics Assessment.pdf
+[2016][CVPR]Rethinking the Inception Architecture for Computer Vision.pdf
+[2016][ECCV]photo aesthetics ranking network with attributes and content adaptation.pdf
+[2017]Aesthetic-Driven Image Enhancement by Adversarial Learning.pdf
+[2017]NIMA- Neural Image Assessment.pdf
+[2017]Quantitative Analysis of Automatic Image Cropping Algorithms- A Dataset and Comparative Study.pdf
+[2017][CVPR]A-Lamp- Adaptive Layout-Aware Multi-Patch Deep Convolutional Neural Network for Photo Aesthetic Assessment.pdf
+[2017][cvpr]Deep Image Harmonization.pdf
+[2017][iccv]Deep aesthetic quality assessment with semantic information.pdf
+[2017][iccv]Personalized Image Aesthetics.pdf
+[2018]Attention-based Multi-Patch Aggregation for Image Aesthetic Assessment.pdf
+```
 - 方法众多，但是好的能用的数据集很少， 能用的也就AVA数据集和AADB数据集
+
+# 检测模糊区域
+```
+[2004]Blur Detection for Digital Images Using Wavelet Transform.pdf
+[2014][cvpr]Discriminative Blur Detection Features
+```
+- point spread function PSF
+- 应用
+  - 模糊增强
+  - 模糊分割
+  - 去模糊 deblurring
+# 图像质量评估
+
