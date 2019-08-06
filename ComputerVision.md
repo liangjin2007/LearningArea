@@ -241,3 +241,6 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 - 提取平面墙->将它们与背景分离->处理缺失数据->提取独立房间(使用diffusion process)
 - robust statistics方法
 - 关键词 room reconstruction, room layout reconstruction
+# 图片美学
+- [2016][ECCV]photo aesthetics ranking network with attributes and content adaptation
+- 方法众多，但是好的能用的数据集很少， 能用的也就AVA数据集和AADB数据集
