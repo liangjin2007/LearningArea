@@ -236,3 +236,8 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 # 视频码率优化
 # 蒸馏学习
 # 模型压缩AliNN
+# 房间重建
+[2014][cg]Automatic room detection and reconstruction in cluttered indoor environments with complex room layouts
+- 提取平面墙->将它们与背景分离->处理缺失数据->提取独立房间(使用diffusion process)
+- robust statistics方法
+- 关键词 room reconstruction, room layout reconstruction
