@@ -10,7 +10,7 @@
 - 如何在keras框架下自己写训练循环
 - tfe.metrics
 
-# Tensorflow APIs
+## Tensorflow APIs
 ### 变量
 ```
 variable = tf.Variable(default, name=name, trainable=False) # 注意trainable可以指定变量为不可训练
@@ -18,6 +18,8 @@ placeholder = tf.placeholder(dtype=variable.dtype,
                              shape=variable.get_shape(),
                              name=(name + "/placeholder")) # 产生一个place holder型tensor, 执行时需要喂值给它
 
+# name_scope and variable_scope
+tf.name_scope is a context manager for use when defining a Python op.
 ```
 ### 命名
 - tf.add_to_collection(name, single_variable)
