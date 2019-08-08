@@ -159,9 +159,14 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 # 低秩矩阵恢复
 
 # 补洞
+```
+[2017][siggraph]Globally and Locally Consistent Image Completion
+```
 - https://github.com/tadax/glcic
+
 # 从单张图片制作视频
 - http://www.cs.cmu.edu/~om3d/
+
 # 可视化和游戏分析
 # 电影特效
 - https://www.youtube.com/watch?v=WDwTQ57YyzI#t=21
