@@ -35,5 +35,6 @@ tf.name_scope is a context manager for use when defining a Python op.
   - tf.train.get_or_create_global_step()
   - tf.train.Checkpoint(x=tf_variable).save(path)
   - tf.train.GradientDesceneOptimizer(leraning_rate=0.01)
+  - tf.train.ExponentialMovingAverage
 - 
 
