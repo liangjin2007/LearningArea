@@ -301,6 +301,8 @@ print(sess.run(y_pred))
 
 - 什么是 tf.Graph？
 
+## Estimator
+
 
 
 ## Eager Execution
@@ -321,8 +323,10 @@ placeholder = tf.placeholder(dtype=variable.dtype,
                              shape=variable.get_shape(),
                              name=(name + "/placeholder")) # 产生一个place holder型tensor, 执行时需要喂值给它
 
-# name_scope and variable_scope
-tf.name_scope is a context manager for use when defining a Python op.
+
+tf.variable_scope可以让不同命名空间中的变量取相同的名字，无论tf.get_variable或者tf.Variable生成的变量
+tf.name_scope具有类似的功能，但只限于tf.Variable生成的变量
+
 ```
 ### 命名
 - tf.add_to_collection(name, single_variable)
@@ -340,4 +344,13 @@ tf.name_scope is a context manager for use when defining a Python op.
   - tf.train.GradientDesceneOptimizer(leraning_rate=0.01)
   - tf.train.ExponentialMovingAverage
 - 
+
+### Estimator
+- tf.estimator.Estimator
+- tf.keras.estimator.model_to_estimator
+- tf.feature_column
+- tf.estimator.LinearClassifier
+-tf.estimator.Estimator.train
+
+
 
