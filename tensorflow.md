@@ -327,6 +327,8 @@ placeholder = tf.placeholder(dtype=variable.dtype,
 tf.variable_scope可以让不同命名空间中的变量取相同的名字，无论tf.get_variable或者tf.Variable生成的变量
 tf.name_scope具有类似的功能，但只限于tf.Variable生成的变量
 
+tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope=var_scope.name)
+
 ```
 ### 命名
 - tf.add_to_collection(name, single_variable)
