@@ -299,7 +299,10 @@ for i in range(100):
 print(sess.run(y_pred))
 ```
 
-- 
+- 什么是 tf.Graph？
+
+
+
 ## Eager Execution
 - 需要最新的tensorflow
 - 如何启用eager模式 tf.enable_eager_execution()
