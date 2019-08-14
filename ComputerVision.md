@@ -160,7 +160,15 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 
 # 补洞
 ```
-[2017][siggraph]Globally and Locally Consistent Image Completion
+- Patch based inpainting, synthesize texture by collecting small image patches
+- [2014]Learning inpainting with GAN
+- [2016]Learning-based inpainting
+- [2017][siggraph]Globally and Locally Consistent Image Completion
+  - Completion Network
+  - Discriminator Network
+    - Local
+    - Global
+    
 ```
 - https://github.com/tadax/glcic
 
