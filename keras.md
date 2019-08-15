@@ -1,6 +1,257 @@
+Keras mnist siamese
+===================================================================
+```
+def contrastive_loss(y_true, y_pred):
+    '''Contrastive loss from Hadsell-et-al.'06
+    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+    '''
+    margin = 1
+    square_pred = K.square(y_pred)
+    margin_square = K.square(K.maximum(margin - y_pred, 0))
+    return K.mean(y_true * square_pred + (1 - y_true) * margin_square)
+def create_pairs(x, digit_indices):
+    '''Positive and negative pair creation.
+    Alternates between positive and negative pairs.
+    '''
+    pairs = []
+    labels = []
+    n = min([len(digit_indices[d]) for d in range(num_classes)]) - 1
+    for d in range(num_classes):
+        for i in range(n):
+            z1, z2 = digit_indices[d][i], digit_indices[d][i + 1]
+            pairs += [[x[z1], x[z2]]]
+            inc = random.randrange(1, num_classes)
+            dn = (d + inc) % num_classes
+            z1, z2 = digit_indices[d][i], digit_indices[dn][i]
+            pairs += [[x[z1], x[z2]]]
+            labels += [1, 0]
+    return np.array(pairs), np.array(labels)
+```
+
+Keras transfer learning
+===================================================================
+```
+layer.trainable = False
+```
+
+Keras mnist mlp multiple layer perception多层感知器
+====================================================================
+```
+from __future__ import print_function
+
+import keras
+from keras.datasets import mnist
+from keras.models import Sequential
+from keras.layers import Dense, Dropout
+from keras.optimizers import RMSprop
+
+batch_size = 128
+num_classes = 10
+epochs = 20
+
+# the data, split between train and test sets
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+x_train = x_train.reshape(60000, 784)
+x_test = x_test.reshape(10000, 784)
+x_train = x_train.astype('float32')
+x_test = x_test.astype('float32')
+x_train /= 255
+x_test /= 255
+print(x_train.shape[0], 'train samples')
+print(x_test.shape[0], 'test samples')
+
+# convert class vectors to binary class matrices
+y_train = keras.utils.to_categorical(y_train, num_classes)
+y_test = keras.utils.to_categorical(y_test, num_classes)
+
+model = Sequential()
+model.add(Dense(512, activation='relu', input_shape=(784,)))
+model.add(Dropout(0.2))
+model.add(Dense(512, activation='relu'))
+model.add(Dropout(0.2))
+model.add(Dense(num_classes, activation='softmax'))
+
+model.summary()
+
+model.compile(loss='categorical_crossentropy',
+              optimizer=RMSprop(),
+              metrics=['accuracy'])
+
+history = model.fit(x_train, y_train,
+                    batch_size=batch_size,
+                    epochs=epochs,
+                    verbose=1,
+                    validation_data=(x_test, y_test))
+score = model.evaluate(x_test, y_test, verbose=0)
+print('Test loss:', score[0])
+print('Test accuracy:', score[1])
+```
+
+Keras tfrecords
+====================================================================
+```
+cache_dir = os.path.expanduser(
+    os.path.join('~', '.keras', 'datasets', 'MNIST-data'))
+data = mnist.read_data_sets(cache_dir, validation_size=0)
+
+x_train_batch, y_train_batch = tf.train.shuffle_batch(
+    tensors=[data.train.images, data.train.labels.astype(np.int32)],
+    batch_size=batch_size,
+    capacity=capacity,
+    min_after_dequeue=min_after_dequeue,
+    enqueue_many=enqueue_many,
+    num_threads=8)
+
+x_train_batch = tf.cast(x_train_batch, tf.float32)
+x_train_batch = tf.reshape(x_train_batch, shape=batch_shape)
+
+y_train_batch = tf.cast(y_train_batch, tf.int32)
+y_train_batch = tf.one_hot(y_train_batch, num_classes)
+
+x_batch_shape = x_train_batch.get_shape().as_list()
+y_batch_shape = y_train_batch.get_shape().as_list()
+
+model_input = layers.Input(tensor=x_train_batch) #这个地方直接将输入数据传入
+model_output = cnn_layers(model_input)
+train_model = keras.models.Model(inputs=model_input, outputs=model_output)
+
+train_model.compile(optimizer=keras.optimizers.RMSprop(lr=2e-3, decay=1e-5),
+                    loss='categorical_crossentropy',
+                    metrics=['accuracy'],
+                    target_tensors=[y_train_batch]) # 这个地方直接将label传入
+train_model.summary()
+x_test_batch, y_test_batch = tf.train.batch(
+    tensors=[data.test.images, data.test.labels.astype(np.int32)],
+    batch_size=batch_size,
+    capacity=capacity,
+    enqueue_many=enqueue_many,
+    num_threads=8)
+
+# Create a separate test model
+# to perform validation during training
+x_test_batch = tf.cast(x_test_batch, tf.float32)
+x_test_batch = tf.reshape(x_test_batch, shape=batch_shape)
+
+y_test_batch = tf.cast(y_test_batch, tf.int32)
+y_test_batch = tf.one_hot(y_test_batch, num_classes)
+
+x_test_batch_shape = x_test_batch.get_shape().as_list()
+y_test_batch_shape = y_test_batch.get_shape().as_list()
+
+test_model_input = layers.Input(tensor=x_test_batch)
+test_model_output = cnn_layers(test_model_input)
+test_model = keras.models.Model(inputs=test_model_input, outputs=test_model_output)
+
+# Pass the target tensor `y_test_batch` to `compile`
+# via the `target_tensors` keyword argument:
+test_model.compile(optimizer=keras.optimizers.RMSprop(lr=2e-3, decay=1e-5),
+                   loss='categorical_crossentropy',
+                   metrics=['accuracy'],
+                   target_tensors=[y_test_batch])
+
+# Fit the model using data from the TFRecord data tensors.
+coord = tf.train.Coordinator()
+threads = tf.train.start_queue_runners(sess, coord)
+
+train_model.fit(
+    epochs=epochs,
+    steps_per_epoch=int(np.ceil(data.train.num_examples / float(batch_size))),
+    callbacks=[EvaluateInputTensor(test_model, steps=100)])
+
+# Save the model weights.
+train_model.save_weights('saved_wt.h5')
+
+# Clean up the TF session.
+coord.request_stop()
+coord.join(threads)
+K.clear_session()
+
+# Second Session to test loading trained model without tensors
+x_test = np.reshape(data.test.images, (data.test.images.shape[0], 28, 28, 1))
+y_test = data.test.labels
+x_test_inp = layers.Input(shape=(x_test.shape[1:]))
+test_out = cnn_layers(x_test_inp)
+test_model = keras.models.Model(inputs=x_test_inp, outputs=test_out)
+
+test_model.load_weights('saved_wt.h5')
+test_model.compile(optimizer='rmsprop',
+                   loss='categorical_crossentropy',
+                   metrics=['accuracy'])
+test_model.summary()
+
+loss, acc = test_model.evaluate(x_test,
+                                keras.utils.to_categorical(y_test),
+                                batch_size=batch_size)
+print('\nTest accuracy: {0}'.format(acc))
+```
+
+Keras sklearn wrapper
+=====================================================================
+```
+def make_model(dense_layer_sizes, filters, kernel_size, pool_size):
+    '''Creates model comprised of 2 convolutional layers followed by dense layers
+
+    dense_layer_sizes: List of layer sizes.
+        This list has one number for each layer
+    filters: Number of convolutional filters in each convolutional layer
+    kernel_size: Convolutional kernel size
+    pool_size: Size of pooling area for max pooling
+    '''
+
+    model = Sequential()
+    model.add(Conv2D(filters, kernel_size,
+                     padding='valid',
+                     input_shape=input_shape))
+    model.add(Activation('relu'))
+    model.add(Conv2D(filters, kernel_size))
+    model.add(Activation('relu'))
+    model.add(MaxPooling2D(pool_size=pool_size))
+    model.add(Dropout(0.25))
+
+    model.add(Flatten())
+    for layer_size in dense_layer_sizes:
+        model.add(Dense(layer_size))
+        model.add(Activation('relu'))
+    model.add(Dropout(0.5))
+    model.add(Dense(num_classes))
+    model.add(Activation('softmax'))
+
+    model.compile(loss='categorical_crossentropy',
+                  optimizer='adadelta',
+                  metrics=['accuracy'])
+
+    return model
+
+dense_size_candidates = [[32], [64], [32, 32], [64, 64]]
+my_classifier = KerasClassifier(make_model, batch_size=32)
+validator = GridSearchCV(my_classifier,
+                         param_grid={'dense_layer_sizes': dense_size_candidates,
+                                     # epochs is avail for tuning even when not
+                                     # an argument to model building function
+                                     'epochs': [3, 6],
+                                     'filters': [8],
+                                     'kernel_size': [3],
+                                     'pool_size': [2]},
+                         scoring='neg_log_loss',
+                         n_jobs=1)
+validator.fit(x_train, y_train)
+
+print('The parameters of the best model are: ')
+print(validator.best_params_)
+
+# validator.best_estimator_ returns sklearn-wrapped version of best model.
+# validator.best_estimator_.model returns the (unwrapped) keras model
+best_model = validator.best_estimator_.model
+metric_names = best_model.metrics_names
+metric_values = best_model.evaluate(x_test, y_test)
+for metric, value in zip(metric_names, metric_values):
+    print(metric, ': ', value)
+
+```
+
 Keras cifar10_cnn_tfaugment2d.py
 =====================================================================
-
 - tf.contrib.image.compose_transforms(*transforms)
 - tf.contrib.image.transform()
 - tf.contrib.image.angles_to_projective_transforms
@@ -10,16 +261,6 @@ Keras cifar10_cnn_tfaugment2d.py
 - tf.where
 - tf.random_uniform
 - tf.less
-
-
-
-
-
-
-one hot vector
-=====================================================================
-keras.utils.to_categorical
-
 
 Keras数据增强的用法
 =====================================================================
