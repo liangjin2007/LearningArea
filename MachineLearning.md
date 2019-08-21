@@ -39,6 +39,7 @@ http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
    - 实现简单
    - 具体实现看这里 https://github.com/yu4u/mixup-generator/blob/master/mixup_generator.py
    - 第一步、取得打乱的样本索引；逐对batch进行计算
+
 - 弱监督学习
    - 主动学习：假定没打标的实例的GT标签能通过专家查询得到，目标之一是极小化查询次数。给定一个比较小的打标好的数据集，主动学习会从没打标的数据中选择最有价值的实例进行专家查询。
       - 信息量：减少统计模型的uncertainty
@@ -63,6 +64,19 @@ http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
 - SMA
    - 
    - 
+   
+- 对抗样本问题
+```
+[2014]EXPLAINING AND HARNESSING ADVERSARIAL EXAMPLES 提出了流行的FGSM方法
+[2017]Feature Squeezing:Detecting Adversarial Examples in Deep Neural Networks
+```
+对抗样本论文汇总 https://zhuanlan.zhihu.com/p/32037178
+
+- 对抗训练
+
+- CRF
+mean field approximation http://vladlen.info/papers/densecrf-supplementary.pdf
+
 # 传统机器学习
 - 线性回归 Linear Regression
 - 逻辑回归 Logistic Regression
@@ -200,13 +214,5 @@ def cross_entropy_loss(y_true, y_pred):
 - Focal Loss
 - Triplet Loss
 
-# 对抗样本问题
-```
-[2014]EXPLAINING AND HARNESSING ADVERSARIAL EXAMPLES 提出了流行的FGSM方法
-[2017]Feature Squeezing:Detecting Adversarial Examples in Deep Neural Networks
 
-```
-- 对抗样本论文汇总 https://zhuanlan.zhihu.com/p/32037178
-
-# 对抗训练
 
