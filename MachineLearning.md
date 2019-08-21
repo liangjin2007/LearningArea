@@ -4,6 +4,10 @@ http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
 - mean-shift
    - Objective : Find the densest region
 
+# 网络架构
+- resnet50 keras自带
+- densenet https://github.com/flyyufelix/DenseNet-Keras
+- inceptionv3
 
 # 数据集
 - [Microsoft COCO](https://zhuanlan.zhihu.com/p/32566503)
@@ -192,4 +196,17 @@ def cross_entropy_loss(y_true, y_pred):
 - lasso L1 Loss
 
 - L2 Loss
+
+- Focal Loss
+- Triplet Loss
+
+# 对抗样本问题
+```
+[2014]EXPLAINING AND HARNESSING ADVERSARIAL EXAMPLES 提出了流行的FGSM方法
+[2017]Feature Squeezing:Detecting Adversarial Examples in Deep Neural Networks
+
+```
+- 对抗样本论文汇总 https://zhuanlan.zhihu.com/p/32037178
+
+# 对抗训练
 
