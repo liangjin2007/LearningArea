@@ -44,6 +44,12 @@ class Antirectifier(layers.Layer):
         return K.concatenate([pos, neg], axis=1)
 ```
 
+Keras mnist net2net用知识迁移来加速训练
+===================================================================
+```
+算是迁移学习的一种，用更宽的卷积去套住已经训练好的权重
+```
+
 
 Keras mnist denoising autodecoder
 ===================================================================
