@@ -1,3 +1,11 @@
+ImageDataGenerator的用法
+==================================================================
+datagen.flow(x_train, y_train, batch_size=batch_size)
+
+
+
+
+
 Keras Antirectifier 如何自定义Layer
 ===================================================================
 We need to specify two methods: `compute_output_shape` and `call`.
