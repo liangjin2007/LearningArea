@@ -14,12 +14,20 @@
     - 跟threejsmesh转换
     - site页面非常不错。一目了然。
   - Famous Engine: 物理引擎，绘制引擎
+  - leaflet https://leafletjs.com：js地图插件
 - Python
   - snake-ai：是否真的是AI？确实是的
   - pyemd: 计算两个直方图之间的距离，称为EMD距离。如果两个直方图的bin是相同的，那么可以简单地用l2计算，但是经过量化，亮度变换等操作，两个直方图的bins是对不齐（alignment问题）的。这个时候就要用到EMD距离。具体可以查看[2009][iccv]Fast and Robust Earth Mover’s Distances.
+  - PI-REC: ai-painting系统
+  
 - matlab
   - gptoolbox: a toolbox of useful matlab functions for geometry processing
 
 - 软件
   - Google Map产生现实地形 https://www.youtube.com/watch?v=Plcyi5KvCl8 
 
+- 各种awesome
+  - 中文nlp Awesome-Chinese-NLP
+  - awesome game
+    - polycraft https://ga.me/games/polycraft
+    - threejs game xxx
