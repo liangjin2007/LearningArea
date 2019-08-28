@@ -6,8 +6,11 @@
   - flann：近似最近邻算法。 看例子，使用起来比较简单。
   - Line3Dpp：3D线段重建。接在其他SfM框架后面，比如OpenMVG, colormap, VisualSfM, bundler, Pix4D, mavmap等。
   - C++ AMP: C++ AMP是微软公司基于DirectX 11技术实现的一个并行计算库. parallel_for_each
+  - IBLBaker: rendering related sample
+  
 - js
   - video.js：视频展示
+  - glfx.js:图像处理效果
   - gpu.js：基于GPU的运算
   - verb: nurbs曲线曲面；支持其他语言；功能包括：圆锥曲线，插值曲线，最近点，等弧长分割，曲线-曲线求交，分割曲线，圆柱曲面，extruded surface, 旋转曲面，梯形曲面，自适应曲面细分，网格-网格求交，网格切片，nurbs曲面，曲面边界，到曲面的最近点，曲面等值线，曲面曲面求交，曲面分割，两曲线扫出曲面。
     - 特殊的html css风格，用来实现在浏览器中展示代码编辑器的功能。
@@ -29,5 +32,6 @@
 - 各种awesome
   - 中文nlp Awesome-Chinese-NLP
   - awesome game
+    - turbulenz_engine：学习js和ts的好代码
     - polycraft https://ga.me/games/polycraft
     - threejs game xxx
