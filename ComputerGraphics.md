@@ -1,6 +1,6 @@
 # 渲染
 ### PBR理论
-- [](https://github.com/liangjin2007/data_liangjin/blob/master/PBR%E7%90%86%E8%AE%BA.jpg?raw=true)
+- ![](https://github.com/liangjin2007/data_liangjin/blob/master/PBR%E7%90%86%E8%AE%BA.jpg?raw=true)
 
 ### PBRT架构
 ### Surface Material(bxdfs)
