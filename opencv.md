@@ -5,6 +5,37 @@
   - 区域增长
   - 类似于分水岭算法
   - 多级灰度threshold
+```
+import numpy as np
+import cv2 as cv
+import video
+import sys
+
+if __name__ == '__main__':
+    try:
+        video_src = sys.argv[1]
+    except:
+        video_src = 0
+
+    cam = video.create_capture(video_src)
+    mser = cv.MSER_create()
+
+    while True:
+        ret, img = cam.read()
+        if ret == 0:
+            break
+        gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+        vis = img.copy()
+
+        regions, _ = mser.detectRegions(gray)
+        hulls = [cv.convexHull(p.reshape(-1, 1, 2)) for p in regions]
+        cv.polylines(vis, hulls, 1, (0, 255, 0))
+
+        cv.imshow('img', vis)
+        if cv.waitKey(5) == 27:
+            break
+    cv.destroyAllWindows()
+```
 
 - Blob检测 用于几何形状提取和分析
   - 圆度
@@ -47,7 +78,8 @@
 st = cv.getStructuringElement(getattr(cv, str_name), (sz, sz))
 res = cv.morphologyEx(img, getattr(cv, oper_name), st, iterations=iters)
 ```
-- mouse_and_match.py
+- mouse_and_match
+模版匹配，鼠标交互
 ```
 patch = gray[sel[1]:sel[3],sel[0]:sel[2]]
 result = cv.matchTemplate(gray,patch,cv.TM_CCOEFF_NORMED)
@@ -57,5 +89,9 @@ result8 = cv.normalize(result,None,0,255,cv.NORM_MINMAX,cv.CV_8U)
 cv.imshow("result", result8)
 ```
     
+- video_threaded
+```
+
+```
 
 
