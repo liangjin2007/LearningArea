@@ -43,9 +43,11 @@
 - morphology
 腐蚀/膨胀/开/闭
   - 开运算：先腐蚀再膨胀，用周围原色填补白色小洞。清楚物体外的小孔洞，闭运算填补物体内的小孔洞。
+```
+st = cv.getStructuringElement(getattr(cv, str_name), (sz, sz))
+res = cv.morphologyEx(img, getattr(cv, oper_name), st, iterations=iters)
+```
 
-    
- 
     
 
 
