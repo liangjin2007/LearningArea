@@ -47,7 +47,15 @@
 st = cv.getStructuringElement(getattr(cv, str_name), (sz, sz))
 res = cv.morphologyEx(img, getattr(cv, oper_name), st, iterations=iters)
 ```
-
+- mouse_and_match.py
+```
+patch = gray[sel[1]:sel[3],sel[0]:sel[2]]
+result = cv.matchTemplate(gray,patch,cv.TM_CCOEFF_NORMED)
+result = np.abs(result)**3
+_val, result = cv.threshold(result, 0.01, 0, cv.THRESH_TOZERO)
+result8 = cv.normalize(result,None,0,255,cv.NORM_MINMAX,cv.CV_8U)
+cv.imshow("result", result8)
+```
     
 
 
