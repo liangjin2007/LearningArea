@@ -90,54 +90,18 @@ cv.imshow("result", result8)
 ```
     
 - video_threaded
+  - 线程池创建
+  - 线程池消费和生产
+  - 循环怎么写，异步操作
 ```
-'''
-Multithreaded video processing sample.
-Usage:
-   video_threaded.py {<video device number>|<video file name>}
-
-   Shows how python threading capabilities can be used
-   to organize parallel captured frame processing pipeline
-   for smoother playback.
-
-Keyboard shortcuts:
-
-   ESC - exit
-   space - switch between multi and single threaded processing
-'''
-
-# Python 2/3 compatibility
-from __future__ import print_function
-
-import numpy as np
-import cv2 as cv
-
 from multiprocessing.pool import ThreadPool
 from collections import deque
-
 from common import clock, draw_str, StatValue
 import video
 
-
-class DummyTask:
-    def __init__(self, data):
-        self.data = data
-    def ready(self):
-        return True
-    def get(self):
-        return self.data
-
 if __name__ == '__main__':
     import sys
-
-    print(__doc__)
-
-    try:
-        fn = sys.argv[1]
-    except:
-        fn = 0
-    cap = video.create_capture(fn)
-
+    cap = video.create_capture(0)
 
     def process_frame(frame, t0):
         # some intensive computation...
@@ -148,14 +112,11 @@ if __name__ == '__main__':
     threadn = cv.getNumberOfCPUs()
     pool = ThreadPool(processes = threadn)
     pending = deque()
-
-    threaded_mode = True
-
     latency = StatValue()
     frame_interval = StatValue()
     last_frame_time = clock()
     while True:
-        while len(pending) > 0 and pending[0].ready():
+        while len(pending) > 0 and pending[0].ready(): # 获取队列第一个。
             res, t0 = pending.popleft().get()
             latency.update(clock() - t0)
             draw_str(res, (20, 20), "threaded      :  " + str(threaded_mode))
@@ -180,4 +141,61 @@ if __name__ == '__main__':
 cv.destroyAllWindows()
 ```
 
+- watershed
+```
+from common import Sketcher
+sketch = Sketcher('img', [self.markers_vis, self.markers], self.get_colors)
+sketch.show()
+sketch.dirty = True 
 
+m = self.markers.copy()
+cv.watershed(self.img, m)
+overlay = self.colors[np.maximum(m, 0)]
+vis = cv.addWeighted(self.img, 0.5, overlay, 0.5, 0.0, dtype=cv.CV_8UC3)
+cv.imshow('watershed', vis)
+```
+
+- turing
+https://softologyblog.wordpress.com/2011/07/05/multi-scale-turing-patterns/
+
+- floodfill
+```
+cv.floodFill(flooded, mask, seed_pt, (255, 255, 255), (lo,)*3, (hi,)*3, flags)
+cv.circle(flooded, seed_pt, 2, (0, 0, 255), -1)
+cv.imshow('floodfill', flooded)
+```
+
+- kmeans
+```
+def make_gaussians(cluster_n, img_size):
+    points = []
+    ref_distrs = []
+    for _i in xrange(cluster_n):
+        mean = (0.1 + 0.8*random.rand(2)) * img_size
+        a = (random.rand(2, 2)-0.5)*img_size*0.1
+        cov = np.dot(a.T, a) + img_size*0.05*np.eye(2)
+        n = 100 + random.randint(900)
+        pts = random.multivariate_normal(mean, cov, n)
+        points.append( pts )
+        ref_distrs.append( (mean, cov) )
+    points = np.float32( np.vstack(points) )
+    return points, ref_distrs
+    
+def draw_gaussain(img, mean, cov, color):
+    x, y = np.int32(mean)
+    w, u, _vt = cv.SVDecomp(cov)
+    ang = np.arctan2(u[1, 0], u[0, 0])*(180/np.pi)
+    s1, s2 = np.sqrt(w)*3.0
+    cv.ellipse(img, (x, y), (s1, s2), ang, 0, 360, color, 1, cv.LINE_AA)
+```
+
+- edge
+Canny Detection
+```
+edge = cv.Canny(gray, thrs1, thrs2, apertureSize=5)
+vis = img.copy()
+vis = np.uint8(vis/2.)
+vis[edge != 0] = (0, 255, 0)
+```
+
+- 
