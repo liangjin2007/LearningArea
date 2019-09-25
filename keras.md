@@ -1,9 +1,14 @@
+Keras mnist_swwae.py
+===================================================================
+s means stacked 堆叠
+MaxPooling, UpSampling2D
+需要求梯度的梯度，backend需要是theano。
+对这两个Layer的参数比较难理解
+
+
 ImageDataGenerator的用法
-==================================================================
+===================================================================
 datagen.flow(x_train, y_train, batch_size=batch_size)
-
-
-
 
 
 Keras Antirectifier 如何自定义Layer
