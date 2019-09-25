@@ -23,6 +23,7 @@
   - pyemd: 计算两个直方图之间的距离，称为EMD距离。如果两个直方图的bin是相同的，那么可以简单地用l2计算，但是经过量化，亮度变换等操作，两个直方图的bins是对不齐（alignment问题）的。这个时候就要用到EMD距离。具体可以查看[2009][iccv]Fast and Robust Earth Mover’s Distances.
   - PI-REC: ai-painting系统
   - mrisa: 用python flask实现restful api， 及google以图搜图。
+  - Salient-Object-Detection https://github.com/Joker316701882/Salient-Object-Detection, tensorflow1.8, python2.7, 对植物树枝类特写检测效果比较差，其他还行。
   
 - matlab
   - gptoolbox: a toolbox of useful matlab functions for geometry processing
