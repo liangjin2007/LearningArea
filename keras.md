@@ -1,6 +1,6 @@
 Keras实现复杂模型
 ===================================================================
-https://www.cnblogs.com/baiting/p/8429896.html
+https://www.imooc.com/article/details/id/31034
 
 
 
