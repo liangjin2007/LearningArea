@@ -1,5 +1,60 @@
 Keras实现多输入多输出
 ===================================================================
+- 模型定义的输入输出需要等量：model definition should contain equal amount of inputs and outputs.
+    - 可以添加空输入，空输出，loss使用记录（self.）的方式。
+
+- 数据生成器格式：data generator must output [input1, input2, input3, input4], [output1, output2, output3, output4]而不是[input1,output1],[input2,output2],...
+
+- 输出名：outputs'name can be used to determine which output metrics applying to.
+
+- 写loss函数可以将参数设成y_true, y_pred都是one_hot，只要让多输出的输出设为定义的空的输出，比如：
+```
+        input_image = Input(shape=input_shape, dtype=tf.float32) # image
+        
+        input_target_tripletloss = Input(shape=(num_classes,), dtype=tf.float32) # an input for the 2nd loss
+        output_target_tripletloss= Lambda(lambda x:x, name="tripletloss")(input_target_tripletloss)
+
+        input_target_centerloss = Input(shape=(1,), dtype=tf.int32) # an input for the 3rd loss
+        output_target_centerloss = Lambda(lambda x:tf.squeeze(tf.one_hot(tf.cast(x, tf.int32), num_classes, 1.0, 0.0, dtype=tf.float32),axis=1), name="centerloss")(input_target_centerloss)
+
+        input_target_consistencyloss = Input(shape=(num_classes,), dtype=tf.float32) # an input for the 3rd loss
+        output_target_consistencyloss = Lambda(lambda x:x, name="consistencyloss")(input_target_consistencyloss)
+
+        self.centers = Embedding(num_classes, output_dim=fc_size)(input_target_centerloss)
+
+        input_noise_student = GaussianNoise(FLAGS.input_noise)(input_image)
+        input_noise_teacher = GaussianNoise(FLAGS.input_noise)(input_image)
+       
+        resnet_out_student = ResNet50(input_tensor = input_noise_student, include_top=False, input_shape=input_shape, weights=None, tag="student")
+        resnet_out_teacher = ResNet50(input_tensor = input_noise_teacher, include_top=False, input_shape=input_shape, weights=None, tag="teacher")
+       
+        x = GlobalMaxPooling2D()(resnet_out_student.output)
+        embedding_student = Dense(fc_size, activation='relu', name = "embedding_student")(x)
+        x = Dropout(FLAGS.dropout)(embedding_student)   
+        self.probs_student = Dense(num_classes, activation='softmax', name="probs_student")(x)
+        self.normed_embedding_student =  Lambda(lambda x: K.l2_normalize(x, axis=1))(embedding_student)
+         
+        self.student = Model(inputs=input_image, outputs=self.probs_student)
+    
+        x = GlobalAveragePooling2D()(resnet_out_teacher.output)
+        embedding_teacher = Dense(fc_size, activation='relu')(x)
+        x = Dropout(FLAGS.dropout)(embedding_teacher)
+        self.probs_teacher = Dense(num_classes, activation='softmax', name="probs_teacher")(x)
+        self.teacher = Model(inputs=input_image, outputs=self.probs_teacher)
+        
+        if use_gpu:
+            self.mean_teacher = multi_gpu_model(Model(
+                   inputs=[input_image, input_target_tripletloss, input_target_centerloss, input_target_consistencyloss]
+                , outputs=[self.probs_student, output_target_tripletloss, output_target_centerloss, output_target_consistencyloss]
+                )
+            ,self.gpu_count)
+        else:
+            self.mean_teacher = Model(
+                inputs=[input_image, input_target_tripletloss, input_target_centerloss, input_target_consistencyloss]
+                , outputs=[self.probs_student, output_target_tripletloss, output_target_centerloss, output_target_consistencyloss]
+                )
+```
+
 ```
 from keras.layers import Input, Embedding, LSTM, Dense
 from keras.models import Model
