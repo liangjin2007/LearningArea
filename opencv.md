@@ -198,4 +198,14 @@ vis = np.uint8(vis/2.)
 vis[edge != 0] = (0, 255, 0)
 ```
 
-- 
+- letter_recog.py 
+这个是训练模型的例子。使用cv.ml中的RTree, KNeaerest, Boost, SVM, MLP，默认是训练Random Trees classifier.
+model=cv2.ml.RTrees_create()
+model.train(samples, cv2.ml.ROW_SAMPLE, responses.astype(int))
+
+- browse.py
+这个是图片放大器。
+small = cv.pyrDown(small)
+cv.getRectSubPix(img, (800,600),(x+0.5, y+0.5))
+
+
