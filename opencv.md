@@ -187,6 +187,19 @@ def draw_gaussain(img, mean, cov, color):
     ang = np.arctan2(u[1, 0], u[0, 0])*(180/np.pi)
     s1, s2 = np.sqrt(w)*3.0
     cv.ellipse(img, (x, y), (s1, s2), ang, 0, 360, color, 1, cv.LINE_AA)
+
+points, _ = make_gaussians(cluster_n, img_size)
+        
+term_crit = (cv.TERM_CRITERIA_EPS, 30, 0.1)
+ret, labels, centers = cv.kmeans(points, cluster_n, None, term_crit, 10, 0)
+
+img = np.zeros((img_size, img_size, 3), np.uint8)
+for (x, y), label in zip(np.int32(points), labels.ravel()):
+    c = list(map(int, colors[label]))
+
+    cv.circle(img, (x, y), 1, c, -1)
+
+cv.imshow('gaussian mixture', img)
 ```
 
 - edge
@@ -207,5 +220,8 @@ model.train(samples, cv2.ml.ROW_SAMPLE, responses.astype(int))
 这个是图片放大器。
 small = cv.pyrDown(small)
 cv.getRectSubPix(img, (800,600),(x+0.5, y+0.5))
+
+- tst_scene_render.py
+演示cv.fillConvexPoly，非常快的一个接口
 
 
