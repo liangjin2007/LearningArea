@@ -224,4 +224,11 @@ cv.getRectSubPix(img, (800,600),(x+0.5, y+0.5))
 - tst_scene_render.py
 演示cv.fillConvexPoly，非常快的一个接口
 
+- peopledetect.py
+```
+hog = cv.HOGDescriptor()
+hog.setSVMDetector( cv.HOGDescriptor_getDefaultPeopleDetector() )  
+found, w = hog.detectMultiScale(img, winStride=(8,8), padding=(32,32), scale=1.05)
+```
 
+- 
