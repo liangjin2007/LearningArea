@@ -242,6 +242,7 @@ cv.polylines(h,[pts],False,col)
 ```
 
 - contours.py
+levels设成7能显示所有大小的轮廓
 ```
 contours0, hierarchy = cv.findContours( img.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 contours = [cv.approxPolyDP(cnt, 3, True) for cnt in contours0]
