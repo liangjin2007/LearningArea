@@ -231,4 +231,26 @@ hog.setSVMDetector( cv.HOGDescriptor_getDefaultPeopleDetector() )
 found, w = hog.detectMultiScale(img, winStride=(8,8), padding=(32,32), scale=1.05)
 ```
 
-- 
+- hist.py
+```
+hist_item = cv.calcHist([im],[ch],None,[256],[0,256])
+print(hist_item.shape) # (256,1)
+cv.normalize(hist_item,hist_item,0,255,cv.NORM_MINMAX)
+hist=np.int32(np.around(hist_item))
+pts = np.int32(np.column_stack((bins,hist)))
+cv.polylines(h,[pts],False,col)
+```
+
+- contours.py
+```
+contours0, hierarchy = cv.findContours( img.copy(), cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+contours = [cv.approxPolyDP(cnt, 3, True) for cnt in contours0]
+
+def update(levels):
+    vis = np.zeros((h, w, 3), np.uint8)
+    levels = levels - 3
+    cv.drawContours( vis, contours, (-1, 2)[levels <= 0], (128,255,255),
+        3, cv.LINE_AA, hierarchy, abs(levels) )
+    cv.imshow('contours', vis)
+```
+
