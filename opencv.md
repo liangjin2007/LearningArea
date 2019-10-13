@@ -255,3 +255,7 @@ def update(levels):
     cv.imshow('contours', vis)
 ```
 
+- find_obj.py
+给定图片，根据图片特征去另一张图片中寻找图片
+
+
