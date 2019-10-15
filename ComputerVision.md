@@ -1,3 +1,9 @@
+# tutorials
+http://cvpr2018.thecvf.com/program/tutorials
+http://cvpr2019.thecvf.com/program/tutorials
+...
+
+
 # 视觉历史
 1959开始研究猫脑中哪些部分影响视觉， 1963年Block World， 1965年第一个暑期视觉项目， 1970年出视觉方面的第一本书David Marr，处于视觉表示阶段， 1979年Generalized Cylinder, 1973年Pictorial Structure, 1987年边检测，1997年Normalized Cut, 2001年Face Detection Viola & Jones, 1999年SIFT&对象检测， 2006年Spatial Pyramid Matching， 2005年HoG, 2009年DPM, 2006-2012， PASCAL Visual Object Challenge, 2009年ImageNet, 2015年Image Classification Challenge
 # 相机和图像
