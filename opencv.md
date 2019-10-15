@@ -287,3 +287,34 @@ for cnt in contours:
             squares.append(cnt)
 ```
 
+- dft.py
+  - 计算dft得到实部和虚部，计算magnitude, cv.log(1+magnitude)将dft图像移到中心，cv.normalize归一化。
+  - 实际图像x,y两个方向都表示频率。具体的dft值表示
+
+- calibrate.py？
+相机标定：输入棋盘格扭曲图像，计算参数矩阵，undistort扭曲图像。求的是内参？还是外参？
+接口：
+```
+found, corners = cv.findChessboardCorners(img, pattern_size)
+cv.cornerSubPix(img, corners, (5, 5), (-1, -1), term)
+cv.drawChessboardCorners(vis, pattern_size, corners, found)
+rms, camera_matrix, dist_coefs, rvecs, tvecs = cv.calibrateCamera(obj_points, img_points, (w, h), None, None)
+newcameramtx, roi = cv.getOptimalNewCameraMatrix(camera_matrix, dist_coefs, (w, h), 1, (w, h))
+dst = cv.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
+```
+
+- camera_calibration_show_extrinsics.py
+用matplotlib ax.plot3D()把矩阵画出来
+
+- digits.py
+err怎么定义
+confusion matrix怎么定义
+
+
+
+
+
+
+
+
+
