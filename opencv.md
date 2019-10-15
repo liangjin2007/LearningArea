@@ -258,4 +258,32 @@ def update(levels):
 - find_obj.py
 给定图片，根据图片特征去另一张图片中寻找图片
 
+- fitline.py
+DT_L2效果最差
+```
+func = getattr(cv, cur_func_name)
+vx, vy, cx, cy = cv.fitLine(np.float32(points), func, 0, 0.01, 0.01)
+cv.line(img, (int(cx-vx*w), int(cy-vy*w)), (int(cx+vx*w), int(cy+vy*w)), (0, 0, 255))
+```
+
+- squares.py
+```
+squares = find_squares(img)
+cv.drawContours( img, squares, -1, (0, 255, 0), 3 )
+
+if thrs == 0:
+    bin = cv.Canny(gray, 0, 50, apertureSize=5)
+    bin = cv.dilate(bin, None)
+else:
+    _retval, bin = cv.threshold(gray, thrs, 255, cv.THRESH_BINARY)
+contours, _hierarchy = cv.findContours(bin, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+for cnt in contours:
+    cnt_len = cv.arcLength(cnt, True)
+    cnt = cv.approxPolyDP(cnt, 0.02*cnt_len, True)
+    if len(cnt) == 4 and cv.contourArea(cnt) > 1000 and cv.isContourConvex(cnt):
+        cnt = cnt.reshape(-1, 2)
+        max_cos = np.max([angle_cos( cnt[i], cnt[(i+1) % 4], cnt[(i+2) % 4] ) for i in xrange(4)])
+        if max_cos < 0.1:
+            squares.append(cnt)
+```
 
