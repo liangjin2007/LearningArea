@@ -307,8 +307,8 @@ dst = cv.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
 用matplotlib ax.plot3D()把矩阵画出来
 
 - digits.py
-err怎么定义
-confusion matrix怎么定义
+  - err怎么定义
+  - confusion matrix怎么定义
 
 
 
