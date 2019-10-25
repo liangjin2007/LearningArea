@@ -5,6 +5,7 @@
 
 如何把球压在地面上
 如何让BP中定义的Coponent变量在Actor的Default中显示变量
+给小球滚动时添加声音
 
 - Actor or Pawn or ...
   - AddImpose
@@ -44,13 +45,31 @@
   - Add 把元素添加到数组类variable中
   - 选中多个，ctrl+w复制一份
   - 按住ctrl，把variable拖到bp event graph编辑器中
-
+  - Box Collision Component
+  - DestroyActor
+  - Bind Event to OnDestroyed
+  - Delay
+  - Set Volume Multiplier设置音量
+  - Set Pitch Multiplier设置音调
+  - Get Velocity
+  - Vector Length
+  - / 除以
+  - Clamp
+  - Add Static Mesh Component
+  - Promote to Variable 存成变量
+  
+  - Construction Script
+    - SetRelativeLocation
+    - GetRelativeLocation
+    - Find Look at Location
+    
 - GameMode 统筹整个游戏的游戏数据
   - Player Control Class
   - Word Settings -> 设置GameMode override为自定义GameMode
   
 - BluePrint->Enumeration
 
+- Edit -> Extrude -> Subtract
 
 ## Modeling
 
