@@ -155,6 +155,42 @@ model_train.fit([train_images,train_targets], [train_targets,random_y], epochs=1
 #TIPS：这里用的是sparse交叉熵，这样我们直接输入整数的类别编号作为目标，而不用转成one hot形式。所以Embedding层的输入，跟softmax的目标，都是train_targets，都是类别编号，而random_y是任意形状为(len(train_images),1)的矩阵。
 ```
 
+Keras mnist_siamese.py
+===================================================================
+两个点：1. 多输入与
+
+```
+base_network = create_base_network(input_shape)
+
+input_a = Input(shape=input_shape)
+input_b = Input(shape=input_shape)
+
+# because we re-use the same instance `base_network`,
+# the weights of the network
+# will be shared across the two branches
+processed_a = base_network(input_a)
+processed_b = base_network(input_b)
+
+distance = Lambda(euclidean_distance,
+                  output_shape=eucl_dist_output_shape)([processed_a, processed_b])
+
+model = Model([input_a, input_b], distance)
+
+# train
+rms = RMSprop()
+model.compile(loss=contrastive_loss, optimizer=rms, metrics=[accuracy])
+model.fit([tr_pairs[:, 0], tr_pairs[:, 1]], tr_y,
+          batch_size=128,
+          epochs=epochs,
+          validation_data=([te_pairs[:, 0], te_pairs[:, 1]], te_y))
+
+# compute final accuracy on training and test sets
+y_pred = model.predict([tr_pairs[:, 0], tr_pairs[:, 1]])
+tr_acc = compute_accuracy(tr_y, y_pred)
+y_pred = model.predict([te_pairs[:, 0], te_pairs[:, 1]])
+te_acc = compute_accuracy(te_y, y_pred)
+```
+
 
 Keras mnist_swwae.py
 ===================================================================
