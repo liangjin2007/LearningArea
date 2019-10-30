@@ -155,9 +155,31 @@ model_train.fit([train_images,train_targets], [train_targets,random_y], epochs=1
 #TIPS：这里用的是sparse交叉熵，这样我们直接输入整数的类别编号作为目标，而不用转成one hot形式。所以Embedding层的输入，跟softmax的目标，都是train_targets，都是类别编号，而random_y是任意形状为(len(train_images),1)的矩阵。
 ```
 
+Keras 
+
+Keras pretrained_word_embeddings.py
+===================================================================
+- 文本处理之词向量
+    - word2vec
+    - GloVe
+- Keras如何表示词向量
+    - embedding_matrix
+    - one_hot独日编码
+
+- https://blog.csdn.net/sinat_22510827/article/details/90727435
+
+Keras mnist_acgan.py
+======================================================================
+- 可以做分类的GAN
+- 自定义训练循环
+
+
+
+
+
 Keras mnist_siamese.py
 ===================================================================
-两个点：1. 多输入与
+两个点：1.loss数与ouput数一致 2. 如果有两个输入
 
 ```
 base_network = create_base_network(input_shape)
