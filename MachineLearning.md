@@ -4,6 +4,11 @@ http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
 - mean-shift
    - Objective : Find the densest region
 
+# 如何训练
+- 欠拟合和过拟合：欠拟合是指模型不能在训练集上获得足够低的误差。而过拟合是指训练误差和和测试误差之间的差距太大，误差即loss。
+- 误差的95%置信区间： （误差均值-1.96误差标准差，误差均值+1.96误差标准差)
+- 
+
 # 网络架构
 - resnet50 keras自带
 - densenet https://github.com/flyyufelix/DenseNet-Keras
@@ -212,7 +217,19 @@ def cross_entropy_loss(y_true, y_pred):
 - L2 Loss
 
 - Focal Loss
+
 - Triplet Loss
 
+- Contrast Loss
+```
+def contrastive_loss(y_true, y_pred):
+    '''Contrastive loss from Hadsell-et-al.'06
+    http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
+    '''
+    margin = 1
+    square_pred = K.square(y_pred)
+    margin_square = K.square(K.maximum(margin - y_pred, 0))
+    return K.mean(y_true * square_pred + (1 - y_true) * margin_square)
 
+```
 
