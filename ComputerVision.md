@@ -256,10 +256,15 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 # 蒸馏学习
 # 模型压缩AliNN
 # 房间重建
+[2009]Recovering the Spatial Layout of Cluttered Rooms
 [2014][cg]Automatic room detection and reconstruction in cluttered indoor environments with complex room layouts
 - 提取平面墙->将它们与背景分离->处理缺失数据->提取独立房间(使用diffusion process)
 - robust statistics方法
 - 关键词 room reconstruction, room layout reconstruction
+[2016][cvpr]Efficient 3D Room Shape Recovery from a Single Panorama
+- 从单张全景图重建room的形状
+
+
 # 图片美学
 - paper列别
 ```
@@ -321,3 +326,13 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
   - 模糊分割
   - 去模糊 deblurring
 # 图像质量评估
+
+# TODO
+- CS4476.szeliski
+  - 图片压缩，DCT量化, run length encoding， Huffman coding。
+  - 人类视觉
+    - 人类视觉先过滤各种各样的定向及scale of frequency
+    - 中到高频主导视觉
+    - 远看图像时，人类会有效子采样图像
+    
+    
