@@ -263,8 +263,11 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 - 关键词 room reconstruction, room layout reconstruction
 [2016][cvpr]Efficient 3D Room Shape Recovery from a Single Panorama
 - 从单张全景图重建room的形状
-
-
+# 图像合成
+- 合成Sketches
+```
+[2017][cvpr]Scribbler: Controlling Deep Image Synthesis with Sketch and Color, CS4476.szeliski
+```
 # 图片美学
 - paper列别
 ```
@@ -329,10 +332,26 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 
 # TODO
 - CS4476.szeliski
+  - 应用 DeepNav, IM2GPS, Image retrieval, Image classification, Geolocation, Image Synthesis， OCR, Face Detection, 笑脸检测， 视觉生物，不用密码登录，对象识别， 特效：运动捕捉，特效：捕获形状，体育，医疗图像，智能汽车，交互式游戏，工业机器人，太空视觉，增强现实，虚拟现实， ;领域 安全，健康，保安，舒适，乐趣， 登录；
+  - 投影几何 Projective Geometry
+    - 消失点和消失线：平行线
+      - 世界坐标到图像坐标
+      - 直线还是直线
+      - 角度和长度丢失
+    - 针孔相机模型和相机投影矩阵
+    - 齐次坐标
+      - 齐次坐标：统一成一个通用公式。 x=K[R t]X
+    - 径向扭曲 Radial Distortion
+  - Image Formation
+    - 
   - 图片压缩，DCT量化, run length encoding， Huffman coding。
   - 人类视觉
     - 人类视觉先过滤各种各样的定向及scale of frequency
     - 中到高频主导视觉
     - 远看图像时，人类会有效子采样图像
-    
-    
+  - Image Filtering
+    - FFT
+    - Filtering in frequency domain
+    - Filtering in spacial domain
+    - 图片绝大部分是光滑的
+    - 采样前先低通滤波
