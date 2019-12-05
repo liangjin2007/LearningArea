@@ -355,3 +355,5 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
     - Filtering in spacial domain
     - 图片绝大部分是光滑的
     - 采样前先低通滤波
+    
+    
