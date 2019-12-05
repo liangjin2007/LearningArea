@@ -343,7 +343,7 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
       - 齐次坐标：统一成一个通用公式。 x=K[R t]X
     - 径向扭曲 Radial Distortion
   - Image Formation
-    - 
+    - 光子
   - 图片压缩，DCT量化, run length encoding， Huffman coding。
   - 人类视觉
     - 人类视觉先过滤各种各样的定向及scale of frequency
