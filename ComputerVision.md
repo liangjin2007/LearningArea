@@ -389,6 +389,7 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
     - DoG
     - edge detector Canny edge detector
     - 每个像素的定向 theta= atan2(gy, gx)
-    - 
+    - 非极大抑制 Non-maximum suppression for each orientation
+    
     
     
