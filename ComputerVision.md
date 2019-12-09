@@ -362,7 +362,17 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
     - 增加对比度, resize, denoise，提取图像信息，比如texture, edges, distinctive points, detect patterns(模版元匹配)
     - 平均， sharpening, left-shift, vertical edge, horizonal edge
     - Filtering vs Convolution, m+k, n+l  vs m-k, n-l
-    - 线性性，平移不变，filter(I, shift(f)) = shift(filter(I, f)),交换律，结合
+    - 线性性，平移不变，filter(I, shift(f)) = shift(filter(I, f))
+    - 卷积的性质：交换律，结合律，分配律，Identity, Scalar factor，
+    - Gaussian Filtering
+      - 低通滤波
+      - 两个Gaussian filter的卷积相当于一个更大的卷积
+      - 可分离核
+        - 一个二维Gaussian kernel相当于两个1维Gaussian kernel的乘积
+    - 频率域滤波
+      - Median filtering 处理椒盐噪声
+      - 
+      
     - FFT
     - Filtering in frequency domain
     - Filtering in spacial domain
