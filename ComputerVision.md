@@ -340,16 +340,29 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
       - 角度和长度丢失
     - 针孔相机模型和相机投影矩阵
     - 齐次坐标
-      - 齐次坐标：统一成一个通用公式。 x=K[R t]X
+      - 齐次坐标：统一成一个通用公式。 
     - 径向扭曲 Radial Distortion
   - Image Formation
     - 光子
+  - 针孔相机模型
+    - x=K[R t]X
+  - 特征检测,特征描述,数据库of局部描述,匹配，索引，检测
   - 图片压缩，DCT量化, run length encoding， Huffman coding。
   - 人类视觉
     - 人类视觉先过滤各种各样的定向及scale of frequency
     - 中到高频主导视觉
     - 远看图像时，人类会有效子采样图像
   - Image Filtering
+    - 空间域滤波
+      - grid上的数学操作， Smoothing, Sharpening, meature texture
+    - 频率域滤波
+      - 滤波是一种修改图像频率的方式， Denoising, sampling, image compression
+    - 模版和图像金字塔
+      - 滤波是匹配模版的一种方式， 检测， coarse-to-fine 注册
+    - 增加对比度, resize, denoise，提取图像信息，比如texture, edges, distinctive points, detect patterns(模版元匹配)
+    - 平均， sharpening, left-shift, vertical edge, horizonal edge
+    - Filtering vs Convolution, m+k, n+l  vs m-k, n-l
+    - 线性性，平移不变，filter(I, shift(f)) = shift(filter(I, f)),交换律，结合
     - FFT
     - Filtering in frequency domain
     - Filtering in spacial domain
