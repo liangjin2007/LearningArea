@@ -371,12 +371,24 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
         - 一个二维Gaussian kernel相当于两个1维Gaussian kernel的乘积
     - 频率域滤波
       - Median filtering 处理椒盐噪声
-      - 
-      
+    - Fourier变换 
+      - 任何信号，包括离散的和连续的都可以用一族Sin信号叠加逼近
+    - Forier变换和卷积的相互作用
+      - F[g*h] = F[g]*F[h]
+      - g * h = F-1[F[g]F[h]]
+    - 采样，走样，Nyquist-Shannon采样定理
     - FFT
     - Filtering in frequency domain
     - Filtering in spacial domain
     - 图片绝大部分是光滑的
     - 采样前先低通滤波
+  - Edge
+    - d/dx (f*g)
+    - d/dx(f*g) = f*d/dx g
+    - Gaussian filter的导数
+    - DoG
+    - edge detector Canny edge detector
+    - 每个像素的定向 theta= atan2(gy, gx)
+    - 
     
     
