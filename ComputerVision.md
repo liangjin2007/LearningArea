@@ -450,5 +450,16 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
             - 采样，拟合，inlier统计，循环迭代
             - 应用
               - 计算homography, 比如image stitching
-        - 
-        
+    - 相机标定camera calibration
+      - 估计
+      - 估计相机中心
+    - Epipolar Geometry and Stereo Vision 对极几何和立体视觉
+      - VLFeat
+      - Depth from Stereo
+      - Stereo Matching
+    - Stereo Matching
+      - Fundamental matrix
+        l' = Fp, l = p'F, p'Fp = 0
+      - SIFT+Fundamental Matrix+RANSAC
+      - 
+       
