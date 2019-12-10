@@ -443,6 +443,7 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
           - Least square fit
           - Robust Least squares
           - Iterative closest point ICP
+            - KNN, Fitting,
         - Hypothesize and test
           - Generalized Hough transform 寻找可以用公式表示的图形，比如直线，圆等 https://www.jianshu.com/p/d1f380a5f3e8
           - RANSAC
