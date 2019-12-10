@@ -389,7 +389,65 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
     - DoG
     - edge detector Canny edge detector
     - 每个像素的定向 theta= atan2(gy, gx)
-    - 非极大抑制 Non-maximum suppression for each orientation
-    
-    
-    
+    - hysteresis thresholding and linking
+  - 非极大抑制 Non-maximum suppression for each orientation
+    - 让边检测变细
+    - 对象检测中也使用这个NMS
+  - 特征点
+    - 应用
+      - SFM
+      - 对象对齐
+      - 3D reconstruction
+      - Motion tracking
+      - Robot navigation
+      - Indexing and database retrieval
+      - 对象识别
+      - 全景stitching
+    - 兴趣点和局部特征， interest points = keypoints, sometimes also called feawtures
+    - keypoint匹配
+      - 定义一个区域
+      - 定义区域内的local descriptor
+      - Corner Detector as distinctive interest points, Harris corner detector 
+    - Invariant Local Features
+      - Detectors: Laplacian, DoG, Harris, MSER
+    - Invariance and covariance
+    - 图片几何变换和光度学变换的理解
+    ```
+    We want corner locations to be invariant to photometric transformations and covariant to geometric transformations
+    • Invariance: image is transformed and corner locations do not change
+    • Covariance: if we have two transformed versions of the same image, features should be detected in corresponding locations
+    ``` 
+      - covariant to translation
+      - not covariant to scaling
+      - covariant to rotation
+      - partially invariant to affine intensity change
+    - Local Image Feature
+      - Harris, Hessian, LoG, MSER
+    - Image representation
+      - Histogram
+        - Color, texture, depth, oriented gradients
+      
+    - Feature Matching
+      - Match points
+      - Match patchs
+      - Match edges
+      - Match regions
+      - KNN
+      - Fitting and Alignment
+        - Goal
+          - robustness to outliers and noise
+          - similarity
+          - avoid local optima
+          - Find best parameters quickly
+        - Global optimization
+          - Least square fit
+          - Robust Least squares
+          - Iterative closest point ICP
+        - Hypothesize and test
+          - Generalized Hough transform 寻找可以用公式表示的图形，比如直线，圆等 https://www.jianshu.com/p/d1f380a5f3e8
+          - RANSAC
+            - 采样，拟合，inlier统计，循环迭代
+            - 应用
+              - 计算homography, 比如image stitching
+        - 
+        
