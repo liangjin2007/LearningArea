@@ -168,10 +168,30 @@
         - 假定：brightness constancy constraint
         - 去除模糊性： barber pole illusion
         - Spatial coherence constraint
-        - 
+        - 最小二乘问题
+          - AtA
+            - 应该要可逆
+            - AtA不应该太小，指lambda1，lambda2不应该太小
+            - AtA应该要well-conditioned即lambda1/lambda2不应该太大， 其中lambda1为较大的特征值
+          - 高纹理区域
+            - 高纹理区域如何判断
+            - 低纹理区域如何判断
+        - Coarse-to-fine optical flow estimatino
+        - Lucas-Kanade
+        - SOTA
+          - 2015深度学习 Deep optical flow
+          - 2009 Large displacement optical flow,
       - 运动分割
         - 将那些运动相似的像素聚合到一起
+    - 机器学习
+      - 聚类
+        - Kmeans, mean-shift, spectral clustering
+        - vision dictionaries
+          - 128 dim SIFT vectors, 聚类中心作为字典， 分配一个codeword（number）to each new patch according to the nearest cluster
+        - Quantization/Summarization:Kmeans
+        - Image Segmentation: agglomerative clustering
       - 
+        
       
       
       
