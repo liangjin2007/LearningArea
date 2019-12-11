@@ -312,12 +312,48 @@ dst = cv.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
 
 - coherence.py
   - Coherence-Enhancing Shock Filters 用来根据输入图像生成艺术性的图片 03年的文章
+- gabor_threads.py
+  - 
+- houghlines.py
+- houghcircles.py
+  - hough transformation
   
- - 
+- opt_flow.py
+  - 光流， 用于tracking
+- stereo_match.py
+  - 对极几何，双view
+- distrans.py
+  - 距离变换
+- texture_flow.py 
+  - 输入图像，使用cv.cornerEigenValsAndVecs输出flow.
+- logpoloar.py
+  - ??
+- plane_tracker.py tracker
+- plane_ar.py
+- lk_homography.py
+- lk_track.py tracker
+- lappyr.py
+  - Laplacian Pyramid construction and merging
+- kalman.py tracker
+  - kalman filter如何使用
+- mosse.py tracker
+  - CVPR10 Visual Object Tracking using Adaptive Correlation Filters
+- feature_homography.py
+- grabcut.py
+  - 交互式分割前景
+- common.py
+- inpaint.py
+- deconvolution.py
+  - cv.dft
+- asift.py
+  - 类似于find_obj.py, 用于图像匹配
+- gaussian_mix.py
+  - gaussian混合模型的例子
+- camshift.py tracker
+  - mean-shift based tracking
 
-
-
-
+- tutorial code
+  - svm
 
 
 
