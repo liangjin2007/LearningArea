@@ -1,0 +1,131 @@
+- CS4476.szeliski
+  - 应用 DeepNav, IM2GPS, Image retrieval, Image classification, Geolocation, Image Synthesis， OCR, Face Detection, 笑脸检测， 视觉生物，不用密码登录，对象识别， 特效：运动捕捉，特效：捕获形状，体育，医疗图像，智能汽车，交互式游戏，工业机器人，太空视觉，增强现实，虚拟现实， ;领域 安全，健康，保安，舒适，乐趣， 登录；
+  - 投影几何 Projective Geometry
+    - 消失点和消失线：平行线
+      - 世界坐标到图像坐标
+      - 直线还是直线
+      - 角度和长度丢失
+    - 针孔相机模型和相机投影矩阵
+    - 齐次坐标
+      - 齐次坐标：统一成一个通用公式。 
+    - 径向扭曲 Radial Distortion
+  - Image Formation
+    - 光子
+  - 针孔相机模型
+    - x=K[R t]X
+  - 特征检测,特征描述,数据库of局部描述,匹配，索引，检测
+  - 图片压缩，DCT量化, run length encoding， Huffman coding。
+  - 人类视觉
+    - 人类视觉先过滤各种各样的定向及scale of frequency
+    - 中到高频主导视觉
+    - 远看图像时，人类会有效子采样图像
+  - Image Filtering
+    - 空间域滤波
+      - grid上的数学操作， Smoothing, Sharpening, meature texture
+    - 频率域滤波
+      - 滤波是一种修改图像频率的方式， Denoising, sampling, image compression
+    - 模版和图像金字塔
+      - 滤波是匹配模版的一种方式， 检测， coarse-to-fine 注册
+    - 增加对比度, resize, denoise，提取图像信息，比如texture, edges, distinctive points, detect patterns(模版元匹配)
+    - 平均， sharpening, left-shift, vertical edge, horizonal edge
+    - Filtering vs Convolution, m+k, n+l  vs m-k, n-l
+    - 线性性，平移不变，filter(I, shift(f)) = shift(filter(I, f))
+    - 卷积的性质：交换律，结合律，分配律，Identity, Scalar factor，
+    - Gaussian Filtering
+      - 低通滤波
+      - 两个Gaussian filter的卷积相当于一个更大的卷积
+      - 可分离核
+        - 一个二维Gaussian kernel相当于两个1维Gaussian kernel的乘积
+    - 频率域滤波
+      - Median filtering 处理椒盐噪声
+    - Fourier变换 
+      - 任何信号，包括离散的和连续的都可以用一族Sin信号叠加逼近
+    - Forier变换和卷积的相互作用
+      - F[g*h] = F[g]*F[h]
+      - g * h = F-1[F[g]F[h]]
+    - 采样，走样，Nyquist-Shannon采样定理
+    - FFT
+    - Filtering in frequency domain
+    - Filtering in spacial domain
+    - 图片绝大部分是光滑的
+    - 采样前先低通滤波
+  - Edge
+    - d/dx (f*g)
+    - d/dx(f*g) = f*d/dx g
+    - Gaussian filter的导数
+    - DoG
+    - edge detector Canny edge detector
+    - 每个像素的定向 theta= atan2(gy, gx)
+    - hysteresis thresholding and linking
+  - 非极大抑制 Non-maximum suppression for each orientation
+    - 让边检测变细
+    - 对象检测中也使用这个NMS
+  - 特征点
+    - 应用
+      - SFM
+      - 对象对齐
+      - 3D reconstruction
+      - Motion tracking
+      - Robot navigation
+      - Indexing and database retrieval
+      - 对象识别
+      - 全景stitching
+    - 兴趣点和局部特征， interest points = keypoints, sometimes also called feawtures
+    - keypoint匹配
+      - 定义一个区域
+      - 定义区域内的local descriptor
+      - Corner Detector as distinctive interest points, Harris corner detector 
+    - Invariant Local Features
+      - Detectors: Laplacian, DoG, Harris, MSER
+    - Invariance and covariance
+    - 图片几何变换和光度学变换的理解
+    ```
+    We want corner locations to be invariant to photometric transformations and covariant to geometric transformations
+    • Invariance: image is transformed and corner locations do not change
+    • Covariance: if we have two transformed versions of the same image, features should be detected in corresponding locations
+    ``` 
+      - covariant to translation
+      - not covariant to scaling
+      - covariant to rotation
+      - partially invariant to affine intensity change
+    - Local Image Feature
+      - Harris, Hessian, LoG, MSER
+    - Image representation
+      - Histogram
+        - Color, texture, depth, oriented gradients
+      
+    - Feature Matching
+      - Match points
+      - Match patchs
+      - Match edges
+      - Match regions
+      - KNN
+      - Fitting and Alignment
+        - Goal
+          - robustness to outliers and noise
+          - similarity
+          - avoid local optima
+          - Find best parameters quickly
+        - Global optimization
+          - Least square fit
+          - Robust Least squares
+          - Iterative closest point ICP
+            - KNN, Fitting,
+        - Hypothesize and test
+          - Generalized Hough transform 寻找可以用公式表示的图形，比如直线，圆等 https://www.jianshu.com/p/d1f380a5f3e8
+          - RANSAC
+            - 采样，拟合，inlier统计，循环迭代
+            - 应用
+              - 计算homography, 比如image stitching
+    - 相机标定camera calibration
+      - 估计
+      - 估计相机中心
+    - Epipolar Geometry and Stereo Vision 对极几何和立体视觉
+      - VLFeat
+      - Depth from Stereo
+      - Stereo Matching
+    - Stereo Matching
+      - Fundamental matrix
+        l' = Fp, l = p'F, p'Fp = 0
+      - SIFT+Fundamental Matrix+RANSAC
+      - 
