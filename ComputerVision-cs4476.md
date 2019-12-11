@@ -165,7 +165,13 @@
           - 适用于视频且图像运动较小
       - 运动估计之Optic flow
         - 先考虑单个像素的运动，再考虑整个图像的运动
+        - 假定：brightness constancy constraint
+        - 去除模糊性： barber pole illusion
+        - Spatial coherence constraint
         - 
+      - 运动分割
+        - 将那些运动相似的像素聚合到一起
+      - 
       
       
       
