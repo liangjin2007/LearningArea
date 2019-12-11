@@ -128,4 +128,59 @@
       - Fundamental matrix
         l' = Fp, l = p'F, p'Fp = 0
       - SIFT+Fundamental Matrix+RANSAC
-      - 
+      - Sparse to Dense Correspondence
+      - Structure from motion(or SLAM)
+        - 模糊性，不唯一
+      - Bundle adjustment
+        - refining structure and motion
+      - 极小化重投影误差 E(P, X) = sum(D(xij, PiXj)^2)
+      - hard constraint of epipolar geometry
+      - soft constraints
+        - Similarity
+        - Uniqueness
+        - Ordering
+        - Disparity gradient
+      - 假定绝大多数场景点在两个view里面可见
+      - 假定图像匹配区域看起来是相似的
+        - 相似性定义， SSD, normalized correlation
+        - epipolar line
+      - Textureless regions are non-distinct, 会导致匹配高模糊
+      - Stereo matching as energy minimization
+      - 结构光 Structured light  
+    - Motion and perceptual organization
+      - 应用
+        - 分割对象
+        - 估计3D结构
+        - 学习动态模型
+        - 识别事件和活动
+        - 增进视频质量，比如运动稳定化
+      - 技术
+        - 基于特征的方法
+          - 提取特征，跟踪特征
+          - 稀疏运动场，更稳定
+          - 对大的运动是恰当的
+        - 直接Dense方法
+          - 直接recover每个像素点的运动
+          - 敏感于光线变化等appearance variation
+          - 适用于视频且图像运动较小
+      - 运动估计之Optic flow
+        - 先考虑单个像素的运动，再考虑整个图像的运动
+        - 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
