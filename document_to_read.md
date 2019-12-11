@@ -18,3 +18,7 @@ https://mp.weixin.qq.com/s?spm=ata.13261165.0.0.45dc7ba2t6Iad7&__biz=MzIyOTAyOTE
 
 
 Is Sampling Heuristics Necessary in Training Deep Object Detectors?
+
+
+cs224n自然语言处理课程
+
