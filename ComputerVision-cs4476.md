@@ -190,13 +190,93 @@
           - 128 dim SIFT vectors, 聚类中心作为字典， 分配一个codeword（number）to each new patch according to the nearest cluster
         - Quantization/Summarization:Kmeans
         - Image Segmentation: agglomerative clustering
-      - 
-        
+      - 图像特征
+      - 图像分类
+      - 图像识别
+        - 对变化建模
+        - 场景分类
+        - 图像标注
+        - 对象检测
+        - 语义分割
+        - 场景理解
+        - 大规模图像搜索
+          - local features, indexing, and spatial constraints
+        - Bag-of-features model，
+          - 思路来自于1. 纹理识别， 2.Bag-of-words的思路
+          - 步骤:
+            - 提取特征
       
-      
-      
-      
-      
+        - 动作识别
+          - Unsupervised Learning of Human Action Categories Using Spatial-Temporal Words 2008
+          
+    - 多view匹配 Multi-view matching
+      - 图像特征采样策略
+        - Sparse at interest points
+        - Dense, uniformly
+        - Randomly
+      - Inverted file index
+        - word # image #
+          - 1, 3
+          - 7, 1,2
+    - 大规模实例提取 large-scale instance retrieval
+      - word histogram as bag of words
+      - KNN
+      - RANSAC解决由BOW找到的相似图片中是否有关的问题
+      - 找到有关图后打分的问题
+        - tf-idf weighting
+    - 大规模分类
+      - 数据库
+        - CalTech101 - 2004
+        - SUN Database - 2001, 2005, 2006
+          - 15 Scene Database
+      - 全局图像描述符
+        - Tiny images
+        - Color histograms
+        - Self-similarity
+        - Geometric class layout
+        - Geometry-specific histograms
+        - Texture Features
+          - Dense and Sparse SIFT histograms
+          - Berkeley texton hisgograms
+          - HoG spatial pyramids
+          - Gist scene descriptor 512dim
+          - Better Bags of Visual Features
+            - VLAD
+            - Fisher Vector
+    - 对象检测
+      - 目前以深度学习为主
+      - 非极大抑制
+      - Viola/Jones Face Detector
+        - integral image
+      - Boosting训练
+        - Find the weak learner that achieves the lowest weighted training error
+        - Raise the weights of training examples misclassified by current weak learner
+      - 滑动窗口
+    - 自动上色
+    - 自动定向
+    - 数据集标注
+      - LabelMe
+      - Amazon Mechanical Turk
+    - Active learning
+    - Object Attributes and Scene attributes
+      - 推理不熟悉的对象, 通过比较相似的属性，可以推理新的不熟悉的对象
+      - 方法
+        - category recognition, category上绑定了属性
+        - examplar matching 例子匹配
+        - 直接分类每个属性
+    - 边界和Sketches
+      - Pb detector
+      - Sketch token
+    - 语义分割
+      - TextonBoost
+        - ideas
+          - Textons 
+          - Color models and Graph Cut
+          - Boosting + Integral Image
+          - Joint Boosting
+    - 神经网络
+    - 卷积神经网络
+    - 监督学习
       
       
       
