@@ -1,0 +1,6 @@
+- 什么是强化学习
+  - Markov Decision Processes
+  - Q-Learning
+  - Policy Gradients
+- 强化学习
+  - agent和环境的交互，环境提供数值
