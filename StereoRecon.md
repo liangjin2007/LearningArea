@@ -66,4 +66,70 @@ SFM从图片做稀疏重建和求解相机矩阵, MVS的输入都是image+pose�
     - run-colmap-photometric.sh
     
 
+## FaceReconstruction
+通过face landmark及Morphable Model去拟合。看例子包括如下功能：
+
+- examples/face_landmark_detection_ex.cpp 由图像得到头部的pose，pose是用68个landmark表示。具体的实现方法是依赖于HOG特征+线性分类器+image pyramid+sliding window detection。具体实现paper为One Millisecond Face Alignment with an Ensemble of Regression Trees by Vahid Kazemi and Josephine Sullivan, CVPR 2014。使用的数据库为\biBUG 300-W face landmark dataset。用于学习。
+```
+/*
+
+    This example program shows how to find frontal human faces in an image and
+    estimate their pose.  The pose takes the form of 68 landmarks.  These are
+    points on the face such as the corners of the mouth, along the eyebrows, on
+    the eyes, and so forth.  
+    
+
+
+    This face detector is made using the classic Histogram of Oriented
+    Gradients (HOG) feature combined with a linear classifier, an image pyramid,
+    and sliding window detection scheme.  The pose estimator was created by
+    using dlib's implementation of the paper:
+        One Millisecond Face Alignment with an Ensemble of Regression Trees by
+        Vahid Kazemi and Josephine Sullivan, CVPR 2014
+    and was trained on the iBUG 300-W face landmark dataset.  
+
+    Also, note that you can train your own models using dlib's machine learning
+    tools.  See train_shape_predictor_ex.cpp to see an example.
+
+    
+
+
+    Finally, note that the face detector is fastest when compiled with at least
+    SSE2 instructions enabled.  So if you are using a PC with an Intel or AMD
+    chip then you should enable at least SSE2 instructions.  If you are using
+    cmake to compile this program you can enable them by using one of the
+    following commands when you create the build project:
+        cmake path_to_dlib_root/examples -DUSE_SSE2_INSTRUCTIONS=ON
+        cmake path_to_dlib_root/examples -DUSE_SSE4_INSTRUCTIONS=ON
+        cmake path_to_dlib_root/examples -DUSE_AVX_INSTRUCTIONS=ON
+    This will set the appropriate compiler options for GCC, clang, Visual
+    Studio, or the Intel compiler.  If you are using another compiler then you
+    need to consult your compiler's manual to determine how to enable these
+    instructions.  Note that AVX is the fastest but requires a CPU from at least
+    2011.  SSE4 is the next fastest and is supported by most current machines.  
+*/
+```
+
+- examples/fit-model.cpp 输入图片及landmarks。
+- examples/webcam_face_fit_model_keegan.cpp
+- examples/webcam_face_pose_ex.cpp
+```
+/**
+ * This app demonstrates estimation of the camera and fitting of the shape
+ * model of a 3D Morphable Model from an ibug LFPW image with its landmarks.
+ *
+ * First, the 68 ibug landmarks are loaded from the .pts file and converted
+ * to vertex indices using the LandmarkMapper. Then, an affine camera matrix
+ * is estimated, and then, using this camera matrix, the shape is fitted
+ * to the landmarks.
+ */
+```
+
+- examples/scm-to-cereal.cpp
+```
+/**
+ * Reads a CVSSP .scm Morphable Model file and converts it
+ * to a cereal binary file.
+ */
+```
 
