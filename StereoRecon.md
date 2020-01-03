@@ -140,3 +140,11 @@ SFM从图片做稀疏重建和求解相机矩阵, MVS的输入都是image+pose�
 ## mvs-texturing-master
 ## Unreal SubSurfaceProfile https://docs.unrealengine.com/en-US/Engine/Rendering/Materials/LightingModels/SubSurfaceProfile/index.html
 
+
+## 搜索关键字
+struct Camera
+struct Image
+PoissonRecon
+Pyramid
+focal length https://github.com/unrealcv/unrealcv/issues/14
+
