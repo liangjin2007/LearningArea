@@ -133,3 +133,6 @@ SFM从图片做稀疏重建和求解相机矩阵, MVS的输入都是image+pose�
  */
 ```
 
+## openMVG
+稀疏重建及获取相机参数，这一步在Dense Reconstruction之前
+
