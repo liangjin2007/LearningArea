@@ -27,4 +27,43 @@
 #	11. Texture the mesh	OpenMVS/TextureMesh
 ```
 
-可以看到
+## colmap流程
+COLMAP is a general-purpose Structure-from-Motion (SfM) and Multi-View Stereo (MVS) pipeline with a graphical and command-line interface. It offers a wide range of features for reconstruction of ordered and unordered image collections. The software is licensed under the new BSD license. 
+
+- https://demuc.de/colmap/
+- https://colmap.github.io/
+
+SFM从图片做稀疏重建和求解相机矩阵, MVS的输入都是image+pose。 https://colmap.github.io/tutorial.html
+
+- colmap有图形界面和命令行两种方式
+- colmap数据存成了SQlite格式 对我们这种少量数据的模型来说，不需要用SQlite
+- Camera Model
+- Output Format
+  - Sparse Reconstruction
+    - cameras.txt
+    - images.txt
+    - points3D.txt
+    - read脚本scripts/python/read_model.py， scripts/matlab/read_model.m
+  - Dense Reconstruction
+    - images
+    - sparse
+      - cameras.txt
+      - images.txt
+      - points3D.txt
+    - stereo
+      - consistency_graphs
+        - image1.jpg.photometric.bin
+      - depth_maps
+        - image1.jpg.photometric.bin
+      - normal_maps
+        - image1.jpg.photometric.bin
+      - patch-match.cfg
+      - fusion.cfg
+    - fused.ply
+    - meshed-poisson.ply
+    - meshed-delaunay.ply
+    - run-colmap-geometric.sh
+    - run-colmap-photometric.sh
+    
+
+
