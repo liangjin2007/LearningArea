@@ -36,11 +36,23 @@ Defining a grouping of sources in IDE.
 - target_link_libraries(libarry_name dependencies)
 - add_subdirectory()
 - AUX_SOURCE_DIRECTORY(src DIR_SRCS)
+
 - add_custom_command(TARGET xxxx POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${CMAKE_SOURCE_DIR}/jni/xxx.java
     ${CMAKE_CURRENT_BINARY_DIR}/xxx.java)
 - enable_testing()
+
+- install
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/COLMAPConfig.cmake" DESTINATION "share/colmap")
+
+- configure_file
+
+- add_custom_target
+
+- set_target_properties
+
+- set_property
 
 
 ### utils
@@ -91,6 +103,8 @@ endmacro(COLMAP_ADD_SOURCE_DIR)
 e.g.
     - if(a STREQUAL b)
     - if(a MATCHES b)
+    - if(a AND NOT b)
+    
 - foreach 
 foreach(SOURCE_FILE ${ARGN})
 
