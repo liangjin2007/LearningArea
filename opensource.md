@@ -6,7 +6,8 @@
   - flann：近似最近邻算法。 看例子，使用起来比较简单。
   - Line3Dpp：3D线段重建。接在其他SfM框架后面，比如OpenMVG, colormap, VisualSfM, bundler, Pix4D, mavmap等。
   - C++ AMP: C++ AMP是微软公司基于DirectX 11技术实现的一个并行计算库. parallel_for_each
-  - IBLBaker: rendering related sample
+  - IBLBaker: 烘培基于物理的渲染需要的纹理
+  - milvus: vector搜索引擎 https://github.com/milvus-io/milvus
   
 - js
   - video.js：视频展示
@@ -18,6 +19,8 @@
     - site页面非常不错。一目了然。
   - Famous Engine: 物理引擎，绘制引擎
   - leaflet https://leafletjs.com：js地图插件
+  - lightgl.js 写webgl应用 https://github.com/evanw/lightgl.js
+  
 - Python
   - snake-ai：是否真的是AI？确实是的
   - pyemd: 计算两个直方图之间的距离，称为EMD距离。如果两个直方图的bin是相同的，那么可以简单地用l2计算，但是经过量化，亮度变换等操作，两个直方图的bins是对不齐（alignment问题）的。这个时候就要用到EMD距离。具体可以查看[2009][iccv]Fast and Robust Earth Mover’s Distances.
