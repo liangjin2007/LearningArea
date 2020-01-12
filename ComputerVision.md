@@ -215,6 +215,8 @@ feature+Gram Reconstruction; 问题：需要Forward/BP很多步，非常慢。
 # 人脸关键点检测
 # 人脸属性
 # 人脸动作
+- https://github.com/fengju514/Expression-Net
+
 # 人像分割
 - 深度学习+传统matting
 # 头发分割
