@@ -54,6 +54,9 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/COLMAPConfig.cmake" DESTINATION "shar
 
 - set_property
 
+- Cache变量
+set(Ceres_INCLUDE_DIRS ${CURRENT_ROOT_INSTALL_DIR}/include CACHE PATH "Ceres include direcctories" FORCE)
+
 
 ### utils
 - string
