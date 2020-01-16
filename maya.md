@@ -17,7 +17,6 @@ Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marke
 获取局部坐标位置
 getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
 
-
 ## Maya SDK
 博客 https://blog.csdn.net/whwst/article/details/81604853
 https://www.autodesk.com/developer-network/platform-technologies/maya
