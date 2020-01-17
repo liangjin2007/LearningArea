@@ -22,3 +22,32 @@ getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim
 https://www.autodesk.com/developer-network/platform-technologies/maya
 
 
+## Maya C++ API
+http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
+
+## Maya知识
+
+- 常规编辑器->显示层编辑器 可以控制可见性及播放时是否可见 
+- BlendShape相关
+  - 窗口->动画编辑器->形变编辑器
+    - 文件->导出形状
+  
+  - 窗口->动画编辑器->姿势编辑器
+  
+  - 动画模式
+    - 播放->播放预览 playblast 
+    ```
+    //录制动画
+    playblast -startTime $start -endTime $end  -format video -filename $output_file -forceOverwrite -sequenceTime 0 -clearCache 1 -viewer 1 -showOrnaments 0 -offScreen  -fp 4 -percent 100 -compression "IYUV 编码解码器" -quality 70 -widthHeight $width $height;
+    
+    //写文件
+    $field_camera = `fopen $output_cameras_txt_file "w"`;
+    fprint $field_camera $camera_model;
+    fclose $field_camera;
+    ```
+  
+  - 已经有blendshape的shape上如何添加sculpt。
+    - 首先再添加一个blendshape，并添加一个目标为当前目标，就可以再进行雕刻了。
+    
+
+
