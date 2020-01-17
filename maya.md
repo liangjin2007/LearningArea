@@ -10,12 +10,25 @@
 模式:创建，查询，编辑
 节点：
 
-获取顶点世界坐标位置：
+获取顶点世界坐标位置： ??? 获取的顶点位置不对
 MEL
 pointPosition Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200];
 Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[116]");
 获取局部坐标位置
 getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
+
+
+- findType
+```
+findType [-deep] [-exact] [-forward] [-type string]
+
+findType is NOT undoable, NOT queryable, and NOT editable.
+
+The findType command is used to search through a dependency subgraph on a certain node to find all nodes of the given type. The search can go either upstream (input connections) or downstream (output connections). The plug/attribute dependencies are not taken into account when searching for matching nodes, only the connections.
+Return value
+string[]	The list of node(s) of the requested type connected to the given node(s)
+
+```
 
 ## Maya SDK
 博客 https://blog.csdn.net/whwst/article/details/81604853
