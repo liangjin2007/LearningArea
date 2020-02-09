@@ -331,4 +331,12 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
   - 模糊分割
   - 去模糊 deblurring
 # 图像质量评估
-      
+     
+# [1998][IJCV] Determining the Epipolar Geometry and its Uncertainty : A Review
+## 7点法算essential matrix
+已知内参不知外参，在normalized coordinates坐标空间算
+
+## 算fundamental matrix
+不知内参也不知外参，只能在像素坐标级别算
+
+
