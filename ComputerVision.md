@@ -333,10 +333,12 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 # 图像质量评估
      
 # [1998][IJCV] Determining the Epipolar Geometry and its Uncertainty : A Review
-## 7点法算essential matrix
-已知内参不知外参，在normalized coordinates坐标空间算
-
-## 算fundamental matrix
+- 7点法算fundamental matrix
 不知内参也不知外参，只能在像素坐标级别算
+
+# [2004][PAMI] An efficient solution to the five-point relative pose problem
+- 已知内参不知外参，称为Structure from Motion 问题， 5点法求解。
+
+
 
 
