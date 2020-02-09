@@ -37,6 +37,7 @@ RGBD摄像头
 
 
 
+
 一般是基于单目的方法，输入的是RGBD或者RGB图像或者video。有许多研究在研究如何将quality不断的提高。
 
 也有两类方法，具体可以参考[2018][EG] State of the Art on Monocular 3D Face
@@ -163,4 +164,75 @@ https://github.com/justint/stringless\
 
 python face3d https://github.com/YadiraF/face3d
 
+# colmap
+- 数据结构
+```
+Point2D
+ Eigen::Vector2d xy_
+ point3D_t point3D_id_
 
+Point3D
+ Eigen::Vector3d xyz_
+ Eigen::Vector3ub color_
+ double error_
+ class Track track_
+ 
+TrackElement
+ image_id
+ point2D_idx
+
+Track
+ std::vector<TrackElement> elements_
+
+Image
+ image_id_, name_, camera_id_, registered_, qvec_, tvec_, num_observations_,
+ points2D_
+
+Camera
+ width_, height_, camera_id_, model_id_, params_
+ ImageToWorld, WorldToImage
+
+Reconstruction
+
+```
+
+- 代码例子
+```
+1.reconstruction_test.cc
+
+void GenerateReconstruction(const image_t num_images,
+                            Reconstruction* reconstruction,
+                            CorrespondenceGraph* correspondence_graph) {
+  const size_t kNumPoints2D = 10;
+
+  Camera camera;
+  camera.SetCameraId(1);
+  camera.InitializeWithName("PINHOLE", 1, 1, 1);
+  reconstruction->AddCamera(camera);
+
+  for (image_t image_id = 1; image_id <= num_images; ++image_id) {
+    Image image;
+    image.SetImageId(image_id);
+    image.SetCameraId(1);
+    image.SetName("image" + std::to_string(image_id));
+    image.SetPoints2D(
+        std::vector<Eigen::Vector2d>(kNumPoints2D, Eigen::Vector2d::Zero()));
+    reconstruction->AddImage(image);
+    reconstruction->RegisterImage(image_id);
+    correspondence_graph->AddImage(image_id, kNumPoints2D);
+  }
+
+  reconstruction->SetUp(correspondence_graph);
+}
+
+
+
+
+
+ 
+ 
+
+
+
+
+```
