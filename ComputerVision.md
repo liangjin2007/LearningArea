@@ -340,6 +340,9 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 - 已知内参不知外参，称为Structure from Motion 问题， 5点法求解。
 
 ## 公式
+```
+- Notations
+
 M=[x,y,z]
 m=[u,v]
 s[u,v,1]=P[x,y,z,1]
@@ -348,6 +351,14 @@ P=A[R t]
 图像空间坐标中的线l=[a,b,c], 对应的线的方程为au+bv+c=0。
 符号距离为 d(m, l) = (au+bv+c)/sqrt(square(a)+square(b))
 
+- Epipolar Geometry
+C,C'
+Plane PI, determined by C, C', M
+epipole e, e'
+epipolar line l, l'
+epipolar constraint
+
+```
 
 
 
