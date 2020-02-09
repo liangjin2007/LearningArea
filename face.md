@@ -192,8 +192,60 @@ Camera
  width_, height_, camera_id_, model_id_, params_
  ImageToWorld, WorldToImage
 
-Reconstruction
+Correspondence
+ image_id, point2D_idx
 
+struct Image {
+    // Number of 2D points with at least one correspondence to another image.
+    point2D_t num_observations = 0;
+
+    // Total number of correspondences to other images. This measure is useful
+    // to find a good initial pair, that is connected to many images.
+    point2D_t num_correspondences = 0;
+
+    // Correspondences to other images per image point.
+    std::vector<std::vector<Correspondence>> corrs;
+};
+
+struct ImagePair {
+    // The number of correspondences between pairs of images.
+    point2D_t num_correspondences = 0;
+};
+  
+CorrespondenceGraph
+ EIGEN_STL_UMAP(image_t, Image) images_;
+ std::unordered_map<image_pair_t, ImagePair> image_pairs_;
+ 
+Reconstruction
+ cameras_
+ images_
+ points3D_
+ image_pairs_
+ 
+struct Problem {
+    // Index of the reference image.
+    int ref_image_idx = -1;
+
+    // Indices of the source images.
+    std::vector<int> src_image_idxs;
+
+    // Input images for the photometric consistency term.
+    std::vector<Image>* images = nullptr;
+
+    // Input depth maps for the geometric consistency term.
+    std::vector<DepthMap>* depth_maps = nullptr;
+
+    // Input normal maps for the geometric consistency term.
+    std::vector<NormalMap>* normal_maps = nullptr;
+
+    // Print the configuration to stdout.
+    void Print() const;
+ };
+ 
+ PatchMatch
+ 
+ 
+ 
 ```
 
 - 代码例子
@@ -225,8 +277,10 @@ void GenerateReconstruction(const image_t num_images,
   reconstruction->SetUp(correspondence_graph);
 }
 
-
-
+- 两个相机
+  Reconstruction reconstruction;
+  CorrespondenceGraph correspondence_graph;
+  GenerateReconstruction(2, &reconstruction, &correspondence_graph);
 
 
  
