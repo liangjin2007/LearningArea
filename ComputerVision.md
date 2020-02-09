@@ -339,6 +339,15 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
 # [2004][PAMI] An efficient solution to the five-point relative pose problem
 - 已知内参不知外参，称为Structure from Motion 问题， 5点法求解。
 
+## 公式
+M=[x,y,z]
+m=[u,v]
+s[u,v,1]=P[x,y,z,1]
+u,v是图像空间坐标（retinal image coordinates, 整数区间），不是normalized image coordinates。
+P=A[R t]
+图像空间坐标中的线l=[a,b,c], 对应的线的方程为au+bv+c=0。
+符号距离为 d(m, l) = (au+bv+c)/sqrt(square(a)+square(b))
+
 
 
 
