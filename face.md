@@ -164,6 +164,37 @@ https://github.com/justint/stringless\
 
 python face3d https://github.com/YadiraF/face3d
 
+# [1989]Motion and structure from two perspective views: algorithms, error analysis, and error estimation
+- 已知图像上的2维坐标，如何算出3d
+
+# [1998][IJCV] Determining the Epipolar Geometry and its Uncertainty : A Review
+- 7点法算fundamental matrix
+不知内参也不知外参，只能在像素坐标级别算
+
+# [2004][PAMI] An efficient solution to the five-point relative pose problem
+- 已知内参不知外参，称为Structure from Motion 问题， 5点法求解。
+
+## 公式
+```
+- Notations
+
+M=[x,y,z]
+m=[u,v]
+s[u,v,1]=P[x,y,z,1]
+u,v是图像空间坐标（retinal image coordinates, 整数区间），不是normalized image coordinates。
+P=A[R t]
+图像空间坐标中的线l=[a,b,c], 对应的线的方程为au+bv+c=0。
+符号距离为 d(m, l) = (au+bv+c)/sqrt(square(a)+square(b))
+
+- Epipolar Geometry
+C,C'
+Plane PI, determined by C, C', M
+epipole e, e'
+epipolar line l, l'
+epipolar constraint
+
+```
+
 # colmap
 - 数据结构
 ```
@@ -281,14 +312,6 @@ void GenerateReconstruction(const image_t num_images,
   Reconstruction reconstruction;
   CorrespondenceGraph correspondence_graph;
   GenerateReconstruction(2, &reconstruction, &correspondence_graph);
-
-
- 
- 
-
-
-
-
 ```
 
 - AKAZE Tracker https://blog.csdn.net/Small_Munich/article/details/79418389
