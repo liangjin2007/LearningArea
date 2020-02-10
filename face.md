@@ -290,3 +290,6 @@ void GenerateReconstruction(const image_t num_images,
 
 
 ```
+
+- AKAZE Tracker https://blog.csdn.net/Small_Munich/article/details/79418389
+
