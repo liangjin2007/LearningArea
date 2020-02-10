@@ -331,7 +331,11 @@ https://docs.google.com/presentation/d/14VL0wPYdZIuOWYzobaYvf3Y_LnnijEuD2tCy4h8u
   - 模糊分割
   - 去模糊 deblurring
 # 图像质量评估
-     
+
+
+# [1989]Motion and structure from two perspective views: algorithms, error analysis, and error estimation
+- 已知图像上的2维坐标，如何算出3d
+
 # [1998][IJCV] Determining the Epipolar Geometry and its Uncertainty : A Review
 - 7点法算fundamental matrix
 不知内参也不知外参，只能在像素坐标级别算
