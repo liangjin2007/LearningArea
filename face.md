@@ -316,3 +316,37 @@ void GenerateReconstruction(const image_t num_images,
 
 - AKAZE Tracker https://blog.csdn.net/Small_Munich/article/details/79418389
 
+- BundleAdjuster
+- RigBundleAdjuster
+- ColorExtractor
+- StereoFuser
+- PoissonMesher
+- DelaunayMesher
+- PatchMatchStereo
+- AutomaticReconstructor
+  - Step1. SiftFeatureExtractor
+  - Step2. Feature Matcher
+    - Video数据类型： SequentialFeatureMatcher
+    - INDIVIDUAL数据类型或者INTERNET数据类型： ExhaustiveFeatureMatcher或者VocabTreeFeatureMatcher
+    
+- ExhaustiveMatcher
+- SequentialMatcher
+- SpatialMatcher
+- TransitiveMatcher
+- FeatureExtractor
+- ImageRectifier
+- ImageRegistrator
+- ImageUndistorter
+- ModelAligner
+- ModelOrientationAligner
+- ModelAnalyzer
+- ModelConverter
+- ModelMerger
+- MatchesImporter
+- Mapper
+- HierarchicalMapper
+- PointTriangulator
+- VocabTreeBuilder
+- VocabTreeMatcher
+- VocabTreeRetriever
+
