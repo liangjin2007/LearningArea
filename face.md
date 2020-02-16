@@ -316,6 +316,15 @@ void GenerateReconstruction(const image_t num_images,
 
 - AKAZE Tracker https://blog.csdn.net/Small_Munich/article/details/79418389
 
+- Ransac
+  - ComputeAlignmentBetweenReconstructions
+    - LORANSAC<ReconstructionAlignmentEstimator, ReconstructionAlignmentEstimator> ransac(option);
+    - ransac.Estimate
+- TwoViewGeometry
+  - EstimateCalibrated 
+    - Estimate E, F, H
+  - PoseFromEssentialMatrix(E, inlier_points1_normalized, inlier_points2_normalized, &R, &tvec, &points3D)
+  - 
 - BundleAdjuster
 - RigBundleAdjuster
 - ColorExtractor
@@ -328,7 +337,19 @@ void GenerateReconstruction(const image_t num_images,
   - Step2. Feature Matcher
     - Video数据类型： SequentialFeatureMatcher
     - INDIVIDUAL数据类型或者INTERNET数据类型： ExhaustiveFeatureMatcher或者VocabTreeFeatureMatcher
-    
+  - Step3. Sparse Mapper
+    - SFM IncrementMapper
+  - Step4. Dense Mapper
+    - 1.COLMAPUndistorter
+    - 2.Patch Match
+    - 3.Stereo Fusion
+      - mvs::StereoFusion
+      - WriteBinaryPlyPoints(fused_path, fuser.GetFusedPoints());
+      - mvs::WritePointsVisibility(fused_path + ".vis", fuser.GetFusedPointsVisibility());
+    - 4.Poisson Meshing
+      - mvs::PoissonMeshing
+  - Result : Output depth_maps and normal_maps
+  
 - ExhaustiveMatcher
 - SequentialMatcher
 - SpatialMatcher
