@@ -327,6 +327,8 @@ void GenerateReconstruction(const image_t num_images,
     - Estimate E, F, H
   - PoseFromEssentialMatrix(E, inlier_points1_normalized, inlier_points2_normalized, &R, &tvec, &points3D)
   - 
+- 单相机标定
+  - EstimateAbsolutePose
 - BundleAdjuster
 - RigBundleAdjuster
 - ColorExtractor
@@ -380,5 +382,8 @@ void GenerateReconstruction(const image_t num_images,
  - Filter bad matches 
  - Recover motion between previous to current image and triangulate points
  
+# Opencv标定
+- 基本矩阵运算 https://blog.csdn.net/qq_29796317/article/details/73743296
+- 标定及tracking https://www.cnblogs.com/mikewolf2002/p/5746667.html
 
 
