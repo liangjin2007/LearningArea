@@ -385,6 +385,116 @@ Eigen::SparseMatrix<double>
 ```
 
 ### ceres
+头文件不多，结构非常清晰。有c版和c++版，下面介绍c++版。
+统一入口ceres.h
+
+#### 概念
+-CostFunction
+  - NormalPrior
+  - CostFunctionToFunctor
+  - SizedCostFunction
+    - AutoDiffCostFunction
+      - cost function定义
+        - 用来传入样本相关的数据及变量和残差的尺寸
+        ```
+        auto cost = new AutoDiffCostFunction<ExponentialResidual, 1, 1, 1>(
+                new ExponentialResidual(data[2 * i], data[2 * i + 1]))
+        ```
+      - Functor
+        - 用来定义残差需要用到的公式及跟样本相关的数据
+        ```
+        struct ExponentialResidual {
+        ExponentialResidual(double x, double y)
+            : x_(x), y_(y) {}
+
+        template <typename T> bool operator()(const T* const m,
+                                              const T* const c,
+                                              T* residual) const {
+          residual[0] = y_ - exp(m[0] * x_ + c[0]);
+          return true;
+        }
+        ```
+    - NumericDiffCostFunction
+  - DynamicCostFunction
+    - 成员函数
+      - AddParameterBlock(size)
+      - SetNumResiduals(size)
+    - DynamicAutoDiffCostFunction
+    - DynamicNumericDiffCostFunction
+    - DynamicCostFunctionToFunctor
+- LossFunction
+  - 默认是平方，但平方对outlier效果不好，这边还提供了一些别的loss函数
+  ```
+  class CERES_EXPORT CauchyLoss : public LossFunction {
+   public:
+    explicit CauchyLoss(double a) : b_(a * a), c_(1 / b_) { }
+    virtual void Evaluate(double, double*) const;
+
+   private:
+    // b = a^2.
+    const double b_;
+    // c = 1 / a^2.
+    const double c_;
+  };
+  ```
+- Problem
+  - 用来定义问题。问题用残差块来定义，残差块用cost函数， loss函数， 变量。 
+  ```
+  double m = 0.0;
+  double c = 0.0;
+
+  Problem problem;
+  for (int i = 0; i < kNumObservations; ++i) {
+    problem.AddResidualBlock(
+        new AutoDiffCostFunction<ExponentialResidual, 1, 1, 1>(
+            new ExponentialResidual(data[2 * i], data[2 * i + 1])),
+        NULL,  // loss function
+        &m, &c // variables need to be optimized.
+        );
+  }
+  ```
+  
+- Solver
+  - Solver::Options
+  问题定义好了以后要指定优化需要用到的方法，迭代的次数，等参数，在这个类中指定。
+  - Solver::Summary
+  问题求好以后出的报告在这个类里。
+  - Solver::Solve及全局函数Solve
+  全局函数里面其实调用的是Solver::Solve
+  ```
+  Solver::Options options;
+  options.max_num_iterations = 25;
+  options.linear_solver_type = ceres::DENSE_QR;
+  options.minimizer_progress_to_stdout = true;
+  
+  Solver::Summary summary;
+  Solve(options, &problem, &summary);
+  std::cout << summary.BriefReport() << "\n";
+  std::cout << "Initial m: " << 0.0 << " c: " << 0.0 << "\n";
+  std::cout << "Final   m: " << m << " c: " << c << "\n";
+  ```
+- Covariance
+  - 更复杂的数学问题
+  - Covariance::Options
+
+- Others
+  - rotation
+    - 旋转相关的封装在rotation.h中，包括四元数
+  - NumericDiffOptions
+  - Jet
+  - IterationSummary
+  - IterationCallback
+  - fpclassify
+  - CRSMatrix
+  - CubicHermiteSpline
+  
+
+
+
+
+
+
+
 
 ### libigl
 An Open Source Framework For Geometry Processing Programming.
