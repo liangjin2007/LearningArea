@@ -530,6 +530,8 @@ Eigen::SparseMatrix<double>
 ### libigl
 An Open Source Framework For Geometry Processing Programming.
 
+- 只有头文件
+- 已知问题 https://libigl.github.io/#known-issues
 - 第一章 基础知识
   - 设计原则
   - 下载源代码
@@ -537,6 +539,12 @@ An Open Source Framework For Geometry Processing Programming.
   - 例子工程
   - 网格表示
     - 内存高效，缓存友好，避免指针，拷贝和序列化比较方便。
+  - 可视化与交互
+    - viewer.data().set_data(D)
+    - viewer.data().set_colors(C);
+    - viewer.data().set_colormap(...);
+    - 绘制点、线、label
+    
   - 基本API
     ```
     igl::readOFF(path, V, F);
