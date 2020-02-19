@@ -477,17 +477,48 @@ Eigen::SparseMatrix<double>
   - 更复杂的数学问题
   - Covariance::Options
 
+- LocalParameterization
+  - IdentityParameterization
+  - SubsetParameterization
+  - QuaternionParameterization
+  - EigenQuaternionParameterization
+  - HomogeneousVectorParameterization
+  - ProductParameterization
+  - AutoDiffLocalParameterization
+  
+- IterationSummary
+- IterationCallback
+- NumericDiffOptions
 - Others
   - rotation
     - 旋转相关的封装在rotation.h中，包括四元数
-  - NumericDiffOptions
   - Jet
-  - IterationSummary
-  - IterationCallback
   - fpclassify
   - CRSMatrix
   - CubicHermiteSpline
-  
+  - types.h
+    - LinearSolverType
+    - PreconditionerType
+    - VisibilityClusteringType
+    - SparseLinearAlgebraLibraryType
+    - DenseLinearAlgebraLibraryType
+    - LoggingType
+    - MinimizerType
+    - LineSearchDirectionType
+    - NonlinearConjugateGradientType
+    - LineSearchType
+    - TrustRegionStrategyType
+    - DoglegType
+    - TerminationType
+    - CallbackReturnType
+    - DumpFormatType
+    - DimensionType
+    - NumericDiffMethodType
+    - LineSearchInterpolationType
+    - CovarianceAlgorithmType
+    
+    
+    
 
 
 
