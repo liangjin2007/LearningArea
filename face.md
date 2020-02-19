@@ -80,11 +80,7 @@ ICP
 - 骨骼与皮肤的关系
 https://github.com/tneumann/skinning_decomposition_kavan
 
-
-初始工程框架
-
-eos人脸morphable model https://github.com/patrikhuber/eos
-
+- 深度学习方法
 [2019][cvpr] Accurate 3D Face Reconstruction with Weakly-Supervised Learning: From Single Image to Image Set
 微软https://github.com/microsoft/Deep3DFaceReconstruction
 •	Python >= 3.5 (numpy, scipy, pillow, opencv)
@@ -92,12 +88,11 @@ eos人脸morphable model https://github.com/patrikhuber/eos
 •	Basel Face Model 2009 (BFM09)
 •	Expression Basis (transferred from Facewarehouse by Guo et al.)
 
-
 [2019][cvpr] Monocular Total Capture: Posing Face, Body and Hands in the Wild
 卡内基梅隆 https://github.com/CMU-Perceptual-Computing-Lab/MonocularTotalCapture
 
 - SOTA https://github.com/YadiraF/PRNet
-python face3d https://github.com/YadiraF/face3d
+- python face3d https://github.com/YadiraF/face3d
 
 
 ## 基本视觉
@@ -132,7 +127,7 @@ epipolar constraint
 
 ```
 
-# colmap
+## 相关视觉重建 colmap
 - 数据结构
 ```
 Point2D
@@ -211,9 +206,6 @@ struct Problem {
  };
  
  PatchMatch
- 
- 
- 
 ```
 
 - 代码例子
@@ -320,14 +312,14 @@ void GenerateReconstruction(const image_t num_images,
 - VocabTreeMatcher
 - VocabTreeRetriever
 
-# SFM
+## SFM
 - SFM example https://github.com/nghiaho12/SFM_example/blob/master/src/main.cpp
 - gtsam library https://github.com/borglab/gtsam/blob/develop/examples/SFMExample.cpp
  - 在所有图像对之间进行特征检测及匹配
  - Filter bad matches 
  - Recover motion between previous to current image and triangulate points
  
-# Opencv标定
+## Opencv标定
 - 基本矩阵运算 https://blog.csdn.net/qq_29796317/article/details/73743296
 - 标定及tracking https://www.cnblogs.com/mikewolf2002/p/5746667.html
 
