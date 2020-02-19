@@ -544,7 +544,18 @@ An Open Source Framework For Geometry Processing Programming.
     - viewer.data().set_colors(C);
     - viewer.data().set_colormap(...);
     - 绘制点、线、label
-    
+    - Viewer菜单
+    - Multiple Meshes
+      - 
+    - Multiple Viewer
+      - Viewer::append_core()
+      ```
+      viewer.callback_post_resize = [&](igl::opengl::glfw::Viewer &v, int w, int h) {
+      v.core( left_view).viewport = Eigen::Vector4f(0, 0, w / 2, h);
+      v.core(right_view).viewport = Eigen::Vector4f(w / 2, 0, w - (w / 2), h);
+  return true;
+};
+      ```
   - 基本API
     ```
     igl::readOFF(path, V, F);
