@@ -705,6 +705,7 @@ An Open Source Framework For Geometry Processing Programming.
     - 线性方程求解
     - Dirichlet energy subject
     - bi-Laplace equation
+    - Quadratic Programming with inequality constraint                    https://github.com/libigl/libigl/blob/master/tutorial/305_QuadraticProgramming/main.cpp
 - 第三章 矩阵和线性代数
   - Matlab风格的函数
   - 拉普拉斯方程
