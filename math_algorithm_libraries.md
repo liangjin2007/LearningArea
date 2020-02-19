@@ -546,9 +546,11 @@ An Open Source Framework For Geometry Processing Programming.
     - 绘制点、线、label
     - Viewer菜单
     - Multiple Meshes
-      - 
+      - Viewer::append_mesh()
+      - selected_data_index
     - Multiple Viewer
       - Viewer::append_core()
+      - Viewer::selected_core_index()
       ```
       viewer.callback_post_resize = [&](igl::opengl::glfw::Viewer &v, int w, int h) {
       v.core( left_view).viewport = Eigen::Vector4f(0, 0, w / 2, h);
@@ -660,13 +662,13 @@ An Open Source Framework For Geometry Processing Programming.
     VectorXd Z = V.col(2);
     igl::slice(Z,b,bc);
 
-    // Solve PDE
+    // 线性方程求解 Solve PDE
     SimplicialLLT<SparseMatrix<double > > solver(-L_in_in);
     VectorXd Z_in = solver.solve(L_in_b*bc);
     // slice into solution
     igl::slice_into(Z_in,in,Z);
 
-    // Alternative, short hand
+    // 带线性方程约束的二次优化问题 general quadratic programs Alternative, short hand
     igl::min_quad_with_fixed_data<double> mqwf;
     // Linear term is 0
     VectorXd B = VectorXd::Zero(V.rows(),1);
@@ -676,11 +678,14 @@ An Open Source Framework For Geometry Processing Programming.
     // Our cotmatrix is _negative_ definite, so flip sign
     igl::min_quad_with_fixed_precompute((-L).eval(),b,Aeq,true,mqwf);
     igl::min_quad_with_fixed_solve(mqwf,B,bc,Beq,Z);
+    
+    // 带不等式约束的二次规划问题 Quadratic Programming with inequality
     ```
 - 第二章 离散几何量和算子
     - 法向 https://github.com/libigl/libigl/blob/master/tutorial/201_Normals/main.cpp
-      - Per-corner效果最好
+      - Per-face, Per-vertex, Per-corner。Per-corner效果最好
     - 高斯曲率 https://github.com/libigl/libigl/blob/master/tutorial/202_GaussianCurvature/main.cpp
+      - 
     - 平均曲率，主曲率 https://github.com/libigl/libigl/blob/master/tutorial/203_CurvatureDirections/main.cpp
     - 梯度 https://github.com/libigl/libigl/blob/master/tutorial/204_Gradient/main.cpp
       - hat function defined on 1-ring of a vertex.
@@ -693,7 +698,13 @@ An Open Source Framework For Geometry Processing Programming.
         - cotangent Laplacian
         - divergence theorem to vertex one-rings.
     - 质量矩阵
+      - ∇f≈Gf, G is #Fx3 x #V
+      - Laplace_Beltrami_Operator(f) = inverse(M)Lf
+      - 内积的曲面积分的离散话integration_S(x.y) = x'My
     - 精确离散测地距离
+    - 线性方程求解
+    - Dirichlet energy subject
+    - bi-Laplace equation
 - 第三章 矩阵和线性代数
   - Matlab风格的函数
   - 拉普拉斯方程
