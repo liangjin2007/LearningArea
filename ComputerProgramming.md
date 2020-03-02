@@ -218,4 +218,6 @@ Decorator 提供了一种给类增加职责的方法，不是通过继承实现�
 
 # 编程语言
 - C++结构体 https://www.jianshu.com/p/d63efcd8390f
+- C++ std::function
+  - typedef std::function<bool(param&)> CallbackFunction;
 
