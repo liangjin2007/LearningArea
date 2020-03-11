@@ -27,7 +27,13 @@ CycleGAN的原理可以概述为：将一类图片转换成另一类图片。也
 
 ## 条件GAN CGAN
 Conditional Adversarial Networks
+```
+经典的非条件GAN（Unconditional GAN）是从噪声分布中随机生成我们需要的数据，但是我们无法控制生成的数据属于哪一类，而条件GAN（Conditional GAN）就是用来解决这一个问题的。
 
+CGAN中所谓条件就是指我们现在生成的网络不仅仅需要逼真，而且还要有一定的条件。如下图所示，Generator和Discriminator的输入不仅包含了随机噪声，还包含了指定类别的one-hot编码，通过这样的方式我们就可使让生成器生成我们指定的类别数据。
+```
+输入：x, z, label
+输出：D, G
 
 ## NVIDIA FUNIT
 
