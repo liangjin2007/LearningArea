@@ -8,9 +8,8 @@ Course Notes 2: Single View Metrology
 Course Notes 3: Epipolar Geometry
 Course Notes 4: Stereo Systems
 Course Notes 5: Active and Volumetric Stereo
-
-
-...
+- CS231b 
+http://vision.stanford.edu/teaching/cs231b_spring1415/syllabus.html
 
 
 # 视觉历史
