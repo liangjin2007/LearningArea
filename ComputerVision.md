@@ -1,6 +1,15 @@
 # tutorials
 http://cvpr2018.thecvf.com/program/tutorials
 http://cvpr2019.thecvf.com/program/tutorials
+- 斯坦福CS231A Computer Vision, From 3D Reconstruction to Recognition http://web.stanford.edu/class/cs231a/course_notes.html
+这个课程的目录如下，主要还是讲传统三维视觉
+Course Notes 1: Camera Models
+Course Notes 2: Single View Metrology
+Course Notes 3: Epipolar Geometry
+Course Notes 4: Stereo Systems
+Course Notes 5: Active and Volumetric Stereo
+
+
 ...
 
 
