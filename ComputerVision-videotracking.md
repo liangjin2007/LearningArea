@@ -1,7 +1,7 @@
 # Video Tracking
 
 ## [2011] Video Tracking : theory and practise 
-### What is video tracking
+### What is video tracking 什么是视频跟踪
 Definition: The process of estimating over time the location of one or more objects using a camera is referred to as video tracking.
 - Chanllenges: clutter(杂乱背景), change in pose， Ambient illumination, Noise, Occlusions(partial and total)
   - typical motion behavior
@@ -33,7 +33,7 @@ Definition: The process of estimating over time the location of one or more obje
     - Manually tracking
     - Automated tracking
     - Interactive tracking(semi-automated)
-### Feature extraction
+### Feature extraction 特征提取
 - low-level feature : color, gradient, motion
   - Color : CIE colorimetry system CIE比色法系统， 三色法原理引出XYZ是个三维向量, CIELab空间， CIELuv空间，RGB空间，YIQ，YUV, YCbCr, HSL空间，
   - Gradient and derivatives
@@ -56,10 +56,21 @@ Definition: The process of estimating over time the location of one or more obje
         - energy-based techniques
         - correlation-based techniques
       
-- mid-level feature : egges, corners, regions
+- mid-level feature : edges, corners, regions
 - high-level feature : objects
 
-
+### Target Representation 目标表示
+- Shape Representation
+  - Point Approximation
+  - Area Approximation : rectangle, ellipse
+  - Volume Approximation
+  - Articulated Model
+  - Deformable Model
+    - Fluid model
+    - Contour model
+      - Maybe suitable ? [1995]Active shape model – their training and application
+    - point distribution model
+  
 
 ## Papers
 [2015]Multiple hypothesis tracking revisited
