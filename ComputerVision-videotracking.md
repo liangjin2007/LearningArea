@@ -18,3 +18,9 @@ Definition: The process of estimating over time the location of one or more obje
     - target birth: initialise a new trajectory
     - track loss
 
+## Papers
+[2015]Multiple hypothesis tracking revisited
+[2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
+
+## Open Source code
+https://github.com/Smorodov/Multitarget-tracker
