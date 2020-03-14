@@ -1,6 +1,6 @@
 # Video Tracking
 
-## [2011] Book Video Tracking : theory and practise 
+## [2011] Video Tracking : theory and practise 
 ### What is video tracking
 Definition: The process of estimating over time the location of one or more objects using a camera is referred to as video tracking.
 - Chanllenges: clutter(杂乱背景), change in pose， Ambient illumination, Noise, Occlusions(partial and total)
@@ -14,7 +14,6 @@ Definition: The process of estimating over time the location of one or more obje
   - target representation
   - propagation
   - track management:stragegy to manage targets appearing and disappearing.
-    - terminate trajectory
-    - initialise a new trajectory
-    - target birth
-
+    - target disappear: terminate trajectory
+    - target birth: initialise a new trajectory
+    - track loss
