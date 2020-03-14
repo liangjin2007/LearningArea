@@ -70,8 +70,13 @@ Definition: The process of estimating over time the location of one or more obje
     - Contour model
       - Maybe suitable ? [1995]Active shape model – their training and application
     - point distribution model
-  
-
+- Appearance representation
+  - Template
+    - L1
+    - L2
+    - Normalized cross correlation coefficient
+  - Histogram: Colour histograms, Orientation histograms, Structural histograms
+    
 ## Papers
 [2015]Multiple hypothesis tracking revisited
 [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
