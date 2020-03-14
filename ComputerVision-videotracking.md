@@ -17,6 +17,49 @@ Definition: The process of estimating over time the location of one or more obje
     - target disappear: terminate trajectory
     - target birth: initialise a new trajectory
     - track loss
+- Problem formulation
+  - single target tracking
+    - Image sequence Ik
+    - trajectory xk : is the status of target, 不同的应用xk的维度可能不一样。
+      - location and shape
+      - appearance
+      - temporal variation
+  - multiple target tracking
+    - Xk
+    - Zk ?
+  - accuracy
+  - precision
+  - classification
+    - Manually tracking
+    - Automated tracking
+    - Interactive tracking(semi-automated)
+### Feature extraction
+- low-level feature : color, gradient, motion
+  - Color : CIE colorimetry system CIE比色法系统， 三色法原理引出XYZ是个三维向量, CIELab空间， CIELuv空间，RGB空间，YIQ，YUV, YCbCr, HSL空间，
+  - Gradient and derivatives
+    - Sobel
+  - Laplacian
+    - sensitive to noise, so LoG
+  - Motion
+    - 2d Motion
+    - Apparent Motion
+      - correspondence-vector field
+      - optical-flow field
+      - challenge
+        - sensitive to noise and illumination variation
+        - moving object must be highly textured.
+        - occulsion
+        - aperture
+      - techniques
+        - differential techniques
+        - phase-based techniques
+        - energy-based techniques
+        - correlation-based techniques
+      
+- mid-level feature : egges, corners, regions
+- high-level feature : objects
+
+
 
 ## Papers
 [2015]Multiple hypothesis tracking revisited
