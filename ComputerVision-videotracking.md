@@ -76,11 +76,17 @@ Definition: The process of estimating over time the location of one or more obje
     - L2
     - Normalized cross correlation coefficient
   - Histogram: Colour histograms, Orientation histograms, Structural histograms
+  - Cope with Appearance Change
+    - mixture of Gaussians
+    - evolve based on a modified Kalman filter
+      - model drifting
+    - update strategy
+    - update strategy can include a contribution from the initial model
+      - Active appearance models
     
 ## Papers
-- [2015]Multiple hypothesis tracking revisited
-- [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
-- https://zhuanlan.zhihu.com/p/65177442
+[2015]Multiple hypothesis tracking revisited
+[2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
 
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
