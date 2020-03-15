@@ -83,7 +83,7 @@ Definition: The process of estimating over time the location of one or more obje
     - update strategy
     - update strategy can include a contribution from the initial model
       - Active appearance models
-    
+    - high-dimensional appearances space use PCA to map to lower-dimensional space
 ## Papers
 [2015]Multiple hypothesis tracking revisited
 [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
