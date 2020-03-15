@@ -78,8 +78,9 @@ Definition: The process of estimating over time the location of one or more obje
   - Histogram: Colour histograms, Orientation histograms, Structural histograms
     
 ## Papers
-[2015]Multiple hypothesis tracking revisited
-[2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
+- [2015]Multiple hypothesis tracking revisited
+- [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
+- https://zhuanlan.zhihu.com/p/65177442
 
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
