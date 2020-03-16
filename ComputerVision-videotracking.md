@@ -84,6 +84,38 @@ Definition: The process of estimating over time the location of one or more obje
     - update strategy can include a contribution from the initial model
       - Active appearance models
     - high-dimensional appearances space use PCA to map to lower-dimensional space
+    
+### Localisation
+- Single-hypothesis localisation
+  - Gradient-based trackers
+    - Kanade-Lucas-Tomasi(KLT) Tracker
+    - Meanshift(MS) Tracker
+  - Bayes tracking
+  - the Kalman filter
+  
+- Multiple-hypothesis localisation
+  - Grid sampling
+  - Particle filter
+  - Hybrid methods
+  
+### Fusion
+Use Multiple features to do tracking
+- Fusion strategies
+  - tracker-level fusion
+  - measurement-level fusion
+- Feature fusion in a Particle Filter
+  - Fusion of likelihoods
+  - Multi-feature resampling
+  - Feature reliability
+  - Temporal smoothing
+  
+### Multi-target management
+如果对象会消失和新出现，需要自动创建target和终止taget。
+- measurement validation
+- data association
+  - nearest neighbor, knn, kdtree
+  - graph matching
+
 ## Papers
 [2015]Multiple hypothesis tracking revisited
 [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
