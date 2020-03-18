@@ -120,5 +120,18 @@ Use Multiple features to do tracking
 [2015]Multiple hypothesis tracking revisited
 [2018]Multiple hypothesis tracking algorithm for multi-target multi-camera tracking with disjoint views
 
+## Related Topics
+- Kalman filter https://www.jianshu.com/p/2768642e3abf
+  - probability distribution
+  - covariance matrix 
+    - 对称
+  - dlib/filtering/kalman_filter.cpp
+  - Multi-Target-Tracking 
+  - opencv/video/tracking.hpp
+    KalmanFilter.
+  - samples/cpp/kalman.cpp
+  
+  
+  
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
