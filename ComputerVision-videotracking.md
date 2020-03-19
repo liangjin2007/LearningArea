@@ -130,7 +130,7 @@ Use Multiple features to do tracking
   - opencv/video/tracking.hpp
     KalmanFilter.
   - samples/cpp/kalman.cpp
-  
+  - http://www.cs.unc.edu/~tracker/media/pdf/SIGGRAPH2001_CoursePack_08.pdf
   
   
 ## Open Source code
