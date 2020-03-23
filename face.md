@@ -323,4 +323,21 @@ void GenerateReconstruction(const image_t num_images,
 - 基本矩阵运算 https://blog.csdn.net/qq_29796317/article/details/73743296
 - 标定及tracking https://www.cnblogs.com/mikewolf2002/p/5746667.html
 
-
+## Papers
+- [2013] 3D Shape Regression for Real-time Facial Animation
+  - 知识点：
+    - 输入图像+landmark是可以轻松得到对应的3d fical shape。 底下的方法可以查看eos中根据face landmark拟合blendshape。
+    - 同时还可以得到对应的3d landmark位置。
+    - landmark可以手工进行修改。
+  
+  - Build User-specific 3D shape regressor
+    - Get image + landmarks
+      - performing a set of standard expressions
+      - facial landmark detecions
+      - manually correction of landmarks
+    - Construct training data for User-specific 3D Shape Regressor
+      - ?
+      
+  - fit blendshapes from these labeled images
+  - use blendshape model to calculate for each image its 3d facial shape composed of 3d landmark positions
+  - train images and shapes
