@@ -1023,7 +1023,37 @@ dst = cv.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
 
 
 
+### taichi
+并行，可微
+- tensor
+pixels = ti.var(dt=ti.f32, shape=(n * 2, n))
+- kernel
+ti.kernel
+- functions
+ti.func
+- scope
+taichi-scope vs python-scope
+- parallel for-loop
+- structure for-loop
+for i, j in pixels:
+  ...
+```
+It is the loop at the outermost scope that gets parallelized, not the outermost loop.
 
+# Good kernel
+@ti.func
+def foo():
+  for i in x:
+    ...
+
+# Bad kernel
+@ti.func
+def bar(k: ti.i32):
+  # The outermost scope is a `if` statement, not the struct-for loop!
+  if k > 42:
+    for i in x:
+      ...
+```
 
 
 
