@@ -329,15 +329,26 @@ void GenerateReconstruction(const image_t num_images,
     - 输入图像+landmark是可以轻松得到对应的3d fical shape。 底下的方法可以查看eos中根据face landmark拟合blendshape。
     - 同时还可以得到对应的3d landmark位置。
     - landmark可以手工进行修改。
-  
+    - 75 landmarks: 60 internal landmarks， 15 contour landmarks
+    - 每个图像上的landmark对应于3d facial shape上的一个点。
   - Build User-specific 3D shape regressor
     - Get image + landmarks
       - performing a set of standard expressions
       - facial landmark detecions
       - manually correction of landmarks
     - Construct training data for User-specific 3D Shape Regressor
-      - ?
+      - 输入image, 2d landmark, user specific blendshapes, camera projection matrix, user specified blendshapes
+      - 拟合blendshape系数使得blendshape of user specified blendshapes尽可能跟图片及2d landmark一致。
       
+  - On-the-fly regression
+    - User-specific Blendshape Generation
+      - database FaceWarehouse: 150 individuals + 46 FACS blendshapes.
+      - namely identity and expression, range-three core tensor Cr, 11k mesh vertices x 50 identity knobs x 47 expression         knobs.
+      - two steps
+        - 打乒乓方法
+        - first step to solve [R t], wid, wexp
+        - second step to refine wid.
+        - 三次迭代就能收敛
   - fit blendshapes from these labeled images
   - use blendshape model to calculate for each image its 3d facial shape composed of 3d landmark positions
   - train images and shapes
