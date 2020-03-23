@@ -332,14 +332,30 @@ void GenerateReconstruction(const image_t num_images,
     - 75 landmarks: 60 internal landmarks， 15 contour landmarks
     - 每个图像上的landmark对应于3d facial shape上的一个点。
   - Build User-specific 3D shape regressor
-    - Get image + landmarks
-      - performing a set of standard expressions
+    - Get setup images + landmarks
+      - performing a set of standard expressions to get images
       - facial landmark detecions
       - manually correction of landmarks
+    - Construct user-specific Blendshapes
+      即求解wid, wexp。
+    
+      - FaceWarehouse, 150 individuals, 46 FACS blendshapes for each.
+      - bilinear face model Cr, Cr x wid x wexp
+        - identity
+        - FACS expression
+      - 第一步，求解所有参数：wid跟wexp是未知数，类似于简单blendshapemarker点拟合（带约束二次规划），这个问题是非线性拟合，一般用LM算法求解，这边内参矩阵是已知的，外参不知，所以位置数为外参M, wid, wexp, 而且是相乘的关系。这边提到的解法为coordinate-descent。
+        - 这边提示landmark是跟网格顶点对应的， 而不是三角形重心坐标。
+      - 第二步，由于所有的图片都是同一个人的，那么对所有i, wid应该是一样的，Mi和wexp, i应该是不同的。 对所有的i优化一个目标函数             Ejoint = sum_i(sum_k||Q(Mi(Cr x wid x wexp, i) at vk) - ui(k)||^2)
+      - 重复第一步和第二步。
+      
+    - 
+    
+    
+    
     - Construct training data for User-specific 3D Shape Regressor
       - 输入image, 2d landmark, user specific blendshapes, camera projection matrix, user specified blendshapes
       - 拟合blendshape系数使得blendshape of user specified blendshapes尽可能跟图片及2d landmark一致。
-      
+        
   - On-the-fly regression
     - User-specific Blendshape Generation
       - database FaceWarehouse: 150 individuals + 46 FACS blendshapes.
