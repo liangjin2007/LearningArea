@@ -349,6 +349,10 @@ void GenerateReconstruction(const image_t num_images,
         - first step to solve [R t], wid, wexp
         - second step to refine wid.
         - 三次迭代就能收敛
+    - Training Set Construction
+      - 3D Faicial Shape Recovery
+      - Data Augmentation
+      
   - fit blendshapes from these labeled images
   - use blendshape model to calculate for each image its 3d facial shape composed of 3d landmark positions
   - train images and shapes
