@@ -337,7 +337,7 @@ void GenerateReconstruction(const image_t num_images,
       - facial landmark detecions
       - manually correction of landmarks
     - Construct user-specific Blendshapes
-      即求解wid, wexp。
+      即求解wid, wexp。额外还得到了各个相机的外参Mi。 
     
       - FaceWarehouse, 150 individuals, 46 FACS blendshapes for each.
       - bilinear face model Cr, Cr x wid x wexp
@@ -348,7 +348,16 @@ void GenerateReconstruction(const image_t num_images,
       - 第二步，由于所有的图片都是同一个人的，那么对所有i, wid应该是一样的，Mi和wexp, i应该是不同的。 对所有的i优化一个目标函数             Ejoint = sum_i(sum_k||Q(Mi(Cr x wid x wexp, i) at vk) - ui(k)||^2)
       - 重复第一步和第二步。
       
-    - 
+    - 3D Facial Shape 恢复
+      跟上一步同样一套数据setup images + landmarks, 再加上前一步得到的Mi, 这一步要得到作为训练数据的3d facial shape。可能跟blendshapeh很像。求解出来的是a即blendshape的权重。求解M及a， 通过coordinate-descent 方法。
+      - El = sum_marker(||QM(B0+sum(a x Bi))-q||)， 求解a。
+      - 正则化项 Ereg = ||  a - a* || 
+      - POSIT算法求解rigid pose
+      - gradient projection algorithm base on BFGS solver，来限定a的范围在0-1。
+      - 每次迭代，更新vl为轮廓landmark vertex indices.
+      - 得到M和a后通过M(B0+sum a x B)得到3d face mesh fi。
+      - 从3d face mesh fi可以提取面部landmark点的3d坐标，这样就得到{S^o}i 称为3d facial shape 。
+      
     
     
     
