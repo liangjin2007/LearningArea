@@ -131,7 +131,7 @@ Use Multiple features to do tracking
     KalmanFilter.
   - samples/cpp/kalman.cpp
   - http://www.cs.unc.edu/~tracker/media/pdf/SIGGRAPH2001_CoursePack_08.pdf
-  
+  - linear system theory
   
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
