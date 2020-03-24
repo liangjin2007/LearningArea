@@ -326,8 +326,12 @@ void GenerateReconstruction(const image_t num_images,
 
 ## Face相关Papers
 ### 计算机动画方法：
-| 年份 | 论文名 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 
-| -- | --- | ----- | ---------- | -------- | ---------- |
+| 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
+| -- | --- | -- | ----- | ---------- | -------- | ---------- | -- |
+| 13 | High Fidelity Facial Animation Capture and Retargeting With Contours | -- | ----- | ---------- | -------- | ---------- | -- |
+
+
+
 
 - [2013] 3D Shape Regression for Real-time Facial Animation
   - 知识点：
