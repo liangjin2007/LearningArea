@@ -329,7 +329,7 @@ void GenerateReconstruction(const image_t num_images,
 ## 计算机动画方法：
 | 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
 | -- | --- | -- | ----- | ---------- | -------- | ---------- | -- |
-| 00 | Pose Space Deformation | Centropolis | ----- | ---------- | 定义: <pose controls>指任何操纵器； <pose space>指<pose controls>所延申的空间； <Sculpt>， <pose> Solve.| RBF to solve the interpolation discontinuous | 之前的方法skeleton supspace deformation(SSD), blendshape method or Shape interpolation；散点插值,scattered interpolation；RBF，此方法是跟SSD做比较  |
+| 00 | Pose Space Deformation | Centropolis | ----- | ---------- | 定义: pose controls指任何操纵器； pose space指pose controls所延申的空间； 交互步骤：Sculpt pose， Define pose, Solve.| RBF | 之前的方法skeleton supspace deformation(SSD), blendshape method or Shape interpolation；散点插值,scattered interpolation；RBF，此方法是跟SSD做比较  |
 | 04 | Deformation Transfer for Triangle Meshes | MIT | 输入：Source blend shapes + target neutral shape / 输出：Target blend shapes | ---------- | -------- | ---------- | 开源实现[Deformation-Transfer](https://github.com/chand81/Deformation-Transfer), [deformation-transfer](https://github.com/Golevka/deformation-transfer); 公式简单，应该易于实现，不过下面一篇2017年的文章提到说deformation transfer在有些情况下效果比较差 |
 | 06 | Animating Blendshape Faces by Cross-Mapping Motion Capture Data | USC | ----- | ---------- | -------- | cross-mapping between motion capture data and target blendshape faces. 具体做法为RBF： | 半自动技术 |
 | 12 | Facial animation retargeting framework using radial basis functions | Hungary | ----- | ---------- | -------- | ---------- | -- |
