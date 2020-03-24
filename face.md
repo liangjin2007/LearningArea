@@ -328,7 +328,7 @@ void GenerateReconstruction(const image_t num_images,
 ### 计算机动画方法：
 | 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
 | -- | --- | -- | ----- | ---------- | -------- | ---------- | -- |
-| 13 | High Fidelity Facial Animation Capture and Retargeting With Contours | -- | ----- | ---------- | -------- | ---------- | -- |
+| 13 | High Fidelity Facial Animation Capture and Retargeting With Contours | ILM | 输入:带marker点的视频流+脸部中性人脸+Blendshape+相机参数/输出： | 左右相机的2d marker tracking | 两个优化：1.根据2d,3d bundle, 眼睛轮廓，嘴巴轮廓求解blendshape；2.使用laplace变形+2d marker限制+2d curve限制+3d curves限制+3d point constraint共5项去生成corrective shape Delta V. | 分两步：1.迁移blendshape。即将actor的rig(指blendshape weights)直接用到creature上。需要使得creature的blendshape rig是从actor的blendshape用deformation transfer 迁移过去，最后直接使用actor的weights作用在creature上；2.迁移corrective shape， | 每帧处理时间需要1-2秒 |
 
 
 
