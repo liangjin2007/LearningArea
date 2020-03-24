@@ -323,7 +323,12 @@ void GenerateReconstruction(const image_t num_images,
 - 基本矩阵运算 https://blog.csdn.net/qq_29796317/article/details/73743296
 - 标定及tracking https://www.cnblogs.com/mikewolf2002/p/5746667.html
 
-## Papers
+
+## Face相关Papers
+### 计算机动画方法：
+| 年份 | 论文名 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 
+| -- | --- | ----- | ---------- | -------- | ---------- |
+
 - [2013] 3D Shape Regression for Real-time Facial Animation
   - 知识点：
     - 输入图像+landmark是可以轻松得到对应的3d fical shape。 底下的方法可以查看eos中根据face landmark拟合blendshape。
