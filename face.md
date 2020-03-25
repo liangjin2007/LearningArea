@@ -17,8 +17,8 @@
 | 14 | Displaced Dynamic Expression Regression for Real-time Facial Tracking and Animation | K.Zhou | 输入：视频 / 输出：2d landmark + 3的facial shape + pose M | ---------- | -------- | ---------- | 打乒乓方法，主要贡献应该是减少了对不用用户的标定，比较快，可以实现28fps，其他作者侯启明记得是个大牛 |
 | 15 | Dynamic 3D Avatar Creation from Hand-held Video Input ![](https://github.com/liangjin2007/data_liangjin/blob/master/faceanimation3.JPG?raw=true)| EPFL |预处理：通过多图重建neutral mesh和光照属性；Dynamic Modeing: 把neutral mesh变形到| ---------- | -------- | ---------- | multi-view stereo reconstruction from multiple images - > non-rigid registration -> optimized geometry, texture optimization, integrated texture -> textured model |
 | 16 | Face2Face | Stanford etc | 输入: online source actor video + target video seq / 输出：a video with actor face | ![tracking](https://github.com/liangjin2007/data_liangjin/blob/master/facereenactment1.JPG?raw=true) | 两边都得到Pose M, expression, illumination及identity | expression transfer方法 | -- |
-| 17 | Facial Retargeting with Automatic Range of Motion Alignment | -- | ----- | ---------- | -------- | cross mapping方法 | -- |
-| 18 | State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications | -- | ----- | ---------- | -------- | ---------- | -- |
+| 17 | Facial Retargeting with Automatic Range of Motion Alignment | KAIST | ----- | ---------- | -------- | cross mapping方法 | -- |
+| 18 | State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications | -- | ----- | ---------- | -------- | parallel parameterization method | -- |
 
 ## 知乎
 人脸动作捕捉系统介绍https://www.zhihu.com/question/321811525
