@@ -202,6 +202,7 @@ button
 https://www.autodesk.com/developer-network/platform-technologies/maya
 
 ## Maya C++ API (page 208)
+```
 命令
 DG节点
 工具
@@ -214,6 +215,38 @@ DG节点
 发射器
 形体
 解算器
+- API 一般性
+M, Maya类
+MPx 代理对象 MPxNode
+MIt 迭代类 MItDag, MItMeshEdge
+MFn 函数集 MFnMesh, MFnDagNode 
+Maya方法与普通面向对象方法的区别： 数据与函数分来。 MFn只包含函数。
+MObject所有数据均是通过类MObject访问的。实际指向Maya核心内一个句柄。
+Maya拥有所有的数据，而你不拥有它内部的任何数据。
+MFn函数集用来创建、编辑和删除数据。 比如要创建transform节点，可以这样。
+MFnTransform transformFn;
+MObject transformObj = transformFn.create();
+MFnBase -> MFnDependencyNode -> MFnDagNode -> MFnTransform
+- 开发插件
+错误，报告MStatus， 集成。加载/卸载pluginInfo -q xxx;
+unloadPlugin full_file_path;
+loadPlugin full_file_path;
+MAYA_PLUG_IN_PATH
+
+MString, MObject, MSelectionList, MStatus
+- 插件代码
+  - 命令
+    - 一个简单修改动画关键点属性值的命令
+    - 添加命令参数
+    - 提供帮助
+    - Undo/Redo 可撤销和不可撤销
+    - 编辑和查询
+  - 节点
+    - 
+
+```
+
+
 
 - http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
 - github: https://github.com/topics/maya-plug
