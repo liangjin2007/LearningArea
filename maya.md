@@ -1,5 +1,42 @@
 # Maya5编程全攻略
 
+## Maya架构
+- 数据流模型 DG， 技术上讲基于一种推拉模型，而不是基于严格的数据流模型。
+- 数据及其操作被封装为节点， 一个节点含有任意数目的插槽，其中含有Maya使用的数据，节点也包含一个操作符，用于对其数据进行处理。
+- 场景就是DG
+- Hypergraph
+- 节点类型
+  - 常见
+    - time
+    - transform
+    - mesh
+    - tweaks
+    - sets
+    - joint
+    - parentConstraint
+    - pointConstraint
+    - orientConstraint
+    - animConstraint
+    - clusterHandle
+    - nurbsCurve
+    - lambert
+  不常见
+    - sequenceManager
+    - hardwareRenderingGlobals
+    - renderPartition
+    - renderGlobalsList
+    - defaultLightList
+    - defaultShaderList
+    - defaultRenderingList
+    - defaultRenderUtilityList
+    - defaultTextureList
+    - postProcessList
+    - lightList
+    
+- 节点编辑器操作
+  - 快捷键
+  - 基本操作
+
 ## Maya MEL
 类c语言
 变量：类型，数组，vector，boolean， 字符串， int, float
@@ -36,7 +73,9 @@ https://www.autodesk.com/developer-network/platform-technologies/maya
 
 
 ## Maya C++ API
-http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
+- http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
+- github: https://github.com/topics/maya-plug
+- open source Maya rigging and animation software https://github.com/mgear-dev/mgear_dist
 
 ## Maya知识
 
