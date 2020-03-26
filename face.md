@@ -50,6 +50,13 @@
 重点关注Face 3D, Face Capture, Face Lib&Tool
 Face capture https://becauseofai.github.io/HelloFace/face_capture/
 
+- Face-Tracking-Maya
+  - Maya可使用commandPort命令来启动一个socket监听端口并执行接收到的字符串命令， 具体可以看FaceTrack.mel。http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_commandPort_html
+  - 这个例子是直接使用blob detector检测白色marker点并将marker点的移动映射到Maya中虚拟角色的joints的移动。直接发送移动数据给到Maya。
+  
+- 开源Maya rigging 插件，比较大的一个工程，可以学学Maya https://github.com/mgear-dev/mgear_dist  
+  - 其中使用的Maya插件WeightDriver插件，底下使用了RBF solver去驱动权重，可以看一下代码怎么搞。
+
 - 面部模型
 3DMM representation
 Probability Morphable Model http://gravis.dmi.unibas.ch/PMM/
@@ -57,6 +64,8 @@ Probability Morphable Model http://gravis.dmi.unibas.ch/PMM/
 - 人脸重建
 [2017]Large Pose 3D Face Reconstruction from a Single Image via Direct Volumetric CNN Regression
 Source code http://aaronsplace.co.uk/papers/jackson2017recon/
+
+
 - 3dmm_cnn 
 [2016]Regressing Robust and Discriminative 3D Morphable Models with a very Deep Neural Network
 https://github.com/anhttran/3dmm_cnn
