@@ -12,13 +12,20 @@
     - mesh
     - tweaks
     - sets
+    - groupParts
+    - groupId
     - joint
+    - skinCluster
     - parentConstraint
     - pointConstraint
     - orientConstraint
     - animConstraint
     - clusterHandle
     - nurbsCurve
+    - animCurveUL
+    - unitConversion
+    - dagPose ~~bindPose~~
+    - blendWeighted
     - lambert
   不常见
     - sequenceManager
@@ -32,11 +39,13 @@
     - defaultTextureList
     - postProcessList
     - lightList
+    - materialInfo
     
 - 节点编辑器操作
   - 快捷键
   - 基本操作
-
+  - 蓝色箭头，黄色箭头，绿色箭头，粉色箭头，灰色箭头
+  
 ## Maya MEL
 类c语言
 变量：类型，数组，vector，boolean， 字符串， int, float
