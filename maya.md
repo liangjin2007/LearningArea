@@ -106,7 +106,6 @@
   - blendshape连到blendshape上
   - blendshape连到skinCluster上
   
-
 ## Maya MEL
 类c语言
 变量：类型，数组，vector，boolean， 字符串， int, float
@@ -191,15 +190,31 @@ rotate
 xform
 ```
 
-- 
-
+## Maya图形用户界面 ~page150
+window
+showWindow
+columnLayout myLayout;
+button
+简单
 
 ## Maya SDK
 博客 https://blog.csdn.net/whwst/article/details/81604853
 https://www.autodesk.com/developer-network/platform-technologies/maya
 
+## Maya C++ API (page 208)
+命令
+DG节点
+工具
+文件转换器
+变形器
+着色器
+操纵器
+定位器
+动力场
+发射器
+形体
+解算器
 
-## Maya C++ API
 - http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
 - github: https://github.com/topics/maya-plug
 - open source Maya rigging and animation software https://github.com/mgear-dev/mgear_dist
