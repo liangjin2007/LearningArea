@@ -1,5 +1,6 @@
 # Maya5编程全攻略
 
+
 ## Maya架构
 - 数据流模型 DG， 技术上讲基于一种推拉模型，而不是基于严格的数据流模型。
 - 数据及其操作被封装为节点， 一个节点含有任意数目的插槽，其中含有Maya使用的数据，节点也包含一个操作符，用于对其数据进行处理。
@@ -18,6 +19,8 @@
     - joint
     - skinCluster
     - blendShape
+    - blendWeighted ~~BW_blendShape1_Eyebrows_Frown_R~~
+    - blendColors
     - follicle ~~eyelashes_dn_L_01_flcl~~
     - parentConstraint
     - pointConstraint
@@ -32,20 +35,23 @@
       - 以mulBS_Jaw_Up为例，它有两个输入1和输入2
     - multiplyDivide
     - reverse
-    
     - animCurveUL
     - animCurveUU ~~UU_blendShape1_Eyebrows_Frown_R~~
+    - animCurveTU
     - unitConversion
     - dagPose ~~bindPose~~
-    - blendWeighted ~~BW_blendShape1_Eyebrows_Frown_R~~
     - lambert
     - dx11Shader
     - file
     - place2dTexture
     - surfaceShader
     - shadingEngine
- 
-   
+    - bump2d
+    - setRange
+    - condition
+    - blinn
+    - cameraView
+    
   不常见
     - sequenceManager
     - hardwareRenderingGlobals
@@ -62,6 +68,32 @@
     - lightLinker
     - shapeEditorManager
     - displayLayer
+
+- 节点属性
+  - 固定属性 input / output
+  - 每个节点都内部存储其属性数据
+  - 每个节点都有一个计算函数compute
+  - 属性是节点中的一个占位符
+  - 属性类型
+  - 复合属性
+    - 子属性，父属性
+  - 属性数组
+  
+- 计算函数
+  - 输入和输出是函数？
+  - 计算函数永远不会从其他节点或位置获得信息
+
+- 建立属性之间的关系
+  - attributeAffects(a, b) // a affects b
+  
+- 连接节点
+- DAG
+  - DAG路径
+  
+- DG更新
+  - 推拉式
+  
+  
 - 节点编辑器操作
   - 快捷键
   - 基本操作
@@ -73,6 +105,8 @@
   - 同样是transform类型，图标会不一样，如何做到的
   - blendshape连到blendshape上
   - blendshape连到skinCluster上
+  
+
 ## Maya MEL
 类c语言
 变量：类型，数组，vector，boolean， 字符串， int, float
@@ -81,27 +115,84 @@
 脚本：存储脚本，自定义脚本目录 MAYA_SCRIPT_PATH环境变量
 
 模式:创建，查询，编辑
-节点：
 
 获取顶点世界坐标位置： ??? 获取的顶点位置不对
-MEL
+
+- 常用MEL命令
+```
+ls
+ls -sl
+ls -type
+whatIs // 返回mel语言类型
+pointPosition
+getAttr
+setAttr
+动态属性addAttr -longName "points" -attributeType int 5;
+检查属性是否存在attributeExists("points", object)
+使得属性变得可关键帧化setAttr -keyable
+删除动态属性 deleteAttr
+重命名动态属性renameAttr
+显示属性信息 listAttr -userDefined, listAttr -keyable
+getAttr -type nurbsSphere1.points; // Result : long
+attributeQuery
+
+- 动画
+currentUnit -query -time;
+currentTime 10;
+getAttr -time 10 sphere.traslateX; // 这边可以优化下我之前的代码。
+play;
+playbackOptions xxx;
+playblast -file xxx.mov;
+- 动画曲线
+
+- 关键帧
+keyframe -query -name ball; // 返回节点的动画曲线节点
+keyframe -query -name ball.translateX; // 返回属性的动画曲线节点
+isAnimCurve() 是否是动画曲线
+listAnimatable -type ball // 要确定一个节点是否是可动画化的。
+
+- 关键点
+创建/编辑/查询关键点
+setKeyframe
+setDrivenKeyframe
+keyTangent
+copyKey
+cutKey
+
+- 骨架
+insertJoint
+outputJoints脚本
+string $inPlugs[] = `listConnections -plugs yes -destination yes node.attr`// page 143
+string $tokens[];
+tokenize $inPlugs[0] "." $tokens；
+string $inNode = $tokens[0];
+string $inAttr = $tokens[1];
+duplicate -upstreamNodes $inNodes;
+listRelatives -parent nodename;
+connectAttr
+
+- 运动路径
+
+
+
+findType
+objectType
 pointPosition Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200];
 Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[116]");
 获取局部坐标位置
 getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
-
-
-- findType
+findType
+group
+move
+parent
+inheritTransform -ff xxx;
+scale
+rotate
+xform
 ```
-findType [-deep] [-exact] [-forward] [-type string]
 
-findType is NOT undoable, NOT queryable, and NOT editable.
+- 
 
-The findType command is used to search through a dependency subgraph on a certain node to find all nodes of the given type. The search can go either upstream (input connections) or downstream (output connections). The plug/attribute dependencies are not taken into account when searching for matching nodes, only the connections.
-Return value
-string[]	The list of node(s) of the requested type connected to the given node(s)
-
-```
 
 ## Maya SDK
 博客 https://blog.csdn.net/whwst/article/details/81604853
