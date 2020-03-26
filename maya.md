@@ -6,7 +6,7 @@
 - 场景就是DG
 - Hypergraph
 - 节点类型
-  - 常见
+  - 常见(注意实际中的命名)
     - time
     - transform
     - mesh
@@ -14,19 +14,38 @@
     - sets
     - groupParts
     - groupId
+    - locator ~~loc_anim_jawShape~~
     - joint
     - skinCluster
+    - blendShape
+    - follicle ~~eyelashes_dn_L_01_flcl~~
     - parentConstraint
     - pointConstraint
     - orientConstraint
     - animConstraint
     - clusterHandle
-    - nurbsCurve
+    - cluster ~~Louise_L_eye1_cls2~~
+    - nurbsCurve ~~curveShapexx~~
+    - nurbsSurface 
+      - 本身作为控制器连接到multDoubleLinear再连到blendshape上。
+    - multDoubleLinear ~~mulBS_Jaw_Up~~
+      - 以mulBS_Jaw_Up为例，它有两个输入1和输入2
+    - multiplyDivide
+    - reverse
+    
     - animCurveUL
+    - animCurveUU ~~UU_blendShape1_Eyebrows_Frown_R~~
     - unitConversion
     - dagPose ~~bindPose~~
-    - blendWeighted
+    - blendWeighted ~~BW_blendShape1_Eyebrows_Frown_R~~
     - lambert
+    - dx11Shader
+    - file
+    - place2dTexture
+    - surfaceShader
+    - shadingEngine
+ 
+   
   不常见
     - sequenceManager
     - hardwareRenderingGlobals
@@ -40,12 +59,20 @@
     - postProcessList
     - lightList
     - materialInfo
-    
+    - lightLinker
+    - shapeEditorManager
+    - displayLayer
 - 节点编辑器操作
   - 快捷键
   - 基本操作
   - 蓝色箭头，黄色箭头，绿色箭头，粉色箭头，灰色箭头
+  - 如何查看一个节点的输入/输出
   
+- 一般知识
+  - ShapeOrig与Shape的区别， Shape往往是在Orig基础上加了tweak， 加了skinCluster
+  - 同样是transform类型，图标会不一样，如何做到的
+  - blendshape连到blendshape上
+  - blendshape连到skinCluster上
 ## Maya MEL
 类c语言
 变量：类型，数组，vector，boolean， 字符串， int, float
