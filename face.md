@@ -17,7 +17,8 @@
 | 14 | Displaced Dynamic Expression Regression for Real-time Facial Tracking and Animation | K.Zhou | 输入：视频 / 输出：2d landmark + 3的facial shape + pose M | ---------- | -------- | ---------- | 打乒乓方法，主要贡献应该是减少了对不用用户的标定，比较快，可以实现28fps，其他作者侯启明记得是个大牛 |
 | 15 | Dynamic 3D Avatar Creation from Hand-held Video Input ![](https://github.com/liangjin2007/data_liangjin/blob/master/faceanimation3.JPG?raw=true)| EPFL |预处理：通过多图重建neutral mesh和光照属性；Dynamic Modeing: 把neutral mesh变形到| ---------- | -------- | ---------- | multi-view stereo reconstruction from multiple images - > non-rigid registration -> optimized geometry, texture optimization, integrated texture -> textured model |
 | 16 | Face2Face | Stanford etc | 输入: online source actor video + target video seq / 输出：a video with actor face | ![tracking](https://github.com/liangjin2007/data_liangjin/blob/master/facereenactment1.JPG?raw=true) | 两边都得到Pose M, expression, illumination及identity | expression transfer方法 | -- |
-| 17 | Facial Retargeting with Automatic Range of Motion Alignment | KAIST | ----- | ---------- | -------- | cross mapping方法 | -- |
+| 16 | Corrective 3D Reconstruction of Lips from Monocular Video | Disney/MaxPlanck/ETH Zurich | ----- | ---------- | -------- | ---------- | -- |
+| 17 | Facial Retargeting with Automatic Range of Motion Alignment | KAIST | ----- | ---------- | -------- | 1.**改进的blendshape生成方法** 从character空间的face rig生成出actor空间的blendshape；<br/>2.加正则化L2惩罚大的weight， L1推导系数性； 惩罚时间改变penalization of temporal changes wf-1 - wf来减少jitter; 提出了新颖的geometry prior(提出了微分曲面属性上的操作来代替blendshapes权重上的操作，阻止几何假象) <br/>3.反向求解actor的blendshape利用parallel parameterization法做character animation| -- |
 | 18 | State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications | -- | ----- | ---------- | -------- | parallel parameterization method | -- |
 
 ## 知乎
