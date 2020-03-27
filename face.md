@@ -20,6 +20,8 @@
 | 16 | Corrective 3D Reconstruction of Lips from Monocular Video | Disney/MaxPlanck/ETH Zurich | ----- | ---------- | -------- | ---------- | -- |
 | 17 | Facial Retargeting with Automatic Range of Motion Alignment | KAIST | ----- | ---------- | -------- | 1.**改进的blendshape生成方法** 从character空间的face rig生成出actor空间的blendshape；<br/>2.加正则化L2惩罚大的weight， L1推导系数性； 惩罚时间改变penalization of temporal changes wf-1 - wf来减少jitter; 提出了新颖的geometry prior(提出了微分曲面属性上的操作来代替blendshapes权重上的操作，阻止几何假象) <br/>3.反向求解actor的blendshape利用parallel parameterization法做character animation| -- |
 | 18 | State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications | -- | ----- | ---------- | -------- | parallel parameterization method | -- |
+| 18 | Production-Level Facial Performance Capture Using Deep Convolutional Neural Networks | NVIDIA/Li Hao/USC | ----- | ---------- | -------- | ---------- | offline, multiple-view stereo |
+
 
 ## 知乎
 人脸动作捕捉系统介绍https://www.zhihu.com/question/321811525
