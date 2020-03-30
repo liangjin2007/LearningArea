@@ -1,5 +1,6 @@
 # 人脸
 
+
 ## 计算机动画方法：
 | 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
 | -- | --- | -- | ----- | ---------- | -------- | ---------- | -- |
@@ -7,7 +8,7 @@
 | 04 | Deformation Transfer for Triangle Meshes | MIT | 输入：Source blend shapes + target neutral shape / 输出：Target blend shapes | ---------- | -------- | ---------- | 开源实现[Deformation-Transfer](https://github.com/chand81/Deformation-Transfer), [deformation-transfer](https://github.com/Golevka/deformation-transfer); 公式简单，应该易于实现，不过下面一篇2017年的文章提到说deformation transfer在有些情况下效果比较差 |
 | 06 | Animating Blendshape Faces by Cross-Mapping Motion Capture Data | USC | 输入：PCA系数+对应的Blendshape权重 / 输出：一个RBF模型系数，这样训练好后就直接拿RBF进行预测。 问题： RBF可否替换为MLP？ | ---------- | -------- | cross-mapping between motion capture data and target blendshape faces by RBF![faceanimation2](https://github.com/liangjin2007/data_liangjin/blob/master/faceanimation2.JPG?raw=true) | -- |
 | 08 | Transferring the Rig and Animations from a Character to Different Face Models | -- | ----- | ---------- | -------- | RBF中添加了T(x) | -- |
-| 11 | Real-time Avatar Animation from a Single Image | Saragih | 输入：图像 / 输出: | ---------- | -------- | ---------- | 不用标定，看着质量不太好， 跟14 Kun.Zhou的目的一致 |
+| 11 | Real-time Avatar Animation from a Single Image | Saragih | 输入：图像 / 输出: ![图像](https://github.com/liangjin2007/data_liangjin/blob/master/realtime-capturing-from-single-image.JPG?raw=true)| ---------- | -------- | ---------- | 不用标定，看着质量不太好， 跟14 Kun.Zhou的目的一致 |
 | 11 | Realtime Performance-Based Facial Animation | Saragih | -- | ---------- | -------- | GMM prior | -- |
 | 12 | Facial animation retargeting framework using radial basis functions | Hungary | ----- | ---------- | -------- | 1.一种方式是将人脸上的marker点直接映射到target的bone上。 Maya Geometry Mapping: marker to bone mapping ![RBF](https://github.com/liangjin2007/data_liangjin/blob/master/RBF.JPG?raw=true) ; 2. 另一种是映射到blendshape；  | 输入xi，yi求解Rbf的w， 这样给定一个其他的x就可以从RBF函数求出对应的y |
 | 13 | High Fidelity Facial Animation Capture and Retargeting With Contours | ILM | 输入:带marker点的视频流+脸部中性人脸+Blendshape+相机参数/输出： | 左右相机的2d marker tracking | 两个优化：1.根据2d,3d bundle, 眼睛轮廓，嘴巴轮廓求解blendshape；2.使用laplace变形+2d marker限制+2d curve限制+3d curves限制+3d point constraint共5项去生成corrective shape Delta V. | 分两步：1.迁移blendshape。即将actor的rig(指blendshape weights)直接用到creature上。需要使得creature的blendshape rig是从actor的blendshape用deformation transfer 迁移过去，最后直接使用actor的weights作用在creature上；2.迁移corrective shape， | 每帧处理时间需要1-2秒 |
