@@ -376,7 +376,9 @@ public:
     - eigen/doc/examples
     - eigen/tests
     - eigen/demos
-    
+    - Vector3f x = A.lu().solve(b);
+    - Vector3f x = A.colPivHouseholderQr().solve(b);
+    - choleskey model : Matrix2f x = A.ldlt().solve(b);
 ```
 Eigen::MatrixXd V; // #V x 3
 
@@ -389,7 +391,21 @@ Eigen::RowVector3d(r, g, b); // 1 x 3
 Eigen::Vector3d m = V.colwise().minCoeff(); // avoid to write for loops.
 Eigen::Vector3d M = V.colwise().maxCoeff(); 
 
-Eigen::SparseMatrix<double>
+#include <Eigen/Core>
+#include <Eigen/LU>
+using namespace std;
+using namespace Eigen;
+int main()
+{
+   Matrix3f A;
+   Vector3f b;
+   A << 1,2,3,  4,5,6,  7,8,10;
+   b << 3, 3, 4;
+   cout << "Here is the matrix A:" << endl << A << endl;
+   cout << "Here is the vector b:" << endl << b << endl;
+   Vector3f x = A.lu().solve(b);
+   cout << "The solution is:" << endl << x << endl;
+}
 ```
 
 ### ceres
