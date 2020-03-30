@@ -369,6 +369,14 @@ public:
 ## 库（优化方法）
 ### Eigen
 - https://www.jianshu.com/p/931dff3b1b21
+- Eigen Documents http://eigen.tuxfamily.org/dox/index.html
+  - http://eigen.tuxfamily.org/dox/group__QuickRefPage.html
+  - http://eigen.tuxfamily.org/dox/group__SparseQuickRefPage.html
+  - examples
+    - eigen/doc/examples
+    - eigen/tests
+    - eigen/demos
+    
 ```
 Eigen::MatrixXd V; // #V x 3
 
