@@ -377,7 +377,7 @@ void GenerateReconstruction(const image_t num_images,
       - facial landmark detecions
       - manually correction of landmarks
     - Construct user-specific Blendshapes
-      即求解wid, wexp。额外还得到了各个相机的外参Mi。 
+      即求解wid, wexp。额外还得到了各个相机的外参Mi。? 
     
       - FaceWarehouse, 150 individuals, 46 FACS blendshapes for each.
       - bilinear face model Cr, Cr x wid x wexp
