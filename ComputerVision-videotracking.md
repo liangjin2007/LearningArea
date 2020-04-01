@@ -137,7 +137,11 @@ Use Multiple features to do tracking
     - 一种方法是使用手写的函数去定义goodness function, 往往不好。
     - 也可以使用机器学习的方法来定义goodness function。
       - 例子：dlib/examples/assignment_learning_ex.cpp
-    
+- Active Appearance Model简称AAM
+  - 参考资料[Computer Vision - ECCV 2006](https://books.google.com/books?id=ITvZ9HDPizcC&pg=PA196&lpg=PA196&dq=person+specific+AAM&source=bl&ots=9gZ28HfIWP&sig=ACfU3U3FbLd_UOk0h0ncTnSJytWPJH2R6Q&hl=en&sa=X&ved=2ahUKEwij_vjk4sboAhXKGaYKHRxhCbsQ6AEwAXoECA8QAQ#v=onepage&q=person%20specific%20AAM&f=false)
+  - [2001]AAM
+  - 
+- Lukas-Kanade(LK) problem
 
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
