@@ -132,6 +132,12 @@ Use Multiple features to do tracking
   - samples/cpp/kalman.cpp
   - http://www.cs.unc.edu/~tracker/media/pdf/SIGGRAPH2001_CoursePack_08.pdf
   - linear system theory
-  
+- assignment problem新的帧中出现的对象对应于原来哪个对象
+  - 著名的Hungarian算法，需要定义goodness function
+    - 一种方法是使用手写的函数去定义goodness function, 往往不好。
+    - 也可以使用机器学习的方法来定义goodness function。
+      - 例子：dlib/examples/assignment_learning_ex.cpp
+    
+
 ## Open Source code
 https://github.com/Smorodov/Multitarget-tracker
