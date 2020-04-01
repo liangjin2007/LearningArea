@@ -142,6 +142,8 @@ Use Multiple features to do tracking
   - [2001]AAM
   - 
 - Lukas-Kanade(LK) problem
-
 ## Open Source code
-https://github.com/Smorodov/Multitarget-tracker
+- https://github.com/Smorodov/Multitarget-tracker
+- AAM https://gist.github.com/kurnianggoro/74de9121e122ad0bd825176751d47ecc
+
+
