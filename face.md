@@ -422,3 +422,17 @@ void GenerateReconstruction(const image_t num_images,
   - fit blendshapes from these labeled images
   - use blendshape model to calculate for each image its 3d facial shape composed of 3d landmark positions
   - train images and shapes
+  
+## AAM理解
+- 输入：{Ii, landmarks_i}
+- Build 2d landmark shape model
+  - Procrustes算法 ： landmark去掉相似性变换，都统一到同一个空间。
+  - PCA ： 得到mean和n shape特征向量, 记作s0, S， 用参数p可以对形状建模。每个landmark点看作一定活动空间之内的变换。
+- Learning appearance model which capture appearance variation for example due to identity and illumination.
+  - motion model W, piecewise affine warps, W(x;p)
+    - triangulate vertices consistent of landmarks.
+- Fitting AAM
+
+
+
+
