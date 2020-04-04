@@ -426,7 +426,9 @@ void GenerateReconstruction(const image_t num_images,
 ## AAM理解
 - 输入：{Ii, landmarks_i}
 - Build 2d landmark shape model
-  - Procrustes算法 ： landmark去掉相似性变换，都统一到同一个空间。
+  - Procrustes算法 ： landmark去掉相似性变换，都统一到同一个空间。首先对n个人脸的landmarks计算mean shape。然后使用迭代算法，把n个人脸align到mean shape, 并不断更新mean shape。
+  - procruste算法：
+    - align 两组vector<Point2f>。
   - PCA ： 得到mean和n shape特征向量, 记作s0, S， 用参数p可以对形状建模。每个landmark点看作一定活动空间之内的变换。
 - Learning appearance model which capture appearance variation for example due to identity and illumination.
   - motion model W, piecewise affine warps, W(x;p)
