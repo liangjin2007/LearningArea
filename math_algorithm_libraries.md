@@ -798,7 +798,21 @@ for (n = 0; n<p;n++)
     }
 }
 ```
+- vector<Point2f>及Mat等综合使用
+```
+// vector to Mat
+vector<Point2f> landmarks;
+auto m = Mat(landmarks);
+  
+// Mat与Scalar运算
+m = m - 0.5;
 
+// cv的矩阵运算可作用于vector
+Scalar s = mean(landmarks);
+
+
+```
+  
 ### taichi
 并行，可微
 - tensor
