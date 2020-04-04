@@ -810,6 +810,12 @@ m = m - 0.5;
 // cv的矩阵运算可作用于vector
 Scalar s = mean(landmarks);
 
+// Mat 's reshape(int cn)
+std::cout << sumXs.rows << " , " << sumXs.cols << " , " << sumXs.channels() << std::endl;
+std::cout << sumXs.reshape(1).at<float>(0) << " , " << sumXs.reshape(1).at<float>(1) << std::endl;
+std::cout << sumXs.at<float>(0) << " , " << sumXs.at<float>(1) << std::endl;
+std::cout << Mat(sumXs.reshape(1)).at<float>(0) << " , " << Mat(sumXs.reshape(1)).at<float>(1) << std::endl;
+
 
 ```
   
