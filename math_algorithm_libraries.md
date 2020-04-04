@@ -18,13 +18,7 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
 ```
 <a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;Lagrange&space;\&space;Function:&space;L(t,x(t),&space;x'(t)))&space;\\&space;Simple&space;\&space;Functional:A[f]&space;=&space;\int&space;L(t,x(t),x'(t))&space;dt&space;\\&space;Euler-Lagrange&space;\&space;Equation:&space;-\frac{d}{dt}\frac{\partial&space;L}{\partial&space;x'}&plus;\frac{L}{x}&space;=&space;0&space;\\&space;The&space;\&space;Solution&space;\&space;to&space;\&space;minA[f]&space;\&space;is&space;\&space;the&space;\&space;solution&space;\&space;of&space;\&space;E-L&space;\&space;Equation.&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;Lagrange&space;\&space;Function:&space;L(t,x(t),&space;x'(t)))&space;\\&space;Simple&space;\&space;Functional:A[f]&space;=&space;\int&space;L(t,x(t),x'(t))&space;dt&space;\\&space;Euler-Lagrange&space;\&space;Equation:&space;-\frac{d}{dt}\frac{\partial&space;L}{\partial&space;x'}&plus;\frac{L}{x}&space;=&space;0&space;\\&space;The&space;\&space;Solution&space;\&space;to&space;\&space;minA[f]&space;\&space;is&space;\&space;the&space;\&space;solution&space;\&space;of&space;\&space;E-L&space;\&space;Equation.&space;\end{aligned}" title="\begin{aligned} Lagrange \ Function: L(t,x(t), x'(t))) \\ Simple \ Functional:A[f] = \int L(t,x(t),x'(t)) dt \\ Euler-Lagrange \ Equation: -\frac{d}{dt}\frac{\partial L}{\partial x'}+\frac{L}{x} = 0 \\ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation. \end{aligned}" /></a>
 
-#### 欧拉-拉格朗日
-- 欧拉-拉格朗日方程 Euler-Lagrange PDEs
-  - 薄膜曲面membrane surface
-  - 薄盘曲面thin-plate surface
-  - 极小化曲率曲面
-这个方程是泛函中非常重要的方程，也是非常经典的能量泛函极小化的方法，不论在物理还是计算机领域，应用非常广泛。所谓能量泛函，是指微分的范数平方再积分。
-它的最初的思想来源于微积分中“可导的极值点一定是稳定点（临界点）”。它的精髓思想在于：假定当前泛函的解已知，那么这个解必然使得泛函取得最小值（假定是最小值）。换言之，只要在泛函中加入任何扰动，都会使泛函的值变大，所以扰动为0的时候，就是泛函关于扰动的一个极小值。所以当扰动的能量趋近于0，泛函关于扰动的导数也是0。关键是扰动如何表示。答案是扰动用一个很小的数e乘上一个连续函数。当e趋近于0,意味着扰动也趋近于0。所以当a为0的时候，泛函对a的导数也为0。这就非常巧妙的把对函数求导的问题转化成了一个单因子变量求导的问题。这就是这个思想的伟大之处。
+
 
 
 #### 其他
