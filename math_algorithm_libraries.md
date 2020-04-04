@@ -798,7 +798,8 @@ for (n = 0; n<p;n++)
     }
 }
 ```
-- vector<Point2f>及Mat等综合使用
+
+- opencv中Mat及vector<Point2f>等的综合使用。
 ```
 // vector to Mat
 vector<Point2f> landmarks;
@@ -811,11 +812,32 @@ m = m - 0.5;
 Scalar s = mean(landmarks);
 
 // Mat 's reshape(int cn)
-std::cout << sumXs.rows << " , " << sumXs.cols << " , " << sumXs.channels() << std::endl;
+
+std::cout << sumXs.rows << " , " << sumXs.cols << " , " << sumXs.channels() << std::endl; // 1, 1, 2
+// the following output are the same.
 std::cout << sumXs.reshape(1).at<float>(0) << " , " << sumXs.reshape(1).at<float>(1) << std::endl;
 std::cout << sumXs.at<float>(0) << " , " << sumXs.at<float>(1) << std::endl;
 std::cout << Mat(sumXs.reshape(1)).at<float>(0) << " , " << Mat(sumXs.reshape(1)).at<float>(1) << std::endl;
 
+// 使用reshape可改channels和cols。
+Mat X0 = Mat(P) - mx;   // rows = 95, cols = 1, channels = 2
+Mat Xn = X0.reshape(1); // rows = 95, cols = 2, channels = 1
+
+// 两组点如何对齐
+Mat Xn; // rows = 95, cols = 2, channels = 1
+Mat Yn; // rows = 95, cols = 2, channels = 1
+
+// calculate the sum
+Mat sumXs, sumYs;
+reduce(Xs,sumXs, 0, REDUCE_SUM); // rows = 1, cols = 1, channels = 2
+reduce(Ys,sumYs, 0, REDUCE_SUM);
+
+// 计算协方差矩阵
+Mat M = Xn.t() * Yn; //  
+
+// 计算奇异值分解
+Mat U,S,Vt;
+SVD::compute(M, S, U, Vt);
 
 ```
   
