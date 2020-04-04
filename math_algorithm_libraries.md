@@ -13,7 +13,6 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
 
 
 
-
 #### 其他
 
 - Covariance Matrix
@@ -266,16 +265,6 @@ int main()
     - NumericDiffMethodType
     - LineSearchInterpolationType
     - CovarianceAlgorithmType
-    
-    
-    
-
-
-
-
-
-
-
 
 ### libigl
 An Open Source Framework For Geometry Processing Programming.
@@ -771,7 +760,44 @@ dst = cv.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
 - tutorial code
   - svm
 
+####Mat数学计算
+- 多维Mat, 如何创建，如何遍历多维数组。
+```
+想要创建高维数组，主要利用Mat的 Mat(int ndims, const int* sizes, int type, void* data, const size_t* steps=0)；这一成员函数。
+假设要创建四维数组，具体事例如下：
+int p = 1;
+int q = 2;
+int t = 3;
+int u = 4;
+int sizes[] = {p,q,t,u };
+int all = p*q*t*u;
+float *d1 = new float[all];
+for(int i = 0; i < all; i++)
+{
+    d1[i] = i * 1.0f;
+}
 
+Mat a = Mat(4, sizes, CV_32S, d1);
+
+四维数据的访问为：
+int n, c, h, w, id;
+for (n = 0; n<p;n++)
+{
+    for (c=0;c<q;c++)
+    {
+        for (h=0; h<t; h++)
+        {
+            for (w=0; w<u; w++)
+            {
+                id = a.step[0] * n + a.step[1] * c + a.step[2] * h + w * a.step[3];
+                //cout << id << endl;
+                float *p = (float*)(a.data + id);
+                cout << *p << endl;
+            }
+        }
+    }
+}
+```
 
 ### taichi
 并行，可微
