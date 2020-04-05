@@ -832,12 +832,62 @@ Mat sumXs, sumYs;
 reduce(Xs,sumXs, 0, REDUCE_SUM); // rows = 1, cols = 1, channels = 2
 reduce(Ys,sumYs, 0, REDUCE_SUM);
 
+//
 // 计算协方差矩阵
+//
 Mat M = Xn.t() * Yn; //  
 
+//
 // 计算奇异值分解
+//
 Mat U,S,Vt;
-SVD::compute(M, S, U, Vt);
+SVD::compute(M, S, U, Vt); // M = U S Vt
+
+//
+// 由奇异值分解获取到两组数据之间的变换
+//
+scale = (S.at<float>(0)+S.at<float>(1))*(float)normX/(float)normY;
+rot = Vt.t()*U.t();
+
+Mat muX(mx),mX;  // muX : 4, 1, 1
+muX.pop_back();  // muX : 3, 1, 1
+muX.pop_back();  // muX : 2, 1, 1
+Mat muY(my),mY; 
+muY.pop_back();
+muY.pop_back();
+
+muX.convertTo(mX,CV_32FC1);
+muY.convertTo(mY,CV_32FC1);
+
+Mat t = mX.t()-scale*mY.t()*rot;
+trans[0] = t.at<float>(0);
+trans[1] = t.at<float>(1);
+
+// calculate the recovered form
+Mat Qmat = Mat(Q).reshape(1);
+
+return Mat(scale*Qmat*rot+trans).clone();
+
+//
+// 数学功底要好， 下面的代码就是熟悉的MM模型。
+//
+// SVD::compute(M.t()*M, S, U, Vt);
+eigen(M.t()*M, S, Ut);U=Ut.t();
+
+// threshold(S,S1,0.00001,1,THRESH_BINARY);
+k= S.rows; //countNonZero(S1);
+if(k>n)k=n;
+if(k>M.rows)k=M.rows;
+if(k>M.cols)k=M.cols;
+
+// cut the eigen values to k-amount
+Mat D = Mat::zeros(k,k,CV_32FC1);
+Mat diag = D.diag();
+Mat s; pow(S,-0.5,s);
+s(Range(0,k), Range::all()).copyTo(diag);
+
+// cut the eigen vector to k-column,
+P = Mat(M*U.colRange(0,k)*D).clone();
 
 ```
   
