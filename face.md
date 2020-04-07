@@ -293,6 +293,9 @@ void GenerateReconstruction(const image_t num_images,
 - Dynamixyz 
   - http://www.dynamixyz.com/2019/03/13/unveiling-dynamixyz-stereo-hmc/
   - http://www.dynamixyz.com/2019/03/13/unveiling-dynamixyz-stereo-hmc/
+- facegood
+  - https://m.sohu.com/a/315992246_100006767
+  - https://www.jiqizhixin.com/articles/2020-03-16-7
   
 ## 知识点colmap
 - Ransac
