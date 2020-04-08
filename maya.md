@@ -279,4 +279,28 @@ MString, MObject, MSelectionList, MStatus
     - 首先再添加一个blendshape，并添加一个目标为当前目标，就可以再进行雕刻了。
     
 
-
+## FBXSDK
+- http://help.autodesk.com/view/FBX/2019/ENU/
+- object model
+  - objects, properties, connections, error handling
+- scene
+  - transformations, global and local transform
+    - lNode->EvaluateGlobalTransformation()
+    - lNode->EvaluateLocalTransformtaion()
+    - equal to use FbxAnimEvaluator
+    - lEvaluator->GetNodeGlobalTransform(lNode) and lEvaluator->GetNodeLocalTransform(lNode)
+  - 动画节点的动画数据 FbxTime lTime;
+    - lTime.SetSecondDouble((float)2);
+    - FbxAMatrix &lGlobalTransform = lNode->EvaluateGlobalTransform(lTime);
+- node 
+  - transform
+  - attribute
+- node properties
+  - FbxGeometry, FbxLight, FbxCamera, FbxMarker， FbxMesh
+- 动画 animation
+  - 数据结构 FbxAnimStack, FbxAnimLayer, FbxAnimCurveNode, FbxAnimCurve, FbxAnimCurveKey
+  - FbxScene可以有0个或者多个FbxAnimStack。场景没有动画就不需要用Stack.
+  - FbxAnimStack是最高级别的动画数据容器。可以包含一个或者多个FbxAnimLayer.
+  - FbxAnimLayer包含一个或者多个FbxAnimCurveNode， 这些node连接到FbxAnimCurves。
+  - 
+  
