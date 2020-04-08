@@ -281,6 +281,7 @@ MString, MObject, MSelectionList, MStatus
 
 ## FBXSDK
 - http://help.autodesk.com/view/FBX/2019/ENU/
+- Fbx动画 http://help.autodesk.com/view/FBX/2019/ENU/?guid=FBX_Developer_Help_animation_animation_data_structures_animation_classes_interrelation_html
 - object model
   - objects, properties, connections, error handling
 - scene
@@ -297,10 +298,10 @@ MString, MObject, MSelectionList, MStatus
   - attribute
 - node properties
   - FbxGeometry, FbxLight, FbxCamera, FbxMarker， FbxMesh
-- 动画 animation
+- 动画 animation http://help.autodesk.com/view/FBX/2019/ENU/?guid=FBX_Developer_Help_animation_animation_data_structures_animation_classes_interrelation_html
   - 数据结构 FbxAnimStack, FbxAnimLayer, FbxAnimCurveNode, FbxAnimCurve, FbxAnimCurveKey
   - FbxScene可以有0个或者多个FbxAnimStack。场景没有动画就不需要用Stack.
   - FbxAnimStack是最高级别的动画数据容器。可以包含一个或者多个FbxAnimLayer.
   - FbxAnimLayer包含一个或者多个FbxAnimCurveNode， 这些node连接到FbxAnimCurves。
-  - 
+  - FbxAnimCurve代表函数，可以驱动property的动画
   
