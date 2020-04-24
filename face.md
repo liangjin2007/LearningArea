@@ -438,6 +438,17 @@ void GenerateReconstruction(const image_t num_images,
     - triangulate vertices consistent of landmarks.
 - Fitting AAM
 
+## RBF
+- Analysis the input data
+  - covariance matrix
+  ```
+  Eigen::MatrixXd centered = mat.rowwise() - Eigen::RowVectorXd(mat.colwise().mean());
+	Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
+  ```
+  - correlation matrtix
+  
+
+
 
 
 
