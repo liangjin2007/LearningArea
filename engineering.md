@@ -3,6 +3,12 @@
 - 在线流程图/思维导图制作[processon](https://www.processon.com/)
 - 看板[Trello](https://trello.com/b/bwqk2uTp/jinl-roadmap)
 
+# Visual Studio
+- 快捷键
+Ctrl + M + O: 折叠所有方法
+Ctrl + M + M: 折叠或者展开当前方法
+Ctrl + M + L: 展开所有方法
+
 
 # Mac上使用VSCode+CMake开发C++程序
 
