@@ -24,6 +24,7 @@ CycleGAN的原理可以概述为：将一类图片转换成另一类图片。也
 - 输入: 图片x及图片y
 - 输出：生成网络F: x->y， 判别网络Dy
 - 优化目标: max_Dy, min_F
+- 此链接讲得非常好 https://zhuanlan.zhihu.com/p/28342644
 
 ## 条件GAN CGAN
 Conditional Adversarial Networks
