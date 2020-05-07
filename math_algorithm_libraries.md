@@ -14,8 +14,32 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
 
 
 #### 其他
+- 哈达玛积 Handmard product
+  - https://www.jianshu.com/p/c08c5c5fc80d
+  - https://zhuanlan.zhihu.com/p/75307407?from_voters_page=true
+- Covariance Matrix and correlation matrix
+  - https://en.wikipedia.org/wiki/Covariance_matrix
+```
+  Eigen::MatrixXd RbfFitter::ComputeCovariance(const Eigen::MatrixXd &mat) {
+		Eigen::MatrixXd centered = mat.rowwise() - Eigen::RowVectorXd(mat.colwise().mean());
+		Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
+		return cov;
+	}
+	Eigen::MatrixXd ComputeCorrelation(const Eigen::MatrixXd &mat) {
+		// https://en.wikipedia.org/wiki/Covariance_matrix
+		Eigen::MatrixXd cov = ComputeCovariance(mat);
+		Eigen::VectorXd diag = cov.diagonal();
+		Eigen::MatrixXd inv_sqrt_diag;
+		inv_sqrt_diag.resize(diag.size(), diag.size());
+		inv_sqrt_diag.fill(0.0);
+		for (int i = 0; i < diag.size(); i++) {
+			inv_sqrt_diag(i, i) = 1.0 / sqrt(diag[i]);
+		};
+		Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
+		return corr;
+	}
+```
 
-- Covariance Matrix
 - Gram Matrix: AA^T
 - Jensen不等式 
   - 如果f是凸函数，X是随机变量，那么E[f(X)] >= f(E[X])
