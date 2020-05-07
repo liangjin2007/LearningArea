@@ -58,7 +58,6 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
   - [skimage](http://scikit-image.org/docs/dev/auto_examples/transform/plot_ssim.html)
   - [github](https://github.com/jterrace/pyssim)
   - f(l(x,y)*c(x,y)*s(x,y))
-
 - Luminance
   - mean intensity : l(x) = mean(x) = sum(x)/N
 
