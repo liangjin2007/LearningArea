@@ -9,9 +9,6 @@ Euler-Lagrange \ Equation: -\frac{d}{dt}\frac{\partial L}{\partial x'}+\frac{L}{
 The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation. 
 \end{aligned}
 ```
-<a href="https://www.codecogs.com/eqnedit.php?latex=\begin{aligned}&space;Lagrange&space;\&space;Function:&space;L(t,x(t),&space;x'(t)))&space;\\&space;Simple&space;\&space;Functional:A[f]&space;=&space;\int&space;L(t,x(t),x'(t))&space;dt&space;\\&space;Euler-Lagrange&space;\&space;Equation:&space;-\frac{d}{dt}\frac{\partial&space;L}{\partial&space;x'}&plus;\frac{L}{x}&space;=&space;0&space;\\&space;The&space;\&space;Solution&space;\&space;to&space;\&space;minA[f]&space;\&space;is&space;\&space;the&space;\&space;solution&space;\&space;of&space;\&space;E-L&space;\&space;Equation.&space;\end{aligned}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\begin{aligned}&space;Lagrange&space;\&space;Function:&space;L(t,x(t),&space;x'(t)))&space;\\&space;Simple&space;\&space;Functional:A[f]&space;=&space;\int&space;L(t,x(t),x'(t))&space;dt&space;\\&space;Euler-Lagrange&space;\&space;Equation:&space;-\frac{d}{dt}\frac{\partial&space;L}{\partial&space;x'}&plus;\frac{L}{x}&space;=&space;0&space;\\&space;The&space;\&space;Solution&space;\&space;to&space;\&space;minA[f]&space;\&space;is&space;\&space;the&space;\&space;solution&space;\&space;of&space;\&space;E-L&space;\&space;Equation.&space;\end{aligned}" title="\begin{aligned} Lagrange \ Function: L(t,x(t), x'(t))) \\ Simple \ Functional:A[f] = \int L(t,x(t),x'(t)) dt \\ Euler-Lagrange \ Equation: -\frac{d}{dt}\frac{\partial L}{\partial x'}+\frac{L}{x} = 0 \\ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation. \end{aligned}" /></a>
-
-
 
 #### 其他
 - 哈达玛积 Handmard product
