@@ -36,6 +36,7 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
 		return corr;
 	}
 ```
+- Cross-Covariance Matrix and Cross-Correlation Matrix
 
 - Gram Matrix: AA^T
 - Jensen不等式 
