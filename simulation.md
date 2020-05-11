@@ -1,2 +1,2 @@
-- [2013]A material point method for snow simulation
+- MPM论文列表 https://www.seas.upenn.edu/~cffjiang/mpm.html
 - physics based animation http://www.physicsbasedanimation.com/resources-courses/
