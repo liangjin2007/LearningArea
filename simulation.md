@@ -1,1 +1,2 @@
 - [2013]A material point method for snow simulation
+- physics based animation http://www.physicsbasedanimation.com/resources-courses/
