@@ -257,6 +257,15 @@ Defining a grouping of sources in IDE.
 - link_directories()
 - add_definitions(-DDEBUG)
 - add_definitions(-Wwritable-strings)
+- remove_definitions(-DDEBUG)
+- target_compile_definitions https://blog.csdn.net/qq_34369618/article/details/96358204
+例子
+```
+target_compile_definitions(mylib 
+    PRIVATE -DMYDLL_EXPORT 
+    PUBLIC -DDEBUG)
+```
+- target_compile_options 
 - add_executable(exe_name hello.cpp)
 - add_library(library_name hello.cpp)
 - target_link_libraries(libarry_name dependencies)
