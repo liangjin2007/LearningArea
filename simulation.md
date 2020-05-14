@@ -51,3 +51,7 @@ http://www.physicsbasedanimation.com/2012/08/15/siggraph-course-fem-simulation-o
 https://hal.inria.fr/inria-00520193/document
 
 # 数字人类
+
+# 动画
+- https://deepmotionediting.github.io/retargeting
+- https://deepmotionediting.github.io/style_transfer
