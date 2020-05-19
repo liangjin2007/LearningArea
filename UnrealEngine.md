@@ -2,8 +2,10 @@
 
 游戏问题
 ============================================
-如何设置基本角色让它能在场景中动起来，无论是用AI方式 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
-
+- 新建关卡
+如何设置基本角色为自己提供的角色 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
+-添加角色动画
+https://docs.unrealengine.com/zh-CN/Programming/Tutorials/FirstPersonShooter/4/index.html
 
 
 
