@@ -4,7 +4,7 @@
 ============================================
 - 新建关卡
 如何设置基本角色为自己提供的角色 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
--添加角色动画
+- 添加角色动画
 https://docs.unrealengine.com/zh-CN/Programming/Tutorials/FirstPersonShooter/4/index.html
 
 
