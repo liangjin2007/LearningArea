@@ -1,5 +1,13 @@
 # Unreal Engine
 
+游戏问题
+============================================
+如何设置基本角色让它能在场景中动起来，无论是用AI方式 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
+
+
+
+
+
 功能
 ============================================
 - nDisplay
