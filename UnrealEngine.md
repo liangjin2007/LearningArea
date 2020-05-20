@@ -3,6 +3,29 @@
 游戏问题
 ============================================
 - 新建关卡
+
+- 新建场景
+
+- 骨架网格体动画系统 https://docs.unrealengine.com/zh-CN/Engine/Animation/index.html
+  - 一些基本功能
+    - 多个动画工具和编辑器
+    - 结合基于骨架的变形和基于顶点的变形相结合
+    - 播放和混合动画序列
+    - 创建自定义特殊动作
+    - 动画蒙太奇
+    - 通过变形目标应用伤害效果或面部表情
+    - 使用骨架控制直接控制骨骼变形
+    - 创建基于逻辑的状态机来确定角色在指定情境下应该使用哪个动画。
+  - 建动画资源 by UE提供的MayaRiggingTool https://docs.unrealengine.com/zh-CN/Engine/Content/Tools/MayaRiggingTool/index.html
+    - 跳过，用现有资源走下一步
+  - 骨架编辑器 管理驱动骨架网格体和动画的骨骼
+  - 骨架网格体编辑器 修改连接到骨架的骨架网格体
+  - 动画编辑器 创建并修改动画资源
+  - 动画蓝图编辑器 用于创建逻辑、驱动角色使用的动画及使用机制以及动画混合的方式
+  - 物理资源编辑器 创建和编辑用于骨架骨架王个体碰撞的物理形体
+-  
+
+
 如何设置基本角色为自己提供的角色 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
 
 - 动画蓝图
