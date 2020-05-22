@@ -23,7 +23,8 @@
   - 动画编辑器 创建并修改动画资源
   - 动画蓝图编辑器 用于创建逻辑、驱动角色使用的动画及使用机制以及动画混合的方式
   - 物理资源编辑器 创建和编辑用于骨架骨架王个体碰撞的物理形体
--  
+-  动画系统概述 https://docs.unrealengine.com/zh-CN/Engine/Animation/Overview/index.html
+
 
 
 如何设置基本角色为自己提供的角色 https://docs.unrealengine.com/zh-CN/Engine/Animation/CharacterSetupOverview/index.html
