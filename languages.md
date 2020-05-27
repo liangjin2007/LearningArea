@@ -102,6 +102,10 @@ array([[ 2,  5],
        [ 7, 11]])
 ```
 
+- 如何用c扩展Python
+https://docs.python.org/zh-cn/3/extending/extending.html
+
+
 # english
 ## 知乎答案
 
