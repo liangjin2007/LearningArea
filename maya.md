@@ -205,18 +205,8 @@ https://www.autodesk.com/developer-network/platform-technologies/maya
 
 ## Maya C++ API (page 208)
 ```
-命令
-DG节点
-工具
-文件转换器
-变形器
-着色器
-操纵器
-定位器
-动力场
-发射器
-形体
-解算器
+此API可修改的领域和功能
+命令，DG节点，工具，文件转换器，变形器，着色器，操纵器，定位器，动力场，发射器，形体，解算器
 - API 一般性
 M, Maya类
 MPx 代理对象 MPxNode
@@ -248,6 +238,61 @@ MString, MObject, MSelectionList, MStatus
     - MDataHandle
 ```
 
+## Maya devkit源代码阅读
+```
+asciiToBinary.cpp
+#include <maya/MStatus.h>
+#include <maya/MString.h> 
+#include <maya/MFileIO.h>
+#include <maya/MLibrary.h>
+#include <maya/MIOStream.h>
+
+helloWorld.cpp
+#include <maya/MGlobal.h>
+MGlobal::displayInfo("Hello world! (script output)" );
+MGlobal::executeCommand( "print \"Hello world! (command script output)\\n\"", true );
+
+readAndWrite.cpp
+MStatus::perror(...);
+MFileIO::open()
+MFileIO::saveAs()
+MFileIO::exportAll
+MFileIO::currentFile()
+
+surfaceCreate.cpp
+#include <maya/MObject.h>
+#include <maya/MDoubleArray.h>
+#include <maya/MPointArray.h>
+#include <maya/MPoint.h>
+#include <maya/MFnNurbsSurface.h>
+MFnNurbsSurface mfnNurbsSurf;
+mfnNurbsSurf.create(...)
+
+surfaceTwise.cpp
+#include <maya/MVector.h>
+#include <maya/MMatrix.h>
+#include <maya/MArgList.h>
+#include <maya/MSelectionList.h>
+#include <maya/MItSelectionList.h>
+#include <maya/MItSurfaceCV.h>
+#include <maya/MItMeshVertex.h>
+#include <maya/MDagPath.h>
+MGlobal::selectByName(surface1, MGlobal::kReplaceList);
+MSelectionList slist;
+MGlobal::getActiveSelectionList( slist );
+if (iter.isDone()){}
+status = iter.getDagPath( objectPath, component );
+MFn::kNurbsSurface, MFn::kMesh, M
+MS == MStatus
+MS::kFailure;
+MItMeshVertex vertIter( objectPath, component, &status );
+for ( ; !vertIter.isDone(); vertIter.next() ) {}
+MPoint pnt = vertIter.position( MSpace::kWorld );
+status = vertIter.setPosition( pnt, MSpace::kWorld );
+vertIter.updateSurface(); // Tell maya to redraw the surface with all of our changes
+MItSurfaceCV cvIter( objectPath/*MDagPath*/, component/*MObject*/, true, &status );
+
+```
 
 
 - http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
