@@ -278,6 +278,11 @@ MString, MObject, MSelectionList, MStatus
   - 已经有blendshape的shape上如何添加sculpt。
     - 首先再添加一个blendshape，并添加一个目标为当前目标，就可以再进行雕刻了。
     
+- 在纹理上绘制
+渲染->纹理->3D绘制工具
+
+- ncloth
+
 
 ## FBXSDK
 - http://help.autodesk.com/view/FBX/2019/ENU/
