@@ -299,6 +299,11 @@ MItSurfaceCV cvIter( objectPath/*MDagPath*/, component/*MObject*/, true, &status
 - github: https://github.com/topics/maya-plug
 - open source Maya rigging and animation software https://github.com/mgear-dev/mgear_dist
 
+## Alembic
+Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取为一组非程序化的，与应用程序无关的烘焙几何体结果。
+
+
+
 ## Maya知识
 
 - 常规编辑器->显示层编辑器 可以控制可见性及播放时是否可见 
