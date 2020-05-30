@@ -10,6 +10,7 @@ The \ Solution \ to \ minA[f] \ is \ the \ solution \ of \ E-L \ Equation.
 \end{aligned}
 ```
 
+## 
 #### 其他
 - 哈达玛积 Handmard product
   - https://www.jianshu.com/p/c08c5c5fc80d
