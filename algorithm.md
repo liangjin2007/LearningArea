@@ -27,7 +27,6 @@
 3. 每个叶结点（NIL）是黑色的
 4. 如果一个节点是红色的，则它的两个儿子都是黑色的。
 5. 对于每个结点，从该结点到其子孙结点的所有路径上包含相同数目的黑色结点。
-
 - 红黑树例子
    ![红黑树例子](https://github.com/liangjin2007/data_liangjin/blob/master/redblacktree.png?raw=true "红黑树例子")
 
