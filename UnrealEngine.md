@@ -1,4 +1,7 @@
 # Unreal Engine
+参考UE4 C++进阶之路， 学UE先学蓝图，然后再学C++。 C++其实是UE的脚本语言，学习难度是蓝图的2倍不止。
+
+
 功能
 ============================================
 https://www.unrealengine.com/zh-CN/features
