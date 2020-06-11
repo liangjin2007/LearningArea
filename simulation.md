@@ -58,5 +58,11 @@ https://hal.inria.fr/inria-00520193/document
 - https://deepmotionediting.github.io/style_transfer
 - MeshCNN https://ranahanocka.github.io/MeshCNN/
 
-# 
+# position-based dynamics framework， 基于物理的动画
+[2017]A Survey on Position Based Dynamics, 2017
+- 不是很准确，但是可用于交互场景
+- 可以模拟弹性杆，布料，体变形体，刚体和流体。
+
+
+# force-based method
 
