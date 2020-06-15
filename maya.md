@@ -293,6 +293,12 @@ status = vertIter.setPosition( pnt, MSpace::kWorld );
 vertIter.updateSurface(); // Tell maya to redraw the surface with all of our changes
 MItSurfaceCV cvIter( objectPath/*MDagPath*/, component/*MObject*/, true, &status );
 
+// Stream Indexing System
+adskDataIndex.h
+adskDataChannel.h
+adskDataStream.h
+
+
 ```
 
 
