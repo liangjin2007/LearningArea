@@ -229,6 +229,7 @@ subjective主观的
    ```
 
 # CMake
+- CMake教程简书 https://www.jianshu.com/p/3078a4a195df
 
 ## Functions
 
