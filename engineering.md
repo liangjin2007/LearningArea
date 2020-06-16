@@ -1,5 +1,5 @@
 # 工程
-
+- 
 - 在线流程图/思维导图制作[processon](https://www.processon.com/)
 - 看板[Trello](https://trello.com/b/bwqk2uTp/jinl-roadmap)
 
@@ -48,3 +48,8 @@ Ctrl + M + L: 展开所有方法
 
     - 日志输出
         - 会新起独立的terminal，显示print结果。
+
+### CMake生成msi
+
+
+
