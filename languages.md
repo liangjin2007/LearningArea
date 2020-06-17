@@ -298,6 +298,35 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/COLMAPConfig.cmake" DESTINATION "shar
 set(Ceres_INCLUDE_DIRS ${CURRENT_ROOT_INSTALL_DIR}/include CACHE PATH "Ceres include direcctories" FORCE)
 
 
+- CPack打包成msi
+  - 安裝Wix
+  - 需要先写好install部分
+  ```
+  set(AppName xxx)
+  install(DIRECTORY 
+    <src dir> 
+    DESTINATION <dest relative dir>
+    COMPONENT ${AppName})
+  install(FILES 
+    <src file>
+    DESTINATION <dest relative dir>
+    COMPONENT ${AppName})
+  ```
+  - 然后写代码
+  ```
+  # Cpack
+  include (InstallRequiredSystemLibraries)
+  set(CPACK_GENERATOR WIX)
+  set(CPACK_PACKAGE_NAME xxx)
+  set(CPACK_PACKAGE_VERSION_MAJOR 0.1)
+  set(CPACK_PACKAGE_VENDOR "xxx.com")
+  set(CPACK_PACKAGE_DIRECTORY "build")
+  set(CPACK_PACKAGE_INSTALL_DIRECTORY "xxx")
+  set(CPACK_PACKAGE_EXECUTABLES "xxx" "xxx" ${CPACK_PACKAGE_EXECUTABLES})
+  set(CPACK_CREATE_DESKTOP_LINKS "xxx" ${CPACK_CREATE_DESKTOP_LINKS})
+  include(CPack)
+  ```
+
 ### utils
 - string
 e.g. string(REPLACE "/" "\\" GROUP_NAME ${SRC_DIR})
