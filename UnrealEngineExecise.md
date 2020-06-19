@@ -91,3 +91,7 @@ scalar parameter 可以被代码修改
 - 'E' 旋转
 - 编辑器中可以搜索类，搜索BP操作，搜索选项等。比如在worldSettings界面，可以搜GameMode，界面就只会出现GameMode的设置
 
+## 快捷键
+- alt+shift+r查找引用
+- ctrl+B跳到资源
+- alt+shift+f查找变量引用
