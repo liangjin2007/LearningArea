@@ -1,4 +1,7 @@
 
+单张图片到人脸 https://github.com/elliottwu/unsup3d
+
+
 Mean teachers are better role models:Weight-averaged consistency targets improve semi-supervised deep learning results
 
 learning loss for active learning
