@@ -340,6 +340,9 @@ Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取
 
 - ncloth
 
+- 贴图
+  - 法线贴图 http://download.autodesk.com/us/maya/maya_2014_gettingstarted_chs/index.html?url=files/GUID-267CCDE6-5697-4235-9728-805879FEBA2A.htm,topicNumber=d30e25303
+
 
 ## FBXSDK
 - http://help.autodesk.com/view/FBX/2019/ENU/
