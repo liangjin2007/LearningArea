@@ -95,8 +95,7 @@
   
 - DG更新
   - 推拉式
-  
-  
+
 - 节点编辑器操作
   - 快捷键
   - 基本操作
@@ -110,22 +109,102 @@
   - blendshape连到skinCluster上
   
 ## Maya MEL
-类c语言
-变量：类型，数组，vector，boolean， 字符串， int, float
-操作符：关系，逻辑，算数
-控制:条件，循环
-脚本：存储脚本，自定义脚本目录 MAYA_SCRIPT_PATH环境变量
-
-模式:创建，查询，编辑
-
-获取顶点世界坐标位置： ??? 获取的顶点位置不对
-
-- 常用MEL命令
+### 概述
+- 类c语言
+### MEL编程语言
+- 变量：类型，数组，vector，boolean， 字符串， int, float
+- 操作符：关系，逻辑，算数
+- 控制:条件，循环
+- 脚本：存储脚本，自定义脚本目录 MAYA_SCRIPT_PATH环境变量
+- 命令模式:创建，查询，编辑
+- 与C的区别：
+  - 变量使用时需要加$, 比如定义时需要string $name;
+  - 数组： string $arr[]; $arr[size($arr)] = 5;
+- 调试:
+  - trace 
+  - print
+- 显示警告和错误
+  - warning
+  - error
+- 确定类型
+  - whatIs
+- maya.env文件
+### 脚本
+### 对象
+- 基础知识
 ```
 ls
 ls -sl
 ls -type
+delete nurbsCone1;
+rename a b;
+`objectExists b`;
+objectType b;
 whatIs // 返回mel语言类型
+
+```
+- 层次结构
+```
+- 创建和导航对象的层次结构
+创建新变换
+group -n topTransform nurbsSphere1; // 创建transform节点并命名为topTransform，并把nurbsSphere1添加为子节点
+parent nurbsCone1 topTransform; // 把nurbsCone1加为topTransform的子节点
+move -relative 0 3 0 topTransform； // 所有的子节点都会受到影响。
+inheritTransform -off nurbsCone1; // 让nurbsCone1不受topTransform影响
+listRelatives topTransform; // 查看topTransform的所有子节点
+listRelatives -allDescendents topTransform; // 列出所有子节点
+listRelatives -shapes nurbsSphere1; // 列出所有子节点
+listRelatives -parent nurbsSphereSphape1; // 列出父节点
+reorder -front nurbsCone1; // 更改兄弟的顺序
+parent -world nurbsCone1; 或者 ungroup -world nurbsCone1; // 将一个节点从其父节点断开
+```
+- Transform节点
+```
+move -relative 3 0 0 nurbsSphere1;
+看起来是nurbsSphere1移动了，事实上是nurbsSphereShape1移动了。 nurbsSphere1节点只是含有移动它的子节点的信息。
+
+scale -absolute 1 0.5 1 nurbsSphere1;
+rotate -relative 45deg 0 0 nurbsSphere1;
+xform -relative -translation xxx;
+
+空间
+  局部空间
+  世界空间
+转换矩阵
+worldPoint = point x fingerTransform
+arm|hand|finger|finger|fingerShape
+
+finalTransform=fingerTransform x handTransform x armTransform
+worldPoint = point x finalTransform;
+
+matrix $mtx[4][4] = `xform -query -matrix nurbsSphere1`; // 报错
+float $mat[] = `xform -query -matrix nurbsSphere1`; // 正确。 返回transform节点的当前转换矩阵。行主存的形式
+float $mat[] = `xform -query -worldSpace -matrix nurbsSphere1;` // 返回局部到世界空间转换矩阵
+```
+### 动画
+```
+新建場景
+file -f new;
+
+获取控制器参数上下限
+transformLimits -q -ty cs_rig_n0va_real:RightBrow_inn_raisef_ctrl; // 结果: 0.1 1 //
+
+检查哪些控制器可以被设值
+getAttr -settable RightBrow_inn_raisef_ctrl.translateX; // 結果: 1
+
+
+```
+### 图形用户界面
+```
+window
+showWindow
+columnLayout myLayout;
+button
+```
+### 表达式
+
+- 常用MEL命令
+```
 pointPosition
 getAttr
 setAttr
@@ -194,10 +273,7 @@ xform
 ```
 
 ## Maya图形用户界面 ~page150
-window
-showWindow
-columnLayout myLayout;
-button
+
 简单
 
 ## Maya SDK
