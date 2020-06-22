@@ -7,6 +7,7 @@
 - 场景就是DG
 - Hypergraph
 - 节点类型
+```
   - 常见(注意实际中的命名)
     - time
     - transform
@@ -68,7 +69,7 @@
     - lightLinker
     - shapeEditorManager
     - displayLayer
-
+```
 - 节点属性
   - 固定属性 input / output
   - 每个节点都内部存储其属性数据
@@ -199,16 +200,44 @@ float $mat[] = `xform -query -worldSpace -matrix nurbsSphere1;` // 返回局部�
 ```
 getAttr xxx.xxx;
 setAttr xxx;
-```
+
 动态属性
-```
 $objs = `ls -sl`;
 for ($obj in $objs)
   addAttr -longName "points" -attributeType int $obj; // 属性编辑器中的Extra Attributes按钮点开来可找到。
+
+判断属性是否存在
+attributeExists("points", $obj);
+
+要使动态属性在Channel Box中显示，必须使属性变得可关键帧化。
+setAttr -keyable true nurbsSphere1.points;
+
+删除动态属性
+deleteAttr nurbsSphere1.points;
+
+重新命名动态属性
+renameAttr nurbsSphere1.points boost;
+
+不能删除或者重命名原先存在的属性。
+
+属性信息
+listAttr nurbsSphere1; // 返回string[]
+listAttr -userDefined nurbsSphere1; // 列出动态属性
+listAttr -keyable nurbsSphere1; // 可关键帧化的属性
+
+获取属性的一般信息
+getAttr -type nurbsSphere1.points; // Result : long
+getAttr -keyable nurbsSphere1.points; // Result : 0
+
+要获取有关某属性的其他信息
+attributeQuery -node nurbsSphere1 -hidden points; // Result : 0
+attributeQuery -node nurbsSphere1 -rangeExists points; // Result : 0
 ```
 
-
 ### 动画
+创建、编辑和删除关键帧，通过以程序方式生成关键帧，可以创建复杂的动画。
+- 
+
 ```
 新建場景
 file -f new;
