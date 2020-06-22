@@ -236,9 +236,36 @@ attributeQuery -node nurbsSphere1 -rangeExists points; // Result : 0
 
 ### 动画
 创建、编辑和删除关键帧，通过以程序方式生成关键帧，可以创建复杂的动画。
-- 
-
+- 时间
 ```
+时间单位 Working Units， 默认情况下为Film[24fps]
+修改时间单位会导致动画缩放。
+currentUnit -query -time;
+currentUnit -time "min"; // 设置时间为分钟
+currentUnit -time "min" -updateAnimation fales; // 关闭自动更改关键点位置。
+
+// 事先不知道工作时间单位使什么。
+比如currentTime 10; 会导致产生的效果不符合预期，如果工作时间单位跟自己想的不一样的话。
+
+// 有个办法是设置时间时添加单位
+currentTime 2sec;
+currentTime 1.25hour;
+
+// 针对时间获取属性。
+currentTime 5;
+getAttr sphere.translateX;
+getAttr -time 10 sphere.translateX;
+
+setAttr仅运训设置当前时间的属性值。
+
+更改时间会导致整个场景进行更新，更新的代价非常大。
+
+可以更改当前时间而不更新场景。
+float $cTime = `currentTime -q`;
+currentTime -update false 10;
+setAttr sphere.translateX 23.4;
+currentTime -update false $cTime;
+
 新建場景
 file -f new;
 
@@ -247,6 +274,83 @@ transformLimits -q -ty cs_rig_n0va_real:RightBrow_inn_raisef_ctrl; // 结果: 0.
 
 检查哪些控制器可以被设值
 getAttr -settable RightBrow_inn_raisef_ctrl.translateX; // 結果: 1
+```
+- 播放
+```
+play;
+play -forward false; //反向播放
+play -q -state; // 1 表示正在播放
+play -state off; // 停止播放
+playbackOptions -minTime 12 -maxTime 20; // 修改播放范围，动画范围保持不变
+playbackOptions -ast 12 -aet 20; // 修改动画范围
+playbackOptions -loop "oscillate";
+playbackOptions -playbackSpeed 0.5; // 修改播放速度
+playblast -file test.mov; // 播放预览
+```
+- 动画曲线
+```
+一条动画曲线由一组控制点及其相关切线组成。
+
+插值方式可定义。
+
+Maya的各种曲线编辑工具。
+
+获取与给定节点相关的所有动画节点。
+keyframe -query -name ball;
+
+获取给定属性的动画节点
+keyframe -query -name ball.translateX;
+
+给定节点是不是一个动画曲线
+isAnimCurve($node)
+
+要确定一个节点是否时可动画化的
+listAnimatable -type ball; // Result: transform
+
+确定一个节点的哪些属性是可以动画化的
+listAnimatable ball;
+
+获取一个已被动画化的属性的值
+keyframe -query -t 250 -eval ball.translateX; // 求值。 -eval标记可以快速尝试不同时间的动画曲线，而不会导致DG在曲线的所有输入连接上进行更新
+
+无穷性值
+setInfinity -query -preInfinite ball.translateX;
+
+创建关键点
+setKeyframe -t 1 -value -5 ball.translateX;
+setKeyframe -t 48 -value 5 ball.translateX;
+
+查询哪个动画曲线现在控制着translateX
+keyframe -query -name ball.translateX;
+
+驱动关键帧： 想要用translateX来控制ball的缩放时，需要使用驱动关键帧
+setDrivenKeyframe -driverValue 0 -value 0 -currentDriver ball.translateX ball.scaleX;
+setDrivenKeyframe -driverValue 5 -value 1 ball.scaleX;
+
+删除动画曲线
+string $nodes[]=`keyframe -q -nname ball.translateX`;
+delete $nodes[0];
+
+插入关键点
+setKeyframe -insert -time 24 ball.translateX;
+
+查询和编辑动画曲线中的关键点
+
+关键帧数
+keyframe -q -keyframeCount ball.translateX;
+
+选择的关键帧数
+keyframe -q -selected -keyframeCount ball.translateX;
+
+获取所选关键点的范围
+keyframe -q -selected -timeChange ball.translateX; // Result: 48
+
+获取所选关键的实际值
+keyframe -q -selected -valueChange ball.translateX;
+
+编辑关键点
+keyframe -edit -t 48 -timeChange 20 ball.translateX; 将关键点从48移动到20.
+
 
 
 ```
@@ -262,31 +366,6 @@ button
 - 常用MEL命令
 ```
 pointPosition
-getAttr
-setAttr
-动态属性addAttr -longName "points" -attributeType int 5;
-检查属性是否存在attributeExists("points", object)
-使得属性变得可关键帧化setAttr -keyable
-删除动态属性 deleteAttr
-重命名动态属性renameAttr
-显示属性信息 listAttr -userDefined, listAttr -keyable
-getAttr -type nurbsSphere1.points; // Result : long
-attributeQuery
-
-- 动画
-currentUnit -query -time;
-currentTime 10;
-getAttr -time 10 sphere.traslateX; // 这边可以优化下我之前的代码。
-play;
-playbackOptions xxx;
-playblast -file xxx.mov;
-- 动画曲线
-
-- 关键帧
-keyframe -query -name ball; // 返回节点的动画曲线节点
-keyframe -query -name ball.translateX; // 返回属性的动画曲线节点
-isAnimCurve() 是否是动画曲线
-listAnimatable -type ball // 要确定一个节点是否是可动画化的。
 
 - 关键点
 创建/编辑/查询关键点
