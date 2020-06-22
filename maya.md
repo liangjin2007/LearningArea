@@ -349,8 +349,9 @@ keyframe -q -selected -timeChange ball.translateX; // Result: 48
 keyframe -q -selected -valueChange ball.translateX;
 
 编辑关键点
-keyframe -edit -t 48 -timeChange 20 ball.translateX; 将关键点从48移动到20.
+keyframe -edit -t 48 -timeChange 20 ball.translateX; // 将关键点从48移动到20.
 
+keyframe -e -t 20 -relative -timeChange 5 ball.translateX; // shi
 
 
 ```
