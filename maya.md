@@ -142,6 +142,17 @@ rename a b;
 objectType b;
 whatIs // 返回mel语言类型
 
+
+获得到给定节点的所有可能路径的完整清单
+string $paths = `ls -allPaths $nodePath`;
+
+迭代前面的$paths, 然后跟$nodePath去匹配.
+
+获得实例索引。获取目标节点的实例索引，这一点很重要。
+
+string $attr = $toNode + ".worldInverseMatrix["+$instance+"];";
+$mtx = `getAttr $attr`;
+
 ```
 - 层次结构
 ```
@@ -181,6 +192,22 @@ matrix $mtx[4][4] = `xform -query -matrix nurbsSphere1`; // 报错
 float $mat[] = `xform -query -matrix nurbsSphere1`; // 正确。 返回transform节点的当前转换矩阵。行主存的形式
 float $mat[] = `xform -query -worldSpace -matrix nurbsSphere1;` // 返回局部到世界空间转换矩阵
 ```
+
+
+- 属性
+所有场景数据都存储在每个节点的属性中，经常需要访问和编辑属性。
+```
+getAttr xxx.xxx;
+setAttr xxx;
+```
+动态属性
+```
+$objs = `ls -sl`;
+for ($obj in $objs)
+  addAttr -longName "points" -attributeType int $obj; // 属性编辑器中的Extra Attributes按钮点开来可找到。
+```
+
+
 ### 动画
 ```
 新建場景
