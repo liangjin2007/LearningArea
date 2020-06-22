@@ -3,8 +3,10 @@
 - 蓝图可以让普通Actor动起来，因为它有一个EventGraph可以处理事件。
 - 构造过程Contstruction Script
 - 如何把球压在地面上
-- 如何让BP中定义的Coponent变量在Actor的Default中显示变量
+- 如何让BP中定义的Component变量在Actor的Default中显示变量
 - 给小球滚动时添加声音
+- 变量类型: Bool, Text/String, Int, Float
+
 - Make Literal xxx
 - AddImpose
   - Vel Change的用法
