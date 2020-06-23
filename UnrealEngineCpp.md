@@ -56,13 +56,15 @@ https://www.bilibili.com/video/BV1fE411a74g/?spm_id_from=333.788.videocard.3
     - 给定一个Input
     - 遍历所有Target做如下操作：
       - 计算Input与Target之间的距离: X = ||Input-Target||/(Node.RBFParams.Radius*Target.TargetScale)
-      - 计算Weight = Sqrt(X^2+1.0)
+      - 计算Weight = Gaussian(X)
       - 累积TotalWeight += Weight
       - 归一化Weight: Weight *= 1.0/TotalWeight;
   
   - 跟我这边的实现上的区别：
     - 它没有求解线性系统
-    - 它做了归一化
+    - 它对输入做了Scale
+    - 它默认用的是Gaussian Kernel
+    - 它对权重也做了归一化
     - 它的Kernel必须是X越小值越大。它的Kernel有（Gaussian, 1/Exp(x), 线性max(1-x, eps), 三次(1-x^3)， 五次(1-x^5)）
 
 
