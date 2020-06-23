@@ -351,7 +351,27 @@ keyframe -q -selected -valueChange ball.translateX;
 编辑关键点
 keyframe -edit -t 48 -timeChange 20 ball.translateX; // 将关键点从48移动到20.
 
+相对变化
 keyframe -e -t 20 -relative -timeChange 5 ball.translateX; // shi
+
+： 设置索引区间
+keyframe -e -index "1:20" -vc 2.5 ball.translateX;
+
+缩放时间
+scaleKey -time ":" -valueScale 0.5 ball.translateX;
+scaleKey -timeScale 0.5 ball.translateX;
+scaleKey -timePivot xx -timeScale 2 ball.translateX; // 轴心
+
+使关键点落到帧号上
+snapKey -timeMultiple 1 ball.translateX;
+
+中间关键帧
+
+入切线和出切线
+切线性质： 类型，角度，加权和锁定
+
+
+
 
 
 ```
