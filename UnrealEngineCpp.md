@@ -33,12 +33,38 @@ https://www.bilibili.com/video/BV1fE411a74g/?spm_id_from=333.788.videocard.3
 
 - 课程PPT
 
-- RBF https://docs.unrealengine.com/en-US/API/Runtime/AnimGraphRuntime/RBF/index.html
-  - Entity，Target, Radius, Scale, Normalization, MedianReference
+## UE RBF https://docs.unrealengine.com/en-US/API/Runtime/AnimGraphRuntime/RBF/index.html
+  - 有这几个概念Target, Radius, Scale, Normalization, MedianReference
+  
+  - Target即训练数据的向量。 
+    - 一个Target有单独的DistanceMethod
+  - 如何获取Targets
+    - Node.GetRBFTargets(RBFTargets);
+  
+  - Scale指的是什么？
+    - 参考函数AutoSetTargetScales(OutMaxDistance)
+    - 获取RBFTargets
+    - 计算一个跟RBFTargets一样长的数组Distances， 每个元素记录对应的target与其他target的最短距离。
+    - 计算Distances中的最大值OutMaxDistance
+    - 将PoseTarget.TargetScale设置成Distances[i]/OutMaxDistance
+    
   - 半径如何理解？
+    - 整体半径Node.RBFParams.Radius = OutMaxDistance * Node.RadialScaling_DEPRECATED/*=0.25*/;
+    
+  - RBF如何求解？
+    - 参考函数FRBFSolver::Solve
+    - 给定一个Input
+    - 遍历所有Target做如下操作：
+      - 计算Input与Target之间的距离: X = ||Input-Target||/(Node.RBFParams.Radius*Target.TargetScale)
+      - 计算Weight = Sqrt(X^2+1.0)
+      - 累积TotalWeight += Weight
+      - 归一化Weight: Weight *= 1.0/TotalWeight;
+  
+  - 跟我这边的实现上的区别：
+    - 它没有求解线性系统
+    - 它做了归一化
+    - 它的Kernel必须是X越小值越大。它的Kernel有（Gaussian, 1/Exp(x), 线性max(1-x, eps), 三次(1-x^3)， 五次(1-x^5)）
 
-- Normalize Weight Method
-- Weight Threshold to remove contribution
 
 
 
@@ -145,6 +171,7 @@ UObjectBaseUtility
 USkeleton
 USkeletalMesh
 UPoseAsset
+UAnimBlueprint
 
 通用写法
 Node.xxx
