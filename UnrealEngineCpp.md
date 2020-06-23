@@ -34,8 +34,8 @@ https://www.bilibili.com/video/BV1fE411a74g/?spm_id_from=333.788.videocard.3
 - 课程PPT
 
 - RBF https://docs.unrealengine.com/en-US/API/Runtime/AnimGraphRuntime/RBF/index.html
-	Target指训练帧
-
+  - Entity，Target, Radius, Scale, Normalization, MedianReference
+  - 半径如何理解？
 
 - Normalize Weight Method
 - Weight Threshold to remove contribution
@@ -67,18 +67,44 @@ enum class ERBFNormalizeMethod : uint8
 ## 类实例
 ```
 一般类型
-int32
-FVector
-FRotator
-FQuat
 TArray<float>
+TMap<FName, FPoseDriverTarget>
+TStatId
+int32
+
+FRBFOutputWeight
+ERBFDistanceMethod // Enum
+EPoseDriverSource
+EObjectFlags
+EObjectMark
+
+FName
+FString
+FVector
+FRotator: Euler角， roll, pitch, yaw
+FQuat
+FQuat(FRotator)
+FTransform
+FPoseLink
+FBoneReference
+FBoneContainer
+FPoseDriverTransform
+FPoseDriverTarget
+FAnimNode_PoseHandler
+FAnimNode_PoseDriver
+FRBFParams
+FRichCurve
+FPlatformAtomics
+FFieldCompiledInInfo
 
 宏
 USTRUCT()
 UCLASS()
 GENERATED_BODY()
 UPROPERTY(EditAnywhere, Category=RBFData)
+FORCENOINLINE
 
+枚举
 UENUM()
 enum EBoneAxis
 {
@@ -91,5 +117,38 @@ enum EBoneControlSpace
 {
 	...
 }
+
+U类型，表示UObject的继承者，是一种对象。 UObject_Base -> 
+UObjectBase
+  - GetClass
+  - GetOuter
+  - GetFName
+  - GetUniqueID
+  - Register()
+  - DeferredRegister()
+  - AddObject()
+  - GetStatID()
+  - SetFlagsTo( EObjectFlags NewFlags )
+  - GetFlags()
+UObjectBaseUtility
+  - SetFlags( EObjectFlags NewFlags )
+  - HasAnyFlags
+  - Mark(EObjectMark Marks) const
+  - GetFullName()
+  - GetPathName()
+  - CreateClusterFromObject
+  - GetFullGroupName
+  - GetName
+  - IsA
+  - FindNearestCommonBaseClass
+  - GetLinker
+USkeleton
+USkeletalMesh
+UPoseAsset
+
+通用写法
+Node.xxx
+例子
+Node.GetRBFTargets(RBFTargets);
 
 ```
