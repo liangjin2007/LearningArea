@@ -520,19 +520,66 @@ setKeyframe -t $endTime -value $maxUValue -attribute uValue $mpNode;
 //创建路径的开始和结束时间
 pathAnimation -startTimeU 0 -endTimeU 48 -curve myCurve myCone;
 
+pathAnimation -e -follow yes myCone; // 锥尖的方向指向路径的方向
+
+pathAnimation -e -bank yes myCone; // 倾斜转弯
+
+pathAnimation -e -followAnis x myCone; // 进出转弯
+
+pathAnimation -e -bankScale 0.5 myCone; // 减少倾斜
+
+flow myCone; // 使锥体改变形体以便沿路径扭动。
 
 ```
-
-
 
 
 ### 图形用户界面
+- 概述
 ```
-window
-showWindow
-columnLayout myLayout;
-button
+创建空窗口
+window -title "test";
+paneLayout -configuration "horizontal2";
+columnLayout；
+  floatSliderGrp -label "TranslateX" -min -100 -max 100;
+  floatFieldGrp -label "Scale" -numberOfFields 3;
+  setParent ..;
+frameLayout -labelVisible false;
+  outlinerPanel; // Maya自己的大纲视图
+showWindow;
 ```
+- 基本概念
+```
+window; // 创建窗口。 默认状态下使不可见的。
+window -e -visiable true window1; // 使窗口可见
+window -e -visible yes window1;
+showWindow window1; // 使窗口可见
+window -e -widthHeight 200 100 window1;
+window -q -numberOfMenus window1; // 查询菜单数
+button -label "First" myButton; // 创建按钮
+
+// 布局
+columnLayout
+frameLayout
+button -label "Second" -parent myWindow|myLayout;
+
+// 层次
+// 界面元素组成层次结构， 窗口始终位于层次结构的顶端。只要完整路径不同，两个元素可以用相同的名称。
+// 当创建一个界面元素时，会默认成为自己类型元素的默认父元素。
+// setParent命令
+
+// 执行命令
+window;
+columnLayout;
+button -label "Click" -command "sphere";               // button
+textField -text "xxx" -enterCommand "myText(\"#1\")"； // textField #1是元素当前值的速记符号
+showWindow;
+```
+- 窗口
+```
+
+```
+
+
 ### 表达式
 
 - 常用MEL命令
