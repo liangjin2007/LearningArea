@@ -576,9 +576,126 @@ showWindow;
 ```
 - 窗口
 ```
+// 判断窗口是否存在
+window -exists myWindow; 
+
+// 删除窗口
+deleteUI myWindow; 
+
+// 窗口自适应
+window -title "xxx" -resizeToFitChildren true myWindow; // 根据Child columnLayout等调整自己的大小。
+columnLayout -adjustableColumn true;
+
+// 设置固定尺寸
+window -width 999 -height 000 -topEdge 999 -leftEdge 999 -topLeftCorner 999 999 xxx;
+
+// 清除Maya所存储的窗口的大小和位置信息
+windowPref -remove myWindow;
+
+// 使UI调用自定义MEL 函数。
+global proc rm_test(){
+}
+button -label "xxx" -command "rm_test();";
+
+// 模式对话框
+promptDialog -message "xxx" -button "OK" -button "Cancel" -defaultButton "OK" -cancelButton "Cancel" -dismissString "Cancel";
+
+// 确认对话框
+confirmDialog -message "Do you wnat to delete the object" -button "Yes" -button "No".
+```
+- 布局
+
+```
+// 菜单布局
+menuLayout
+
+// 通用命令
+layout -edit -width 200 $layoutName;
+
+// ColumnLayout
+// RowLayout
+// GridLayout
+// FormLayout 最灵活的布局
+// FrameLayout 折叠和展开的界面
+// TabLayout
+tabLayout的子元素必须是布局。
+// ScrollLayout
+// MenuBarLayout
+setParnet -topLevel;
+menuBarLayout;
+```
+- 控件
+```
+control -e -width 23 $controlName;
+control -q -parent $controlName;
+control -exists $controlName;
+
+菜单
+menu, menuItem
+
+按钮
+button
+
+创建一个显示图像或图标的按钮
+symbolButton -image "sphere.xpm" -command "sphere;";
+
+显示标记和图像
+iconTextButton
+
+复选框
+checkbox
+symbolCheckBox
+iconTextCheckBox
+
+单选按钮
+radioCollection
+iconTextRadioButton
+iconTextRadioCollection
+
+文本
+text静态文本
+textField
+scrollField
+
+清单
+textScrollList -allowMultipleSelection  page175
+
+组
+floatSliderGrp 
+colorIndexSliderGrp
+colorSliderGrp
+floatFieldGrp
+floatSliderGrp
+intFieldGrp
+intSliderGrp
+radioButtonGrp
+textFieldGrp
+
+图像
+picture显示.xpm和.bmp图像。
+image命令不仅可以显示这些格式，还可以显示更多格式。 这个测试可以使用全路径的图片。
+
+面板
+paneLayout -configuration "vertical2";
+有个想法是可以把imagePlane放在某个较远的地方让后把modelPanel作为一个panel放在GUI里
+
+工具
+激活一个工具而不是执行一条MEL命令。
+toolCollection
+toolButton
+```
+
+- 连接控制
+```
+
 
 ```
 
+
+
+
+- 官方文档
+http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
 
 ### 表达式
 
