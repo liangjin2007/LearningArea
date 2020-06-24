@@ -686,7 +686,15 @@ toolButton
 ```
 
 - 连接控制
+图形用户界面元素或组反映一个节点属性的当前值。
+
 ```
+属性组
+attrColorSliderGrp 获取节点属性并同步。
+
+如何获取当前帧呢？
+attrFieldSliderGrp -attribute "timer1.outTime" -min 0 -max 44594 -label xxx;
+
 
 
 ```
