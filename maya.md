@@ -320,6 +320,8 @@ setInfinity -query -preInfinite ball.translateX;
 setKeyframe -t 1 -value -5 ball.translateX;
 setKeyframe -t 48 -value 5 ball.translateX;
 
+
+
 查询哪个动画曲线现在控制着translateX
 keyframe -query -name ball.translateX;
 
@@ -328,7 +330,7 @@ setDrivenKeyframe -driverValue 0 -value 0 -currentDriver ball.translateX ball.sc
 setDrivenKeyframe -driverValue 5 -value 1 ball.scaleX;
 
 删除动画曲线
-string $nodes[]=`keyframe -q -nname ball.translateX`;
+string $nodes[]=`keyframe -q -name ball.translateX`;
 delete $nodes[0];
 
 插入关键点
@@ -367,14 +369,112 @@ snapKey -timeMultiple 1 ball.translateX;
 
 中间关键帧
 
+
+
+
 入切线和出切线
-切线性质： 类型，角度，加权和锁定
+切线性质： 类型(step, flat, )，角度，加权和锁定
 
+开始停着，在动画末尾猛然跳到终点。
+keyTangent -index 0 -outTangentType step ball.translateX; 
 
+缓缓启动，然后加速移向终点。
+keyTangent -index 0 -outTangentType flat ball.translateX;
 
+将切线恢复原始状态
+keyTangent -index 0 -outTangentType spline ball.translateX;
 
+要改回原来的状态可能需要同时更改两条切线。
+keyTangent -index 0 -inTangentType spline ball.translateX;
+
+现在将一条切线旋转45度  inAngle
+keyTangent -index 0 -inAngle 45 ball.translateX;
+
+相对旋转
+keyTangent -index 0 -relative -inAngle 15 ball.translateX;
+
+查询出切线作为一个单位矢量的方向
+keyTangent -index 0 -q -ox -oy ball.translateX; // 0.15, 0.98
+keyTangent -index 0 -q -ix -iy ball.translateX; // 0.15, 0.98
+
+解除对入切线和出切线的锁定，以便它们能够独立旋转
+keyTangent -index 0 -lock false ball.translateX;
+
+为了给切线加权（修改切线长度）, 必须将整个动画曲线转化为使用加权切线。
+keyTangent -e -weightedTangents yes ball.translateX;
+
+撤销加权的切线会失去它的加权信息，曲线会变形。
+
+给第二个关键点切线加权
+keyTangent -index 1 -inWeight 20 ball.translateX;
+keyTangent -index 1 -lock false -weightLock no ball.translateX;
+
+Tangents设置
+keyTangent -q -global -inTangentType;
+keyTangent -q -global -outTangentType;
+keyTangent -q -global -weightedTangents; // Query automatic weighting; 是否使用加权切线
+keyTangent -global -inTangentType flat;
+keyTangent -global -weightedTangents yes;
+
+关键点剪贴版
+
+// 将第一个关键点复制插入到关键帧12.
+copyKey -index 0 ball.translateX;
+pasteKey -t 12 -option insert ball.translateX;
+
+cutKey -index 1 -option keys ball.translateX;
+cutKey -index 1 -clear ball.translateX;
+
+page 127 获取动画曲线的所有信息 PrintAnim
 
 ```
+- 骨架
+  - 蒙皮skinning或enveloping
+```
+
+所有定位都在世界空间中给出。
+joint; // 在原点生成一个关节joint1。
+joint -position 0 0 10; // 创建另一个关节joint2, 并使得它成为joint1的子关节。
+insertJoint joint1; // 在joint2和joint1之间插入一个新的关节joint3。但它不允许指定初始节点的详细位置。
+joint -edit -position 0 0 5 joint3; // 使用joint -e -position编辑位置。 但这个命令会让joint3的子节点joint2也向下移动5.
+undo;
+joint -e -position 0 0 5 -component joint3; // 使用-component可以避免子关节的移动。
+
+// 或许相对于其关节来指定一个关节的位置更为方便，使用-relative标记
+joint -e -relative -position 5 0 0 joint2.
+
+// 旋转自由度，默认有3个。
+
+joint -query -degreeOfFreedom joint1; // 查询旋转自由度 xyz
+
+joint -e -degreeOfFreedom "y" joint1; // 将旋转限制在y轴
+
+joint -e -limitSwitchY yes joint1; // 激活y轴的旋转限制
+
+joint -q -limitY joint1; // 查询当前的限制是什么
+
+joint -e -limitY 0deg 90deg joint1; // 限制在0-90度的旋转
+
+rotate 0 200deg 0 joint1; // 该关节最多旋转90度，虽然指定了200deg.
+
+// 所有使用joint命令的关节旋转都是相对的。 只有关节的定位才可以在绝对坐标中进行。
+
+joint -e -angleY 10deg joint3; // 相对于其父关节来旋转一个关节
+
+// 查询一个节点的当前旋转
+xform -q -rotation joint3;
+
+// 删除一个节点
+removeJoint joint3;
+
+// 删除一个节点及其子节点
+delete joint3;
+
+// p135 OutputJoints函数
+```
+
+
+
 ### 图形用户界面
 ```
 window
