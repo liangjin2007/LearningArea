@@ -1,13 +1,13 @@
 # Maya5编程全攻略
 
-网格显示->切换
 ## Maya架构
+```
 - 数据流模型 DG， 技术上讲基于一种推拉模型，而不是基于严格的数据流模型。
 - 数据及其操作被封装为节点， 一个节点含有任意数目的插槽，其中含有Maya使用的数据，节点也包含一个操作符，用于对其数据进行处理。
 - 场景就是DG
 - Hypergraph
 - 节点类型
-```
+
   - 常见(注意实际中的命名)
     - time
     - transform
@@ -69,7 +69,7 @@
     - lightLinker
     - shapeEditorManager
     - displayLayer
-```
+
 - 节点属性
   - 固定属性 input / output
   - 每个节点都内部存储其属性数据
@@ -108,7 +108,7 @@
   - 同样是transform类型，图标会不一样，如何做到的
   - blendshape连到blendshape上
   - blendshape连到skinCluster上
-  
+```  
 ## Maya MEL
 ### 概述
 - 类c语言
@@ -695,81 +695,81 @@ attrColorSliderGrp 获取节点属性并同步。
 如何获取当前帧呢？
 attrFieldSliderGrp -attribute "timer1.outTime" -min 0 -max 44594 -label xxx;
 
+NameField
 
+其他元素
+connectControl命令
+string $grp = `floatFieldGrp -label "Scale:" -numberOfFields 3`;
+connectControl -index 2 $grp sphere1.scaleX;
+connectControl -index 3 $grp sphere1.scaleX;
+connectControl -index 4 $grp sphere1.scaleX;
+// 注意1对应于"Scale:"
 
+用户反馈
+  帮助
+  button -annotation ""
+
+  显示进程
+  waitCursor -state on;
+  waitCursor -state off;
+  进度条 gressWindow -title "Working" -progress $amount -status "Complete: 0%" -Interruptable true; // page 186
+  
+  pause -seconds 1;
 ```
-
-
-
-
-- 官方文档
-http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
 
 ### 表达式
 
-- 常用MEL命令
+过程式动画化。通过MEL命令来定义属性的值。通过程序来而不是通过关键帧来控制动画。表达式可以创建复杂的动画而不涉及或很少涉及手动操作。这是一种将属性动画化的强大方法，这样就可以完全自由地使用所需的任何MEL命令或者语句。这里的表达式是指使用MEL语句来将属性动画化。
+- 基本
 ```
-pointPosition
-
-- 关键点
-创建/编辑/查询关键点
-setKeyframe
-setDrivenKeyframe
-keyTangent
-copyKey
-cutKey
-
-- 骨架
-insertJoint
-outputJoints脚本
-string $inPlugs[] = `listConnections -plugs yes -destination yes node.attr`// page 143
-string $tokens[];
-tokenize $inPlugs[0] "." $tokens；
-string $inNode = $tokens[0];
-string $inAttr = $tokens[1];
-duplicate -upstreamNodes $inNodes;
-listRelatives -parent nodename;
-connectAttr
-
-- 运动路径
+有一些效果可以交给表达式去产生
+摆动
+闪烁
+磁体
 
 
+```
+- 表达式使用注意事项
+```
+仅对属性赋值
+支持的属性类型 float, int核和boolean。
+避免使用setAttr和getAttr命令
+所连接的属性
+sphere.scaleX = 23; // 如果scaleX已经动画化，也就是有连接，那么会报错。
+需要用disconnectAttr中断至scaleX属性的连接。
 
-findType
-objectType
-pointPosition Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200];
-Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[116]");
-获取局部坐标位置
-getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
-findType
-group
-move
-parent
-inheritTransform -ff xxx;
-scale
-rotate
-xform
+表达式是DG节点。它连接表达式所控制的各个属性。 expression节点实际存储着你的表达式。
+
+自动删除
+如何避免自动删除。 p198
+
+```
+- 调试表达式
+- 粒子表达式
+- 高级表达式
+```
+关键帧动画与表达式一起使用
+expression -string "plane.translateY = plane.animTranslateY" -name "Turb"; / 创建了名为Turb的表达式
 ```
 
-## Maya图形用户界面 ~page150
-
-简单
-
-## Maya SDK
-博客 https://blog.csdn.net/whwst/article/details/81604853
-https://www.autodesk.com/developer-network/platform-technologies/maya
-
-## Maya C++ API (page 208)
+### Maya C++ API (page 208)
 ```
-此API可修改的领域和功能
-命令，DG节点，工具，文件转换器，变形器，着色器，操纵器，定位器，动力场，发射器，形体，解算器
+此API可修改的领域和功能：
+
+命令
+
+DG节点： 自定义节点， 或者 扩展专用的DG节点
+
+工具/语境
+
+文件转换器，变形器，着色器，操纵器，定位器，动力场，发射器，形体，解算器
 - API 一般性
 M, Maya类
 MPx 代理对象 MPxNode
 MIt 迭代类 MItDag, MItMeshEdge
 MFn 函数集 MFnMesh, MFnDagNode 
-Maya方法与普通面向对象方法的区别： 数据与函数分来。 MFn只包含函数。
-MObject所有数据均是通过类MObject访问的。实际指向Maya核心内一个句柄。
+Maya方法与普通面向对象方法的区别： 数据与函数分离。 MFn只包含函数。
+MObject：所有数据均是通过类MObject访问的。实际指向Maya核心内一个句柄。UE感觉也是这么实现的。
 Maya拥有所有的数据，而你不拥有它内部的任何数据。
 MFn函数集用来创建、编辑和删除数据。 比如要创建transform节点，可以这样。
 MFnTransform transformFn;
@@ -793,6 +793,29 @@ MString, MObject, MSelectionList, MStatus
     - MDGModifier用于创建节点以及必要的连接。
     - MDataHandle
 ```
+
+
+
+# 其他
+
+## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
+
+## 常用一般命令
+```
+duplicate -upstreamNodes $inNodes;
+listRelatives -parent nodename;
+connectAttr
+findType
+objectType
+pointPosition Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200];
+Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[116]");
+getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
+```
+
+## Maya SDK
+博客 https://blog.csdn.net/whwst/article/details/81604853
+https://www.autodesk.com/developer-network/platform-technologies/maya
+
 
 ## Maya devkit源代码阅读
 ```
