@@ -461,8 +461,10 @@ rotate 0 200deg 0 joint1; // 该关节最多旋转90度，虽然指定了200deg.
 
 joint -e -angleY 10deg joint3; // 相对于其父关节来旋转一个关节
 
-// 查询一个节点的当前旋转
+// 重要： 查询一个节点的当前旋转
 xform -q -rotation joint3;
+xform -q -translation joint3;
+xform -q -relative -scale joint3;
 
 // 删除一个节点
 removeJoint joint3;
@@ -470,8 +472,57 @@ removeJoint joint3;
 // 删除一个节点及其子节点
 delete joint3;
 
-// p135 OutputJoints函数
+// 重要： p135 OutputJoints函数
+
+// 重要： p140 ScaleSkeleton脚本
+
+float $pos[] = `joint -q -relative -position $child`; // 获取关节节点相对于其父节点的当前位置
+$pos[0] *= $scale;
+$pos[1] *= $scale;
+$pos[2] *= $scale;
+joint -e -relative -position $pos[0] $pos[1] $pos[2] $child;
+
+// 重要： p142 CopySkeletonMotion脚本
+xform -query -worldSpace -translation $srcRootNode;
+
+listRelatives -fullPath -children -allDescendents $srcRootNode;
+
+string $inPlugs[] = `listConnections -plugs yes -destination yes joint1.translateX`;
+
+if(size($inPlugs)){
+string $tokens[];
+tokenize $inPlugs[0] "." $tokens;
+string $inNode = $tokens[0];
+string $inAttr = $tokens[1];
+string $dupInNodes[] = `duplicate -upstreamNodes $inNode`;
+connectAttr -force ($dupInNodes[0]+"."+"translateX") ($destNode+"."+"translateX");
+}else{
+getAttr xxx;
+setAttr xxx;
+}
+
+move -worldSpace x y z $node;
 ```
+
+- 运动路径
+```
+- string $mpNode = `pathAnimation -curve myCurve muCone`;
+
+- addDoubleLinear节点
+
+- 得到曲线最大的u参数值
+$maxUValue = `getAttr muCurveShape.minMaxValue.maxValue`;
+
+$endTime = `playbackOptions -q -animationEndTime`;
+
+setKeyframe -t $endTime -value $maxUValue -attribute uValue $mpNode;
+
+//创建路径的开始和结束时间
+pathAnimation -startTimeU 0 -endTimeU 48 -curve myCurve myCone;
+
+
+```
+
 
 
 
