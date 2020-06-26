@@ -5,8 +5,12 @@
 - P2 https://www.bilibili.com/video/BV1C7411F7RF?p=2
 - bilibili搜索"虚幻4游戏引擎官方入门自学到提高全218集" https://www.bilibili.com/video/BV12s411P7PW?from=search&seid=17955912259534568723
 - 新建插件https://docs.unrealengine.com/zh-CN/Programming/Plugins/index.html
+- 泰课网 https://www.taikr.com/course/964/task/27889/show
 
-## 
+## 学习
+新建C++类就可以把蓝图工程转成C++工程
+
+
 功能
 ============================================
 https://www.unrealengine.com/zh-CN/features
