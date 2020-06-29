@@ -753,29 +753,73 @@ expression -string "plane.translateY = plane.animTranslateY" -name "Turb"; / 创
 ```
 
 ### Maya C++ API (page 208)
+- 介绍
 ```
 此API可修改的领域和功能：
-
 命令
-
 DG节点： 自定义节点， 或者 扩展专用的DG节点
-
 工具/语境
-
 文件转换器，变形器，着色器，操纵器，定位器，动力场，发射器，形体，解算器
-- API 一般性
-M, Maya类
+```
+- 类
+```
+抽象层: 开发人员 C++API Maya核心
+
+类： 层次结构
+M, Maya类 MObject, MPoint, M3dView
 MPx 代理对象 MPxNode
 MIt 迭代类 MItDag, MItMeshEdge
-MFn 函数集 MFnMesh, MFnDagNode 
-Maya方法与普通面向对象方法的区别： 数据与函数分离。 MFn只包含函数。
-MObject：所有数据均是通过类MObject访问的。实际指向Maya核心内一个句柄。UE感觉也是这么实现的。
+MFn 函数集 MFnMesh, MFnDagNode
+
+传统方法： 面向对象方法都包含数据和作用于数据的函数。
+
+Maya方法与普通面向对象方法的区别： 数据与函数分离。
+数据层次结构： 用单独的类来存储数据。数据层次结构。
+函数集层次结构： 对应于数据层次结构。
+
+CarObj carData;
+VehicleFn speedyFn;
+speedyFn.setObject(&carData);
+speedyFn.drive();
+
+所有数据均是通过类MObject访问的。只有MObject类知道这个层次结构。实际指向Maya核心内一个句柄。UE感觉也是这么实现的。
+必须使用函数集层次结构来处理Maya的隐藏数据对象。
+```
+- MObject
+```
+MObject仅仅是指向核心内另一个对象的一个句柄。
 Maya拥有所有的数据，而你不拥有它内部的任何数据。
+```
+
+- MFn函数集
+```
 MFn函数集用来创建、编辑和删除数据。 比如要创建transform节点，可以这样。
 MFnTransform transformFn;
 MObject transformObj = transformFn.create();
 MFnBase -> MFnDependencyNode -> MFnDagNode -> MFnTransform
+
+MFnDagNode dagFn(transformObj);
+dagFn.name();
+
+MFnPointLight pointLightFn;
+MObject pointObj = pointLightFn.create();
+MFnNurbsSurface surfaceFn(pointObj); // 需要添加错误检查和报告
+double area = surfaceFn.area();
+
+自定义函数集
+新的类只能调用其即类已经实现的函数，不能提供自己的函数，因为你不能处理任何实际的Maya数据。从这些函数集中进行派生就没有任何意义。
+```
+
 - 开发插件
+```
+为了给Maya添加自定义节点、命令等，需要创建插件。
+
+插件向导。
+
+写插件。
+
+如何调试插件。
+
 错误，报告MStatus， 集成。加载/卸载pluginInfo -q xxx;
 unloadPlugin full_file_path;
 loadPlugin full_file_path;
