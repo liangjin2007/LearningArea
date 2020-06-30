@@ -1028,10 +1028,44 @@ showWindow;
 
 gridLayout有的时候非常有用，比如写简单几个按钮时，如果想把按钮调整好位置，可以用gridLayout.
 
+// 带标题的表格。
+window;
+formLayout form;
+componentBox cbox;
+formLayout -e
+    -af cbox "top" 0
+    -af cbox "left" 0
+    -af cbox "right" 0
+    -af cbox "bottom" 0
+    form;
+showWindow;
 
+// 这个例子非常好。
+string $window = `window`;
+string $form = `formLayout -numberOfDivisions 100`;
+string $b1 = `button`;
+string $b2 = `button`;
+string $column = `columnLayout -adjustableColumn true`;
+button; button; button;
 
+formLayout -edit
+    -attachForm     $b1     "top"    5
+    -attachForm     $b1     "left"   5
+    -attachControl  $b1     "bottom" 5 $b2
+    -attachPosition $b1     "right"  5 75
 
+    -attachNone     $b2     "top"
+    -attachForm     $b2     "left"   5
+    -attachForm     $b2     "bottom" 5
+    -attachForm     $b2     "right"  5
 
+    -attachForm     $column "top"    5
+    -attachPosition $column "left"   0 75
+    -attachControl  $column "bottom" 5 $b2
+    -attachForm     $column "right"  5
+$form;
+
+showWindow $window;
 ```
 
 
