@@ -818,27 +818,46 @@ double area = surfaceFn.area();
 
 写插件。
 
-如何调试插件。
+如何调试插件??
 
-错误，报告MStatus， 集成。加载/卸载pluginInfo -q xxx;
+错误，报告
+MStatus， 
+
+插件相关命令
+加载/卸载pluginInfo -q xxx;
 unloadPlugin full_file_path;
 loadPlugin full_file_path;
 MAYA_PLUG_IN_PATH
-
-MString, MObject, MSelectionList, MStatus
-- 插件代码
-  - 命令
-    - 一个简单修改动画关键点属性值的命令
-    - 添加命令参数
-    - 提供帮助
-    - Undo/Redo 可撤销和不可撤销
-    - 编辑和查询
-  - 节点
-    - MDGModifier用于创建节点以及必要的连接。
-    - MDataHandle
 ```
+- 命令
+```
+简单命令
+doIt和creator两个函数需要实现。
 
 
+
+MDagPath dagPath; // MDagPath是MObject的一种，也就是也是一种对内部
+MFnNurbsCurve curveFn;
+MItSelectionList iter(selection, MFn::kNurbsCurve);
+for(;!it.er.isDone(); iter.next())
+{
+  iter.getDagPath(dagPath);
+  curveFn.setObject(dagPath); // dagPath is a MObject
+  
+  double tStart, tEnd;
+  curveFn.getKnotDomain(tStart, tEnd);
+  ...
+  curveFn.getPointAtParam(t, pt, MSpace::kWorld); // 获取位于世界空间中的位置。
+  MGlobal::executeCommand();
+};
+
+
+
+
+
+
+
+```
 
 # 其他
 
@@ -872,11 +891,15 @@ asciiToBinary.cpp
 
 helloWorld.cpp
 #include <maya/MGlobal.h>
+
+MStatus::perror(...);
 MGlobal::displayInfo("Hello world! (script output)" );
+MGlobal::displayError
+MGlobal::displayWarning
+
 MGlobal::executeCommand( "print \"Hello world! (command script output)\\n\"", true );
 
 readAndWrite.cpp
-MStatus::perror(...);
 MFileIO::open()
 MFileIO::saveAs()
 MFileIO::exportAll
@@ -901,6 +924,7 @@ surfaceTwise.cpp
 #include <maya/MItMeshVertex.h>
 #include <maya/MDagPath.h>
 MGlobal::selectByName(surface1, MGlobal::kReplaceList);
+
 MSelectionList slist;
 MGlobal::getActiveSelectionList( slist );
 if (iter.isDone()){}
@@ -992,3 +1016,22 @@ Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取
   - FbxAnimLayer包含一个或者多个FbxAnimCurveNode， 这些node连接到FbxAnimCurves。
   - FbxAnimCurve代表函数，可以驱动property的动画
   
+## UI写法
+```
+用符号代表CheckBox.
+window;
+columnLayout;
+    symbolCheckBox -image "circle.png";
+    symbolCheckBox -image "sphere.png";
+    symbolCheckBox -image "cube.png";
+showWindow;
+
+gridLayout有的时候非常有用，比如写简单几个按钮时，如果想把按钮调整好位置，可以用gridLayout.
+
+
+
+
+
+```
+
+
