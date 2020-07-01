@@ -817,7 +817,15 @@ double area = surfaceFn.area();
 插件向导。
 
 写插件。
-
+MStatus initializePlugin(MObject obj){
+  MFnPlugin pluginFn(obj, "developer", "version", "Any");
+  pluginFn.registerCommand("goRolling", GoRollingCmd::creator, GoRollingCmd::newSyntax);
+  pluginFn.registerNode(xxx);
+}
+MStatus uninitializePlugin(Mobject obj){
+  pluginFn.deregisterCommand("goRolling");
+  pluginFn.deregisterNode(RollingNode::id);
+}
 如何调试插件??
 
 错误，报告
@@ -829,13 +837,17 @@ unloadPlugin full_file_path;
 loadPlugin full_file_path;
 MAYA_PLUG_IN_PATH
 ```
+
 - 命令
 ```
+注册命令
+
+
 简单命令
 doIt和creator两个函数需要实现。
 
 
-
+第一个例子。命令无参数
 MDagPath dagPath; // MDagPath是MObject的一种，也就是也是一种对内部
 MFnNurbsCurve curveFn;
 MItSelectionList iter(selection, MFn::kNurbsCurve);
@@ -852,13 +864,295 @@ for(;!it.er.isDone(); iter.next())
 };
 
 
+第二个例子。 带参数命令， -number 10 -radius 1
+int nPosts = 5;
+unsigned index;
+index  = args.flagIndex("n", "number");
+if(MArgList::kInvalidArgIndex != index)
+  args.get(index+1, nPosts);
+
+第三个例子。 带很多参数命令时，参数的另外的写法, MSyntax。
+MSyntax 指定命令的语法对象
+1.Command中添加静态函数static MSyntax newSyntax()
+2.插件注册时需要提供这个静态函数
+stat = pluginFn.registerCommand("posts3", Posts3Cmd::creator, Posts3Cmd::newSyntax);
+3.doIt函数中用MArgDatabase及MSyntax对象来parse参数
+MArgDatabase argData(syntax(), args);
+if(argData.isFlagSet(numberFlag))
+  argData.getFlagArgument(numberFlag, 0, nPosts);
+
+第四个例子。提供帮助 help posts3。先pass。
+1.自动帮助。 前面加了Msyntax后，就能调用help。
+2.创建和显示自己的帮助。 -h/-help。
+if(argData.isFlagSet(helpFlag)){
+  setResult(helpText);
+  return MS::kSuccess;
+}
+
+撤销/重做机制。
+1.撤销队列。只能保存一条可能的历史路径。撤销队列与场景一起保存。
+2.MPxCommand支持
+virtual MStatus undoIt();
+virtual MStatus redoIt();
+virtual bool isUndoable()const; //默认false， 如果是false, 命令执行完马上删除。如果是true, 
+2.1. 用creator函数创建命令实例
+2.2. 调用命令对象的doIt函数
+2.3. 调用isUndoable函数判断是否把此实例放入撤销队列中。
+**如果命令能以某种方式改变Maya状态， 它就必须提供撤销和重做。**
+**不支持撤销的命令称为action, 比如计数命令， 执行时不会创建，修改或更改Maya状态。**
+3.新数据成员MDGModifier dgMod; // 这个类用于创建、删除和更改依赖图上的节点。虽然MFn系列也能做到这些，但是MDGModifier类最大的好处就是它能自动地为所有操作提供撤销和重做。
+// 伪代码
+doIt(...){
+  dgMod.commandToExecute("cylinder"); // 实际没有执行。
+  return redoIt(); / 实际执行。
+}
+redoIt(...){
+  return dgMod.doIt();
+}
+undoIt(...){
+  return dgMod.undoIt();
+}
+4.redoIt函数和doIt是一样的。
 
 
+编辑和查询 -e -q。
+//伪代码
+::newSyntax(){
+  MSyntax syntax;
+  syntax.addFlag(xx, xx, MSyntax::kLong);
+  ...
+  syntax.enableQuery(true);
+  syntax.enableEdit(true);
+  return syntax;
+}
+例子p255 : 如何实现undo, redo
 
+void xxxCmd::getTime(){
+  MFnTransform transformFn;
+  transformFn.setObject(hourHandPath);
+  
+  MEulerRotation rot;
+  transformFn.getRotation(rot);
+}
 
+void xxxCmd::setTime(){
+  transformFn.setRotation(MEulerRotation(MVector(0, xx, 0)));
+}
 
 ```
+- 节点
+  - 一、GoRolling插件。开发自定义节点，使它能够根据轮子的位置来自动旋转轮子。创建一个命令和一个节点。
+  ```
 
+  {
+      1. goRolling命令用于创建节点RollingNode, 将其插入DG， 并进行所有必要的属性连接，节点控制着对象的实际旋转。
+      {
+          //伪码
+          doIt(){
+            ...
+            iter.getDagPath(dagPath);
+            transformFn.setObject(dagPath);
+            // 对于selection中每个transform，都会创建一个新的RollingNode
+            MObject rollNodeObj = dgMod.createNode("RollingNode");
+            MFnDependencyNode depNodeFn(rollNodeObj);
+            // 通过节点的接头（plug）来访问节点的属性值。
+            // MDGModifier可以把两个plug连接起来。
+            dgMod.connect(transformFn.findPlug("translateX"), depNodeFn.findPlug("distance"));
+            dgMod.connect(depNodeFn.findPlug("rotation"), transformFn.findPlug("rotateZ"));
+            return redoIt();
+          }
+          redoIt(){
+            return dgMod.doIt();
+          }
+          undoIt(){
+            return dgMod.undoIt();
+          }
+      }
+
+
+      2. RollingNode节点
+      {
+          class RollingNode : public MPxNode
+          {
+            virtual MStatus compute(const MPlug &plug, MDataBlock &data);
+            static void *creator();
+            static MStatus initialize();
+
+            static MObject distance;
+            static MObject radius;
+            static MObject rotation;
+
+            static MTypeId id; // 每种类型的节点都有一个惟一的标识符，这样Maya就能知道如何创建这个节点以及从磁盘上如何保存和恢复节点数据。这个id确定了以后最好不要变，否则可能会导致打不开老的场景
+          }
+
+          **compute函数带有两个参数：第一个参数是MPlug类型，它指示哪个接头plug（节点）要被重新计算，第二个参数是MDataBlock类型，它包含了节点当前要使用的所有数据。**
+          **一个节点可以有很多个输出属性。由于仅计算节点的输出属性，而它们可能并不都需要更新，所以Maya会对节点的每个输出属性逐一调用compute函数。因此开发人员必须检查时节点的哪个输出属性被请求更新。**
+          **plug是MObject的继承类，可以直接跟自定义属性判断是否相等 plug == RollingNode::rotation**
+          // 伪代码
+          compute(plug, data){
+            if(plug == rotation){
+
+            }
+          }
+
+          **当重新计算rotation属性的请求时， 首先获取节点的当前输入属性值。MDataBlock.inputValue函数读取数据。MDataBlock.outputValue函数只允许开发人员写入而不能够读取它。尽管Maya没有对节点的输入属性和输出属性进行区分，但是通过使用独立的输入和输出函数可以更有效地提取和维护节点数据**
+          // 伪码
+          compute(plug, data)
+          {
+            // 获取input属性值distance和radius
+            MDataHandle distData = data.inputValue(distance);
+            MDataHandle radData = data.inputValuye(radius);
+            // distance即plug
+            // plug + data -> data handle -> value
+            double dist = distData.asDouble();
+            double rad = radData.asDouble();
+
+            // 将计算结果存储到rotation属性中，需要一个句柄对象指向这个属性。
+            MDataHandle rotData = data.outputValue(rotation); // 返回一个可以改写节点属性值的MDataHandle对象。
+            rotData.set(-dist/rad);
+
+            // 接下去时将节点的接头设置为"干净"标记，这就告诉Maya此接头已经被重新计算过了，现在所含的是的正确值。
+            data.setClean(plug);
+          }
+
+          creator函数
+          void *RollingNode::creator(){
+            return new RollingNode();
+          }
+
+          **initialize函数：用于设定节点的所有属性。由于节点的distance, radius, rotation属性都是静态成员，所有的节点实例对象共享它们的一个拷贝。这是因为属性并没有真正保存每个节点属性的数据。
+          相反，它们只是作为创建每个节点将要使用的属性数据的蓝图。从技术上讲，一个节点的属性数据存储在一个MDataBlock中，并通过使用MPlug来获取和设置属性的值。在C++ API的语境中，一个属性是通过使用MAttribute类及其派生类来创建和编辑的。Maya支持的属性值类型很广泛，既包括简单的数值类型（如bool, float, int）等，还包括更为复杂的复合类型数据。**
+          RollingNode::initialize(){
+            // MFnxxxAttribute： 定义属性。通过使用MFn功能的create函数来生成。
+            MFnNumetricAttribute nAttr;
+            distance = nAttr.create("distance", "dist", MFnNumetricData::kDouble, 0.0);
+            radius = nAttr.create("radious", "rad", MFnNumetricData::kDouble, 0.0);
+            MFnUnitAttribute uAttr;
+            rotation = uAttr.create("rotation", "rot", MFnUnitAttribute::kAngle, 0.0);
+
+            // 创建了所有属性后，通过调用MPxNode类的addAttribute函数将其添加到节点中。
+            addAttribute(distance);
+            addAttribute(radius);
+            addAttribute(rotation);
+
+            // 为了让Maya知道这些属性是如何相互影响的，必须使用attributeAffects函数来显式地声明这一点。
+            attributeAffects(distance, rotation);
+            attributeAffects(radius, rotation);
+          }
+
+          // 注册命令的地方添加注册节点的代码
+          pluginFn.registerNode("RollingNode", RollingNode::id, RollingNode::creator, RollingNode::initialize);
+          pluginFn.deregisterNode(RollingNode::id);
+      }
+  }
+  ```
+  - 二、Melt插件, 模拟物体融化的效果。演示复杂属性。演示构造历史。
+  ```
+  有句话需要理解一下： nurbsSphereShape1节点存储了最终的NURBS曲面。这个shape节点还要负责显示其形状。 ？？plug or MObject属性只是数据的描述， 具体数据存放在MDataBlock中。？
+  
+  复杂属性： 属性存储一个完整的NURBS曲面。这个NURBS曲面属性能够被存储在节点中并且可以连接到其他节点。所以NURBS曲面信息可以通过连接从一个节点有效地传递到到另一个节点中。
+  
+  构造历史：
+  命令会自动地动画化节点的属性。
+  
+  // 命令代码
+  doIt(){
+    MSelectionList selection;
+    MGlobal::getActiveSelectionList(selection);
+    //获取动画范围
+    MTime startTime = MAnimControl::minTime();
+    MTime endTime = MAnimControl::maxTime();
+    
+    / 在选定的对象中迭代所有NURBS对象
+    MItSelectionList iter(selection, MFn::kNurbsSurface);
+    
+    // 在所有NURBS对象中获取形体节点
+    MObject shapeNode;
+    iter.getDependNode(shapeNode);
+    
+    // 通过MFnDependencyNode函数集合获取至shape节点的create属性的接头。这个属性中存储了一个NURBS曲面。
+    MFnDependencyNode shapeFn(shapeNode);
+    MPlug createPlug = shapeFn.findPlug("create"); // 查找Plug
+    
+    // 输入属性只能由一个输入连接
+    MPlugArray srcPlugs;
+    createPlug.connectedTo(srcPlugs, true, false); // 获取连接到当前接头的所有接头。连接是没有方向的。
+    
+    MPlug srcPlug = srcPlugs[0];
+    
+    // 插入一个melt节点
+    MObject meltNode = dgMod.createNode(MeltNode::id);
+    
+    
+    MFnDependencyNode meltFn(meltNode);
+    MPlug outputSurfacePlug = meltFn.findPlug("outputSurface");
+    MPlug inputSurfacePlug = meltFn.findPlug("inputSurface");
+    
+    // 断开已有连接
+    dgMod.disconnect(srcPlug, createPlug);
+    
+    // 连接不同节点属性的接头
+    dgMod.connect(srcPlug, inputSurfacePlug);
+    dgMod.connect(outputSurfacePlug, createPlug);
+    
+    // 重命名melt节点
+    static i = 0;
+    MString name = MString("melting")+i++;
+    dgMod.renameNode(meltNode, name);
+    
+    // 为melt节点的amount属性设置一个关键帧。
+    // 设置关键帧的方法：
+    //  1.手动创建一个animCurve节点并把它连接到amount属性上。然后对animCurve节点使用MFnAnimCurve函数集来设置关键帧。
+    //  2.更简单的方法：使用MEL命令setKeyframe来为属性设置关键帧。事先写好MEL语句，然后传给MDGModifier的commandToExecute函数。
+    MString cmd;
+    cmd = MString("setKeyframe -at amount -t ")+startTime.value() +" -v " + 0.0 + " " + name;
+    dgMod.commandToExecute(cmd);
+    cmd = MString("setKeyframe -at amount -t ")+endme.value() +" -v " + 1.0 + " " + name;
+    dgMod.commandToExecute(cmd);
+    
+    return dgMod.redoIt();
+  }
+  redoIt(){
+    return dgMod.doIt(); 
+  }
+  undoIt(){
+    return dgMod.undoIt();
+  }
+  
+  // 节点代码
+  MObject MeltNode::inputSurface;
+  MObject MeltNode::outputSurface;
+  MObject MeltNode::amount;
+  
+  // 注意MDataBlock的接口
+  // MDataHandle      inputValue ( const MPlug & plug, MStatus * ReturnStatus = NULL );
+	// MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL );
+  
+  MStatus MeltNode::compute(const MPlug &plug, MDataBlock &data){
+    if(plug == outputSurface){
+      //获得属性句柄. plug + data + attribute -> dataHandle
+      MDataHandle amountHnd = data.inputValue(amount);
+      MDataHandle inputSurfaceHnd = data.inputValue(inputSurface);
+      MDataHandle outputSurfaceHnd = data.inputValue(outputSurface);
+      
+      // dataHandle -> value
+      double amt = amountHnd.asDouble();
+      MObject inputSurfaceObj = inputSurfaceHnd.asNurbsSurface();
+      
+      // Maya将一些较为复杂的数据类型（例如NURBS曲面）存储为特殊的集合体数据。为了能够创建和存储这种类型的数据，就需要使用适当的MFnGeometryData函数。
+      
+      // 用MFnNurbsSurfaceData创建新的数据块。
+      MFnNurbsSurfaceData surfaceDataFn;
+      MObject newSurfaceData = surfaceDataFn.create();
+      
+      // 复制最初的输入曲面信息复制到这个新的输出曲面数据块中。
+      
+      
+    }
+  }
+  
+ 
+  ```
 # 其他
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
