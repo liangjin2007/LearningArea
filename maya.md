@@ -1146,6 +1146,14 @@ void xxxCmd::setTime(){
       MObject newSurfaceData = surfaceDataFn.create();
       
       // 复制最初的输入曲面信息复制到这个新的输出曲面数据块中。
+      MFnNurbsSurface surfaceFn;
+      surfaceFn.copy(inputsurfaceObj, newSurfaceData);
+      
+      surfaceFn.setObject(newSurfaceData); // 为啥一个MFnNurbsSurface的功能集可以设置到一个NurbsSurfaceData的MObject上。
+      MPointArray pts;
+      surfaceFn.getCVs(pts);
+      
+      // TODO: 继续
       
       
     }
