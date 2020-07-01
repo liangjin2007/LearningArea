@@ -1120,43 +1120,67 @@ void xxxCmd::setTime(){
   }
   
   // 节点代码
-  MObject MeltNode::inputSurface;
-  MObject MeltNode::outputSurface;
-  MObject MeltNode::amount;
-  
-  // 注意MDataBlock的接口
-  // MDataHandle      inputValue ( const MPlug & plug, MStatus * ReturnStatus = NULL );
-	// MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL );
-  
-  MStatus MeltNode::compute(const MPlug &plug, MDataBlock &data){
-    if(plug == outputSurface){
-      //获得属性句柄. plug + data + attribute -> dataHandle
-      MDataHandle amountHnd = data.inputValue(amount);
-      MDataHandle inputSurfaceHnd = data.inputValue(inputSurface);
-      MDataHandle outputSurfaceHnd = data.inputValue(outputSurface);
-      
-      // dataHandle -> value
-      double amt = amountHnd.asDouble();
-      MObject inputSurfaceObj = inputSurfaceHnd.asNurbsSurface();
-      
-      // Maya将一些较为复杂的数据类型（例如NURBS曲面）存储为特殊的集合体数据。为了能够创建和存储这种类型的数据，就需要使用适当的MFnGeometryData函数。
-      
-      // 用MFnNurbsSurfaceData创建新的数据块。
-      MFnNurbsSurfaceData surfaceDataFn;
-      MObject newSurfaceData = surfaceDataFn.create();
-      
-      // 复制最初的输入曲面信息复制到这个新的输出曲面数据块中。
-      MFnNurbsSurface surfaceFn;
-      surfaceFn.copy(inputsurfaceObj, newSurfaceData);
-      
-      surfaceFn.setObject(newSurfaceData); // 为啥一个MFnNurbsSurface的功能集可以设置到一个NurbsSurfaceData的MObject上。
-      MPointArray pts;
-      surfaceFn.getCVs(pts);
-      
-      // TODO: 继续
-      
-      
-    }
+  {
+	  MObject MeltNode::inputSurface;
+	  MObject MeltNode::outputSurface;
+	  MObject MeltNode::amount;
+
+	  // 注意MDataBlock的接口
+	  // MDataHandle      inputValue ( const MPlug & plug, MStatus * ReturnStatus = NULL );
+		// MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL );
+
+	  MStatus MeltNode::compute(const MPlug &plug, MDataBlock &data){
+	    if(plug == outputSurface){
+	      //获得属性句柄. plug + data + attribute -> dataHandle
+	      MDataHandle amountHnd = data.inputValue(amount);
+	      MDataHandle inputSurfaceHnd = data.inputValue(inputSurface);
+	      MDataHandle outputSurfaceHnd = data.inputValue(outputSurface);
+
+	      // dataHandle -> value
+	      double amt = amountHnd.asDouble();
+	      MObject inputSurfaceObj = inputSurfaceHnd.asNurbsSurface();
+
+	      // Maya将一些较为复杂的数据类型（例如NURBS曲面）存储为特殊的集合体数据。为了能够创建和存储这种类型的数据，就需要使用适当的MFnGeometryData函数。
+
+	      // 用MFnNurbsSurfaceData创建新的数据块。
+	      MFnNurbsSurfaceData surfaceDataFn;
+	      MObject newSurfaceData = surfaceDataFn.create();
+
+	      // 复制最初的输入曲面信息复制到这个新的输出曲面数据块中。
+	      MFnNurbsSurface surfaceFn;
+	      surfaceFn.copy(inputsurfaceObj, newSurfaceData);
+
+	      surfaceFn.setObject(newSurfaceData); // 为啥一个MFnNurbsSurface的功能集可以设置到一个NurbsSurfaceData的MObject上。
+	      MPointArray pts;
+	      surfaceFn.getCVs(pts);
+
+	      // 算法更新pts
+
+	      // 将新的控制点更新到NURBS曲面。
+	      surfaceFn.setCVs(pts);
+
+	      // 调用MFnNurbsSurface对象的updateSurface函数
+	      surfaceFn.updateSurface();
+	      把输出NURBS曲面属性设置为新的NURBS曲面数据。
+	      outputSurfaceHnd.set(newSurfaceData);
+
+	      data.setClean(plug);   
+	    }else
+	      stat = MS::kUnknownParameter;
+	    return stat;
+	  }
+	  
+	  在MeltNode::initialize()中设置属性可动画化
+	  {
+	  	MFnNumetricAttribute nAttr;
+	  	nAttr.setKeyable(true);
+	  	MFnTypeAttribute tAttr;
+		tAttr.create("inputSurface", "is", MFnNurbsSurfaceData::kNurbsSurface);
+		tAttr.setHidden(true);
+		
+		// 由于outputSurface始终可以从输入inputSurface计算出来，所以不需要存储在Maya场景中。
+		tAttr.setStorable(false);
+		
   }
   
  
