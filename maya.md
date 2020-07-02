@@ -1181,10 +1181,83 @@ void xxxCmd::setTime(){
 		// 由于outputSurface始终可以从输入inputSurface计算出来，所以不需要存储在Maya场景中。
 		tAttr.setStorable(false);
 		
+	 }
   }
   
- 
   ```
+  - 三、groundShadow插件, MDagModifier类。
+  ```
+  doIt(){
+	  MFn::kGeometric
+	  MDagPath geomTransformTransform(geomShapePath);
+	  geomTransformTransform.pop(); // 得到transform对象。
+	  MFnDagNode geomShapeFn(geomShapePath);
+	  MObject newGeomTransformObj = geomShapeFn.duplicate(false, false); // 不要创建实例
+
+	  //MFnDagNode也可以获得层级.
+	  MFnDagNode newGeomShapeFn(newGeomTransformObj);
+	  newGeomShapeFn.setObject(newGeomShapeFn.child(0)); // 通过MFnDagNode获得子对象
+
+	  //将新创建的形体节点放置到原始形体的父transform节点下面。
+	  //MFn --> MObject
+	  //DagPath --> MObject 通过geomTransformPath.node();
+	  dagMod.reparentNode(newGeomShapeFn.object(), geomTransformPath.node()); // MFn对象获取它所指向的MObject， 及使用dagMod reparent。
+
+	  // 将shape节点添加到着色组。
+	  shadingGroupFn.addMember(newGeomShapeFn.object());
+
+	  // 创建groundShadow节点
+	  MObject shadowNode = dagMod.MDGModifier::createNode(GroundShadowNode::id);
+
+	  // 为groundShadow节点的各个属性生成接头。
+	  MPlug castingSurfacePlug = shadowNodeFn.findPlug("castingSurface");
+	  MPlug shadowSurfacePlug = shadowNodeFn.findPlug("shadowSurface");
+	  MPlug lightPositionPlug = shadowNodeFn.findPlug("lightPosition");
+
+	  // 判断shape节点类型
+	  // geomShapePath.apiType(), MFn::kMesh, MFn::kNurbsSurface
+	  MString outGeomPlugName, inGeomPlugName;
+	  switch(geomShapePath.apiType()){
+		case MFn::kMesh:
+		outGeomPlugName = "worldMesh";
+		inGeomPlugName = "inMesh";
+		break;
+		case MFn::kNurbsSurface:
+		outGeomPlugName = "worldSpace";
+		inGeomPlugName = "create";
+		break;
+	  };
+
+	  // 几何体输出属性是一个输出接头数组而不是单个输出接头。 为什么会有多个呢？ 每个实例对象都存在一个不同的输出。
+
+	  // 判断当前选择的对象对应着几何体的哪个实例
+	  unsigned int instanceNum = geomShapePath.instanceNumber();
+	  MPlug's selectAncestorLogicalIndex。
+  }
+  
+  // 节点代码
+  compute(plug, data){
+  ...
+  //对每个点进行更新操作
+  MPoint surfPoint;
+  double denom, t;
+  MItGeometry iter( shadowSurfaceHnd, false);
+  for(;!iter.isDone(); iter.next()){
+  	surfPoint = iter.position(MSpace::kWorld);
+	iter.setPosition(surfPoint, MSpace::kWorld);
+  };
+  data.setClean(plug);
+  }
+  ::initialize(){
+  	MFnUnitAttribute uAttr; // 距离单位
+	groundHeight = uAttr.create("groundHeight", "grnd", MFnUnitAttribute::kDistance, 0.0);
+	uAttr.setKeyable(true);
+	
+  }
+  
+  ```
+  
+  
 # 其他
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
