@@ -1252,11 +1252,33 @@ void xxxCmd::setTime(){
   	MFnUnitAttribute uAttr; // 距离单位
 	groundHeight = uAttr.create("groundHeight", "grnd", MFnUnitAttribute::kDistance, 0.0);
 	uAttr.setKeyable(true);
-	
+	// 可接受多种不同的数据类型的属性
+	MFnGenericAttribute gAttr;
+	castingSurface = gAttr.create("castingSurface", "csrf");
+	gAttr.addAccept(MFnData::kMesh);
+	gAttr.addAccept(MFnData::kNurbsSurface);
+	gAttr.setHidden(true);
   }
   
   ```
-  
+  - 四、属性
+    - 所有的节点属性都是用MFnAttribute类的派生类定义的。
+    - Maya利用属性重所定义的信息，来实际创建存在于各个节点内的数据。
+    - 一个属性只是一个蓝图，所以从逻辑上推理它只能被定义一次。
+  ```
+  1.创建属性
+  MFnAttribute::create()
+  MPxNode::addAttribute()
+ 
+  2. 复合属性
+  用来将其他属性分成组，被分成组的属性称为复合属性的子。而复合属性则称为被分成组的属性的父。
+  MFnCompoundAttribute compFn;
+  playerAttr = compFn.create("player", "ply");
+  playerAttr.addChild(nameAttr);
+  playerAttr.addChild(homeRunsAttr);
+ 
+ 
+  ```
   
 # 其他
 
