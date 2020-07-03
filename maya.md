@@ -1328,28 +1328,28 @@ void xxxCmd::setTime(){
   访问数据需要通过接头来操作。接头提供了访问给定节点内的实际数据的一种机制。通过指定一个节点及其属性，就可以创建相应的接头。节点用MFnDependencyNode表示，属性用字符串名字表示。
   MFnDependencyNode nodeFn(ballObj);
   MPlug transxPlg = nodeFn.findPlug("translateX");
-  
+
   //取值
   double tx;
   transxPlg.getValue(tx);
-  
+
   //设值
   transxPlg.setValue(double(2.3));
-  
+
   //默认状态下，取的是当前时间的值。
   //如何获取其他时刻的值 这时要使用MDGContext类。
   MTime t(1.5, MTime::kSeconds);
   MDGContext ctx(t);
   transxPlg.getVlaue(tx, ctx);
-  
+
   // 改变场景的当前时间，然后再设置属性的值。
   MTime t(1.5,MTime::kSeconds);
   MGlobal::viewFrame(t); // 这个函数常常要求DG进行更新。所以应尽量少用这个函数。
-  
+
   要为属性创建动画化的值，可以通过调用MEL中的keyframe命令。
-  
-  f
-  
+
+  复合接头
+          
   
   ```
 # 其他
