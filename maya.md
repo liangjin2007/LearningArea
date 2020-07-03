@@ -1265,6 +1265,8 @@ void xxxCmd::setTime(){
     - 所有的节点属性都是用MFnAttribute类的派生类定义的。
     - Maya利用属性重所定义的信息，来实际创建存在于各个节点内的数据。
     - 一个属性只是一个蓝图，所以从逻辑上推理它只能被定义一次。
+    - 复合属性？
+    - 数组属性？
   ```
   1.创建属性
   MFnAttribute::create()
@@ -1280,40 +1282,40 @@ void xxxCmd::setTime(){
   addAttribute(homeRunsAttr);
   addAttribute(playerAttr);
  
- 3.默认值
- 每个属性都有一个默认值。 
- 如果在过程中属性始终是默认值，那么不会保存到硬盘上。
- 默认值发生变化容易引起问题。
+  3.默认值
+  每个属性都有一个默认值。 
+  如果在过程中属性始终是默认值，那么不会保存到硬盘上。
+  默认值发生变化容易引起问题。
  
- MFnEnumAttribute enumFn;
- MFnNumetricAttribute numFn;
- attr = enumFn.create("days", "d", 0); // create传入默认值
- or
- // numeric fn to create boolean
- attr = numFn.create("active", "act", MFnNumericData::kBoolean); 
- numFn.setDefault(false); // 使用MFnxxx::setDefault
+  MFnEnumAttribute enumFn;
+  MFnNumetricAttribute numFn;
+  attr = enumFn.create("days", "d", 0); // create传入默认值
+  or
+  // numeric fn to create boolean
+  attr = numFn.create("active", "act", MFnNumericData::kBoolean); 
+  numFn.setDefault(false); // 使用MFnxxx::setDefault
  
- 4.属性的性质
- Readable 可以作为连接的源属性 默认true
- Writable 可以作为连接的源属性 默认true
- Connectable                 true
- Storable                    true
- Keyable                     false
- Hidden                      false
- UsedAsColor                 false
- *Cached                      false* 避免调用compute获取值
- *Array                       true*  
- 通过将属性设定为数组，就可以使其保存一系列的数据实例。数组属性也称为多值属性。一个属性在默认状态下不是数组
- IndexMatter  索引不应更改    false
- ArrayDataBuilder 使用数组数据构造程序来设定值 false
- Indeterminant    确定是否可以用于求值        false
- DisconnectBehavior 断开连接后的行为          kNothing
- Internal           内部的                   false
- RenderSource       改写渲染取样信息	      false
+  4.属性的性质
+  Readable 可以作为连接的源属性 默认true
+  Writable 可以作为连接的源属性 默认true
+  Connectable                 true
+  Storable                    true
+  Keyable                     false
+  Hidden                      false
+  UsedAsColor                 false
+  *Cached                      false* 避免调用compute获取值
+  *Array                       true*  
+  通过将属性设定为数组，就可以使其保存一系列的数据实例。数组属性也称为多值属性。一个属性在默认状态下不是数组
+  IndexMatter  索引不应更改    false
+  ArrayDataBuilder 使用数组数据构造程序来设定值 false
+  Indeterminant    确定是否可以用于求值        false
+  DisconnectBehavior 断开连接后的行为          kNothing
+  Internal           内部的                   false
+  RenderSource       改写渲染取样信息	      false
+  
  
- 
- 5.动态属性 p298
- 可以添加到节点实例或者所有同类型的节点实例。
+  5.动态属性 p298
+  可以添加到节点实例或者所有同类型的节点实例。
   ```
   - compute函数
   ```
@@ -1349,9 +1351,54 @@ void xxxCmd::setTime(){
   要为属性创建动画化的值，可以通过调用MEL中的keyframe命令。
 
   复合接头
-          
-  
+  {
+	  //用MPlug定位复合属性。
+	  MFnDependencyNode nodeFn(transformNodeObj);
+	  MPlug transPlg = nodeFn.findPlug("translate"); // 引用的是translate属性， 包含三个子属性。
+
+	  //子属性如何得到？ 是直接transPlg.child("translateX")? 不是。
+	  MObject transXAttr = nodeFn.attribute("translateX");
+	  MPlug transxPlg = transPlg.child(transXAttr); // 获取子接头
+	  
+	  获取子接头的父接头
+	  transxPlg.parent();
+	  
+	  遍历子接头numChildren(), child(i)
+	  
+  }
+  数组接头
+  {
+	  引用数组属性的接头称为数组接头，引用数组中元数的接头称为元素接头。
+	  
+	  unsigned int nElems = arrayPlug.numElements();
+	  for(unsigned int i = 0; i < nElems; i++){
+	  	MPlug elemPlug = arrayPlug.elementByPhysicalIndex(i); // 相对地还有个logicalIndex()
+  	  }
+	  
+	  向数组中添加元素
+	  MObject myNodeObj = dgMod.createNode(MyNode::id);
+	  MFnDependencyNode depFn(myNodeObj);
+	  MPlug scoresPlug = depFn.findPlug("scores");
+	  
+	  数组中的元素都有两个索引：物理索引和逻辑索引。当从数组中删除一个元素时，某些元素的物理索引就可能会发生变化，但逻辑索引不会发生变化。MEL中只能获得数组中元素的逻辑索引。
+	  
+	  在创建属性之间的连接时，会涉及到元素的物理索引和逻辑索引。属性之间的连接是基于它们的逻辑索引来完成的。
+	  
+	  // 创建新元素
+	  MPlug scorePlg;
+	  scorePlg = scoresPlug.elementByLogicalIndex(0); // 创建0号逻辑元素并设值，如果0号逻辑索引已存在，则不创建。
+	  scorePlg.setValue(46);
+	  
+	  // 获取逻辑索引的一个完整列表
+	  MIntArray logIndices;
+	  scoresPlg.getExistingArrayAttributeIndices(logIndices);
+	  
+	  // 已知元素接头，获取父数组接头。跟复合接头不一样。
+	  MPlug arrayPlg = scorePlg.array();
+  }
   ```
+  
+  
 # 其他
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
