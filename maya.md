@@ -1276,10 +1276,82 @@ void xxxCmd::setTime(){
   playerAttr = compFn.create("player", "ply");
   playerAttr.addChild(nameAttr);
   playerAttr.addChild(homeRunsAttr);
+  addAttribute(nameAttr);
+  addAttribute(homeRunsAttr);
+  addAttribute(playerAttr);
+ 
+ 3.默认值
+ 每个属性都有一个默认值。 
+ 如果在过程中属性始终是默认值，那么不会保存到硬盘上。
+ 默认值发生变化容易引起问题。
+ 
+ MFnEnumAttribute enumFn;
+ MFnNumetricAttribute numFn;
+ attr = enumFn.create("days", "d", 0); // create传入默认值
+ or
+ // numeric fn to create boolean
+ attr = numFn.create("active", "act", MFnNumericData::kBoolean); 
+ numFn.setDefault(false); // 使用MFnxxx::setDefault
+ 
+ 4.属性的性质
+ Readable 可以作为连接的源属性 默认true
+ Writable 可以作为连接的源属性 默认true
+ Connectable                 true
+ Storable                    true
+ Keyable                     false
+ Hidden                      false
+ UsedAsColor                 false
+ *Cached                      false* 避免调用compute获取值
+ *Array                       true*  
+ 通过将属性设定为数组，就可以使其保存一系列的数据实例。数组属性也称为多值属性。一个属性在默认状态下不是数组
+ IndexMatter  索引不应更改    false
+ ArrayDataBuilder 使用数组数据构造程序来设定值 false
+ Indeterminant    确定是否可以用于求值        false
+ DisconnectBehavior 断开连接后的行为          kNothing
+ Internal           内部的                   false
+ RenderSource       改写渲染取样信息	      false
  
  
+ 5.动态属性 p298
+ 可以添加到节点实例或者所有同类型的节点实例。
   ```
+  - compute函数
+  ```
+  通过一个MDataBlock类型的数据快来获取和设置节点的属性值。只能通过MDataBlock数据快来获取节点所有的属性值，然后再通过所获取的输入属性值计算出输出属性值。
+  在compute函数的计算中，不能使用MDataBlock以外的任何其他数据。
   
+  在compute函数中不要调用MEL的setAttr命令和getAttr命令。如果在此求值过程中直接或间接请求同一接头的值，都会导致系统进入一个死循坏。防止任何的间接DG重新求值。
+  ```
+  - 接头
+  ```
+  属性仅仅是在节点内创建数据的一个蓝图。它除了提供如何创建这个数据的规范外不保存任何数据。
+  访问数据需要通过接头来操作。接头提供了访问给定节点内的实际数据的一种机制。通过指定一个节点及其属性，就可以创建相应的接头。节点用MFnDependencyNode表示，属性用字符串名字表示。
+  MFnDependencyNode nodeFn(ballObj);
+  MPlug transxPlg = nodeFn.findPlug("translateX");
+  
+  //取值
+  double tx;
+  transxPlg.getValue(tx);
+  
+  //设值
+  transxPlg.setValue(double(2.3));
+  
+  //默认状态下，取的是当前时间的值。
+  //如何获取其他时刻的值 这时要使用MDGContext类。
+  MTime t(1.5, MTime::kSeconds);
+  MDGContext ctx(t);
+  transxPlg.getVlaue(tx, ctx);
+  
+  // 改变场景的当前时间，然后再设置属性的值。
+  MTime t(1.5,MTime::kSeconds);
+  MGlobal::viewFrame(t); // 这个函数常常要求DG进行更新。所以应尽量少用这个函数。
+  
+  要为属性创建动画化的值，可以通过调用MEL中的keyframe命令。
+  
+  f
+  
+  
+  ```
 # 其他
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
