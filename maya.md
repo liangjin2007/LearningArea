@@ -1127,7 +1127,7 @@ void xxxCmd::setTime(){
 
 	  // 注意MDataBlock的接口
 	  // MDataHandle      inputValue ( const MPlug & plug, MStatus * ReturnStatus = NULL );
-		// MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL );
+	  // MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL );
 
 	  MStatus MeltNode::compute(const MPlug &plug, MDataBlock &data){
 	    if(plug == outputSurface){
@@ -1268,11 +1268,11 @@ void xxxCmd::setTime(){
     - 复合属性？
     - 数组属性？
   ```
-  1.创建属性
+  创建属性
   MFnAttribute::create()
   MPxNode::addAttribute()
  
-  2. 复合属性
+  复合属性
   用来将其他属性分成组，被分成组的属性称为复合属性的子。而复合属性则称为被分成组的属性的父。
   MFnCompoundAttribute compFn;
   playerAttr = compFn.create("player", "ply");
@@ -1282,7 +1282,7 @@ void xxxCmd::setTime(){
   addAttribute(homeRunsAttr);
   addAttribute(playerAttr);
  
-  3.默认值
+  默认值
   每个属性都有一个默认值。 
   如果在过程中属性始终是默认值，那么不会保存到硬盘上。
   默认值发生变化容易引起问题。
@@ -1314,17 +1314,17 @@ void xxxCmd::setTime(){
   RenderSource       改写渲染取样信息	      false
   
  
-  5.动态属性 p298
+  动态属性 p298
   可以添加到节点实例或者所有同类型的节点实例。
   ```
-  - compute函数
+  - 五、compute函数
   ```
   通过一个MDataBlock类型的数据快来获取和设置节点的属性值。只能通过MDataBlock数据快来获取节点所有的属性值，然后再通过所获取的输入属性值计算出输出属性值。
   在compute函数的计算中，不能使用MDataBlock以外的任何其他数据。
   
   在compute函数中不要调用MEL的setAttr命令和getAttr命令。如果在此求值过程中直接或间接请求同一接头的值，都会导致系统进入一个死循坏。防止任何的间接DG重新求值。
   ```
-  - 接头
+  - 六、接头
   ```
   属性仅仅是在节点内创建数据的一个蓝图。它除了提供如何创建这个数据的规范外不保存任何数据。
   访问数据需要通过接头来操作。接头提供了访问给定节点内的实际数据的一种机制。通过指定一个节点及其属性，就可以创建相应的接头。节点用MFnDependencyNode表示，属性用字符串名字表示。
@@ -1397,8 +1397,83 @@ void xxxCmd::setTime(){
 	  MPlug arrayPlg = scorePlg.array();
   }
   ```
+  - 七、数据块datablock
+    - 数据块是真正存储节点所需数据的地方。节点除了在一个或多个数据块中存储数据外，不会在其他地方存储保存数据。 
+    - 开发人员无需知道数据块内部的工作机制以及它们是如何一起协调工作的，而只需知道使用MDataBlock数据块，MDataHandle类和MArrayDataHandle类来提取和设置节点的数据就可以了。
   
+  ```
+  1.访问单值的节点属性数据
+  data.inputValue(attributeName), data.outputValue(attributeName)。这两个函数都将返回一个MDataHandle类的实例来访问数据。
+    // MDataHandle      inputValue ( const MPlug & plug, MStatus * ReturnStatus = NULL ); // 数据是只读的
+    // MDataHandle      inputValue ( const MObject & attribute, MStatus * ReturnStatus = NULL ); // 只能用来改写
+  2.访问数组属性时，应当使用data.inputArrayValue()和data.outputArrayValue()函数。这两个函数都会返回一个MArrayDataHandle。用它可以访问数组接头中的单个元素。
+  {
+  	MArrayDataHandle scoresHnd = data.inputArrayValue(scoresAttr);
+	MdataHandle avgHnd = data.outputValue(avgAttr);
+	const unsigned int nElems = scoresHnd.elementCount();
+	for(i = 0; i < nElems; i++){
+		scoresHnd.jumpToElement(i);
+		MDataHandle elemHnd = scoresHnd.inputValue();
+		sum += elemHnd.asInt();
+	}
+	sum /= nElems;
+	avgHnd.set(sum);
+	
+	data.setClean(plug);
+  }
   
+  ```
+  - 八、节点设计指导方针
+    - 保持节点功能的单一性
+    - 节点应始终不“知道”它所处的环境或语境
+    - 节点不应使用其自身之外的数据。
+    - 一个节点始终不应该检查自己的属性是否连接到其他节点。
+    - 一个节点应始终不能确定自己何时被求值。
+    
+  ```
+  
+  ```
+- 定位器
+  - BasicLocator 
+- 操纵器
+  - 跟Attribute Editor一样是用来修改属性值的，但更直观。
+- 变形器
+- 高级C++ API
+```
+节点引用
+MNodeMessage的addNameChangeCallback函数
+
+代理对象
+MPxNode类的userNode函数
+postConstructor函数
+
+网络化接头和非网络化接头
+接头代表属性的引用：MPlug::info函数可以查看路径，记得查看数组接头
+接头存储连接信息
+为每个节点保存了一个接头树。 称为网络化接头。从逻辑上推理，节点所有被连接的属性都对应这一个网络化接头。
+MPlug::isNetworked
+
+语境
+MDGContext
+MDGContext::isNormal函数可判断是否是当前时刻
+接头在某一时刻求值
+
+数据块
+MPxNode的forceCache函数可在给定时间为节点强制创建一个数据块。使用MDataBlock类的context函数来获得给定数据块的语境。
+
+传播标记？？
+传播标记可以有效地阻止已经被设置的接头的脏位标记消息的传播。dgdirty命令。
+
+直接传递处理
+nodeState属性定义了节点是否应该计算它的输出属性。是个枚举值， 0正常， 1直接传递，2阻塞，3内部禁止
+直接传递：直接将输入属性作为输出属性输出。
+
+循环的节点从属关系
+
+
+
+
+``` 
 # 其他
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
