@@ -1469,12 +1469,13 @@ nodeState属性定义了节点是否应该计算它的输出属性。是个枚�
 直接传递：直接将输入属性作为输出属性输出。
 
 循环的节点从属关系
-
-
-
-
 ``` 
+
 # 其他
+
+## 开发
+- 如何调试Maya插件 https://nickcullen.net/blog/misc-tutorials/how-to-debug-a-maya-2016-c-plugin-using-visual-studio-2015/
+- 如下下载Maya devkit 
 
 ## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
 
@@ -1491,86 +1492,14 @@ getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim
 ```
 
 ## Maya SDK
-博客 https://blog.csdn.net/whwst/article/details/81604853
-https://www.autodesk.com/developer-network/platform-technologies/maya
-
-
-## Maya devkit源代码阅读
-```
-asciiToBinary.cpp
-#include <maya/MStatus.h>
-#include <maya/MString.h> 
-#include <maya/MFileIO.h>
-#include <maya/MLibrary.h>
-#include <maya/MIOStream.h>
-
-helloWorld.cpp
-#include <maya/MGlobal.h>
-
-MStatus::perror(...);
-MGlobal::displayInfo("Hello world! (script output)" );
-MGlobal::displayError
-MGlobal::displayWarning
-
-MGlobal::executeCommand( "print \"Hello world! (command script output)\\n\"", true );
-
-readAndWrite.cpp
-MFileIO::open()
-MFileIO::saveAs()
-MFileIO::exportAll
-MFileIO::currentFile()
-
-surfaceCreate.cpp
-#include <maya/MObject.h>
-#include <maya/MDoubleArray.h>
-#include <maya/MPointArray.h>
-#include <maya/MPoint.h>
-#include <maya/MFnNurbsSurface.h>
-MFnNurbsSurface mfnNurbsSurf;
-mfnNurbsSurf.create(...)
-
-surfaceTwise.cpp
-#include <maya/MVector.h>
-#include <maya/MMatrix.h>
-#include <maya/MArgList.h>
-#include <maya/MSelectionList.h>
-#include <maya/MItSelectionList.h>
-#include <maya/MItSurfaceCV.h>
-#include <maya/MItMeshVertex.h>
-#include <maya/MDagPath.h>
-MGlobal::selectByName(surface1, MGlobal::kReplaceList);
-
-MSelectionList slist;
-MGlobal::getActiveSelectionList( slist );
-if (iter.isDone()){}
-status = iter.getDagPath( objectPath, component );
-MFn::kNurbsSurface, MFn::kMesh, M
-MS == MStatus
-MS::kFailure;
-MItMeshVertex vertIter( objectPath, component, &status );
-for ( ; !vertIter.isDone(); vertIter.next() ) {}
-MPoint pnt = vertIter.position( MSpace::kWorld );
-status = vertIter.setPosition( pnt, MSpace::kWorld );
-vertIter.updateSurface(); // Tell maya to redraw the surface with all of our changes
-MItSurfaceCV cvIter( objectPath/*MDagPath*/, component/*MObject*/, true, &status );
-
-// Stream Indexing System
-adskDataIndex.h
-adskDataChannel.h
-adskDataStream.h
-
-
-```
-
-
+- 博客 https://blog.csdn.net/whwst/article/details/81604853
+- https://www.autodesk.com/developer-network/platform-technologies/maya
 - http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
 - github: https://github.com/topics/maya-plug
 - open source Maya rigging and animation software https://github.com/mgear-dev/mgear_dist
 
 ## Alembic
 Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取为一组非程序化的，与应用程序无关的烘焙几何体结果。
-
-
 
 ## Maya知识
 
