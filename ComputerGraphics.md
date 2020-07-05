@@ -1,8 +1,9 @@
 # 目录
 - 1.几何 
-- 2.渲染
-- 3.动画
-- 4 模拟
+- 2.实时渲染
+- 3.基于物理的渲染
+- 4.动画
+- 5 模拟
 
 ## 1.几何 
 - CS468-spring-12
@@ -25,8 +26,15 @@
 16.DEC(Gradient Operator grad f, vector calculus in R^3(div v, curl v, laplace v), 散度定理integrate(omega, div v, dA) = integrate(boundary(omega), dot(v, n), dl)， 格林定理integrate(omega, curl v, dA) = integrate(boundary(omega), dot(v, t), dl))
 17.Kinect(应用（Motion sensor, skeleton tracking, facial recognition, voice recognition，手持 3d对象建模， 室内户型生成，Kinect Fusion, 动捕数据生成， 深度图像特征）, RGBD Camera(RGB+Depth)->RGBD features(Sparse features+dense point cloud)->RGBD-ICP(RANSAC+ICP)->Global optimization->Point-Cloud Maps->Surfel Maps, Loop closure detection, Pose-graph optimization, sparse bundle adjustment)
 18.Shape segmentation（应用（形状分析任务，产品搜索，建模和编辑，匹配，提取，分类和聚类），元素拟合，比如用平面和圆柱拟合形体，方法（hierarchical mesh decomposition（面之间的距离如何定义，概率）， Randomized Cuts, Random walks， K-means, Core extraction, normalized cut, shape diameter function, superviced segmentation ）
-
 ```
+
+## 2.实时渲染
+
+## 3.基于物理的渲染
+
+## 4.动画
+
+## 5.模拟
 
 # 渲染
 ### PBR理论
