@@ -1,6 +1,25 @@
-# 渲染
-[toc]
+# 目录
+- 1.几何 
+- 2.渲染
+- 3.动画
+- 4 模拟
 
+## 1.几何 
+- CS468-spring-12
+```
+1.基础(网格， 三角网格，混合网格， 流形网格， C0连续， C1连续， C2连续 Genus, Graph definition, Graph embedding, vertex-degree or vertex valance, Euler-poinCare formula, 欧拉氏性数，非流形，)
+2.网格数据结构（half edge，face, set, shared vertex,  face based connectivity, edge based connectivity, adjacency matrix, corner table）
+3.Open Mesh
+4.曲面重建（深度扫描，注册，隐式曲面重建，逐对刚体注册， 3D数据对齐（ICP），奇异值分解可得到R, Point to Plane Error, 全局注册， spread out error, 基于Graph的方法）
+5.曲面重建（隐式曲面重建， level set, 特殊情况， SDF， 法相估计， kNN, PCA, Normal orientation propagation, SDF from point and normal, RBF, Marching Cube, Poisson重建， 迭代方法）
+6.微分几何（理解光滑性，重要的方向，弯曲性，修改曲面，数学基础。 曲线，曲面，弧长，长度，曲率，挠率，法向，从法向， Frenet Frame, 法曲率， 主曲率， 欧拉定理，曲面分类(isotropic, anisotropic), 主方向，Gauss-Bonnet定理， 基本形式， Laplace Operator, Laplace Beltrami Operator, 离散微分算子， Mesh上的函数， 函数的梯度， 离散Laplace Beltrami算子 Average Region, 离散法向，离散曲率）
+7.光顺(网格质量，Filtering, 傅里叶变换，Laplace smoothing, Spectral analysis, Taubin Smoothing, Smoothing by Laplace Eigen-decomposition, Geometry filtering, Surface fairing能量优化，Thin-plane energy, membrance energy)
+8.线性求解器（容易矩阵的求解（对角，上三角，下三角）间接求解器（迭代法： Jacobi, Gauss-Seidel, Conjugate Gradient）, 直接求解器（LU, QR， Cholesky）, Multigrid solvers， 稀疏矩阵的分解是不稀疏的，要通过Reorder去让分解也是稀疏的, Under-determinant系统， Over-determinant系统，Efficient Linear System Solvers for Mesh Processing）
+9.简化（Decimation方法（vertex clustering, incremental decimation, resampling, approximation））
+
+```
+
+# 渲染
 ### PBR理论
 - 知乎 https://zhuanlan.zhihu.com/p/53086060
 - ![](https://github.com/liangjin2007/data_liangjin/blob/master/PBR%E7%90%86%E8%AE%BA.jpg?raw=true)
