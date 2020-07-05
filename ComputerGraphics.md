@@ -16,6 +16,15 @@
 7.光顺(网格质量，Filtering, 傅里叶变换，Laplace smoothing, Spectral analysis, Taubin Smoothing, Smoothing by Laplace Eigen-decomposition, Geometry filtering, Surface fairing能量优化，Thin-plane energy, membrance energy)
 8.线性求解器（容易矩阵的求解（对角，上三角，下三角）间接求解器（迭代法： Jacobi, Gauss-Seidel, Conjugate Gradient）, 直接求解器（LU, QR， Cholesky）, Multigrid solvers， 稀疏矩阵的分解是不稀疏的，要通过Reorder去让分解也是稀疏的, Under-determinant系统， Over-determinant系统，Efficient Linear System Solvers for Mesh Processing）
 9.简化（Decimation方法（vertex clustering, incremental decimation, resampling, approximation））
+10.Progressive Mesh
+11.细分
+12.参数化（应用（纹理映射，法向贴图，Remeshing， 形状插值， 压缩）， 双射， 低扭曲， 高效计算， f（isometric, conformal, equiareal）, conformal map, comformal parameterization, minimal stretch paramterization, isometric(保持第一基本形式)， conformal（第一基本形式保持比例）, equiareal(第一基本形式的行列式保持不变), isometric<-->conformal+equiareal, 黎曼共形定理， 调和映射（曲面上的Laplace-Beltrami算子=0, 不保角，且不保双射， isometric-->conformal-->harmonic，什么情况下是双射的定理Rado-Kneser-Choquet定理），2d Barycentric drawings, Spring System(mean-value weight, harmonic weight, uniform weight), fixed boundary, non-convex boundary, free-boundary）
+13.参数化（自由边界（离散第一基本形式 ： MIPS, Stretch optimization, LSCM(conformal, linear), DCP(conformal, linear)， 角度（ABF, ABF++, LinABF）, edge length(Circle Patterns, CPMS(linear), CETM), Balance area/conformality(ARAP), More...）, J, 第一基本形式I与J的关系 I=J^T J）
+14.Remeshing(应用（设计，逆向工程，模拟，可视化）,方法分类（基于参数化的方法和基于曲面的方法）， Quad Remeshing)
+15.Deformation（Surface deformation, Space deformation, 方法（laplacian coordinates, edge length + dihedral angles, pyramid coordinates, local frames, ...）, Transform propagation(linear damp scale /shear, log scale damp rotation), MLS deformation, Rigid MLS, Deformation with a cage(Barycentric coordinates, mean-value coordinates, harmonic coordinates)）
+16.DEC(Gradient Operator grad f, vector calculus in R^3(div v, curl v, laplace v), 散度定理integrate(omega, div v, dA) = integrate(boundary(omega), dot(v, n), dl)， 格林定理integrate(omega, curl v, dA) = integrate(boundary(omega), dot(v, t), dl))
+17.Kinect(应用（Motion sensor, skeleton tracking, facial recognition, voice recognition，手持 3d对象建模， 室内户型生成，Kinect Fusion, 动捕数据生成， 深度图像特征）, RGBD Camera(RGB+Depth)->RGBD features(Sparse features+dense point cloud)->RGBD-ICP(RANSAC+ICP)->Global optimization->Point-Cloud Maps->Surfel Maps, Loop closure detection, Pose-graph optimization, sparse bundle adjustment)
+18.Shape segmentation（应用（形状分析任务，产品搜索，建模和编辑，匹配，提取，分类和聚类），元素拟合，比如用平面和圆柱拟合形体，方法（hierarchical mesh decomposition（面之间的距离如何定义，概率）， Randomized Cuts, Random walks， K-means, Core extraction, normalized cut, shape diameter function, superviced segmentation ）
 
 ```
 
