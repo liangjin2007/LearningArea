@@ -29,6 +29,7 @@
 ```
 
 ## 2.实时渲染
+- Real-Time Rendering https://github.com/liangjin2007/LearningArea/blob/master/realtime-rendering.md
 
 ## 3.基于物理的渲染
 
