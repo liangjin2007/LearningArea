@@ -1,4 +1,11 @@
-# Maya5编程全攻略
+# 目录
+- 1. Maya5编程全攻略
+- 2. devkit
+- 3. 领域知识
+- 4. FBXSDK
+- 5. UI
+
+# 1.Maya5编程全攻略
 
 ## Maya架构
 ```
@@ -1471,37 +1478,12 @@ nodeState属性定义了节点是否应该计算它的输出属性。是个枚�
 循环的节点从属关系
 ``` 
 
-# 其他
-
-## 开发
+# 2. devkit
 - 如何调试Maya插件 https://nickcullen.net/blog/misc-tutorials/how-to-debug-a-maya-2016-c-plugin-using-visual-studio-2015/
 - 如下下载Maya devkit 
+- Alembic:Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取为一组非程序化的，与应用程序无关的烘焙几何体结果。
 
-## 官方文档 http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__Commands_index_html
-
-## 常用一般命令
-```
-duplicate -upstreamNodes $inNodes;
-listRelatives -parent nodename;
-connectAttr
-findType
-objectType
-pointPosition Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200];
-Python cmds.pointPosition("Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[116]");
-getAttr  Louise_Anim_with_Marker_center:Louise_Anim_with_Marker_left:Louise_Anim_With_Marker:Louise.vtx[200]
-```
-
-## Maya SDK
-- 博客 https://blog.csdn.net/whwst/article/details/81604853
-- https://www.autodesk.com/developer-network/platform-technologies/maya
-- http://help.autodesk.com/view/MAYAUL/2018/CHS/?guid=__cpp_ref_index_html
-- github: https://github.com/topics/maya-plug
-- open source Maya rigging and animation software https://github.com/mgear-dev/mgear_dist
-
-## Alembic
-Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取为一组非程序化的，与应用程序无关的烘焙几何体结果。
-
-## Maya知识
+## 3.领域知识
 
 - 常规编辑器->显示层编辑器 可以控制可见性及播放时是否可见 
 - BlendShape相关
@@ -1534,7 +1516,7 @@ Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取
   - 法线贴图 http://download.autodesk.com/us/maya/maya_2014_gettingstarted_chs/index.html?url=files/GUID-267CCDE6-5697-4235-9728-805879FEBA2A.htm,topicNumber=d30e25303
 
 
-## FBXSDK
+# 4.FBXSDK
 - http://help.autodesk.com/view/FBX/2019/ENU/
 - Fbx动画 http://help.autodesk.com/view/FBX/2019/ENU/?guid=FBX_Developer_Help_animation_animation_data_structures_animation_classes_interrelation_html
 - object model
@@ -1560,7 +1542,7 @@ Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取
   - FbxAnimLayer包含一个或者多个FbxAnimCurveNode， 这些node连接到FbxAnimCurves。
   - FbxAnimCurve代表函数，可以驱动property的动画
   
-## UI写法
+# 5.UI
 ```
 用符号代表CheckBox.
 window;
