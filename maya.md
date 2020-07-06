@@ -1482,7 +1482,27 @@ nodeState属性定义了节点是否应该计算它的输出属性。是个枚�
 - 如何调试Maya插件 https://nickcullen.net/blog/misc-tutorials/how-to-debug-a-maya-2016-c-plugin-using-visual-studio-2015/
 - 如下下载Maya devkit 
 - Alembic:Alembic是一个开源的CG通用格式。 Alembic将复杂的动画场景提取为一组非程序化的，与应用程序无关的烘焙几何体结果。
+```
+0.affectsNode
+// 演示如何对动态属性设置类似于attributesAffects的效果。
 
+1.animCubeNode 
+// time1->animCubeNode->outputMeshShape->shapingGroup
+// 没有使用动画曲线
+// 整个mesh每帧都做了更新
+{
+	如何创建Mesh？ 两步:
+	MFnMeshData dataCreator;
+	MObject outData = dataCreator.create(&status);
+	MFnMesh mesh;
+	mesh.create(xxx, outData, &status);
+}
+
+2. animInfoCmd
+
+
+
+```
 ## 3.领域知识
 
 - 常规编辑器->显示层编辑器 可以控制可见性及播放时是否可见 
