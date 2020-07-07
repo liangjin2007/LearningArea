@@ -4,7 +4,7 @@
 - 3. 领域知识
 - 4. FBXSDK
 - 5. UI
-
+- 6. 例子
 # 1.Maya5编程全攻略
 
 ## Maya架构
@@ -1613,5 +1613,17 @@ $form;
 
 showWindow $window;
 ```
+
+# 6.例子
+```
+devkit/plug-ins/animExportUtil
+
+mgear_gist/plugins/weightDriver
+
+
+
+
+```
+
 
 
