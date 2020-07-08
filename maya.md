@@ -1620,7 +1620,11 @@ devkit/plug-ins/animExportUtil
 
 mgear_gist/plugins/weightDriver
 
+MFnArrayAttrsData fnOutput;
 
+user defined data function set.
+MPxData
+MFnPluginData
 
 
 ```
