@@ -1647,6 +1647,8 @@ node + attribute --> MPlug:  MPlug plug(node, attribute); plug.setValue(value);
 MPlug --> MObject, MDataHandle, double(etc) :  MObject data; status = plug.getValue(data);
 MPlug --> 所在的节点node : MObject otherNode = otherPlug.node(); 
 MPlug --> 所在的属性attribute : MObject attribute = plug.attribute();
+MPlug --> element MPlug : elemPlug = arrayPlug.elementByLogicalIndex(index, &status);
+
 
 接头MPlug, MString, MDagPath, MObject --> MSelectionList :  list.add(plug);
 MDagPath + component MObject -> MSelectionList : MFnSingleIndexedComponent fnVtxComp; MObject vtxComp = fnVtxComp.create(MFn::kMeshVertexComponent); list.add(path, vtxComp);
