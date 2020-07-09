@@ -1500,7 +1500,16 @@ nodeState属性定义了节点是否应该计算它的输出属性。是个枚�
 
 2. animInfoCmd
 
+getAttr/setAttr 或者MPlug getValue/setValue有点等价。
 
+3. 数组属性创建
+MFnTypedAttribute typedAttr;
+outputArrayAttr = typedAttr.create("xxx", "", MPxData::id, MObject::kNullObj, &stat);
+typedAttr.setWritable(false);
+typedAttr.setCached(false);
+typedAttr.setArray(true);
+typedAttr.setUsesArrayDataBuilder(true);
+typedAttr.setDisconnectBehavior(MFnAttribute::kDelete);
 
 ```
 ## 3.领域知识
@@ -1614,664 +1623,55 @@ $form;
 showWindow $window;
 ```
 
-# 6.例子
+# 6.数据转化
+
 ```
-devkit/plug-ins/animExportUtil
+# 属性attribute, 接头MPlug, 数据块MDataBlock, 数据句柄MDataHandle, 数组句柄MArrayDataHandle, 数据(简单数据， MPxData), MObject对象, MFnxxx
 
-mgear_gist/plugins/weightDriver
+attribute + datablock --> MDataHandle:  h = datablock.inputValue(attribute);
+attribute + datablock --> MArrayDataHandle: h = datablock.outputArrayValue(worldSurface, &stat);
+MDataHandle --> MArrayDataHandle : MArrayDataHandle cpHandle(dHandle, &stat);
+MArrayDataHandle --> Set/Get MArrayDataHandle->at(i): cpHandle.jumpToElement(i); MDataHandle pntHandle = cpHandle.outputValue(); double3 &pnt = pntHandle.asDouble3(); pnt = xxx;
 
-MFnArrayAttrsData fnOutput;
 
-user defined data function set.
-MPxData
-MFnPluginData
+MDataHandle --> 普通值 : h.asDouble()
+MDataHandle --> 自定义MPxData: data = (MPxData *)h.asPluginData(); data->fGeometry;
+MDataHandle --> MObject 属性的引用: return handle.data(); 
 
-    MStatus status;
+MObject --> 自定义MPxData: MFnPluginData fnData(obj); MPxData *data = fnData.data(&status);
+自定义MPxData --> 封装的数据: data->fGeometry, e.g.
 
-    // update the frame number to be imported
-    MDataHandle speedHandle = dataBlock.inputValue(mSpeedAttr, &status);
-    double speed = speedHandle.asDouble();
+compute等函数之外的范围：
+node + attribute --> MPlug:  MPlug plug(node, attribute); plug.setValue(value);
 
-    MDataHandle offsetHandle = dataBlock.inputValue(mOffsetAttr, &status);
-    double offset = offsetHandle.asDouble();
+MPlug --> MObject, MDataHandle, double(etc) :  MObject data; status = plug.getValue(data);
+MPlug --> 所在的节点node : MObject otherNode = otherPlug.node(); 
+MPlug --> 所在的属性attribute : MObject attribute = plug.attribute();
 
-    MDataHandle timeHandle = dataBlock.inputValue(mTimeAttr, &status);
-    MTime t = timeHandle.asTime();
-    double inputTime = t.as(MTime::kSeconds);
+接头MPlug, MString, MDagPath, MObject --> MSelectionList :  list.add(plug);
+MDagPath + component MObject -> MSelectionList : MFnSingleIndexedComponent fnVtxComp; MObject vtxComp = fnVtxComp.create(MFn::kMeshVertexComponent); list.add(path, vtxComp);
 
-    double fps = getFPS();
+MArrayDataHandle --> MArrayDataBuilder : b = h.builder();
 
-    // scale and offset inputTime.
-    inputTime = computeAdjustedTime(inputTime, speed, offset/fps);
+MObject 判断是否为null : data.isNull()
 
-    // this should be done only once per file
-    if (mFileInitialized == false)
-    {
-        mFileInitialized = true;
 
-        MDataHandle dataHandle = dataBlock.inputValue(mAbcFileNameAttr);
-        MFileObject fileObject;
-        fileObject.setRawFullName(dataHandle.asString());
-        MString fileName = fileObject.resolvedFullName();
+// 更新及通知：
+// 通知viewport更新 MHWRender::MRenderer::setGeometryDrawDirty(thisMObject());
+MEvaluationNode evaluationNode;
+bool exists = evaluationNode.dirtyPlugExists(inputSurface, &status);
+// 添加回调
+MCallbackId cbId = MNodeMessage::addAttributeChangedCallback(xxx);
+MPxNode::connectionMade(const MPlug &plug, const MPlug &otherPlug, bool asSrc){
+}
+MPxNode::connectionBroken(const MPlug &plug, const MPlug &otherPlug, bool asSrc){
+}
+// If this node is connected to a tweak node, reset the
+// plug to point at the tweak node.
+// ??
+component -> tweak 
 
-        Alembic::Abc::IArchive archive;
-        Alembic::AbcCoreFactory::IFactory factory;
-        factory.setPolicy(Alembic::Abc::ErrorHandler::kQuietNoopPolicy);
-        archive = factory.getArchive(fileName.asChar());
 
-        if (!archive.valid())
-        {
-            //The resolved full name will be empty if the resolution fails.
-            //Print the raw full name in case of this situation.
-            MString theError = "Cannot read file " + fileObject.rawFullName();
-            printError(theError);
-        }
-
-        // initialize some flags for plug update
-        mSubDInitialized = false;
-        mPolyInitialized = false;
-
-        // When an alembic cache will be imported at the first time using
-        // AbcImport, we need to set mIncludeFilterAttr (filterHandle) to be
-        // mIncludeFilterString for later use. When we save a maya scene(.ma)
-        // mIncludeFilterAttr will be saved. Then when we load the saved
-        // .ma file, mIncludeFilterString will be set to be mIncludeFilterAttr.
-        MDataHandle includeFilterHandle =
-                        dataBlock.inputValue(mIncludeFilterAttr, &status);
-        MString& includeFilterString = includeFilterHandle.asString();
-
-       if (mIncludeFilterString.length() > 0)
-        {
-            includeFilterHandle.set(mIncludeFilterString);
-            dataBlock.setClean(mIncludeFilterAttr);
-        }
-        else if (includeFilterString.length() > 0)
-        {
-            mIncludeFilterString = includeFilterString;
-        }
-
-        MDataHandle excludeFilterHandle =
-                        dataBlock.inputValue(mExcludeFilterAttr, &status);
-        MString& excludeFilterString = excludeFilterHandle.asString();
-
-       if (mExcludeFilterString.length() > 0)
-        {
-            excludeFilterHandle.set(mExcludeFilterString);
-            dataBlock.setClean(mExcludeFilterAttr);
-        }
-        else if (excludeFilterString.length() > 0)
-        {
-            mExcludeFilterString = excludeFilterString;
-        }
-
-
-        MFnDependencyNode dep(thisMObject());
-        MPlug allSetsPlug = dep.findPlug("allColorSets");
-        CreateSceneVisitor visitor(inputTime, !allSetsPlug.isNull(),
-            MObject::kNullObj, CreateSceneVisitor::NONE, "",
-            mIncludeFilterString, mExcludeFilterString);
-
-        visitor.walk(archive);
-
-        if (visitor.hasSampledData())
-        {
-            // information retrieved from the hierarchy traversal
-            // and given to AlembicNode to provide update
-            visitor.getData(mData);
-            mData.getFrameRange(mSequenceStartTime, mSequenceEndTime);
-            MDataHandle startFrameHandle = dataBlock.inputValue(mStartFrameAttr,
-                                                                &status);
-            startFrameHandle.set(mSequenceStartTime*fps);
-            MDataHandle endFrameHandle = dataBlock.inputValue(mEndFrameAttr,
-                                                                &status);
-            endFrameHandle.set(mSequenceEndTime*fps);
-        }
-    }
-
-    // Retime
-    MDataHandle cycleHandle = dataBlock.inputValue(mCycleTypeAttr, &status);
-    short playType = cycleHandle.asShort();
-    inputTime = computeRetime(inputTime, mSequenceStartTime, mSequenceEndTime,
-                              playType);
-
-    clamp<double>(mSequenceStartTime, mSequenceEndTime, inputTime);
-
-    // update only when the time lapse is big enough
-    if (fabs(inputTime - mCurTime) > 0.00001)
-    {
-        mOutRead = std::vector<bool>(mOutRead.size(), false);
-        mCurTime = inputTime;
-    }
-
-    if (plug == mOutPropArrayAttr)
-    {
-
-        if (mOutRead[0])
-        {
-            dataBlock.setClean(plug);
-            return MS::kSuccess;
-        }
-
-        mOutRead[0] = true;
-
-        unsigned int propSize =
-            static_cast<unsigned int>(mData.mPropList.size());
-
-        if (propSize > 0)
-        {
-            MArrayDataHandle outArrayHandle = dataBlock.outputValue(
-                mOutPropArrayAttr, &status);
-
-            unsigned int outHandleIndex = 0;
-            MDataHandle outHandle;
-
-            // for all of the nodes with sampled attributes
-            for (unsigned int i = 0; i < propSize; i++)
-            {
-                // only use the handle if it matches the index.
-                // The index wont line up in the sparse case so we
-                // can just skip that element.
-                if (outArrayHandle.elementIndex() == outHandleIndex++)
-                {
-                    outHandle = outArrayHandle.outputValue();
-                }
-                else
-                {
-                    continue;
-                }
-
-                if (mData.mPropList[i].mArray.valid())
-                {
-                    readProp(mCurTime, mData.mPropList[i].mArray, outHandle);
-                }
-                else if (mData.mPropList[i].mScalar.valid())
-                {
-                    // for visibility only
-                    if (mData.mPropList[i].mScalar.getName() ==
-                        Alembic::AbcGeom::kVisibilityPropertyName)
-                    {
-                        Alembic::Util::int8_t visVal = 1;
-                        mData.mPropList[i].mScalar.get(&visVal,
-                            Alembic::Abc::ISampleSelector(mCurTime,
-                                Alembic::Abc::ISampleSelector::kNearIndex ));
-                        outHandle.setGenericBool(visVal != 0, false);
-                    }
-                    else
-                    {
-                        // for all scalar props
-                        readProp(mCurTime, mData.mPropList[i].mScalar, outHandle);
-                    }
-                }
-                outArrayHandle.next();
-            }
-            outArrayHandle.setAllClean();
-        }
-
-    }
-    else if (plug == mOutTransOpArrayAttr )
-    {
-        if (mOutRead[1])
-        {
-            dataBlock.setClean(plug);
-            return MS::kSuccess;
-        }
-
-        mOutRead[1] = true;
-
-        unsigned int xformSize =
-            static_cast<unsigned int>(mData.mXformList.size());
-
-        if (xformSize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutTransOpArrayAttr, &status);
-
-            MPlug arrayPlug(thisMObject(), mOutTransOpArrayAttr);
-
-            MDataHandle outHandle;
-            unsigned int outHandleIndex = 0;
-
-            for (unsigned int i = 0; i < xformSize; i++)
-            {
-                std::vector<double> sampleList;
-
-                if (mData.mIsComplexXform[i])
-                {
-                    readComplex(mCurTime, mData.mXformList[i], sampleList);
-                }
-                else
-                {
-                    Alembic::AbcGeom::XformSample samp;
-                    read(mCurTime, mData.mXformList[i], sampleList, samp);
-                }
-
-                unsigned int sampleSize = (unsigned int)sampleList.size();
-
-                for (unsigned int j = 0; j < sampleSize; j++)
-                {
-                    // only use the handle if it matches the index.
-                    // The index wont line up in the sparse case so we
-                    // can just skip that element.
-                    if (outArrayHandle.elementIndex() == outHandleIndex++)
-                    {
-                        outHandle = outArrayHandle.outputValue(&status);
-                    }
-                    else
-                        continue;
-
-                    outArrayHandle.next();
-                    outHandle.set(sampleList[j]);
-                }
-            }
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutLocatorPosScaleArrayAttr )
-    {
-        if (mOutRead[8])
-        {
-            dataBlock.setClean(plug);
-            return MS::kSuccess;
-        }
-
-        mOutRead[8] = true;
-
-        unsigned int locSize =
-            static_cast<unsigned int>(mData.mLocList.size());
-
-        if (locSize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutLocatorPosScaleArrayAttr, &status);
-
-            MPlug arrayPlug(thisMObject(), mOutLocatorPosScaleArrayAttr);
-
-            MDataHandle outHandle;
-            unsigned int outHandleIndex = 0;
-
-            for (unsigned int i = 0; i < locSize; i++)
-            {
-                std::vector< double > sampleList;
-                read(mCurTime, mData.mLocList[i], sampleList);
-
-                unsigned int sampleSize = (unsigned int)sampleList.size();
-                for (unsigned int j = 0; j < sampleSize; j++)
-                {
-                    // only use the handle if it matches the index.
-                    // The index wont line up in the sparse case so we
-                    // can just skip that element.
-                    if (outArrayHandle.elementIndex() == outHandleIndex++)
-                    {
-                        outHandle = outArrayHandle.outputValue(&status);
-                    }
-                    else
-                        continue;
-
-                    outArrayHandle.next();
-                    outHandle.set(sampleList[j]);
-                }
-            }
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutSubDArrayAttr)
-    {
-        if (mOutRead[2])
-        {
-            // Reference the output to let EM know we are the writer
-            // of the data. EM sets the output to holder and causes
-            // race condition when evaluating fan-out destinations.
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutSubDArrayAttr, &status);
-            const unsigned int elementCount = outArrayHandle.elementCount();
-            for (unsigned int j = 0; j < elementCount; j++)
-            {
-                outArrayHandle.outputValue().data();
-                outArrayHandle.next();
-            }
-            outArrayHandle.setAllClean();
-            return MS::kSuccess;
-        }
-
-        mOutRead[2] = true;
-
-        unsigned int subDSize =
-            static_cast<unsigned int>(mData.mSubDList.size());
-
-        if (subDSize > 0)
-        {
-            MArrayDataHandle outArrayHandle = dataBlock.outputValue(
-                mOutSubDArrayAttr, &status);
-
-            MDataHandle outHandle;
-
-            for (unsigned int j = 0; j < subDSize; j++)
-            {
-                // these elements can be sparse if they have been deleted
-                if (outArrayHandle.elementIndex() != j)
-                {
-                    continue;
-                }
-
-                outHandle = outArrayHandle.outputValue(&status);
-                outArrayHandle.next();
-
-                MObject obj = outHandle.data();
-                if (obj.hasFn(MFn::kMesh))
-                {
-                    MFnMesh fnMesh(obj);
-                    readSubD(mCurTime, fnMesh, obj, mData.mSubDList[j],
-                        mSubDInitialized);
-                    outHandle.set(obj);
-                }
-            }
-            mSubDInitialized = true;
-            outArrayHandle.setAllClean();
-        }
-        // for the case where we don't have any nodes, we want to make sure
-        // to push out empty meshes on our connections, this can happen if
-        // the input file was offlined, currently we only need to do this for
-        // meshes as Nurbs, curves, and the other channels don't crash Maya
-        else
-        {
-            MArrayDataHandle outArrayHandle = dataBlock.outputValue(
-                mOutSubDArrayAttr, &status);
-
-            if (outArrayHandle.elementCount() > 0)
-            {
-                do
-                {
-                    MDataHandle outHandle = outArrayHandle.outputValue();
-                    MObject obj = outHandle.data();
-                    if (obj.hasFn(MFn::kMesh))
-                    {
-                        MFloatPointArray emptyVerts;
-                        MIntArray emptyCounts;
-                        MIntArray emptyConnects;
-                        MFnMesh emptyMesh;
-                        emptyMesh.create(0, 0, emptyVerts, emptyCounts,
-                            emptyConnects, obj);
-                        outHandle.set(obj);
-                    }
-                }
-                while (outArrayHandle.next() == MS::kSuccess);
-            }
-            mSubDInitialized = true;
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutPolyArrayAttr)
-    {
-        if (mOutRead[3])
-        {
-            // Reference the output to let EM know we are the writer
-            // of the data. EM sets the output to holder and causes
-            // race condition when evaluating fan-out destinations.
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutPolyArrayAttr, &status);
-            const unsigned int elementCount = outArrayHandle.elementCount();
-            for (unsigned int j = 0; j < elementCount; j++)
-            {
-                outArrayHandle.outputValue().data();
-                outArrayHandle.next();
-            }
-            outArrayHandle.setAllClean();
-            return MS::kSuccess;
-        }
-
-        mOutRead[3] = true;
-
-        unsigned int polySize =
-            static_cast<unsigned int>(mData.mPolyMeshList.size());
-
-        if (polySize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutPolyArrayAttr, &status);
-
-            MDataHandle outHandle;
-
-            for (unsigned int j = 0; j < polySize; j++)
-            {
-                // these elements can be sparse if they have been deleted
-                if (outArrayHandle.elementIndex() != j)
-                {
-                    continue;
-                }
-
-                outHandle = outArrayHandle.outputValue(&status);
-                outArrayHandle.next();
-
-                MObject obj = outHandle.data();
-                if (obj.hasFn(MFn::kMesh))
-                {
-                    MFnMesh fnMesh(obj);
-                    readPoly(mCurTime, fnMesh, obj, mData.mPolyMeshList[j],
-                        mPolyInitialized);
-                    outHandle.set(obj);
-                }
-            }
-            mPolyInitialized = true;
-            outArrayHandle.setAllClean();
-        }
-        // for the case where we don't have any nodes, we want to make sure
-        // to push out empty meshes on our connections, this can happen if
-        // the input file was offlined, currently we only need to do this for
-        // meshes as Nurbs, curves, and the other channels don't crash Maya
-        else
-        {
-            MArrayDataHandle outArrayHandle = dataBlock.outputValue(
-                mOutPolyArrayAttr, &status);
-
-            if (outArrayHandle.elementCount() > 0)
-            {
-                do
-                {
-                    MDataHandle outHandle = outArrayHandle.outputValue(&status);
-                    MObject obj = outHandle.data();
-                    if (obj.hasFn(MFn::kMesh))
-                    {
-                        MFloatPointArray emptyVerts;
-                        MIntArray emptyCounts;
-                        MIntArray emptyConnects;
-                        MFnMesh emptyMesh;
-                        emptyMesh.create(0, 0, emptyVerts, emptyCounts,
-                            emptyConnects, obj);
-                        outHandle.set(obj);
-                    }
-                }
-                while (outArrayHandle.next() == MS::kSuccess);
-            }
-            mPolyInitialized = true;
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutCameraArrayAttr)
-    {
-        if (mOutRead[4])
-        {
-            dataBlock.setClean(plug);
-            return MS::kSuccess;
-        }
-
-        mOutRead[4] = true;
-
-        unsigned int cameraSize =
-            static_cast<unsigned int>(mData.mCameraList.size());
-
-        if (cameraSize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutCameraArrayAttr, &status);
-            MPlug arrayPlug(thisMObject(), mOutCameraArrayAttr);
-            double angleConversion = 1.0;
-
-            switch (MAngle::uiUnit())
-            {
-                case MAngle::kRadians:
-                    angleConversion = 0.017453292519943295;
-                break;
-                case MAngle::kAngMinutes:
-                    angleConversion = 60.0;
-                break;
-                case MAngle::kAngSeconds:
-                    angleConversion = 3600.0;
-                break;
-                default:
-                break;
-            }
-
-            MDataHandle outHandle;
-            unsigned int index = 0;
-
-            for (unsigned int cameraIndex = 0; cameraIndex < cameraSize;
-                cameraIndex++)
-            {
-                Alembic::AbcGeom::ICamera & cam =
-                    mData.mCameraList[cameraIndex];
-                std::vector<double> array;
-
-                read(mCurTime, cam, array);
-
-                for (unsigned int dataIndex = 0; dataIndex < array.size();
-                    dataIndex++, index++)
-                {
-                    // skip over sparse elements
-                    if (index != outArrayHandle.elementIndex())
-                    {
-                        continue;
-                    }
-
-                    outHandle = outArrayHandle.outputValue(&status);
-                    outArrayHandle.next();
-
-                    // not shutter angle index, so not an angle
-                    if (dataIndex != 11)
-                    {
-                        outHandle.set(array[dataIndex]);
-                    }
-                    else
-                    {
-                        outHandle.set(array[dataIndex] * angleConversion);
-                    }
-                }  // for the per camera data handles
-            }  // for each camera
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutNurbsSurfaceArrayAttr)
-    {
-        if (mOutRead[5])
-        {
-            // Reference the output to let EM know we are the writer
-            // of the data. EM sets the output to holder and causes
-            // race condition when evaluating fan-out destinations.
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutNurbsSurfaceArrayAttr, &status);
-            const unsigned int elementCount = outArrayHandle.elementCount();
-            for (unsigned int j = 0; j < elementCount; j++)
-            {
-                outArrayHandle.outputValue().data();
-                outArrayHandle.next();
-            }
-            outArrayHandle.setAllClean();
-            return MS::kSuccess;
-        }
-
-        mOutRead[5] = true;
-
-        unsigned int nSurfaceSize =
-            static_cast<unsigned int>(mData.mNurbsList.size());
-
-        if (nSurfaceSize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutNurbsSurfaceArrayAttr, &status);
-
-            MDataHandle outHandle;
-
-            for (unsigned int j = 0; j < nSurfaceSize; j++)
-            {
-                // these elements can be sparse if they have been deleted
-                if (outArrayHandle.elementIndex() != j)
-                    continue;
-
-                outHandle = outArrayHandle.outputValue(&status);
-                outArrayHandle.next();
-
-                MObject obj = outHandle.data();
-                if (obj.hasFn(MFn::kNurbsSurface))
-                {
-                    readNurbs(mCurTime, mData.mNurbsList[j], obj);
-                    outHandle.set(obj);
-                }
-            }
-            outArrayHandle.setAllClean();
-        }
-    }
-    else if (plug == mOutNurbsCurveGrpArrayAttr)
-    {
-        if (mOutRead[6])
-        {
-            // Reference the output to let EM know we are the writer
-            // of the data. EM sets the output to holder and causes
-            // race condition when evaluating fan-out destinations.
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutNurbsCurveGrpArrayAttr, &status);
-            const unsigned int elementCount = outArrayHandle.elementCount();
-            for (unsigned int j = 0; j < elementCount; j++)
-            {
-                outArrayHandle.outputValue().data();
-                outArrayHandle.next();
-            }
-            outArrayHandle.setAllClean();
-            return MS::kSuccess;
-        }
-
-        mOutRead[6] = true;
-
-        unsigned int nCurveGrpSize =
-            static_cast<unsigned int>(mData.mCurvesList.size());
-
-        if (nCurveGrpSize > 0)
-        {
-            MArrayDataHandle outArrayHandle =
-                dataBlock.outputValue(mOutNurbsCurveGrpArrayAttr, &status);
-            MDataHandle outHandle;
-
-            std::vector<MObject> curvesObj;
-            for (unsigned int i = 0; i < nCurveGrpSize; ++i)
-            {
-                readCurves(mCurTime, mData.mCurvesList[i],
-                    mData.mNumCurves[i], curvesObj);
-            }
-
-            std::size_t numChild = curvesObj.size();
-
-            // not the best way to do this
-            // only reading bunches of curves based on the connections would be
-            // more efficient when there is a bunch of broken connections
-            for (unsigned int i = 0; i < numChild; i++)
-            {
-                if (outArrayHandle.elementIndex() != i)
-                {
-                    continue;
-                }
-
-                outHandle = outArrayHandle.outputValue(&status);
-                outArrayHandle.next();
-                status = outHandle.set(curvesObj[i]);
-            }
-
-            outArrayHandle.setAllClean();
-        }
-    }
-    else
-    {
-        return MS::kUnknownParameter;
-    }
-
-    dataBlock.setClean(plug);
 ```
 
 
