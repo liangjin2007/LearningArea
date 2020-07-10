@@ -1497,7 +1497,6 @@ nodeState属性定义了节点是否应该计算它的输出属性。是个枚�
 	MFnMesh mesh;
 	mesh.create(xxx, outData, &status);
 }
-
 2. animInfoCmd
 
 getAttr/setAttr 或者MPlug getValue/setValue有点等价。
