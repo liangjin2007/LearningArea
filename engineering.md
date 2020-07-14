@@ -51,5 +51,33 @@ Ctrl + M + L: 展开所有方法
 
 ### CMake生成msi
 
+### CMake编译Fortran
+- 安装intel compiler
+- Error: 提示ifort.exe连例子程序都编译不过。 
+解决办法为编辑ifort.cfg，修改为
+```
+/MD
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\ifconsol.lib"
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\libifcoremt.lib"
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\libifport.lib"
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\libmmt.lib"
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\libirc.lib"
+"C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2016.0.110\windows\compiler\lib\intel64\svml_dispmt.lib"
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\LIBCMT.lib"
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\OLDNAMES.lib"
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\LIBCPMT.lib"
+"C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\lib\amd64\libvcruntime.lib"
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib\x64\uuid.lib"
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib\x64\ImageHlp.lib"
+"C:\Program Files (x86)\Microsoft SDKs\Windows\v7.1A\Lib\x64\kernel32.lib"
+"C:\Program Files (x86)\Windows Kits\10\Lib\10.0.18362.0\ucrt\x64\libucrt.lib"
+```
+
+### 编译lapack
+
+
+
+
+
 
 
