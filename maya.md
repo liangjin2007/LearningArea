@@ -1642,6 +1642,7 @@ MObject --> 自定义MPxData: MFnPluginData fnData(obj); MPxData *data = fnData.
 
 compute等函数之外的范围：
 node + attribute --> MPlug:  MPlug plug(node, attribute); plug.setValue(value);
+node + attrName --> MPlug: MFnDependencyNode fnNode(nodeObj); MPlug plug = fnNode.findPlug(attName);
 
 MPlug --> MObject, MDataHandle, double(etc) :  MObject data; status = plug.getValue(data);
 MPlug --> 所在的节点node : MObject otherNode = otherPlug.node(); 
