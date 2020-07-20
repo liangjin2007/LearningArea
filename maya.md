@@ -1571,6 +1571,7 @@ typedAttr.setDisconnectBehavior(MFnAttribute::kDelete);
   - FbxAnimCurve代表函数，可以驱动property的动画
   
 # 5.UI
+- 使用Mel来写UI
 ```
 用符号代表CheckBox.
 window;
@@ -1621,6 +1622,10 @@ $form;
 
 showWindow $window;
 ```
+
+- 使用Qt来写UI
+  - https://doc.qt.io/qtforpython/PySide2/QtGui/index.html#module-PySide2.QtGui
+  
 
 # 6.数据转化
 
