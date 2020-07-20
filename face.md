@@ -427,6 +427,8 @@ void GenerateReconstruction(const image_t num_images,
   - train images and shapes
   
 ## AAM理解
+- AAM Course on ACCV2010
+```
 - 输入：{Ii, landmarks_i}
 - Build 2d landmark shape model
   - Procrustes算法 ： landmark去掉相似性变换，都统一到同一个空间。首先对n个人脸的landmarks计算mean shape。然后使用迭代算法，把n个人脸align到mean shape, 并不断更新mean shape。
@@ -437,7 +439,7 @@ void GenerateReconstruction(const image_t num_images,
   - motion model W, piecewise affine warps, W(x;p)
     - triangulate vertices consistent of landmarks.
 - Fitting AAM
-
+```
 ## RBF
 - Analysis the input data
   - covariance matrix
