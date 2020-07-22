@@ -4,7 +4,8 @@
 - 3. 领域知识
 - 4. FBXSDK
 - 5. UI
-- 6. 例子
+- 6. 数据转化
+- 7. 动画导入导出
 # 1.Maya5编程全攻略
 
 ## Maya架构
@@ -1680,6 +1681,13 @@ component -> tweak
 
 
 ```
+#7. 动画导入导出
+```
+bakeResults
 
+animLayer
+
+
+```
 
 
