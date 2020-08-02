@@ -8,8 +8,26 @@
 - 泰课网 https://www.taikr.com/course/964/task/27889/show
 
 ## 学习
+```
 新建C++类就可以把蓝图工程转成C++工程
-
+F11: switch emerce mode
+Ctrl+number: label camera
+F: focus to something
+Camera Speed
+Ctrl+Shift+Save
+Alt+drag/rotate/scale in viewport: copy 
+Sphere Reflection Actor
+PostProcessVolume
+SkyLight
+SkySphere
+DirectionLight
+BP:可以理解为是一个editor
+入门指南视频: https://learn.unrealengine.com/course/3584597/module/6933184?moduletoken=UHxxnDLPW8TDVsMz2Aaiq0E499zOCpVZy3JR-t10g1IA4WGsvwP4wGnV-ug1GsJ7&LPId=114305
+Ctrl+G: 分组
+Ctrl+Shift+G : 取消分组
+Layers: Double Click to select
+Select actors using this asseset.
+````
 
 功能
 ============================================
