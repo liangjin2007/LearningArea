@@ -425,7 +425,21 @@ void GenerateReconstruction(const image_t num_images,
   - fit blendshapes from these labeled images
   - use blendshape model to calculate for each image its 3d facial shape composed of 3d landmark positions
   - train images and shapes
-  
+
+## EigenFace
+```
+1.脸部图像投影到一个特征空间（Face Space）。这个空间把已知的人脸之间的变化给最好地编码下来。
+2.特征空间即eigenfaces，是整套人脸的特征向量。PCA投影。
+3.如何做人脸识别？计算新的人脸在eigenfaces中的投影得到weight pattern。比较weight pattern，可以把这个人脸分类为已知和未知。
+4.为什么用PCA? 或者说PCA方法的主要假定是什么？ a)特征空间在图像空间中形成一个cluster b)PCA给出恰当的表示。
+5.Eigenface如何计算：
+5.1.计算平均face： v
+5.2.收集训练集跟平均face间的差：总共M个像素，N是训练图片数， A —— M x N， 协方差矩阵C=AA^T的特征向量。 注意C —— M x M的。一般N < M， 则C最多有N-1个有意义的特征向量。
+    有个重要的性质是：L=A^TA, L—— N x N。如果a是L的特征向量，则Aa是C的特征向量。
+6.eigenfaces仍然是跟训练图像一样大小的图像，隐约可以看出是人脸的形态。
+7.训练图像和新图像都能表示为eigenfaces的线性组合。
+```
+
 ## AAM理解
 - AAM Course on ACCV2010
 ```
@@ -445,10 +459,19 @@ void GenerateReconstruction(const image_t num_images,
   - covariance matrix
   ```
   Eigen::MatrixXd centered = mat.rowwise() - Eigen::RowVectorXd(mat.colwise().mean());
-	Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
+  Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
   ```
   - correlation matrtix
-  
+  ```
+  Eigen::VectorXd diag = cov.diagonal();
+  Eigen::MatrixXd inv_sqrt_diag;
+  inv_sqrt_diag.resize(diag.size(), diag.size());
+  inv_sqrt_diag.fill(0.0);
+  for (int i = 0; i < diag.size(); i++) {
+  inv_sqrt_diag(i, i) = 1.0 / sqrt(diag[i]);
+  };
+  Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
+  ```
 
 
 
