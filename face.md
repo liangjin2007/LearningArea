@@ -456,22 +456,44 @@ void GenerateReconstruction(const image_t num_images,
 ```
 ## RBF
 - Analysis the input data
-  - covariance matrix
-  ```
-  Eigen::MatrixXd centered = mat.rowwise() - Eigen::RowVectorXd(mat.colwise().mean());
-  Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
-  ```
-  - correlation matrtix
-  ```
-  Eigen::VectorXd diag = cov.diagonal();
-  Eigen::MatrixXd inv_sqrt_diag;
-  inv_sqrt_diag.resize(diag.size(), diag.size());
-  inv_sqrt_diag.fill(0.0);
-  for (int i = 0; i < diag.size(); i++) {
-  inv_sqrt_diag(i, i) = 1.0 / sqrt(diag[i]);
-  };
-  Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
-  ```
+  
+## 协方差矩阵和相关性矩阵
+- covariance matrix
+```
+Eigen::MatrixXd centered = mat.rowwise() - Eigen::RowVectorXd(mat.colwise().mean());
+Eigen::MatrixXd cov = (centered * centered.adjoint()) / double(centered.rows() - 1);
+```
+- correlation matrtix
+```
+Eigen::VectorXd diag = cov.diagonal();
+Eigen::MatrixXd inv_sqrt_diag;
+inv_sqrt_diag.resize(diag.size(), diag.size());
+inv_sqrt_diag.fill(0.0);
+for (int i = 0; i < diag.size(); i++) {
+inv_sqrt_diag(i, i) = 1.0 / sqrt(diag[i]);
+};
+Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
+```
+
+## ASM (Active Shape Model)
+```
+1.概念上来说是EigenFace的扩展。
+2.形状用landmark点来表示。
+3.Statistical Shape Model
+4.平均形状
+5.什么样的变化是平凡的
+6.一个新形状看起来跟训练数据相近吗
+7.ASM是怎么做的：
+7.1.把训练数据的landmark点进行对齐。Pose & scale注册
+7.2.landmark位置的分布上做PCA
+7.2.1.每个形状是一套landmarks
+7.2.2.形状的维度为#Landmarks * #SpatialDimension, 维度有点大。
+7.2.3.每个特征向量也是一个形状。
+7.2.4.主要特征向量描述了几乎所有形状变化。
+7.2.5.特征值是被特征向量解释的变化（假定高斯分布）
+7.2.6.初始化是有关系的
+```
+
 
 
 
