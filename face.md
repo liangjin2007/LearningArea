@@ -493,8 +493,10 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 7.2.5.特征值是被特征向量解释的变化（假定高斯分布）
 7.2.6.初始化是有关系的
 ```
+## AAM(Active Appearance Model)
+```
 
-
+```
 
 
 
