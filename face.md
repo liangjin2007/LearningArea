@@ -494,10 +494,29 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 7.2.6.初始化是有关系的
 ```
 ## AAM(Active Appearance Model)
+- **Combined Appearance Model**
+```
+1.procrustes分析形状进行对齐，然后算出mean
+2.将每个训练的灰度级图像warp到mean
+3.采样灰度级图像数据: 类似于光栅化的方法变成texture vector， 然后做一个归一化。 g = (g-miu)/var_squared
+4.在灰度级图像数据上做PCA
+5.连接形状参数和gray-level参数
+6.在连接的向量上再做一次PCA
+7.如何实现Active Appearance Model
+7.1. x = mean(x) + Qs c, g = mean(g) + Qg c, c是参数
+7.2. 图像空间中的形状X 可以认为是以上的x再做一个相似变化(旋转，平移，缩放), X = St(x), 其中t=(sx, sy, tx, ty)。(tx, ty)是平移， sx = s Cos(theta) - 1, sy = s Sin(theta). 这里做了简化
+使得St+dt(x) = St(Sdt(x))
+7.3. 如何理解没有见到过的图片呢？ 理解为一个优化问题，极小化delta(I) = Ii - Im。 Im来自x, g?
+7.4. AAM Training 整合先验知识：将error跟parameter adjustment之间的关系用一个模型记录下来。结果为一个简单的线性模型 delta(c) = A delta(I)
+7.4.1. shape-normalized representation warp.
+7.4.2. calculate image difference using gray level vectors. delta(g) = gi - gm
+7.4.3. 更新线性关系： delta(c) = A delta(g)
+7.4.4. 需要一个模型: 能容纳大的error range. 对每个参数最优扰动0.5 * 标准偏差
+7.5. AAM Search: 参数更新方程为c' = c - A delta(g)
+```
+- **Constrained AAM**
 ```
 
 ```
-
-
 
 
