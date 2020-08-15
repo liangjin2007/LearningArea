@@ -494,6 +494,7 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 7.2.6.初始化是有关系的
 ```
 ## AAM(Active Appearance Model)
+- AAM类似于PCA其实是一种图片encoding方法。它跟PCA不同的是它不是线性的。
 - **Combined Appearance Model**
 ```
 1.procrustes分析形状进行对齐，然后算出mean
@@ -513,10 +514,16 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 7.4.3. 更新线性关系： delta(c) = A delta(g)
 7.4.4. 需要一个模型: 能容纳大的error range. 对每个参数最优扰动0.5 * 标准偏差
 7.5. AAM Search: 参数更新方程为c' = c - A delta(g)
+8.AAM Revised
+8.1. Shape : s0, si, s = s0 + p (s1, s2, ..., sn)
+8.2. Appearance : A0, Ai, A = A0 + lambda (A1, A2, ..., Am). Ai is defned on s0
+8.3. AAM Model instance : A(x) = M(W(x;p)). 称为Forward warping. warping A from s0 to s with Warp(x;p). Warp(x;p) is a pixel.
 ```
-- **Constrained AAM**
+- **inverse compositional algorithm**
 ```
-
+group operators: composition and inversion
+POIC : project out inverse compositional
+shape normalization: 
 ```
 
 
