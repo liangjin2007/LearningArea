@@ -27,6 +27,10 @@ Ctrl+G: 分组
 Ctrl+Shift+G : 取消分组
 Layers: Double Click to select
 Select actors using this asseset.
+
+============渲染相关============
+Distance Culling
+
 ````
 
 功能
