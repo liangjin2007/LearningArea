@@ -1,6 +1,7 @@
 # Unreal Engine
-参考UE4 C++进阶之路， 学UE先学蓝图，然后再学C++。 C++其实是UE的脚本语言，学习难度是蓝图的2倍不止。
+参考UE4 C++进阶之路，
 
+- 入门指南视频: https://learn.unrealengine.com/course/3584597/module/6933184?moduletoken=UHxxnDLPW8TDVsMz2Aaiq0E499zOCpVZy3JR-t10g1IA4WGsvwP4wGnV-ug1GsJ7&LPId=114305
 - P1 https://www.bilibili.com/video/BV1C7411F7RF?p=1
 - P2 https://www.bilibili.com/video/BV1C7411F7RF?p=2
 - bilibili搜索"虚幻4游戏引擎官方入门自学到提高全218集" https://www.bilibili.com/video/BV12s411P7PW?from=search&seid=17955912259534568723
@@ -9,27 +10,37 @@
 
 ## 学习
 ```
+学UE先学蓝图，然后再学C++。
+ 
+C++其实是UE的脚本语言，学习难度是蓝图的2倍不止
+ 
 新建C++类就可以把蓝图工程转成C++工程
+
+BP:可以理解为是一个editor
+
+快捷键
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
-Camera Speed
 Ctrl+Shift+Save
 Alt+drag/rotate/scale in viewport: copy 
+Ctrl+G: 分组
+Ctrl+Shift+G : 取消分组
+
+Camera Speed
 Sphere Reflection Actor
 PostProcessVolume
 SkyLight
 SkySphere
 DirectionLight
-BP:可以理解为是一个editor
-入门指南视频: https://learn.unrealengine.com/course/3584597/module/6933184?moduletoken=UHxxnDLPW8TDVsMz2Aaiq0E499zOCpVZy3JR-t10g1IA4WGsvwP4wGnV-ug1GsJ7&LPId=114305
-Ctrl+G: 分组
-Ctrl+Shift+G : 取消分组
 Layers: Double Click to select
 Select actors using this asseset.
 
-============渲染相关============
+渲染相关
 Distance Culling
+
+
+
 
 ````
 
