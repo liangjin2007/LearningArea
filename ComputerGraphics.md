@@ -3,7 +3,8 @@
 - 2.实时渲染
 - 3.基于物理的渲染
 - 4.动画
-- 5 模拟
+- 5.模拟
+- 6.其他
 
 ## 1.几何 
 - CS468-spring-12
@@ -28,6 +29,7 @@
 18.Shape segmentation（应用（形状分析任务，产品搜索，建模和编辑，匹配，提取，分类和聚类），元素拟合，比如用平面和圆柱拟合形体，方法（hierarchical mesh decomposition（面之间的距离如何定义，概率）， Randomized Cuts, Random walks， K-means, Core extraction, normalized cut, shape diameter function, superviced segmentation ）
 ```
 
+
 ## 2.实时渲染
 - Real-Time Rendering https://github.com/liangjin2007/LearningArea/blob/master/realtime-rendering.md
 
@@ -37,7 +39,8 @@
 
 ## 5.模拟
 
-# 渲染
+## 6.其他
+
 ### PBR理论
 - 知乎 https://zhuanlan.zhihu.com/p/53086060
 - ![](https://github.com/liangjin2007/data_liangjin/blob/master/PBR%E7%90%86%E8%AE%BA.jpg?raw=true)
