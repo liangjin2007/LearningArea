@@ -15,6 +15,10 @@
 2. .\GenerateProjectFiles.bat 2017
 3. 打开VS编译UE4 project， 其他不用编译
 
+基于源码的编程方式
+F5启动UE4工程会启动UE4 Editor。
+
+
 学UE先学蓝图，然后再学C++。
  
 C++其实是UE的脚本语言，学习难度是蓝图的2倍不止
