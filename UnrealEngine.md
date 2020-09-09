@@ -10,6 +10,11 @@
 
 ## 学习
 ```
+编译源码
+1. .\Setup.bat
+2. .\GenerateProjectFiles.bat 2017
+3. 打开VS编译UE4 project， 其他不用编译
+
 学UE先学蓝图，然后再学C++。
  
 C++其实是UE的脚本语言，学习难度是蓝图的2倍不止
