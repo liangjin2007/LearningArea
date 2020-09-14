@@ -16,7 +16,15 @@
 3. 打开VS编译UE4 project， 其他不用编译
 
 基于源码的编程方式
-F5启动UE4工程会启动UE4 Editor。
+F5启动UE4工程会启动UE4 Editor。如果启动不了，需要设置UE4项目的Debugging属性
+Command: $(TargetPath)
+Working Directory: $(ProjectDir)
+Attach:No
+Debugger Type ： Auto
+Merge Environment : Yes
+SQL Debugging ： No
+
+UE Editor中需要设置源代码托管。 如果直接从P4或者git更新代码，有时会失败。
 
 
 学UE先学蓝图，然后再学C++。
