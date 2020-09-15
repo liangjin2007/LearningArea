@@ -34,6 +34,8 @@ SQL Debugging ： No
 六、调试UE项目
 需要项目属性配置成二中一样。
 
+七、日志
+UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 
 
 学UE先学蓝图，然后再学C++。
