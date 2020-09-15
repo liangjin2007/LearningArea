@@ -24,6 +24,9 @@ Debugger Type ： Auto
 Merge Environment : Yes
 SQL Debugging ： No
 
+**新建的UE项目千万不能重编译，否则会重编译UE引擎**。
+
+
 UE Editor中需要设置源代码托管。 如果直接从P4或者git更新代码，有时会失败。
 
 蓝图-->类设置 可以查看BP的父类信息。
