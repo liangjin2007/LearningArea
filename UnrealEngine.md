@@ -10,12 +10,13 @@
 
 ## 学习
 ```
-编译源码
+一、编译源码
 1. .\Setup.bat
 2. .\GenerateProjectFiles.bat 2017
 3. 打开VS编译UE4 project， 其他不用编译
+4. 编译UE4源码时，不能开着UE Editor。
 
-基于源码的编程方式
+二、基于源码的编程方式
 F5启动UE4工程会启动UE4 Editor。如果启动不了，需要设置UE4项目的Debugging属性
 Command: $(TargetPath)
 Working Directory: $(ProjectDir)
@@ -24,14 +25,11 @@ Debugger Type ： Auto
 Merge Environment : Yes
 SQL Debugging ： No
 
-**新建的UE项目千万不能重编译，否则会重编译UE引擎**。
+三、**新建的UE项目千万不能重编译，否则会重编译UE引擎**。
 
+四、UE Editor中需要设置源代码托管。 如果直接从P4或者git更新代码，有时会失败。
 
-UE Editor中需要设置源代码托管。 如果直接从P4或者git更新代码，有时会失败。
-
-蓝图-->类设置 可以查看BP的父类信息。
-
-
+五、蓝图-->类设置 可以查看BP的父类信息。
 
 学UE先学蓝图，然后再学C++。
  
