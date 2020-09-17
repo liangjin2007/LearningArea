@@ -37,6 +37,9 @@ SQL Debugging ： No
 七、日志
 UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 
+八、头文件
+必须放在.generated.h之前
+
 
 学UE先学蓝图，然后再学C++。
  
