@@ -32,7 +32,8 @@ SQL Debugging ： No
 五、蓝图-->类设置 可以查看BP的父类信息。
 
 六、调试UE项目
-需要项目属性配置成二中一样。
+需要项目属性配置成二中一样。特别要注意不要将Attach设成true。 
+F5调试时会自动启动UE Editor。
 
 七、日志
 UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
