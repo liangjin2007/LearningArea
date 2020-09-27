@@ -69,6 +69,39 @@ DirectionLight
 Layers: Double Click to select
 Select actors using this asseset.
 
+UI相关
+UMG
+Create Widget节点
+Add To Viewport节点
+右键Wrap with xxx
+删除UI: Remove From Parent
+Set variable to nothing
+在已有UMG上右键点Duplicate
+
+Event
+Event定义在Character蓝图，这个时候Event的Target变量是Character蓝图类型。 
+PlayController蓝图里获取Character蓝图对象， 设为Event的Target。
+
+
+Input Action Pause的细节面板中有Execute when Paused
+
+
+游戏相关
+Set Game Paused节点
+Open Level
+Set Input Mode Input节点
+Set Input Mode Game And UI
+Get Player Controler节点
+Set Show Mouse Cursor节点
+Get Show Mouse Cursor节点
+
+判断蓝图对象是否已经创建 
+  节点的Return Value -->  拖出去 --> Promote to variable
+  Get xxx --> Is Valid节点
+  
+  
+  
+
 渲染相关
 Distance Culling
 
