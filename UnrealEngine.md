@@ -70,7 +70,9 @@ Layers: Double Click to select
 Select actors using this asseset.
 
 UI相关
-UMG
+UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, Show Mouse Cursor， Open Level, Quit Game， 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
+生命值和弹药UI。
+
 Create Widget节点
 Add To Viewport节点
 右键Wrap with xxx
