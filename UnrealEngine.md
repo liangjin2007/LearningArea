@@ -102,16 +102,26 @@ Get Show Mouse Cursor节点
   Get xxx --> Is Valid节点
   
 Event Dispatcher
-  
-
-渲染相关
-Distance Culling
-
-
-
 
 ````
 
+```
+渲染相关 https://learn.unrealengine.com/home/LearningPath/94219?r=False&ts=637367569407342514
+
+Distance Culling
+A mix of different solutions
+  把能预计算的都先预先计算好
+  然后针对不同的需求用预计算好的数据来实现实时rendering。
+  剔除有四种方法
+
+Scalability
+  可选择图形画面质量
+  允许选择不同级别的内容来适配不同的设备
+  r command
+  
+Deferred/Forward rendering
+GBuffer
+```
 功能
 ============================================
 https://www.unrealengine.com/zh-CN/features
