@@ -66,3 +66,26 @@ https://hal.inria.fr/inria-00520193/document
 
 # force-based method
 
+
+# 头发模拟
+- low bending
+- shear resistance阻力
+- stretch resistance阻力
+- collision碰撞
+- friction摩擦
+- electrostatic forces
+- hair product
+
+
+
+
+
+
+
+# 布料模拟
+- 【UE4布料】7分钟内在虚幻引擎中进行布料模拟 https://www.bilibili.com/s/video/BV1At4y1D7WQ
+- 流程十：UE4为衣服添加布料、胸部头发添加物理效果（完结）https://space.bilibili.com/48806445?spm_id_from=333.905.b_7570496e666f.3
+
+
+
+
