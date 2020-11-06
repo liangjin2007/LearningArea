@@ -1,4 +1,12 @@
-# 
+# 市面上的头发模拟产品
+- nHair
+- xGen
+
+
+
+
+
+- https://taichi.readthedocs.io/zh_CN/latest/scalar_tensor.html
 
 # MPM
 - MPM论文列表 https://www.seas.upenn.edu/~cffjiang/mpm.html
@@ -78,10 +86,7 @@ https://hal.inria.fr/inria-00520193/document
 - electrostatic forces
 - hair product
 
-
-
-
-
+- https://www.fxguide.com/fxfeatured/ue4-real-time-hair-advances/
 
 
 # 布料模拟
