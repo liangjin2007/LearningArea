@@ -3,8 +3,40 @@
 - xGen
 - UE GroomActor https://www.fxguide.com/fxfeatured/ue4-real-time-hair-advances/
 
+- UE 头发介绍https://docs.unrealengine.com/en-US/Engine/HairRendering/index.html
+```
+DCC创建Groom并导出Alembic
+将Alembic导入UE4
+为骨架网格体创建绑定资产
+将Groom资产置于世界场景中（作为蓝图中的Actor）
+使用转移蒙皮将Groom组件连接到骨骼网格体socket
+设置并指定毛发材质
+Details -> Material -> Shading Model设为Hair。
+用途类别下启用Use with Hair Strands
+毛发属性材质表达式示例
+```
+
+- Niagara https://www.youtube.com/watch?v=31GXFW-MgQk
+```
+Niagara Visual Effects Documentation-
+https://docs.unrealengine.com/Engine/Niagara/index.html
+
+Vertex Animation Tool -
+https://docs.unrealengine.com/en-US/Engine/Animation/Tools/VertexAnimationTool/index.html
+
+Further, Inside Unreal videos you might enjoy: 
 
 
+An Introduction To Niagara | Feature Highlight | Unreal Engine Livestream-
+https://youtu.be/s7QpAkzx5eM
+
+1.World Interaction
+Triangles，Physics Volumes, Scene Depth, Distance Fields, volume textures
+Distance Fields
+三个使用方法：查询距离，计算梯度方向，递归查询从某个Particle开始的某个方向上的最近三角形。
+
+
+```
 
 
 
@@ -31,6 +63,7 @@ viscoelastic fluids
 Production pipline Disney
 cloth
 thin shell
+hair
 
 ## 运动学概念Concepts
 - 连续介质运动
@@ -62,8 +95,6 @@ http://www.physicsbasedanimation.com/2012/08/15/siggraph-course-fem-simulation-o
 
 # Hair Modeling, Simulation and Rendering
 https://hal.inria.fr/inria-00520193/document
-
-# 数字人类
 
 
 # 动画
