@@ -38,6 +38,25 @@ Distance Fields
 
 ```
 
+#Taichi GAMES201
+## Mass-Spring System
+## SPH : 基于例子的模拟， 全名光滑例子流体
+- SPH
+- PCI-SPH: Predictive-Corrective Incompressible SPH
+- PBF: Position-based fluids ti example pbf2d
+- Survey Paper: SPH fluids in Computer Graphics
+- CFL condition
+- Accelerating SPH: Neighborhood Search
+  - voxel grid
+  - Compact Hashing
+- Discrete element method
+- MPS: Moving Particle Semi-implicit
+- Power Particles: an incompressible fluid solver based on power diagrams
+- A peridynamic perspective on spring-mass fracture
+## 变形、弹性和有限元
+- 弹性材质elastic
+- 弹性材质是其他材质的基础 viscoelastic（粘弹性）, elastoplastic(弹性塑料), viscoplastic(粘塑性的)
+
 
 
 
