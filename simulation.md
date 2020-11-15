@@ -58,6 +58,10 @@ Distance Fields
 - 弹性材质是其他材质的基础 viscoelastic（粘弹性）, elastoplastic(弹性塑料), viscoplastic(粘塑性的)
 - FEM method: [2012][sig course]FEM simulation of 3D deformable solids: a practitioner’s guide to theory, discretization and model reduction
 - MPM method: [2016]The material point method for simulating continuum materials
+- Deformation: 变形
+- 超弹性hyperelasticity
+  - stress-strain relationship
+  
 
 
 - https://taichi.readthedocs.io/zh_CN/latest/scalar_tensor.html
