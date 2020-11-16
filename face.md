@@ -521,9 +521,44 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 ```
 - **inverse compositional algorithm**
 ```
-group operators: composition and inversion
-POIC : project out inverse compositional
-shape normalization: 
+1.procruste得到s0及normalized shapes {sn}
+2.计算S={sn-s0}
+3.计算pca得到m_S
+4.相似变换 正交化 
+	float thresh = (float)1e-6;
+	dst.resize(src.rows(), src.cols());
+
+	typedef Eigen::Matrix<float, Eigen::Dynamic, 1> ColVector;
+
+	Eigen::Index k = 0; // storing index
+	ColVector v(src.rows(), 1);
+	
+	for (Eigen::Index i = 0; i < src.cols(); i++)
+	{
+		// Column to orthogonalize
+		v = src.col(i);
+
+		// Subtract projections over previous vectors
+		for (Eigen::Index j = 0; j < k; j++)
+		{
+			auto o = dst.col(j);
+			v -= o * (o.transpose() * v);  // remove projection
+		}
+
+		// Only keep nonzero vectors
+		auto nrm = v.norm();
+		if (nrm > thresh)
+		{
+			dst.col(k) = v / nrm;
+			k += 1;
+		}
+	}
+
+	if (k < dst.cols())
+		dst.conservativeResize(Eigen::NoChange, k);
+
+
+
 ```
 
 
