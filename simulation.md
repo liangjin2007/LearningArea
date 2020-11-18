@@ -140,36 +140,6 @@ https://hal.inria.fr/inria-00520193/document
 - 密度
 - 是否保存速度。不保存速度，速度是通过前后两次的位置隐式表示。
 - PBD表示方法
-```
-N vertices
-M constraints
-
-vertex i:
-{mass m_i, position x_i and a velocity v_i}
-
-constraint j:
-{
-  cardinality n_j,
-  a function Cj: R^3n_j -> R,
-  a set of indices {i_1, i_2, ...i_nj}, i_k in [1, N],
-  a stiffness parameter k_j in [0, 1],
-  a type of either equlity or inequality
-}
-  
-  
-
-
-
-
-
-
-
-
-
-
-
-```
-
 
 
 # force-based method
