@@ -132,6 +132,10 @@ Use Multiple features to do tracking
   - samples/cpp/kalman.cpp
   - http://www.cs.unc.edu/~tracker/media/pdf/SIGGRAPH2001_CoursePack_08.pdf
   - linear system theory
+  - 这里面有比较具体的定义 https://zh.wikipedia.org/wiki/%E5%8D%A1%E5%B0%94%E6%9B%BC%E6%BB%A4%E6%B3%A2
+  
+  
+  
 - assignment problem新的帧中出现的对象对应于原来哪个对象
   - 著名的Hungarian算法，需要定义goodness function
     - 一种方法是使用手写的函数去定义goodness function, 往往不好。
