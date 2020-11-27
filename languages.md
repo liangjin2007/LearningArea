@@ -283,6 +283,8 @@ target_compile_definitions(mylib
     ${CMAKE_CURRENT_BINARY_DIR}/xxx.java)
 - enable_testing()
 
+- 设置工作目录 set_target_properties(OriginalTressFXSample PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_HOME_DIRECTORY}/bin")
+
 - install
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/COLMAPConfig.cmake" DESTINATION "share/colmap")
 
