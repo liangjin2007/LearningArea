@@ -23,6 +23,8 @@ RWStructuredBuffer<float4>
 register(t4, space0)
 register(u0, space1)
 
+Texture2D
+
 groupshared
 
 函数
