@@ -23,6 +23,7 @@ RWStructuredBuffer<float4>
 register(t4, space0)
 register(u0, space1)
 
+groupshared
 
 函数
 GroupMemoryBarrier();
@@ -31,11 +32,12 @@ GroupMemoryBarrier();
 GGroupThreadId.x
 
 ```
-# UE Hair相关代码
-```
-SharedNodePosition
-SharedPreviousPosition
-SharedNodeOrientation
-```
+
+# compute shader
+- https://docs.microsoft.com/en-us/windows/win32/direct3d11/direct3d-11-advanced-stages-compute-shader
+
+
+
+
 
 
