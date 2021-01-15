@@ -136,6 +136,8 @@ __noinline__
 1.内置矢量类型 float4, ...
 2.dim3 = uint3
 3.数学函数，看附录B
+4.时间函数clock_t clock();
+5.纹理类型， texture reference, texture fetch
 ```
 
 
