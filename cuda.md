@@ -42,6 +42,8 @@ Device assign Grid/Block/Thread
 
 ## 第三章 硬件实现
 
+？？ 难点在于对warp的理解
+
 - SIMD多处理器
 ```
 1.设备
@@ -107,10 +109,39 @@ __device__声明驻留在设备上的一个变量， 全局内存空间，具有
   以下与__device__一起使用：
     __constant__: 驻留在常量内存空间，具有应用的生存期，从栅格内所有线程和从主机通过runtime库是可访问的。
     __shared__ : 驻留在线程块的共享内存空间中，具有块的生存期，只有块之内的所有线程是可访问的。
-3. 新的指令指定kernel如何在设备上执行
-4. 内置变量指定栅格和块的维数， 还有块和线程的ID
 
+3. 执行配置： 新的指令指定kernel如何在设备上执行
+<<<Dg, Db, Ns, S>>>
+Dg栅格维度 Dg.x, Dg.y
+Db 块维度Db.x, Db.y, Db.z
+Ns: 静态分配的内存之外的动态分配每个块的内存， 默认0，可选
+S: Stream相关， 默认0， 可选
+
+
+4. 内置变量指定栅格和块的维数， 还有块和线程的ID
+gridDim: dim3 栅格维度
+blockIdx: uint3 块索引
+blockDim: dim3  块维度
+threadIdx: uint3包含块之内的线程索引
+
+
+5. nvcc编译 
+__noinline__
+行程计数 #pragma unroll 5
 ```
+
+- 公共Runtime组件
+```
+可同时被Host和Device调用
+1.内置矢量类型 float4, ...
+2.dim3 = uint3
+3.数学函数，看附录B
+```
+
+
+## 第五章 性能指导
+
+## 第六章 矩阵乘法的例子
 
 ## 附录A 技术规格
 ```
