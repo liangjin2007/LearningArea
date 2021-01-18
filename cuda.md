@@ -130,9 +130,8 @@ __noinline__
 行程计数 #pragma unroll 5
 ```
 
-- 公共Runtime组件
+- 公共Runtime组件 可同时被Host和Device调用
 ```
-可同时被Host和Device调用
 1.内置矢量类型 float4, ...
 2.dim3 = uint3
 3.数学函数，看附录B
@@ -178,3 +177,64 @@ warp。
 ## 附录C 原子函数
 
 ## 附录D Runtime API 参考 page 91-136
+
+# QA
+
+## Bank Conflict
+```
+简介
+
+　　目前 CUDA 装置中,每个 multiprocessor 有 16KB 的 shared memory。Shared memory 分成 16 个 bank。如果同时每个 thread 是存取不同的 bank,就不会产生任何问题,存取shared memory 的速度和存取寄存器相同。不过,如果同时有两个(或更多个) threads 存取同一个 bank 的数据,就会发生 bank conflict,这些 threads 就必须照顺序去存取,而无法同时存取 shared memory 了。
+
+例子
+
+　　　Shared memory 是以 4 bytes 为单位分成 banks。因此,假设以下的数据:　__shared__ int data[128];
+
+那么,data[0] 是 bank 0、data[1] 是 bank 1、data[2] 是 bank 2、...、data[15] 是 bank15,而 data[16] 又回到 bank 0。由于 warp 在执
+
+行时是以 half-warp 的方式执行,因此分属于不同的 half warp 的 threads,不会造成 bank conflict。
+
+因此,如果程序在存取 shared memory 的时候,使用以下的方式:　int number = data[base + tid];
+
+那就不会有任何 bank conflict,可以达到最高的效率。
+
+　　　但是,如果是以下的方式:int number = data[base + 4 * tid];那么,thread 0 和 thread 4 就会存取到同一个 bank,thread 1 和 
+
+thread 5 也是同样,这样就会造成 bank conflict。在这个例子中,一个 half warp 的 16 个 threads 会有四个 threads 存取同一个 bank,
+
+因此存取 share memory 的速度会变成原来的 1/4。一个重要的例外是,当多个 thread 存取到同一个 shared memory 的地址
+
+时,shared memory可以将这个地址的 32 bits 数据「广播」到所有读取的 threads,因此不会造成 bank conflict。例如:int number = 
+
+data[3];　这样不会造成 bank conflict,因为所有的 thread 都读取同一个地址的数据。很多时候 shared memory 的 bank conflict 可以
+
+透过修改数据存放的方式来解决。例如,
+
+以下的程序:data[tid] = global_data[tid];
+
+　　　　　　　　　...
+
+　　　　　 int number = data[16 * tid];
+
+会造成严重的 bank conflict,为了避免这个问题,可以把数据的排列方式稍加修改,把存取方式改成:
+
+int row = tid / 16;
+
+int column = tid % 16;
+
+data[row * 17 + column] = global_data[tid];
+
+...
+
+int number = data[17 * tid];
+
+这样就不会造成 bank conflict 了。
+
+
+疑问
+
+　　　为什么 shared memory 存在 bank  conflict，而 global memory 不存在？因为访问 global memory 的只能是 block，而访问 shared memory 的却是同一个 half-warp 中的任意线程。
+```
+
+
+
