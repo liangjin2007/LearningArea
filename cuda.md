@@ -137,6 +137,15 @@ __noinline__
 3.数学函数，看附录B
 4.时间函数clock_t clock();
 5.纹理类型， texture reference, texture fetch
+Texrure<Type, Dim, ReadMode> texRef;
+  cudaReadModeNormalizedFloat : unsigned 的整型类型被映射到[0.0，1.0]，signed 的整型类型被映射到[-1.0，1.0]
+  cudaReadModeElementType
+纹理坐标是否是Normalized : Normalized 的纹理通过坐标[0.0，1.0)引用，而不是[0，N)
+
+
+
+
+
 ```
 
 
