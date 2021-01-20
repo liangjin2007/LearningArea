@@ -141,13 +141,13 @@ Texrure<Type, Dim, ReadMode> texRef;
   cudaReadModeNormalizedFloat : unsigned 的整型类型被映射到[0.0，1.0]，signed 的整型类型被映射到[-1.0，1.0]
   cudaReadModeElementType
 纹理坐标是否是Normalized : Normalized 的纹理通过坐标[0.0，1.0)引用，而不是[0，N)
-
-
-
-
+```
+- 设备Runtime组件 只能用于设备函数
+```
+1. 更快的数学函数版本，比如__sin(x)
+2. 同步函数 __syncthreads(); 在一个块内同步所有线程。一旦所有线程到达了这点，恢复正常执行。
 
 ```
-
 
 ## 第五章 性能指导
 
