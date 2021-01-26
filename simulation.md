@@ -162,5 +162,14 @@ https://hal.inria.fr/inria-00520193/document
 - 流程十：UE4为衣服添加布料、胸部头发添加物理效果（完结）https://space.bilibili.com/48806445?spm_id_from=333.905.b_7570496e666f.3
 
 
+# PBF
+```
+Enforce constaint density 保持密度不变
+C(p1, p2, ..., pn) = xxx
+
+
+CFM constraint force mixing
+```
+
 
 
