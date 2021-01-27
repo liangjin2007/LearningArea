@@ -167,6 +167,12 @@ https://hal.inria.fr/inria-00520193/document
 Enforce constaint density 保持密度不变
 C(p1, p2, ..., pn) = xxx
 
+particle clustering or clumping
+
+surface tension-like effects
+
+Vorticity Confinement
+
 
 CFM constraint force mixing
 ```
