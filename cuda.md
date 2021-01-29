@@ -142,12 +142,66 @@ Texrure<Type, Dim, ReadMode> texRef;
   cudaReadModeElementType
 纹理坐标是否是Normalized : Normalized 的纹理通过坐标[0.0，1.0)引用，而不是[0，N)
 ```
+
 - 设备Runtime组件 只能用于设备函数
 ```
 1. 更快的数学函数版本，比如__sin(x)
 2. 同步函数 __syncthreads(); 在一个块内同步所有线程。一旦所有线程到达了这点，恢复正常执行。
+3. 原子函数 atomicAdd()
+4. 数组纹理操作tex1D, tex2D; 设备内存纹理操作
+5. Type Casting: __int_as_float(), __float_as_int()
+6. 类型转换函数： __float2int_[rn,rz,ru,rd](), __int2float_[](), 
 
 ```
+
+- 主机Runtime组件 只能被主机函数使用
+```
+它提供函数来处理：
+  设备管理
+  Context管理
+  内存管理
+  编码模块管理
+  执行控制
+  Texture reference管理
+  OpenGL和Direct3D的互用性
+  
+它由二个API组成：
+一个低级的API调用CUDA驱动程序API    函数以cu开头   通过cuda动态库提供
+一个高级的API调用CUDA runtime API  函数以cuda开头 通过cudart动态库提供
+这些API是互斥的，一个应用程序应该选择其中之一来使用
+
+
+概念
+1.设备
+一个主机线程只能在一个设备上执行设备代码。因此，多主机线程需要在多个设备上执行设备代码。另外，任何在一个主机线程中通过runtime创建的CUDA 源文件不能被其它主机线程使用。
+
+
+2. 内存
+设备内存可被分配到线性内存或者是CUDA 数组。
+在设备上的线性内存使用32-bit 地址空间，因此单独分配的实体可以通过指针的互相引用，例如，在一个二元的树结构中。
+
+CUDA 数组是针对纹理拾取优化的不透明的内存布局。它们是一维或二维的元素组成的，每个有1 个，2个或者4 个组件，每个组件可以是有符号或无符号8-，16- 或32-bit 整型，16-位浮点(仅通过CUDA 驱动
+程序API 支持)，或32 位浮点。CUDA 数组只能通过kernel 纹理拾取读取。
+
+通过主机的内存复制函数，线性内存和 CUDA 数组都是可读和可写的。
+
+不同于由malloc()函数分配的pageable 主机内存，主机runtime 同样提供可以分配和释放page-locked主机内存的函数。
+如果主机内存被分配为page-locked ，使用page-locked 内存的优势是，主机内存和设备内存之间的带宽将非常高。但是，分配过多的page-locked 内存将减少系统可用物理内存的大小，从而降低系统整体的性能。
+
+3. OpenGL互操作
+OpenGL 缓冲器对象可以被映射到CUDA 地址空间，使CUDA 能够读取被OpenGL 写入的数据，或者使CUDA 能够写入被OpenGL 消耗的数据。
+
+4. Direct3D互操作
+Direct3D 9.0 顶点缓冲器可以被映射到CUDA 地址空间，使CUDA 能够读取被Direct3D 写入的数据，或者使CUDA 能够写入被Direct3D 消耗的数据
+一个CUDA context 每次只可以互用一个Direct3D 设备，通过把begin/end 函数括起来调用。
+CUDA context 和Direct3D 设备必须建立在同一个GPU 上。可以通过查询与CUDA 设备是否关联使用Direct3D的适配器来确保。对于runtime API 使用cudaD3D9GetDevice()（参见附录D.9.7），对于驱
+动API 使用cuD3D9GetDevice()。
+
+5. 
+
+```
+
+
 
 ## 第五章 性能指导
 
@@ -245,5 +299,7 @@ int number = data[17 * tid];
 　　　为什么 shared memory 存在 bank  conflict，而 global memory 不存在？因为访问 global memory 的只能是 block，而访问 shared memory 的却是同一个 half-warp 中的任意线程。
 ```
 
+# CUDA编程之快速入门
+https://www.cnblogs.com/skyfsm/p/9673960.html
 
 
