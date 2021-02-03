@@ -197,7 +197,8 @@ Direct3D 9.0 顶点缓冲器可以被映射到CUDA 地址空间，使CUDA 能够
 CUDA context 和Direct3D 设备必须建立在同一个GPU 上。可以通过查询与CUDA 设备是否关联使用Direct3D的适配器来确保。对于runtime API 使用cudaD3D9GetDevice()（参见附录D.9.7），对于驱
 动API 使用cuD3D9GetDevice()。
 
-5. 
+5. 异步并发执行
+
 
 ```
 
