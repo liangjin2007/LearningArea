@@ -177,5 +177,9 @@ Vorticity Confinement
 CFM constraint force mixing
 ```
 
+# 风模拟
+- NvCloth/docs/documentation/Solver/Index.html#wind-simulation
+
+
 
 
