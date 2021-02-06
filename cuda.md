@@ -1,4 +1,5 @@
 # 《CUDA_Programming Guide 1.1中文版》笔记
+
 ## 第一章 CUDA介绍
 Control, Cache, ALU, DRAM, Shared memory.
 ## 第二章 编程模型
@@ -79,13 +80,13 @@ primary surface
 ```
 ## 第四章 API
 
-- 一个C语言的扩展
+- 一、一个C语言的扩展
 ```
 C语言扩展集
 runtime
 ```
 
-- 语言扩展
+- 二、语言扩展
 ```
 1. 函数类型限定句
 __device__在设备上执行，仅可从设备调用
@@ -130,7 +131,7 @@ __noinline__
 行程计数 #pragma unroll 5
 ```
 
-- 公共Runtime组件 可同时被Host和Device调用
+- 三、公共Runtime组件 可同时被Host和Device调用
 ```
 1.内置矢量类型 float4, ...
 2.dim3 = uint3
@@ -143,7 +144,7 @@ Texrure<Type, Dim, ReadMode> texRef;
 纹理坐标是否是Normalized : Normalized 的纹理通过坐标[0.0，1.0)引用，而不是[0，N)
 ```
 
-- 设备Runtime组件 只能用于设备函数
+- 四、设备Runtime组件 只能用于设备函数
 ```
 1. 更快的数学函数版本，比如__sin(x)
 2. 同步函数 __syncthreads(); 在一个块内同步所有线程。一旦所有线程到达了这点，恢复正常执行。
@@ -154,7 +155,7 @@ Texrure<Type, Dim, ReadMode> texRef;
 
 ```
 
-- 主机Runtime组件 只能被主机函数使用
+- 五、主机Runtime组件 只能被主机函数使用
 ```
 它提供函数来处理：
   设备管理
@@ -168,9 +169,11 @@ Texrure<Type, Dim, ReadMode> texRef;
 它由二个API组成：
 一个低级的API调用CUDA驱动程序API    函数以cu开头   通过cuda动态库提供
 一个高级的API调用CUDA runtime API  函数以cuda开头 通过cudart动态库提供
+```
+
 这些API是互斥的，一个应用程序应该选择其中之一来使用
-
-
+- 五、一、公共概念
+```
 概念
 1.设备
 一个主机线程只能在一个设备上执行设备代码。因此，多主机线程需要在多个设备上执行设备代码。另外，任何在一个主机线程中通过runtime创建的CUDA 源文件不能被其它主机线程使用。
@@ -198,11 +201,52 @@ CUDA context 和Direct3D 设备必须建立在同一个GPU 上。可以通过查
 动API 使用cuD3D9GetDevice()。
 
 5. 异步并发执行
-
-
 ```
 
+- 五、二、Runtime API
+```
+1.Runtime初始化
+2.设备管理
+cudaGetDeviceCount
+cudaGetDeviceProperties
+cudaDeviceProp结构体
+cudaSetDevice
+3.内存管理
+用来分配和释放设备内存，访问在全局内存中任意声明的变量分配的内存，和从主机内存到设备内存之间的数据传输。
+cudaMalloc, cudaMallocPitch, cudaFree, cudaMemcpy, cudaMemcpy3DParams, cudaMemcpyHostToDevice, cudaMemcpyDeviceToHost, cudaMemcpyDeviceToDevice
+4.流管理
+cudaStream_t
+cudaStreamCreateWithFlags
+cudaStreamSynchronize
+5.事件管理
+6.纹理管理
+7.opengl互操作
+8.direct3d互操作
+9.使用设备仿真方式调试
+```
 
+- 五、三、驱动API
+```
+驱动API是基于句柄的，命令式的API，多数对象通过不透明的句柄引用。
+1.初始化 
+cuInit
+2.设备管理
+cuDeviceGetCount, cuDeviceGet
+3.Context管理
+cuCtxCreate, cuCtxAttach, cuCtxDetach
+4.模块管理
+cuModuleLoad, cuModuleGetFunction
+5.执行控制
+cuFuncSetBlockShape
+cuLaunchGrid
+6.内存管理
+cuMemAlloc
+7.流管理
+8.事件管理
+9.纹理reference管理
+10.opengl互操作性
+11.Direct3D互操作性
+```
 
 ## 第五章 性能指导
 
@@ -300,7 +344,24 @@ int number = data[17 * tid];
 　　　为什么 shared memory 存在 bank  conflict，而 global memory 不存在？因为访问 global memory 的只能是 block，而访问 shared memory 的却是同一个 half-warp 中的任意线程。
 ```
 
-# CUDA编程之快速入门
-https://www.cnblogs.com/skyfsm/p/9673960.html
+
+# 最新的programming guide cuda 11.2 https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html
+
+- host代码
+```
+const int kernelNum = // 数据线性化长度;
+if (kernelNum <= 0)
+  return;
+checkCudaErrors(cudaSetDevice(DeviceId));
+const int ThreadNumPerBlock = 512;
+const int blockNum = (kernelNum + ThreadNumPerBlock - 1) / ThreadNumPerBlock;
+Kernel<<<blockNum, ThreadNumPerBlock>>>(kernelNum, data);
+```
+
+- device代码
+
+
+
+
 
 
