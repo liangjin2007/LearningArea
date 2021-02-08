@@ -361,6 +361,9 @@ Kernel<<<blockNum, ThreadNumPerBlock>>>(kernelNum, data);
 - device代码
 
 
+# GVDB programming guide 1.1
+
+
 
 
 
