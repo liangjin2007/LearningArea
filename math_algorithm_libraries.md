@@ -1165,4 +1165,4 @@ def bar(k: ti.i32):
 -syntax
   - Kernel arguments must be type-hinted. Kernels can have at most 8 parameters, e.g.,
 
-
+## Hash函数 http://www.burtleburtle.net/bob/hash/doobs.html
