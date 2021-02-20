@@ -400,3 +400,252 @@ cublasXgemm
 比如使用Driver API cuModuleLoad从cubin文件读取kernel代码或者使用cuModuleLoadDataEx从ptx文件读取kernel代码。(cuModuleGetFunction)。驱动api一般以cu开头。
 cuMemcpy etc.
 ```
+## CUDA Dynamic Parallelism
+
+## CUDA Graphs
+```
+cudaStream_t streamForGraph;
+cudaGraph_t graph;
+std::vector<cudaGraphNode_t> nodeDependencies;
+cudaGraphNode_t memcpyNode, kernelNode, memsetNode;
+double result_h = 0.0;
+
+checkCudaErrors(cudaStreamCreateWithFlags(&streamForGraph, cudaStreamNonBlocking));
+
+cudaKernelNodeParams kernelNodeParams = {0};
+cudaMemcpy3DParms memcpyParams = {0};
+cudaMemsetParams memsetParams = {0};
+
+memcpyParams.srcArray = NULL;
+memcpyParams.srcPos   = make_cudaPos(0,0,0);
+memcpyParams.srcPtr   = make_cudaPitchedPtr(inputVec_h, sizeof(float)*inputSize, inputSize, 1);
+memcpyParams.dstArray = NULL;
+memcpyParams.dstPos   = make_cudaPos(0,0,0);
+memcpyParams.dstPtr   = make_cudaPitchedPtr(inputVec_d, sizeof(float)*inputSize, inputSize, 1);
+memcpyParams.extent   = make_cudaExtent(sizeof(float)*inputSize, 1, 1);
+memcpyParams.kind     = cudaMemcpyHostToDevice;
+
+memsetParams.dst            = (void*)outputVec_d;
+memsetParams.value          = 0;
+memsetParams.pitch          = 0;
+memsetParams.elementSize    = sizeof(float); // elementSize can be max 4 bytes
+memsetParams.width          = numOfBlocks*2; 
+memsetParams.height         = 1;
+
+checkCudaErrors(cudaGraphCreate(&graph, 0));
+checkCudaErrors(cudaGraphAddMemcpyNode(&memcpyNode, graph, NULL, 0, &memcpyParams));
+checkCudaErrors(cudaGraphAddMemsetNode(&memsetNode, graph, NULL, 0, &memsetParams));
+
+nodeDependencies.push_back(memsetNode);
+nodeDependencies.push_back(memcpyNode);
+
+void *kernelArgs[4] = {(void*)&inputVec_d, (void*)&outputVec_d, &inputSize, &numOfBlocks};
+
+kernelNodeParams.func = (void*)reduce;
+kernelNodeParams.gridDim  = dim3(numOfBlocks, 1, 1);
+kernelNodeParams.blockDim = dim3(THREADS_PER_BLOCK, 1, 1);
+kernelNodeParams.sharedMemBytes = 0;
+kernelNodeParams.kernelParams = (void **)kernelArgs;
+kernelNodeParams.extra = NULL;
+
+checkCudaErrors(cudaGraphAddKernelNode(&kernelNode, graph, nodeDependencies.data(), nodeDependencies.size(), &kernelNodeParams));
+
+nodeDependencies.clear();
+nodeDependencies.push_back(kernelNode);
+
+memset(&memsetParams, 0, sizeof(memsetParams));
+memsetParams.dst            = result_d;
+memsetParams.value          = 0;
+memsetParams.elementSize    = sizeof(float);
+memsetParams.width          = 2;
+memsetParams.height         = 1;
+checkCudaErrors(cudaGraphAddMemsetNode(&memsetNode, graph, NULL, 0, &memsetParams));
+
+nodeDependencies.push_back(memsetNode);
+
+memset(&kernelNodeParams, 0, sizeof(kernelNodeParams));
+kernelNodeParams.func = (void*)reduceFinal;
+kernelNodeParams.gridDim  = dim3(1, 1, 1);
+kernelNodeParams.blockDim = dim3(THREADS_PER_BLOCK, 1, 1);
+kernelNodeParams.sharedMemBytes = 0;
+void *kernelArgs2[3] =  {(void*)&outputVec_d, (void*)&result_d, &numOfBlocks};
+kernelNodeParams.kernelParams = kernelArgs2;
+kernelNodeParams.extra = NULL;
+
+checkCudaErrors(cudaGraphAddKernelNode(&kernelNode, graph, nodeDependencies.data(), nodeDependencies.size(), &kernelNodeParams));
+nodeDependencies.clear();
+nodeDependencies.push_back(kernelNode);
+
+memset(&memcpyParams, 0, sizeof(memcpyParams));
+
+memcpyParams.srcArray = NULL;
+memcpyParams.srcPos   = make_cudaPos(0,0,0);
+memcpyParams.srcPtr   = make_cudaPitchedPtr(result_d, sizeof(double), 1, 1);
+memcpyParams.dstArray = NULL;
+memcpyParams.dstPos   = make_cudaPos(0,0,0);
+memcpyParams.dstPtr   = make_cudaPitchedPtr(&result_h, sizeof(double), 1, 1);
+memcpyParams.extent   = make_cudaExtent(sizeof(double), 1, 1);
+memcpyParams.kind     = cudaMemcpyDeviceToHost;
+checkCudaErrors(cudaGraphAddMemcpyNode(&memcpyNode, graph, nodeDependencies.data(), nodeDependencies.size(), &memcpyParams));
+nodeDependencies.clear();
+nodeDependencies.push_back(memcpyNode);
+
+cudaGraphNode_t *nodes = NULL;
+size_t numNodes = 0;
+checkCudaErrors(cudaGraphGetNodes(graph, nodes, &numNodes));
+printf("\nNum of nodes in the graph created manually = %zu\n", numNodes);
+
+cudaGraphExec_t graphExec;
+checkCudaErrors(cudaGraphInstantiate(&graphExec, graph, NULL, NULL, 0));
+
+cudaGraph_t clonedGraph;
+cudaGraphExec_t clonedGraphExec;
+checkCudaErrors(cudaGraphClone(&clonedGraph, graph));
+checkCudaErrors(cudaGraphInstantiate(&clonedGraphExec, clonedGraph, NULL, NULL, 0));
+
+for (int i=0; i < GRAPH_LAUNCH_ITERATIONS; i++)
+{
+   checkCudaErrors(cudaGraphLaunch(graphExec, streamForGraph));
+   checkCudaErrors(cudaStreamSynchronize(streamForGraph));
+   printf("[cudaGraphsManual] final reduced sum = %lf\n", result_h);
+   result_h = 0.0;
+}
+
+printf("Cloned Graph Output.. \n");
+for (int i=0; i < GRAPH_LAUNCH_ITERATIONS; i++)
+{
+   checkCudaErrors(cudaGraphLaunch(clonedGraphExec, streamForGraph));
+   checkCudaErrors(cudaStreamSynchronize(streamForGraph));
+   printf("[cudaGraphsManual] final reduced sum = %lf\n", result_h);
+   result_h = 0.0;
+}
+
+checkCudaErrors(cudaGraphExecDestroy(graphExec));
+checkCudaErrors(cudaGraphExecDestroy(clonedGraphExec));
+checkCudaErrors(cudaGraphDestroy(graph));
+checkCudaErrors(cudaGraphDestroy(clonedGraph));
+checkCudaErrors(cudaStreamDestroy(streamForGraph));
+```
+
+## CUDA NvSci Interop
+
+## CUDA Runtime API
+可以关注一下simpleDrvRuntime，演示Driver和Runtime之间的交互
+```
+#include <cuda.h>
+...
+
+CUdevice cuDevice;
+CUfunction vecAdd_kernel;
+CUmodule cuModule = 0;
+CUcontext cuContext;
+
+checkCudaDrvErrors(cuInit(0));
+cuDevice = findCudaDevice(argc, (const char **)argv);
+
+// Create context
+checkCudaDrvErrors(cuCtxCreate(&cuContext, 0, cuDevice));
+
+// Create module from binary file (FATBIN)
+checkCudaDrvErrors(cuModuleLoadData(&cuModule, fatbin.str().c_str()));
+
+// Get function handle from module
+checkCudaDrvErrors(cuModuleGetFunction(&vecAdd_kernel, cuModule, "VecAdd_kernel"));
+
+// Runtime API
+// Allocate input vectors h_A and h_B in host memory
+h_A = (float *)malloc(size);
+h_B = (float *)malloc(size);
+h_C = (float *)malloc(size);
+
+// Initialize input vectors
+RandomInit(h_A, N);
+RandomInit(h_B, N);
+
+// Allocate vectors in device memory
+checkCudaErrors(cudaMalloc((void**)(&d_A), size));
+checkCudaErrors(cudaMalloc((void**)(&d_B), size));
+checkCudaErrors(cudaMalloc((void**)(&d_C), size));
+
+// Copy vectors from host memory to device memory
+checkCudaErrors(cudaMemcpyAsync(d_A, h_A, size, cudaMemcpyHostToDevice, stream));
+checkCudaErrors(cudaMemcpyAsync(d_B, h_B, size, cudaMemcpyHostToDevice, stream));
+
+int threadsPerBlock = 256;
+int blocksPerGrid   = (N + threadsPerBlock - 1) / threadsPerBlock;
+
+void *args[] = { &d_A, &d_B, &d_C, &N };
+
+// Launch the CUDA kernel
+checkCudaDrvErrors(cuLaunchKernel(vecAdd_kernel,  blocksPerGrid, 1, 1,
+                       threadsPerBlock, 1, 1,
+                       0,
+                       stream, args, NULL));
+
+// Copy result from device memory to host memory
+// h_C contains the result in host memory
+checkCudaErrors(cudaMemcpyAsync(h_C, d_C, size, cudaMemcpyDeviceToHost, stream));
+checkCudaErrors(cudaStreamSynchronize(stream));
+
+checkCudaDrvErrors(cuModuleUnload(cuModule));
+checkCudaDrvErrors(cuCtxDestroy(cuContext));
+```
+
+## CUDA Stream
+Stream API definies a sequence of operations that can be overlapped with I/O
+## CUDA Stream and Events
+Synchronizing Kernels with Event Timers and Streams
+## CUDA System Integration
+Samples that integrate with Multi Process（ IPC, MPI, OpenMP ）
+## CUFFT Library
+## CUSolver Library
+## CUSparse Library
+## Callback Functions
+## Cooperative Groups
+## Data Parallelelism Algorithm
+## Debugging
+printf
+## Device Memory Allocation
+template
+```
+__global__ void
+testKernel(float *g_idata, float *g_odata)
+{
+    // shared memory
+    // the size is determined by the host application
+    extern  __shared__  float sdata[];
+
+    // access thread id
+    const unsigned int tid = threadIdx.x;
+    // access number of threads in this block
+    const unsigned int num_threads = blockDim.x;
+
+    // read in input data from global memory
+    sdata[tid] = g_idata[tid];
+    __syncthreads();
+
+    // perform some computations
+    sdata[tid] = (float) num_threads * sdata[tid];
+    __syncthreads();
+
+    // write data to global memory
+    g_odata[tid] = sdata[tid];
+}
+```
+## Device Query
+## EGLImage-CUDA Interop
+## GPU Performance
+Samples demonstrating high performance and data I/O
+## Graph Analytics
+## Graphics Interop
+## Image Decoding/Encoding
+## Image Processing
+## Instantiated CUDA Graph Update
+## InterProcess Communication
+## Linear Algebra
+## MMap
+## MPI
+## Multi-GPU
+## Multithreading
+## NVGRAPH, NPP, NVJPEG
+## Occupancy Calculator
