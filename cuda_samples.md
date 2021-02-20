@@ -3,7 +3,7 @@
 ```
 // Allocate device memory for result
 float *dData = NULL;
-checkCudaErrors(cudaMalloc((void **) &dData, size));
+checkCudaErrors(cudaMalloc((void **) &dData, size)); // 全局内存
 
 // free device memory
 checkCudaErrors(cudaFree(dData));
