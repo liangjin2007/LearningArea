@@ -1,5 +1,7 @@
 # CUDA_Samples.pdf Key Concepts and Associated Samples
 
+# 基本概念
+
 ## CUDA 头文件
 ```
 // Includes CUDA
@@ -649,3 +651,105 @@ Samples demonstrating high performance and data I/O
 ## Multithreading
 ## NVGRAPH, NPP, NVJPEG
 ## Occupancy Calculator
+## Openmp
+## Overlap Compute and Copy
+## PTX Assembly
+## Peer to Peer
+## Performance Strategies
+## Pinned System Paged Memory
+```
+    if (bPinGenericMemory)
+    {
+#if CUDART_VERSION >= 4000
+        a_UA = (float *) malloc(bytes + MEMORY_ALIGNMENT);
+        b_UA = (float *) malloc(bytes + MEMORY_ALIGNMENT);
+        c_UA = (float *) malloc(bytes + MEMORY_ALIGNMENT);
+
+        // We need to ensure memory is aligned to 4K (so we will need to padd memory accordingly)
+        a = (float *) ALIGN_UP(a_UA, MEMORY_ALIGNMENT);
+        b = (float *) ALIGN_UP(b_UA, MEMORY_ALIGNMENT);
+        c = (float *) ALIGN_UP(c_UA, MEMORY_ALIGNMENT);
+
+        checkCudaErrors(cudaHostRegister(a, bytes, cudaHostRegisterMapped));
+        checkCudaErrors(cudaHostRegister(b, bytes, cudaHostRegisterMapped));
+        checkCudaErrors(cudaHostRegister(c, bytes, cudaHostRegisterMapped));
+#endif
+    }
+    else
+    {
+#if CUDART_VERSION >= 2020
+        flags = cudaHostAllocMapped;
+        checkCudaErrors(cudaHostAlloc((void **)&a, bytes, flags));
+        checkCudaErrors(cudaHostAlloc((void **)&b, bytes, flags));
+        checkCudaErrors(cudaHostAlloc((void **)&c, bytes, flags));
+#endif
+    }
+
+    /* Initialize the vectors. */
+
+    for (n = 0; n < nelem; n++)
+    {
+        a[n] = rand() / (float)RAND_MAX;
+        b[n] = rand() / (float)RAND_MAX;
+    }
+
+    /* Get the device pointers for the pinned CPU memory mapped into the GPU
+       memory space. */
+
+#if CUDART_VERSION >= 2020
+    checkCudaErrors(cudaHostGetDevicePointer((void **)&d_a, (void *)a, 0));
+    checkCudaErrors(cudaHostGetDevicePointer((void **)&d_b, (void *)b, 0));
+    checkCudaErrors(cudaHostGetDevicePointer((void **)&d_c, (void *)c, 0));
+#endif
+    if (bPinGenericMemory)
+    {
+#if CUDART_VERSION >= 4000
+        checkCudaErrors(cudaHostUnregister(a));
+        checkCudaErrors(cudaHostUnregister(b));
+        checkCudaErrors(cudaHostUnregister(c));
+        free(a_UA);
+        free(b_UA);
+        free(c_UA);
+#endif
+```
+## Separate Compilation
+把device代码放到一个静态库里。deviceFunc。将deviceFunc作为__global__ kernel的参数
+```
+__global__ void transformVector(float *v, deviceFunc f, uint size)
+{
+    uint tid = blockIdx.x * blockDim.x + threadIdx.x;
+
+    if (tid < size)
+    {
+        v[tid] = (*f)(v[tid]);
+    }
+}
+```
+```
+// Test library functions.
+deviceFunc hFunctionPtr;
+
+cudaMemcpyFromSymbol(&hFunctionPtr,
+                     dMultiplyByTwoPtr,
+                     sizeof(deviceFunc));
+transformVector<<<dimGrid, dimBlock>>>
+(dVector, hFunctionPtr, kVectorSize);
+checkCudaErrors(cudaGetLastError());
+```
+
+## Stream Capture
+Create CUDA Jacobi Graph 
+
+## Surface Write
+## Unified Memory
+## Unified Virtual Address Space (UVA)
+## Vote Intrinsics
+## cuMemMap IPC
+
+
+# 高级概念
+## 2D Texture
+## 3D Graphics
+## 3D Texture
+## C++11 CUDA
+## 
