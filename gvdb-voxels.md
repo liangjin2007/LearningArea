@@ -1,14 +1,51 @@
 # VolumeGVDB
 
+## CTX
+PUSH_CTX和POP_CTX
+
+## gvdbPTX
+几个cuh文件及两个cu文件。 cuh文件中包含一些类是host代码中没有的（VDBNode, VDBAtlasNode），也包含一些在host代码中存在的类(VDBInfo)。
+
 ## point cloud
 ```
 point cloud Min, Max，p需要转成 p' = (p-Min)/(Max-Min)*65535这样的放到m_pnt1
 wMin = Min
+坐标需要做一次平移将使得vMin >= (0,0,0)
+pntl需要将坐标转换到0~65535(ushort)
 ```
+
+## Topology
+即GVDB hierarchy
+
+## Pool
+group, level, and index from a pool
+
+## Clear
+干了什么?
+```
+// Empty VDB data (keep pools)
+mPool->PoolEmptyAll ();		// does not free pool mem
+mRoot = ID_UNDEFL;
+
+// Empty atlas & atlas map
+mPool->AtlasEmptyAll ();	// does not free atlas
+
+mPnt.Set ( 0, 0, 0 );
+
+mRebuildTopo = true;			// full rebuild required
+```
+## 
+getRange(level) // 返回某一节的node的index-space range
+
+
+
+
 ## Data
 ```
 Bounding box : mPosMin, mPosMax, mPosRange
 ```
+
+
 ## Allocator
 ```
 Allocator *mPool
@@ -26,6 +63,44 @@ Allocator *mPool
 ## Topology
 getRes(lev) //比如lev=0时，返回2^4=16
 InsertPointsSubcell(subcell_size, num_pnts, pRadius, trans, pSCPntsLength)
+
+## Node
+- VDBNode
+```
+在cuh文件中
+struct ALIGN(16) VDBNode {
+	uchar		mLev;			// Level		Max = 255			1 byte
+	uchar		mFlags;
+	uchar		pad[2];
+	int3		mPos;			// Pos			Max = +/- 4 mil (linear space/range)	12 bytes
+	int3		mValue;			// Value		Max = +8 mil		4 bytes
+	uint64		mParent;		// Parent ID						8 bytes
+	uint64		mChildList;		// Child List						8 bytes
+#ifdef USE_BITMASKS
+	uint64		mMask;			// Bitmask starts
+#endif
+};
+```
+- VDBAtlasNode
+```
+struct ALIGN(16) VDBAtlasNode {
+	int3		mPos;
+	int			mLeafID;
+};
+```
+## VDBInfo
+```
+1. 从VDBInfo读取数据
+// Host code
+void* args[4] = { &cuVDBInfo, &cellNum, &mAux[AUX_TEST_1].gpu, &mAux[AUX_TEST].gpu };
+cudaCheck(cuLaunchKernel(cuFunc[FUNC_READ_GRID_VEL], pblks, 1, 1, threads, 1, 1, 0, NULL, args, NULL), "VolumeGVDB", "ReadGridVel", "cuLaunch", "FUNC_READ_GRID_VEL",mbDebug);
+
+// Kernel code
+__global__ void gvdbReadGridVel (VDBInfo* gvdb, int cell_num, int3* cell_pos, float* cell_vel)
+
+2. 向VDBInfo写数据
+
+```
 ## Nodes
 ```
 getCover: world-space covering size
@@ -37,7 +112,18 @@ Vector3DI GetCoveringNode(level, pos, range/*out*/).
 ## Level
 ## Subcell
 ## Voxels
-## Atlas/Channel
+所有叶子节点的voxels都是active的。即level 0的数据。
+
+## Atlas vs Topology
+```
+- 3D Texture or CUArray
+- 里面是bricks
+- type and size
+- 跟world space没关系
+- 当空间不够的时候会，动态重新分配(resized along Z axis)。
+```
+## Channels
+- 每个是一个atlas
 ## Brick
 ## Aux
 ```
@@ -53,3 +139,4 @@ AUX_BOUNDING_BOX
 ```
 ## Context
 ## Radix Sort
+## Scan
