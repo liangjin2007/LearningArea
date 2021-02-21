@@ -154,8 +154,8 @@ gvdb.SetPoints( m_pnts, temp, temp);
 5. AUX_MARKER_PRESUM : numPnts x sizeof(int)
 6. AUX_UNIQUE_CNT : 1 x sizeof(int)
 7. AUX_LEVEL_CNT : pLevDepth, sizeof(int)
-8. AUX_SORTED_LEVXYZ : numPnts*4 x sizeof(unsigned short)
-9. AUX_BRICK_LEVXYZ : numPnts*4 x sizeof(unsigned short)
+8. AUX_SORTED_LEVXYZ : numPnts x 4*sizeof(unsigned short)， 64bit integer
+9. AUX_BRICK_LEVXYZ : numPnts x 4*sizeof(unsigned short), 64bit integer
 ```
 ## Context
 ## Radix Sort
