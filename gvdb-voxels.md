@@ -150,8 +150,16 @@ gvdb.SetPoints( m_pnts, temp, temp);
 
 3. AUX_WORLD_POS_X : num_pnts x sizeof(float)
 
-
+4. AUX_MARKER : numPnts x sizeof(int)
+5. AUX_MARKER_PRESUM : numPnts x sizeof(int)
+6. AUX_UNIQUE_CNT : 1 x sizeof(int)
+7. AUX_LEVEL_CNT : pLevDepth, sizeof(int)
+8. AUX_SORTED_LEVXYZ : numPnts*4 x sizeof(unsigned short)
+9. AUX_BRICK_LEVXYZ : numPnts*4 x sizeof(unsigned short)
 ```
 ## Context
 ## Radix Sort
 ## Scan
+## PrefixSum
+## FindUnique
+
