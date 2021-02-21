@@ -161,5 +161,8 @@ gvdb.SetPoints( m_pnts, temp, temp);
 ## Radix Sort
 ## Scan
 ## PrefixSum
+给定一个数组A[1..n]，前缀和数组PrefixSum[1..n]定义为：PrefixSum[i] = A[0]+A[1]+...+A[i-1]；
+例如：A[5,6,7,8] --> PrefixSum[5,11,18,26]
+
 ## FindUnique
 
