@@ -752,4 +752,73 @@ Create CUDA Jacobi Graph
 ## 3D Graphics
 ## 3D Texture
 ## C++11 CUDA
-## 
+## radix Sort Thrust
+```
+thrust::host_vector<T> h_keys(numElements);
+thrust::host_vector<T> h_keysSorted(numElements);
+thrust::host_vector<unsigned int> h_values;
+
+if (!keysOnly)
+    h_values = thrust::host_vector<unsigned int>(numElements);
+
+// Fill up with some random data
+thrust::default_random_engine rng(clock());
+
+if (floatKeys)
+{
+    thrust::uniform_real_distribution<float> u01(0, 1);
+
+    for (int i = 0; i < (int)numElements; i++)
+        h_keys[i] = u01(rng);
+}
+else
+{
+    thrust::uniform_int_distribution<unsigned int> u(0, UINT_MAX);
+
+    for (int i = 0; i < (int)numElements; i++)
+        h_keys[i] = u(rng);
+}
+
+if (!keysOnly)
+    thrust::sequence(h_values.begin(), h_values.end());
+
+// Copy data onto the GPU
+thrust::device_vector<T> d_keys;
+thrust::device_vector<unsigned int> d_values;
+
+// run multiple iterations to compute an average sort time
+cudaEvent_t start_event, stop_event;
+checkCudaErrors(cudaEventCreate(&start_event));
+checkCudaErrors(cudaEventCreate(&stop_event));
+
+float totalTime = 0;
+
+for (unsigned int i = 0; i < numIterations; i++)
+{
+    // reset data before sort
+    d_keys= h_keys;
+
+    if (!keysOnly)
+        d_values = h_values;
+
+    checkCudaErrors(cudaEventRecord(start_event, 0));
+
+    if (keysOnly)
+        thrust::sort(d_keys.begin(), d_keys.end());
+    else
+        thrust::sort_by_key(d_keys.begin(), d_keys.end(), d_values.begin());
+
+    checkCudaErrors(cudaEventRecord(stop_event, 0));
+    checkCudaErrors(cudaEventSynchronize(stop_event));
+
+    float time = 0;
+    checkCudaErrors(cudaEventElapsedTime(&time, start_event, stop_event));
+    totalTime += time;
+}
+
+totalTime /= (1.0e3f * numIterations);
+printf("radixSortThrust, Throughput = %.4f MElements/s, Time = %.5f s, Size = %u elements\n",
+       1.0e-6f * numElements / totalTime, totalTime, numElements);
+
+getLastCudaError("after radixsort");
+```
