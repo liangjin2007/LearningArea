@@ -21,7 +21,7 @@ pntl需要将坐标转换到0~65535(ushort)
 group, level, and index from a pool
 
 ## Clear
-干了什么?
+干了什么? CPU上的操作。
 ```
 // Empty VDB data (keep pools)
 mPool->PoolEmptyAll ();		// does not free pool mem
@@ -125,16 +125,31 @@ Vector3DI GetCoveringNode(level, pos, range/*out*/).
 ## Channels
 - 每个是一个atlas
 ## Brick
+```
+int bricks = static_cast<int>(mPool->getAtlas(0).usedNum);
+```
 ## Aux
 ```
+// 主要接口
 DataPtr mAux[MAX_AUX]; // 这个东西是在GPU上的。
 Allocator *mPool;
 void PrepareAux ( int id, int cnt, int stride, bool bZero, bool bCPU=false );
 
-每个block是256个线程. // 是否可以Profile一下，什么值最合适。
+1. AUX_PNTPOS : 通过SetPoints传递DataPtr设上去的。 看下面代码 它是 m_numpnts x sizeof(Vector3DF)
+gvdb.AllocData(m_pnt1, m_numpnts, sizeof(ushort) * 3, true);
+gvdb.AllocData(m_pnts, m_numpnts, sizeof(Vector3DF), true);
+gvdb.CommitData(m_pnt1);
+Vector3DF wdelta ( (wMax.x - wMin.x)/65535.0f, (wMax.y - wMin.y)/65535.0f, (wMax.z - wMin.z)/65535.0f );
+gvdb.ConvertAndTransform ( m_pnt1, 2, m_pnts, 4, m_numpnts, wMin, wdelta, Vector3DF(0,0,0), Vector3DF(m_renderscale,m_renderscale,m_renderscale) );
+gvdb.RetrieveData(m_pnts); // Copy back to the CPU so that we can locally view it
+DataPtr temp;
+gvdb.SetPoints( m_pnts, temp, temp);
 
-AUX_PNTPOS 0
-AUX_BOUNDING_BOX
+
+2. AUX_BOUNDING_BOX : 6 x sizeof(float)
+
+3. AUX_WORLD_POS_X : num_pnts x sizeof(float)
+
 
 ```
 ## Context
