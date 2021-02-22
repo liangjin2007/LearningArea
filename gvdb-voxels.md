@@ -42,7 +42,7 @@ getRange(level) // 返回某一节的node的index-space range
 
 ## Data
 ```
-Bounding box : mPosMin, mPosMax, mPosRange
+Bounding box : mPosMin, mPosMax, mPosRange  这些是Index-space的范围。
 ```
 
 
@@ -154,8 +154,10 @@ gvdb.SetPoints( m_pnts, temp, temp);
 5. AUX_MARKER_PRESUM : numPnts x sizeof(int)
 6. AUX_UNIQUE_CNT : 1 x sizeof(int)
 7. AUX_LEVEL_CNT : pLevDepth, sizeof(int)
-8. AUX_SORTED_LEVXYZ : numPnts x 4*sizeof(unsigned short)， 64bit integer
-9. AUX_BRICK_LEVXYZ : numPnts x 4*sizeof(unsigned short), 64bit integer
+8. AUX_SORTED_LEVXYZ : numPnts x pRootLev x 4*sizeof(unsigned short)， 64bit integer
+9. AUX_BRICK_LEVXYZ : numPnts x pRootLev x 4*sizeof(unsigned short), 64bit integer
+10. AUX_RANGE_RES : pRootLev x sizeof(int)
+11. 
 ```
 ## Context
 ## Radix Sort
