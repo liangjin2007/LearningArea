@@ -1,5 +1,10 @@
 # 人脸
 
+## New
+https://www.fxguide.com/fxfeatured/masquerade-at-digital-domain/
+
+
+
 
 ## 计算机动画方法：
 | 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
