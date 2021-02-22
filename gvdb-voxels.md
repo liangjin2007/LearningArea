@@ -34,12 +34,27 @@ mPnt.Set ( 0, 0, 0 );
 
 mRebuildTopo = true;			// full rebuild required
 ```
-## 
+## Range
 getRange(level) // 返回某一节的node的index-space range
 
+## Node
+```
+inline __device__ int3 GetCoveringNode (float3 pos, int3 range)
+{
+	int3 nodepos;
 
+	nodepos.x = ceil(pos.x / range.x) * range.x;
+	nodepos.y = ceil(pos.y / range.y) * range.y;
+	nodepos.z = ceil(pos.z / range.z) * range.z;
+	if ( pos.x < nodepos.x ) nodepos.x -= range.x;
+	if ( pos.y < nodepos.y ) nodepos.y -= range.y;
+	if ( pos.z < nodepos.z ) nodepos.z -= range.z;
 
-
+	return nodepos;
+}
+```
+```
+```
 ## Data
 ```
 Bounding box : mPosMin, mPosMax, mPosRange  这些是Index-space的范围。
