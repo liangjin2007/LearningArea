@@ -1,20 +1,4 @@
 # VolumeGVDB
-## VolumeBase
-```
-Vector3DF		mObjMin, mObjMax;			// world space
-Vector3DF		mVoxMin, mVoxMax, mVoxRes;		// coordinate space
-Vector3DF		mVoxResMax;
-
-Vector3DF		mRenderTime;
-bool			mbProfile;
-bool			mbVerbose;
-
-DataPtr			mTransferPtr;				// Transfer function
-std::vector<DataPtr>	mRenderBuf;				// Non-owning list of render buffers (since apps can add their own render buffers)
-
-Allocator*		mPool = nullptr;			// Allocator
-Scene*			mScene = nullptr;			// Scene (non-owning pointer)
-```
 
 ## Node
 ```
@@ -74,10 +58,12 @@ inline uint64 ElemNdx ( uint64 id )						{ return id >> 16; }
 
 ## Allocator
 ```
-std::vector< DataPtr >				mPool[ MAX_POOL ];
+std::vector< DataPtr >				mPool[ MAX_POOL ]; // 每个vector<DataPtr>对应一个group， 每个DataPtr对应一个level。
 std::vector< DataPtr >				mAtlas;
 std::vector< DataPtr >				mAtlasMap;
 DataPtr						mNeighbors;
+
+
 bool						mbDebug;
 int						mVFBO[2];
 CUstream					mStream;
@@ -90,6 +76,27 @@ CUfunction					cuCopyBufToTexF;
 CUfunction					cuCopyTexZYX;
 CUfunction					cuRetrieveTexXYZ;
 ```
+
+```
+
+```
+## VolumeBase
+```
+Vector3DF		mObjMin, mObjMax;			// world space
+Vector3DF		mVoxMin, mVoxMax, mVoxRes;		// coordinate space
+Vector3DF		mVoxResMax;
+
+Vector3DF		mRenderTime;
+bool			mbProfile;
+bool			mbVerbose;
+
+DataPtr			mTransferPtr;				// Transfer function
+std::vector<DataPtr>	mRenderBuf;				// Non-owning list of render buffers (since apps can add their own render buffers)
+
+Allocator*		mPool = nullptr;			// Allocator
+Scene*			mScene = nullptr;			// Scene (non-owning pointer)
+```
+
 ## VolumeGVDB
 ```
 // VDB Settings
@@ -136,19 +143,19 @@ Volume3D*		mV3D;			// Volume 3D
 int mDummyFrameBuffer;
 
 // CUDA Device & Context
-int				mDevSelect;
+int			mDevSelect;
 CUcontext		mContext;
 CUdevice		mDevice;
 CUstream		mStream;
 
 bool			mRebuildTopo;
-int				mCurrDepth;
+int			mCurrDepth;
 Vector3DF		mPosMin, mPosMax, mPosRange;
 Vector3DF		mVelMin, mVelMax, mVelRange;
 
 Vector3DI		mSimBounds;
 float			mEpsilon;
-int				mMaxIter;
+int			mMaxIter;
 
 // Grid Transform
 Vector3DF		mPretrans, mAngs, mTrans, mScale;
@@ -158,6 +165,11 @@ const char*		mRendName[SHADE_MAX];
 
 float			m_bias;
 ```
+
+## 概念
+- 每个level有两个group， group 1 存的是childlist
+
+
 ## CTX
 PUSH_CTX和POP_CTX
 
