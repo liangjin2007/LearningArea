@@ -1,5 +1,163 @@
 # VolumeGVDB
+## VolumeBase
+```
+Vector3DF		mObjMin, mObjMax;			// world space
+Vector3DF		mVoxMin, mVoxMax, mVoxRes;		// coordinate space
+Vector3DF		mVoxResMax;
 
+Vector3DF		mRenderTime;
+bool			mbProfile;
+bool			mbVerbose;
+
+DataPtr			mTransferPtr;				// Transfer function
+std::vector<DataPtr>	mRenderBuf;				// Non-owning list of render buffers (since apps can add their own render buffers)
+
+Allocator*		mPool = nullptr;			// Allocator
+Scene*			mScene = nullptr;			// Scene (non-owning pointer)
+```
+
+## Node
+```
+// GVDB Node
+// This is the primary element in a GVDB tree.
+// Nodes are stores in memory pools managed by VolumeGVDB and created in the allocator class.
+struct ALIGN(16) GVDB_API Node {
+public:							//						Size:	Range:
+	uchar		mLev;			// Tree Level			1 byte	Max = 0 to 255
+	uchar		mFlags;			// Flags				1 byte	true - used, false - discard
+	uchar		mPriority;		// Priority				1 byte
+	uchar		pad;			//						1 byte
+	Vector3DI	mPos;			// Pos in Index-space	12 byte
+	Vector3DI	mValue;			// Value in Atlas		12 byte
+	Vector3DF	mVRange;		// Value min, max, ave	12 byte
+	uint64		mParent;		// Parent ID			8 byte	Pool0 reference
+	uint64		mChildList;		// Child List			8 byte	Pool1 reference	#ifdef USE_BITMASKS
+	uint64		mMask;			// Start of BITMASK.	8 byte  
+								// HEADER TOTAL			64 bytes
+};
+```
+
+## DataPtr
+```
+// Smart pointer for all CPU/GPU pointers 
+struct GVDB_API DataPtr {
+	DataPtr ();		
+	char		type;				// data type
+	char		apron;				// apron size
+	char		filter;				// filter mode
+	char		border;				// border mode
+	uint64		max;				// max element count
+	uint64		lastEle;			// total element count
+	uint64		usedNum;			// used element count
+	uint64		size;				// size of data
+	uint64		stride;				// stride of data	
+	Vector3DI	subdim;				// subdim		
+	Allocator*	alloc;				// allocator instance
+	char*		cpu;				// cpu pointer		
+	int			glid;			// gpu opengl id
+	CUgraphicsResource	grsc;			// gpu graphics resource (cuda)		
+	CUarray		garray;				// gpu array (cuda)
+	CUdeviceptr	gpu;				// gpu pointer (cuda)	
+	CUtexObject tex_obj;				// gpu texture object
+	CUsurfObject surf_obj;				// gpu surface object
+};
+```
+
+## Elem
+```
+// Used to pack/unpack the group, level, and index from a pool reference
+inline uint64 Elem ( uchar grp, uchar lev, uint64 ndx )	{ return uint64(grp) | (uint64(lev) << 8) | (uint64(ndx) << 16); }
+inline uchar ElemGrp ( uint64 id )						{ return uchar(id & 0xFF); }
+inline uchar ElemLev ( uint64 id )						{ return uchar((id>>8) & 0xFF); }
+inline uint64 ElemNdx ( uint64 id )						{ return id >> 16; }
+```
+
+## Allocator
+```
+std::vector< DataPtr >				mPool[ MAX_POOL ];
+std::vector< DataPtr >				mAtlas;
+std::vector< DataPtr >				mAtlasMap;
+DataPtr						mNeighbors;
+bool						mbDebug;
+int						mVFBO[2];
+CUstream					mStream;
+CUmodule					cuAllocatorModule;
+CUfunction					cuFillTex;	
+CUfunction					cuCopyTexC;
+CUfunction					cuCopyTexF;
+CUfunction					cuCopyBufToTexC;
+CUfunction					cuCopyBufToTexF;
+CUfunction					cuCopyTexZYX;
+CUfunction					cuRetrieveTexXYZ;
+```
+## VolumeGVDB
+```
+// VDB Settings
+int			mLogDim[MAXLEV];	// internal res config
+Vector3DF		mClrDim[MAXLEV];
+int			mApron;
+Matrix4F		mXForm;
+bool			mbDebug;
+Vector3DI		mDefaultAxiscnt;
+
+// Root node
+uint64			mRoot;
+Vector3DI		mPnt;
+
+// Scene 
+ScnInfo			mScnInfo;
+CUdeviceptr		cuScnInfo;
+
+// VDB Data Structure
+VDBInfo			mVDBInfo;			
+CUdeviceptr		cuVDBInfo;
+
+bool			mHasObstacle;
+CUdeviceptr		cuOBSVDBInfo; // Non-owning pointer to VDBInfo used for collision
+
+// CUDA kernels
+CUmodule		cuModule[5];
+CUfunction		cuFunc[ MAX_FUNC ];
+
+// CUDA pointers		
+CUdeviceptr		cuXform;
+CUdeviceptr		cuDebug;
+
+std::vector< Vector3DF >	leaf_pos;
+std::vector< uint64 >		leaf_ptr;
+
+// Auxiliary buffers
+DataPtr			mAux[MAX_AUX];		// Auxiliary
+std::string		mAuxName[MAX_AUX];
+
+Volume3D*		mV3D;			// Volume 3D
+
+// Dummy frame buffer
+int mDummyFrameBuffer;
+
+// CUDA Device & Context
+int				mDevSelect;
+CUcontext		mContext;
+CUdevice		mDevice;
+CUstream		mStream;
+
+bool			mRebuildTopo;
+int				mCurrDepth;
+Vector3DF		mPosMin, mPosMax, mPosRange;
+Vector3DF		mVelMin, mVelMax, mVelRange;
+
+Vector3DI		mSimBounds;
+float			mEpsilon;
+int				mMaxIter;
+
+// Grid Transform
+Vector3DF		mPretrans, mAngs, mTrans, mScale;
+Matrix4F		mXform, mInvXform, mInvXrot;
+
+const char*		mRendName[SHADE_MAX];
+
+float			m_bias;
+```
 ## CTX
 PUSH_CTX和POP_CTX
 
