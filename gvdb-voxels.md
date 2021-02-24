@@ -80,6 +80,35 @@ CUfunction					cuRetrieveTexXYZ;
 ```
 
 ```
+## VDBInfo
+```
+struct ALIGN(16) VDBInfo {
+	int			dim[MAXLEV]; // Log base 2 of lateral resolution of each node per level
+	int			res[MAXLEV]; // Lateral resolution of each node per level
+	Vector3DF		vdel[MAXLEV]; // How many voxels on a side a child of each level covers
+	Vector3DI		noderange[MAXLEV]; // How many voxels on a side a node of each level covers
+	int			nodecnt[MAXLEV]; // Total number of allocated nodes per level
+	int			nodewid[MAXLEV]; // Size of a node at each level in bytes
+	int			childwid[MAXLEV]; // Size of the child list per node at each level in bytes
+	CUdeviceptr		nodelist[MAXLEV]; // GPU pointer to each level's pool group 0 (nodes)
+	CUdeviceptr		childlist[MAXLEV]; // GPU pointer to each level's pool group 1 (child lists)
+	CUdeviceptr		atlas_map; // GPU pointer to the atlas map (which maps from atlas to world space)
+	Vector3DI		atlas_cnt; // Number of bricks on each axis of the atlas
+	Vector3DI		atlas_res; // Total resolution in voxels of the atlas
+	int			atlas_apron; // Apron size
+	int			brick_res; // Resolution of a single brick
+	int			apron_table[8]; // Unused
+	int			top_lev; // Top level (i.e. tree spans from voxels to level 0 to level top_lev)
+	int			max_iter; // Unused
+	float			epsilon; // Epsilon used for voxel ray tracing
+	bool			update; // Whether this information needs to be updated from the latest volume data
+	uchar			clr_chan; // Index of the color channel for rendering color information
+	Vector3DF		bmin; // Inclusive minimum of axis-aligned bounding box in voxels
+	Vector3DF		bmax; // Inclusive maximum of axis-aligned bounding box in voxels
+	CUtexObject		volIn[MAX_CHANNEL]; // Texture reference (read plus interpolation) to atlas per channel
+	CUsurfObject	volOut[MAX_CHANNEL]; // Surface reference (read and write) to atlas per channel
+};
+```
 ## VolumeBase
 ```
 Vector3DF		mObjMin, mObjMax;			// world space
@@ -167,9 +196,59 @@ float			m_bias;
 ```
 
 ## 概念
-- 每个level有两个group， group 1 存的是childlist
+- levels
+```
+int levs = mPool->getNumLevels ();
+```
 
+- nodes
+```
+mPool每个level有两个group， group 0 是node数据 group 1 存的是childlist
+mPool的group 0为node数据
 
+Topology有level的概念
+Atlas有通道的概念，对应于level=0的情况。
+
+// nodes
+for (int n=0; n < levs; n++ ) {		
+	// node counts
+	numnodes_at_lev = mPool->getPoolUsedCnt(0, n);// 当n = 0时, 等于active brick count
+	maxnodes_at_lev = mPool->getPoolTotalCnt(0, n);			
+	numnodes_total += numnodes_at_lev;
+	maxnodes_total += maxnodes_at_lev;
+	gprintf ( "   Level %d: %8d %8d  %8d MB\n", n, numnodes_at_lev, maxnodes_at_lev );		
+}
+
+float MB = 1024.0*1024.0;	// convert to MB
+gprintf ( "   Percent Pool Used: %4.2f%%%%\n", float(numnodes_total)*100.0f / maxnodes_total );	
+```
+
+- atlas
+```
+// atlas, bricks, aprons
+// getAtlas(chan)通道
+leafdim = static_cast<int>(mPool->getAtlas(0).stride);		// voxel res of one brick
+Vector3DI axiscnt = mPool->getAtlas(0).subdim;			// number of bricks in atlas
+Vector3DI axisres = axiscnt * (leafdim + mApron*2);		// number of voxels in atlas
+gprintf ( "   Atlas Res:     %d x %d x %d  LeafCnt: %d x %d x %d  LeafDim: %d^3\n", axisres.x, axisres.y, axisres.z, axiscnt.x, axiscnt.y, axiscnt.z, leafdim );
+int sbrk = axiscnt.x*axiscnt.y*axiscnt.z;			// number of bricks stored in atlas
+
+Vector3DI vb = mVoxResMax;
+vb /= Vector3DI(leafdim, leafdim, leafdim);
+long vbrk = vb.x*vb.y*vb.z;					// number of bricks covering bounded world domain
+
+uint64 abrk = mPool->getPoolUsedCnt(0, 0); // number
+
+gprintf ( "   Vol Extents:   %d bricks,  %5.2f million voxels\n", vbrk, float(vbrk)*leafdim*leafdim*leafdim / 1000000.0f );
+gprintf ( "   Atlas Storage: %d bricks,  %5.2f million voxels\n", sbrk, float(sbrk)*leafdim*leafdim*leafdim / 1000000.0f );
+gprintf ( "   Atlas Active:  %d bricks,  %5.2f million voxels\n", abrk, float(abrk)*leafdim*leafdim*leafdim / 1000000.0f );
+gprintf ( "   Occupancy:     %6.2f%%%% \n", float(abrk)*100.0f / vbrk );
+```
+
+- subdim是什么时候修改的？
+```
+
+```
 ## CTX
 PUSH_CTX和POP_CTX
 
