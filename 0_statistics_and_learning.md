@@ -66,7 +66,6 @@
 
 
 
-
 # Machine Learning
 http://www.vlfeat.org/overview/
 http://www.cse.psu.edu/~rtc12/CSE586/lectures/meanshiftclustering.pdf
