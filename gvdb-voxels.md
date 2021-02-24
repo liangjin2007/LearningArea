@@ -245,6 +245,35 @@ gprintf ( "   Atlas Active:  %d bricks,  %5.2f million voxels\n", abrk, float(ab
 gprintf ( "   Occupancy:     %6.2f%%%% \n", float(abrk)*100.0f / vbrk );
 ```
 
+- atlas map
+```
+void Allocator::AllocateAtlasMap ( int stride, Vector3DI axiscnt )
+{
+	DataPtr q; 
+	if ( mAtlasMap.size()== 0 ) {
+		q.cpu = 0; q.gpu = 0; q.max = 0;
+		mAtlasMap.push_back( q );
+	}
+	q = mAtlasMap[0];
+	if ( axiscnt.x*axiscnt.y*axiscnt.z == q.max ) return;	// same size, return
+
+	// Reallocate atlas mapping 	
+	q.max = axiscnt.x * axiscnt.y * axiscnt.z;	// max leaves supported
+	q.subdim = axiscnt;
+	q.usedNum = q.max;
+	q.lastEle = q.max;
+	q.stride = stride;
+	q.size = stride * q.max;					// list of mapping structs			
+	if ( q.cpu != 0x0 ) free ( q.cpu );
+	q.cpu = (char*) malloc ( q.size );				// cpu allocate		
+			
+	size_t sz = q.size;							// gpu allocate
+	if ( q.gpu != 0x0 ) cudaCheck ( cuMemFree ( q.gpu ), "Allocator", "AllocateAtlasMap", "cuMemFree", "", mbDebug);
+	cudaCheck ( cuMemAlloc ( &q.gpu, q.size ), "Allocator", "AllocateAtlasMap", "cuMemAlloc", "", mbDebug );
+
+	mAtlasMap[0] = q;
+}
+```
 - subdim是什么时候修改的？
 ```
 
