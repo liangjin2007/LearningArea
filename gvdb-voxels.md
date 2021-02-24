@@ -274,6 +274,9 @@ void Allocator::AllocateAtlasMap ( int stride, Vector3DI axiscnt )
 	mAtlasMap[0] = q;
 }
 ```
+
+- 
+
 - subdim是什么时候修改的？
 ```
 
@@ -292,12 +295,6 @@ wMin = Min
 pntl需要将坐标转换到0~65535(ushort)
 ```
 
-## Topology
-即GVDB hierarchy
-
-## Pool
-group, level, and index from a pool
-
 ## Clear
 干了什么? CPU上的操作。
 ```
@@ -313,8 +310,12 @@ mPnt.Set ( 0, 0, 0 );
 mRebuildTopo = true;			// full rebuild required
 ```
 ## Range
+```
+getLD(level)    // return mLogDim
+getRes(level)   // return 1 << mLogDim
 getRange(level) // 返回某一节的node的index-space range
-
+getVoxCnt(int lev)	{ uint64 r = uint64(1) << mLogDim[lev]; return r*r*r; } // Gets the number of child nodes or child voxels of a node at the given level.
+```
 ## Node
 ```
 inline __device__ int3 GetCoveringNode (float3 pos, int3 range)
