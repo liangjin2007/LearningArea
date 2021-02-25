@@ -16,7 +16,7 @@ public:							//						Size:	Range:
 	Vector3DF	mVRange;		// Value min, max, ave	12 byte
 	uint64		mParent;		// Parent ID			8 byte	Pool0 reference
 	uint64		mChildList;		// Child List			8 byte	Pool1 reference	#ifdef USE_BITMASKS
-	uint64		mMask;			// Start of BITMASK.	8 byte  
+	uint64		mMask;			// Start of BITMASK.	8 byte  这个目前还没启用
 								// HEADER TOTAL			64 bytes
 };
 ```
@@ -196,6 +196,11 @@ float			m_bias;
 ```
 
 ## 概念
+- Transform
+```
+const Matrix4F &xform = gvdb->getTransform();
+```
+
 - levels
 ```
 int levs = mPool->getNumLevels ();
@@ -221,6 +226,22 @@ for (int n=0; n < levs; n++ ) {
 
 float MB = 1024.0*1024.0;	// convert to MB
 gprintf ( "   Percent Pool Used: %4.2f%%%%\n", float(numnodes_total)*100.0f / maxnodes_total );	
+
+// 获取node
+// 获取所有node
+int node_cnt = static_cast<int>(gvdb->getNumNodes(lev));
+color = gvdb->getClrDim(lev);
+
+Node *node = gvdb->getNodeAtLevel(nodeIndex, lev);
+Vector3DF ndMin = gvdb->getWorldMin(node); // in voxel coordinates return node->mPos.
+Vector3DF ndMax = gvdb->getWorldMax(node); // = ndMin + getCover(node->mLev);
+
+// how to convert voxel coordinates to obj space coordinates
+gvdb->getTransform() * ndMin.
+
+// 获取子node, 遍历子node
+TODO
+
 ```
 
 - atlas
@@ -275,7 +296,23 @@ void Allocator::AllocateAtlasMap ( int stride, Vector3DI axiscnt )
 }
 ```
 
-- 
+struct ALIGN(16) GVDB_API Node {
+public:							//						Size:	Range:
+	uchar		mLev;			// Tree Level			1 byte	Max = 0 to 255
+	uchar		mFlags;			// Flags				1 byte	true - used, false - discard
+	uchar		mPriority;		// Priority				1 byte
+	uchar		pad;			//						1 byte
+	Vector3DI	mPos;			// Pos in Index-space	12 byte
+	Vector3DI	mValue;			// Value in Atlas		12 byte
+	Vector3DF	mVRange;		// Value min, max, ave	12 byte
+	uint64		mParent;		// Parent ID			8 byte	Pool0 reference
+	uint64		mChildList;		// Child List			8 byte	Pool1 reference	 ?#ifdef USE_BITMASKS
+	uint64		mMask;			// Start of BITMASK.	8 byte  
+	// HEADER TOTAL			64 bytes
+};
+
+
+```
 
 - subdim是什么时候修改的？
 ```
