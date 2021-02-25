@@ -109,6 +109,37 @@ struct ALIGN(16) VDBInfo {
 	CUsurfObject	volOut[MAX_CHANNEL]; // Surface reference (read and write) to atlas per channel
 };
 ```
+vs
+
+```
+struct ALIGN(16) VDBInfo {
+	int			dim[10]; // Log base 2 of lateral resolution of each node per level
+	int			res[10]; // Lateral resolution of each node per level
+	float3		vdel[10]; // How many voxels on a side a child of each level covers
+	int3		noderange[10]; // How many voxels on a side a node of each level covers
+	int			nodecnt[10]; // Total number of allocated nodes per level
+	int			nodewid[10]; // Size of a node at each level in bytes
+	int			childwid[10]; // Size of the child list per node at each level in bytes
+	char*		nodelist[10]; // Pointer to each level's pool group 0 (nodes)
+	char*		childlist[10]; // Pointer to each level's pool group 1 (child lists)
+	VDBAtlasNode*  atlas_map; // Pointer to the atlas map (which maps from atlas to world space)
+	int3		atlas_cnt; // Number of bricks on each axis of the atlas
+	int3		atlas_res; // Total resolution in voxels of the atlas
+	int			atlas_apron; // Apron size
+	int			brick_res; // Resolution of a single brick
+	int			apron_table[8]; // Unused
+	int			top_lev; // Top level (i.e. tree spans from voxels to level 0 to level top_lev)
+	int			max_iter; // Unused
+	float		epsilon; // Epsilon used for voxel ray tracing
+	bool		update; // Whether this information needs to be updated from the latest volume data
+	uchar		clr_chan; // Index of the color channel for rendering color information
+	float3		bmin; // Inclusive minimum of axis-aligned bounding box in voxels
+	float3		bmax; // Inclusive maximum of axis-aligned bounding box in voxels
+	cudaTextureObject_t	volIn[MAX_CHANNEL]; // Texture reference (read plus interpolation) to atlas per channel
+	cudaSurfaceObject_t	volOut[MAX_CHANNEL]; // Surface reference (read and write) to atlas per channel
+};
+```
+
 ## VolumeBase
 ```
 Vector3DF		mObjMin, mObjMax;			// world space
@@ -214,6 +245,13 @@ mPool的group 0为node数据
 Topology有level的概念
 Atlas有通道的概念，对应于level=0的情况。
 
+所有叶子节点的voxels都是active的。即level 0的数据。
+- 3D Texture or CUArray
+- 里面是bricks
+- type and size
+- 跟world space没关系
+- 当空间不够的时候会，动态重新分配(resized along Z axis)。
+- 
 // nodes
 for (int n=0; n < levs; n++ ) {		
 	// node counts
@@ -314,20 +352,6 @@ wMin = Min
 pntl需要将坐标转换到0~65535(ushort)
 ```
 
-## Clear
-干了什么? CPU上的操作。
-```
-// Empty VDB data (keep pools)
-mPool->PoolEmptyAll ();		// does not free pool mem
-mRoot = ID_UNDEFL;
-
-// Empty atlas & atlas map
-mPool->AtlasEmptyAll ();	// does not free atlas
-
-mPnt.Set ( 0, 0, 0 );
-
-mRebuildTopo = true;			// full rebuild required
-```
 ## Range
 ```
 getLD(level)    // return mLogDim
@@ -335,7 +359,12 @@ getRes(level)   // return 1 << mLogDim
 getRange(level) // 返回某一节的node的index-space range
 getVoxCnt(int lev)	{ uint64 r = uint64(1) << mLogDim[lev]; return r*r*r; } // Gets the number of child nodes or child voxels of a node at the given level.
 ```
-## Node
+
+
+
+# Device Operations
+
+## Device Functions
 ```
 inline __device__ int3 GetCoveringNode (float3 pos, int3 range)
 {
@@ -351,32 +380,6 @@ inline __device__ int3 GetCoveringNode (float3 pos, int3 range)
 	return nodepos;
 }
 ```
-```
-```
-## Data
-```
-Bounding box : mPosMin, mPosMax, mPosRange  这些是Index-space的范围。
-```
-
-
-## Allocator
-```
-Allocator *mPool
-   // Pool functions
-   // Texture functions
-   // Atlas functions
-   // Atlas Mapping
-   // Neighbor Table
-   // Query function
-
-```
-## Configure
-<3,3,3,3,4> 4 is level 0.
-## Level
-## Topology
-getRes(lev) //比如lev=0时，返回2^4=16
-InsertPointsSubcell(subcell_size, num_pnts, pRadius, trans, pSCPntsLength)
-
 ## Node
 - VDBNode
 ```
@@ -398,7 +401,7 @@ struct ALIGN(16) VDBNode {
 ```
 struct ALIGN(16) VDBAtlasNode {
 	int3		mPos;
-	int			mLeafID;
+	int		mLeafID;
 };
 ```
 ## VDBInfo
@@ -414,29 +417,10 @@ __global__ void gvdbReadGridVel (VDBInfo* gvdb, int cell_num, int3* cell_pos, fl
 2. 向VDBInfo写数据
 
 ```
-## Nodes
-```
-getCover: world-space covering size
-getRange: index-space covering size
 
-Vector3DI GetCoveringNode(level, pos, range/*out*/).
-```
-## Grp
-## Level
-## Subcell
-## Voxels
-所有叶子节点的voxels都是active的。即level 0的数据。
 
-## Atlas vs Topology
-```
-- 3D Texture or CUArray
-- 里面是bricks
-- type and size
-- 跟world space没关系
-- 当空间不够的时候会，动态重新分配(resized along Z axis)。
-```
-## Channels
-- 每个是一个atlas
+
+
 ## Brick
 ```
 int bricks = static_cast<int>(mPool->getAtlas(0).usedNum);
