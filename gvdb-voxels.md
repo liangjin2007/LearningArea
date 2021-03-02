@@ -140,6 +140,14 @@ struct ALIGN(16) VDBInfo {
 };
 ```
 
+## AtlasNode
+```
+struct AtlasNode {
+	Vector3DI	mPos;	
+	int		mLeafNode;
+};
+```
+
 ## VolumeBase
 ```
 Vector3DF		mObjMin, mObjMax;			// world space
@@ -336,8 +344,37 @@ void Allocator::AllocateAtlasMap ( int stride, Vector3DI axiscnt )
 
 - subdim是什么时候修改的？
 ```
+subdim跟Atlas相关，表示atlas的分辨率
+```
+
+- m_origin
+```
+看几个例子，始终是(0, 0, 0)
+```
+
+- usedNum和lastEle, 感觉始终是相同的
+
+- GVDB_VOXPACKED ： 建立Index空间和Atlas空间之间的数据localIdx, atlasIdx
+```
+// A helper macro that sets up local and atlas coordinates, checks to see if
+// they're inside the atlas bounds, and returns if not. Skips over atlas
+// boundaries, which means that it can use a smaller computation grid than
+// the older GVDB_VOX. Assumes a block size of (8,8,8).
+#define GVDB_VOXPACKED \
+	uint3 localIdx, atlasIdx; \
+	GetVoxelIndicesPacked(gvdb, localIdx, atlasIdx); \
+	if (atlasIdx.x >= atlasRes.x || atlasIdx.y >= atlasRes.y || atlasIdx.z >= atlasRes.z) return;
+
+// A helper macro that sets up unpacked local and atlas coordinates, checks to
+// see if they're inside the atlas bounds, and returns if not. Does not skip
+// over atlas boundaries, so this covers the entire atlas. This used to be GVDB_VOX.
+#define GVDB_VOXUNPACKED \
+	uint3 localIdx = threadIdx + make_uint3(1, 1, 1); \
+	uint3 atlasIdx = blockIdx * blockDim + localIdx; \
+	if (atlasIdx.x >= atlasRes.x || atlasIdx.y >= atlasRes.y || atlasIdx.z >= atlasRes.z) return;
 
 ```
+
 ## CTX
 PUSH_CTX和POP_CTX
 
@@ -350,6 +387,9 @@ point cloud Min, Max，p需要转成 p' = (p-Min)/(Max-Min)*65535这样的放到
 wMin = Min
 坐标需要做一次平移将使得vMin >= (0,0,0)
 pntl需要将坐标转换到0~65535(ushort)
+Subcell
+
+
 ```
 
 ## Range
@@ -418,8 +458,18 @@ __global__ void gvdbReadGridVel (VDBInfo* gvdb, int cell_num, int3* cell_pos, fl
 
 ```
 
+- node操作
+```
+获取node
+VDBNode* pnode = getNode ( gvdb, 0, i ); // i对应brick id, 即VDBNode* node = (VDBNode*) (gvdb->nodelist[lev] + n*gvdb->nodewid[lev]);
+int3 pos = pnode->mPos; // 
 
+获取root
+VDBNode* nd = (VDBNode*) (gvdb->nodelist[gvdb->top_lev]);	// get root
 
+mValue vs mPos
+node->mValue = brickpos; 
+```
 
 ## Brick
 ```
@@ -453,7 +503,7 @@ gvdb.SetPoints( m_pnts, temp, temp);
 7. AUX_LEVEL_CNT : pLevDepth, sizeof(int)
 8. AUX_SORTED_LEVXYZ : numPnts x pRootLev x 4*sizeof(unsigned short)， 64bit integer
 9. AUX_BRICK_LEVXYZ : numPnts x pRootLev x 4*sizeof(unsigned short), 64bit integer
-10. AUX_RANGE_RES : pRootLev x sizeof(int)
+10. AUX_RANGE_RES : pRootLev x sizeof(int) 创建GPU range 信息
 11. 
 ```
 ## Context
@@ -462,7 +512,5 @@ gvdb.SetPoints( m_pnts, temp, temp);
 ## PrefixSum
 给定一个数组A[1..n]，前缀和数组PrefixSum[1..n]定义为：PrefixSum[i] = A[0]+A[1]+...+A[i-1]；
 例如：A[5,6,7,8] --> PrefixSum[5,11,18,26]
-
 ## FindUnique
-
 
