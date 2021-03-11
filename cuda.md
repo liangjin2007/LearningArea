@@ -363,6 +363,7 @@ Kernel<<<blockNum, ThreadNumPerBlock>>>(kernelNum, data);
 
 # GVDB programming guide 1.1
 
+# cuda toolkit documentation https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#syntax
 
 
 
