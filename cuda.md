@@ -366,6 +366,9 @@ Kernel<<<blockNum, ThreadNumPerBlock>>>(kernelNum, data);
 # cuda toolkit documentation https://docs.nvidia.com/cuda/parallel-thread-execution/index.html#syntax
 
 
+# CUDA工具
+- NSight Compute
+- NSight System
 
 
 
