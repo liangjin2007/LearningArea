@@ -370,5 +370,13 @@ Kernel<<<blockNum, ThreadNumPerBlock>>>(kernelNum, data);
 - NSight Compute
 - NSight System
 
+# CUDA C Best Practice
+
+```
+warp id and lane id : https://stackoverflow.com/questions/44337309/whats-the-most-efficient-way-to-calculate-the-warp-id-lane-id-in-a-1-d-grid
+
+
+
+```
 
 
