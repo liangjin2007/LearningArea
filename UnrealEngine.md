@@ -105,6 +105,8 @@ Input Action Pause的细节面板中有Execute when Paused
 动作映射，用什么键控制什么动作， 动作需要先添加一下。Project Settings -> Inputs -> Action 
 如何让BP中定义的Component变量在Actor的Default中显示变量
 - Word Settings -> 设置GameMode override为自定义GameMode
+视口 -> Lit-> Buffer Display 光照->缓冲显示
+
 
 ```
 #### API
@@ -172,9 +174,19 @@ P
 ```
 #### 经验/命令
 ```
+命令
 r.xxx command
 
+
+经验
+- 蓝图可以让普通Actor动起来，因为它有一个EventGraph可以处理事件。
+- 构造过程Contstruction Script
+- 如何把球压在地面上
+- 如何让BP中定义的Component变量在Actor的Default中显示变量
+- 给小球滚动时添加声音
 ```
+
+
 ## C++相关
 #### 动画
 #### 渲染
