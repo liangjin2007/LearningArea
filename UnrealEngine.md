@@ -25,9 +25,12 @@ UMG
 Deferred/Forward rendering
 Sound Cue
 Custom Depth/Stencil用来在实时渲染中进行合成
+```
 
+- 渲染 [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
+```
 Unreal 实时渲染流程：
-剔除-> Draw Call合并属性等-> 光栅化-> Depth Buffer避免重复绘制Pixel-> Custom Depth/Stencil -> GBuffers -> Static Light -> Dynamic Light -> Stationary Light -> 反射Reflection
+剔除-> Draw Call合并属性等-> 光栅化-> Early z pass:Depth Buffer避免重复绘制Pixel-> Custom Depth/Stencil -> GBuffers -> Static Light -> Dynamic Light -> Stationary Light -> 反射Reflection -> Translucency Sortt -> Post Processing
 
 其中GBuffers
   Base Color
@@ -77,9 +80,15 @@ Stationary Light
     实时反射全环境
     平面：镜子，水面
     消耗大
+    
+DOF of Translucency
+  透明物体不绘制Depth Buffer
+  使用Separate Translucent Buffer
+  DOF function在shader中处理
+
+Post Processing 
+  有固定路径： DOF > Motion Blur > Bloom > Tone mapping
 ```
-
-
 ## 一般经验
 ```
 一、编译源码
