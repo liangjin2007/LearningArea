@@ -67,11 +67,13 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 
 十二、BP:可以理解为是一个editor
 
+十三、如何设置引擎的语言为英文/中文
 ```
 
 ## 界面和蓝图相关
 #### 交互和快捷键
 ```
+快捷键
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
@@ -79,6 +81,17 @@ Ctrl+Shift+Save
 Alt+drag/rotate/scale in viewport: copy 
 Ctrl+G: 分组
 Ctrl+Shift+G : 取消分组
+alt+shift+r查找引用
+alt+shift+f查找变量引用
+ctrl+B跳到资源
+ctrl+w复制一份（先选中）
+E： 旋转
+D： Delay
+按住ctrl, 把variable 拖到bp event graph编辑器中
+
+
+
+交互
 Layers: Double Click to select
 Select actors using this asseset.
 UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
@@ -88,10 +101,15 @@ UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Ac
 Event定义在Character蓝图，这个时候Event的Target变量是Character蓝图类型。 
 PlayController蓝图里获取Character蓝图对象， 设为Event的Target。
 Input Action Pause的细节面板中有Execute when Paused
+搜索类，搜索BP, 搜索选项。
+动作映射，用什么键控制什么动作， 动作需要先添加一下。Project Settings -> Inputs -> Action 
+如何让BP中定义的Component变量在Actor的Default中显示变量
+- Word Settings -> 设置GameMode override为自定义GameMode
 
 ```
 #### API
 ```
+变量： 变量类型有Bool, Text/String, Int, Float， etc。还有结构体，枚举，对象类型，接口，变换，向量，旋转等类型。
 Show Mouse Cursor
 Open Level
 Quit Game
@@ -109,6 +127,48 @@ Get Show Mouse Cursor节点
 判断蓝图对象是否已经创建 
   节点的Return Value -->  拖出去 --> Promote to variable
   Get xxx --> Is Valid节点
+Make Literal xxx
+AddImpose
+Tick中deltaseconds的用法
+Print String
+LineTraceByChannel
+ Draw Debug Type设为Persistent，可以把这条射线画出来
+ Trace Channel跟Actor的Collision相关
+GetActorLocation
+Break Hit Result
+  Impact Normal
+EventActorBeginOverlap
+Cast to
+Set Physics Linear Velocity
+Timeline
+SetRelativeLocation
+Set Parameter Value on Material xxx
+Set xxx
+Spawn Sound Attached
+Construction Script
+Select
+Moved Component To
+Get Actors of Class
+ForEachLoop
+Switch On xxx
+Add 把元素添加到数组类variable中
+DestroyActor
+Bind Event to OnDestroyed
+Delay
+Set Volume Multiplier设置音量
+Set Pitch Multiplier设置音调
+Get Velocity
+Vector Length
++，-，*，/, %除以
+Clamp
+Add Static Mesh Component
+Promote to Variable存成变量
+Construction Script
+ SetRelativeLocation
+ GetRelativeLocation
+ Find look at Location
+GameMode统筹整个游戏的游戏数据
+P
 ```
 #### 经验/命令
 ```
