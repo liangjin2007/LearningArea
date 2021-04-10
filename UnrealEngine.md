@@ -10,6 +10,21 @@
 - [bilibili虚幻引擎官方](https://space.bilibili.com/138827797?spm_id_from=333.788.b_765f7570696e666f.2)
 - [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 
+## 概念
+```
+Camera Speed
+Sphere Reflection Actor
+PostProcessVolume
+SkyLight
+SkySphere
+DirectionLight
+Event
+Event Dispatcher
+UMG
+Deferred/Forward rendering
+GBuffer
+```
+
 
 ## 一般经验
 ```
@@ -44,16 +59,19 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 八、头文件
 必须放在.generated.h之前
 
-
-学UE先学蓝图，然后再学C++。
+九、学UE先学蓝图，然后再学C++。
  
-C++其实是UE的脚本语言，学习难度是蓝图的2倍不止
+十、C++其实是UE的脚本语言，学习难度是蓝图的2倍不止
  
-新建C++类就可以把蓝图工程转成C++工程
+十一、新建C++类就可以把蓝图工程转成C++工程
 
-BP:可以理解为是一个editor
+十二、BP:可以理解为是一个editor
 
-快捷键
+```
+
+## 界面和蓝图相关
+#### 交互和快捷键
+```
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
@@ -61,36 +79,26 @@ Ctrl+Shift+Save
 Alt+drag/rotate/scale in viewport: copy 
 Ctrl+G: 分组
 Ctrl+Shift+G : 取消分组
-
-Camera Speed
-Sphere Reflection Actor
-PostProcessVolume
-SkyLight
-SkySphere
-DirectionLight
 Layers: Double Click to select
 Select actors using this asseset.
-
-UI相关
-UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, Show Mouse Cursor， Open Level, Quit Game， 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
+UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
 生命值和弹药UI。
-
-Create Widget节点
-Add To Viewport节点
 右键Wrap with xxx
-删除UI: Remove From Parent
-Set variable to nothing
 在已有UMG上右键点Duplicate
-
-Event
 Event定义在Character蓝图，这个时候Event的Target变量是Character蓝图类型。 
 PlayController蓝图里获取Character蓝图对象， 设为Event的Target。
-
-
 Input Action Pause的细节面板中有Execute when Paused
 
-
-游戏相关
+```
+#### API
+```
+Show Mouse Cursor
+Open Level
+Quit Game
+Create Widget节点
+Add To Viewport节点
+删除UI: Remove From Parent
+Set variable to nothing
 Set Game Paused节点
 Open Level
 Set Input Mode Input节点
@@ -98,38 +106,15 @@ Set Input Mode Game And UI
 Get Player Controler节点
 Set Show Mouse Cursor节点
 Get Show Mouse Cursor节点
-
 判断蓝图对象是否已经创建 
   节点的Return Value -->  拖出去 --> Promote to variable
   Get xxx --> Is Valid节点
-  
-Event Dispatcher
-
-````
+```
+#### 经验/命令
+```
+r.xxx command
 
 ```
-渲染相关 https://learn.unrealengine.com/home/LearningPath/94219?r=False&ts=637367569407342514
-
-Distance Culling
-A mix of different solutions
-  把能预计算的都先预先计算好
-  然后针对不同的需求用预计算好的数据来实现实时rendering。
-  剔除有四种方法
-
-Scalability
-  可选择图形画面质量
-  允许选择不同级别的内容来适配不同的设备
-  r command
-  
-Deferred/Forward rendering
-GBuffer
-```
-
-## 界面和蓝图相关
-#### 快捷键
-#### API
-#### 经验
-
 ## C++相关
 #### 动画
 #### 渲染
