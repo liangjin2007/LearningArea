@@ -73,6 +73,9 @@
 
 ## Modeling
 
+## Lit
+- Lit ->  
+
 ## Material
 'T' Texture Sample
   Alpha Channel
