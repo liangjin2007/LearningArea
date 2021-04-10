@@ -6,10 +6,12 @@
 - P2 https://www.bilibili.com/video/BV1C7411F7RF?p=2
 - bilibili搜索"虚幻4游戏引擎官方入门自学到提高全218集" https://www.bilibili.com/video/BV12s411P7PW?from=search&seid=17955912259534568723
 - 新建插件https://docs.unrealengine.com/zh-CN/Programming/Plugins/index.html
-- 泰课网 https://www.taikr.com/course/964/task/27889/show
 - 插件 Boost_PCL_UnrealThirdPartyPlugin
+- [bilibili虚幻引擎官方](https://space.bilibili.com/138827797?spm_id_from=333.788.b_765f7570696e666f.2)
+- [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 
-## 学习
+
+## 一般经验
 ```
 一、编译源码
 1. .\Setup.bat
@@ -122,6 +124,24 @@ Scalability
 Deferred/Forward rendering
 GBuffer
 ```
+
+## 界面和蓝图相关
+### 快捷键
+### API
+
+## C++相关
+### 动画
+### 渲染
+### 模拟
+### 游戏逻辑
+### 等等
+
+
+
+
+
+
+
 功能
 ============================================
 https://www.unrealengine.com/zh-CN/features
