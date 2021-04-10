@@ -1,5 +1,5 @@
 
-## 蓝图 BluePrint
+# 蓝图 BluePrint
 - 蓝图可以让普通Actor动起来，因为它有一个EventGraph可以处理事件。
 - 构造过程Contstruction Script
 - 如何把球压在地面上
@@ -100,3 +100,8 @@ scalar parameter 可以被代码修改
 - alt+shift+r查找引用
 - ctrl+B跳到资源
 - alt+shift+f查找变量引用
+
+# 集成第三方库
+- [集成opencv](https://nerivec.github.io/old-ue4-wiki/pages/integrating-opencv-into-unreal-engine-4.html)
+
+
