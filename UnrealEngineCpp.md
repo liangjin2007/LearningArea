@@ -183,9 +183,14 @@ Node.GetRBFTargets(RBFTargets);
 
 ```
 
-# Source/Runtime/ClothingSystemInterface
+# 中文教程
+- [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
+```
+freezerendering命令： 以当前相机下的情况（剔除，等），可观察背后哪些被剔除了。
 
 
+
+```
 
 
 
