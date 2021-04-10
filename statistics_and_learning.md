@@ -19,6 +19,7 @@
 
 
 #### 第四章、朴素贝叶斯法
+[NaiveBayes.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/NaiveBayes/NaiveBayes.py)
 ```
 - 基于贝叶斯定理和条件独立的假设学习(X, Y)的联合分布，然后对于输入的x, 根据贝叶斯定理求出后验概率最大的y。朴素贝叶斯法实现简单，学习与预测的效率都很高。
 - 模型
@@ -39,7 +40,7 @@
 - 跟knn类似，没有实际训练过程。需要用矩阵把先验概率和条件概率存好。然后用后验概率计算出最终的概率。
 ```   
    
-- 第五章、决策树 这里讲分类决策树
+#### 第五章、决策树
    - 决策树学习通常包含三个步骤：特征选择、决策树生成和决策树的修剪。
    - ID3, C4.5, CART算法
    - 树形结构，node, directed edge, internal node,  leaf node
