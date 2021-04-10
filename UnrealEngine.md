@@ -9,6 +9,7 @@
 - 插件 Boost_PCL_UnrealThirdPartyPlugin
 - [bilibili虚幻引擎官方](https://space.bilibili.com/138827797?spm_id_from=333.788.b_765f7570696e666f.2)
 - [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
+- [UE4 Data Driven Development](https://www.bilibili.com/video/BV1dk4y1r752)
 
 ## 概念
 ```
@@ -23,6 +24,8 @@ Event Dispatcher
 UMG
 Deferred/Forward rendering
 GBuffer
+Sound Cue
+
 ```
 
 
@@ -88,7 +91,12 @@ ctrl+w复制一份（先选中）
 E： 旋转
 D： Delay
 按住ctrl, 把variable 拖到bp event graph编辑器中
-
+材质蓝图中：
+ T键： Texture Sample
+ Multiply节点
+ L键：Lerp节点
+ V键：vector节点
+ scalar parameter可以被代码修改
 
 
 交互
@@ -105,13 +113,20 @@ Input Action Pause的细节面板中有Execute when Paused
 动作映射，用什么键控制什么动作， 动作需要先添加一下。Project Settings -> Inputs -> Action 
 如何让BP中定义的Component变量在Actor的Default中显示变量
 - Word Settings -> 设置GameMode override为自定义GameMode
-视口 -> Lit-> Buffer Display 光照->缓冲显示
-
+视口 -> Lit-> Buffer Display 光照->缓冲显示、
+声音
+ 添加wav文件到content browser
+ 右键create cur船舰Sound Cue
 
 ```
 #### API
 ```
 变量： 变量类型有Bool, Text/String, Int, Float， etc。还有结构体，枚举，对象类型，接口，变换，向量，旋转等类型。
+节点： 
+  节点分类： 执行节点，读取节点，事件节点
+  节点注释：注释组，注释框
+  情境关联
+  
 Show Mouse Cursor
 Open Level
 Quit Game
@@ -188,6 +203,109 @@ r.xxx command
 
 
 ## C++相关
+#### 基础
+```
+消息
+钩子
+用C++将属性公开给蓝图
+通过蓝图扩展C++类
+蓝图调用C++函数
+C++函数调用蓝图中定义的函数
+蓝图VM
+虚实调用
+反射
+垃圾回收
+咒语
+ UCLASS(config=Game)
+ GENERATED_BODY()
+ UPROPERTY
+ UFUNCTION(BlueprintCallable, Category="Damage") void CalculateValues(); 让蓝图调用C++函数
+ 负责处理将C++函数公开给反射系统， BlueprintCallable 选项将其公开给蓝图虚拟机
+ UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true")) class USpringArmComponent* CameraBoom;
+```
+#### 类实例
+```
+一般类型
+TArray<float>
+TMap<FName, FPoseDriverTarget>
+TStatId
+int32
+
+FRBFOutputWeight
+ERBFDistanceMethod // Enum
+EPoseDriverSource
+EObjectFlags
+EObjectMark
+
+FName
+FString
+FVector
+FRotator: Euler角， roll, pitch, yaw
+FQuat
+FQuat(FRotator)
+FTransform
+FPoseLink
+FBoneReference
+FBoneContainer
+FPoseDriverTransform
+FPoseDriverTarget
+FAnimNode_PoseHandler
+FAnimNode_PoseDriver
+FRBFParams
+FRichCurve
+FPlatformAtomics
+FFieldCompiledInInfo
+
+宏
+USTRUCT()
+UCLASS()
+GENERATED_BODY()
+UPROPERTY(EditAnywhere, Category=RBFData)
+FORCENOINLINE
+
+枚举
+UENUM()
+enum EBoneAxis
+{
+	BA_X UMETA(DisplayName = "X Axis"),
+	BA_Y UMETA(DisplayName = "Y Axis"),
+	BA_Z UMETA(DisplayName = "Z Axis"),
+};
+UENUM(BlueprintType)
+enum EBoneControlSpace
+{
+	...
+}
+
+U类型，表示UObject的继承者，是一种对象。 UObject_Base -> 
+UObjectBase
+  - GetClass
+  - GetOuter
+  - GetFName
+  - GetUniqueID
+  - Register()
+  - DeferredRegister()
+  - AddObject()
+  - GetStatID()
+  - SetFlagsTo( EObjectFlags NewFlags )
+  - GetFlags()
+UObjectBaseUtility
+  - SetFlags( EObjectFlags NewFlags )
+  - HasAnyFlags
+  - Mark(EObjectMark Marks) const
+  - GetFullName()
+  - GetPathName()
+  - CreateClusterFromObject
+  - GetFullGroupName
+  - GetName
+  - IsA
+  - FindNearestCommonBaseClass
+  - GetLinker
+USkeleton
+USkeletalMesh
+UPoseAsset
+UAnimBlueprint
+```
 #### 动画
 #### 渲染
 #### 模拟
