@@ -9,11 +9,13 @@
 这里有一堆概念，从概率论，统计学习，监督学习，模型，策略，算法，模型评估，模型选择，误差，过拟合，欠拟合，正则化，交叉验证，泛化能力，生成模型与判别模型，分类问题，标注问题，回归问题等进行说明。
 
 #### 第二章、感知机
-二分类的线性分类模型。 [perceptron_dichotomy.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/perceptron/perceptron_dichotomy.py)
+[perceptron_dichotomy.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/perceptron/perceptron_dichotomy.py)
 
+二分类的线性分类模型。 
 #### 第三章、k邻近法
-10分类的例子，没有训练过程。对每个测试集的样本从训练集找k个最近的样本，以投票唱票的方式获取label。[KNN.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/KNN/KNN.py)
-程序中没有实现kdtree加速最近的k个点的搜索。
+[KNN.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/KNN/KNN.py)
+
+10分类的例子，没有训练过程。对每个测试集的样本从训练集找k个最近的样本，以投票唱票的方式获取label。程序中没有实现kdtree加速最近的k个点的搜索。
 
 
 #### 第四章、朴素贝叶斯法
