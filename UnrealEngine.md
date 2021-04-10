@@ -122,6 +122,8 @@ r.xxx command
 #### 游戏逻辑
 #### 等等
 #### 其他经验
+- [集成opencv](https://nerivec.github.io/old-ue4-wiki/pages/integrating-opencv-into-unreal-engine-4.html)
+
 
 
 
