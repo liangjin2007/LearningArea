@@ -23,9 +23,60 @@ Event
 Event Dispatcher
 UMG
 Deferred/Forward rendering
-GBuffer
 Sound Cue
+Custom Depth/Stencil用来在实时渲染中进行合成
 
+Unreal 实时渲染流程：
+剔除-> Draw Call合并属性等-> 光栅化-> Depth Buffer避免重复绘制Pixel-> Custom Depth/Stencil -> GBuffers -> Static Light -> Dynamic Light -> Stationary Light -> 反射Reflection
+
+其中GBuffers
+  Base Color
+  Normal
+  Metalic
+  Roughness
+  Specular
+  SubSurface
+  Shading Model
+  Depth
+
+
+100个物体+100个灯光
+延迟渲染： 减少绘制次数 100 + 100， 以及避免像素重复计算
+前向渲染: 100 x 100
+
+静态光：
+light map : 用lightmass程序将颜色和阴影提前做出来算出lightmap, 绘制的时候只要调这个图片就行。
+  离线
+  Bake时间
+  Rebuild
+  消耗内存
+  漂亮的间接光
+  反弹和GI
+  
+动态光：
+  使用G-Buffer
+  全实时
+  Heavy
+  没有间接光
+  
+Stationary Light
+  间接光效果可以通过volumetric lightmap计算。
+  将间接光和反弹细节存入这些点
+
+反射
+  SSR： Screen Space Reflection
+    系统默认反射方式
+    实时，精确
+    只能反射屏幕上有的物体
+  Reflection Captures
+    Cubemap
+    预先计算Cubemap
+    快，省
+    离Capture越远越不精确
+  Planar Reflection
+    实时反射全环境
+    平面：镜子，水面
+    消耗大
 ```
 
 
@@ -113,10 +164,12 @@ Input Action Pause的细节面板中有Execute when Paused
 动作映射，用什么键控制什么动作， 动作需要先添加一下。Project Settings -> Inputs -> Action 
 如何让BP中定义的Component变量在Actor的Default中显示变量
 - Word Settings -> 设置GameMode override为自定义GameMode
-视口 -> Lit-> Buffer Display 光照->缓冲显示、
+视口 -> Lit-> Buffer Display 光照->缓冲显示
+视口 -> Show -> Visualize -> Volumetric Lightmap
 声音
  添加wav文件到content browser
  右键create cur船舰Sound Cue
+查看Light maps： World Settings->Lightmaps
 
 ```
 #### API
