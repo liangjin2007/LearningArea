@@ -8,7 +8,11 @@
   - C++ AMP: C++ AMP是微软公司基于DirectX 11技术实现的一个并行计算库. parallel_for_each
   - IBLBaker: 烘培基于物理的渲染需要的纹理
   - milvus: vector搜索引擎 https://github.com/milvus-io/milvus
-  
+  - gvdb-voxels
+  - glm
+  - imgui
+  - pbrt-v3 https://github.com/mmp/pbrt-v3
+  - 
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
