@@ -13,6 +13,9 @@
   - imgui
   - pbrt-v3 https://github.com/mmp/pbrt-v3
   - kbengine https://github.com/kbengine/kbengine
+  - parameterization https://github.com/liminchen/OptCuts
+  - https://github.com/mxgmn/WaveFunctionCollapse
+  - 
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
