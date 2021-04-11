@@ -41,19 +41,29 @@
 ```   
    
 #### 第五章、决策树
-
+[DecisionTree.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/DecisionTree/DecisionTree.py)
 
 决策树学习通常包含三个步骤：特征选择、决策树生成和决策树的修剪。
 
-熵： 表示随机变量不确定性的度量。
+熵： H(X) = H(p) = -sum(pi log pi)表示随机变量不确定性的度量。
 
+条件熵: H(Y|X)
+
+信息增益： g(Y, X) = H(Y) - H(Y|X), 得知X的信息而使得类Y的信息的不确定性减少的程度。
 
 特征选择靠信息增益。
 
 
-- 第六章、逻辑回归与最大熵
-   - 最大熵原理： 在所有可能的概率模型中，熵最大的模型是最好的模型。H(P) = -Sum(P(xi)logP(xi))。满足0 <= H(P) <= log|X|。 |X|指X的取值个数。
-   - 极大似然估计: max Mult P(xi)
+#### 第六章、逻辑回归与最大熵
+
+最大熵原理： 在所有可能的概率模型中，熵最大的模型是最好的模型。H(P) = -Sum(P(xi)logP(xi))。满足0 <= H(P) <= log|X|。 |X|指X的取值个数。
+
+[logisticRegression.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/Logistic_and_maximum_entropy_models/logisticRegression.py)
+
+极大似然估计: 极大化联合概率密度 max Mult P(Yi|xi) 等价于max sum(log(P(Yi|xi)))
+
+
+
 - 第七章、支持向量机
 - 第八章、提升方法
 - 第九章、EM算法及其推广
