@@ -1,7 +1,9 @@
 # 统计学习方法 李航
 
 [配套代码](https://github.com/Dod-o/Statistical-Learning-Method_Code)
- 
+
+[配套代码2](https://github.com/fengdu78/lihang-code)
+
 #### 前言
 对特征的理解: 如果输入点是三维点(x, y, z) 表示样本点有三个特征。
 
