@@ -35,10 +35,13 @@ the-gan-zoo https://github.com/hindupuravinash/the-gan-zoo
 
 Detectron https://github.com/facebookresearch/Detectron
 #### 3d reconstruction 
-3d face https://github.com/AaronJackson/vrn
+vrn signle image 3d face https://github.com/AaronJackson/vrn
+
+3dmm_cnn single image face https://github.com/anhttran/3dmm_cnn
 
 image to volume https://github.com/chrischoy/3D-R2N2
 
+image to 3d scene https://github.com/thusiyuan/holistic_scene_parsing
 
 #### attention 
 https://github.com/philipperemy/keras-attention-mechanism
