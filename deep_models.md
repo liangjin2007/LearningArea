@@ -21,6 +21,10 @@ https://github.com/Tencent/tencent-ml-images
 
 https://github.com/CSAILVision/places365
 
+rgbd dataset https://github.com/ScanNet/ScanNet
+
+rgbd dataset https://github.com/liangjin2007/Matterport
+
 #### models
 https://github.com/tensorflow/models
 
