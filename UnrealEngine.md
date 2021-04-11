@@ -133,6 +133,8 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 十三、如何设置引擎的语言为英文/中文
 ```
 
+- awesome-ue4 https://github.com/terrehbyte/awesome-ue4
+- 
 ## 界面和蓝图相关
 #### 交互和快捷键
 ```
@@ -252,7 +254,7 @@ P
 #### 经验/命令
 ```
 命令
-r.xxx command
+r.xxx command http://www.kosmokleaner.de/ownsoft/UE4CVarBrowser.html
 
 
 经验
