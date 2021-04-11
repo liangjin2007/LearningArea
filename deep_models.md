@@ -6,6 +6,10 @@ nn-transfer https://github.com/gzuidhof/nn-transfer
 deep-learning-model-convertor https://github.com/ysh329/deep-learning-model-convertor
 
 keras-vis https://github.com/raghakot/keras-vis
+
+imgaug https://github.com/aleju/imgaug
+
+gandissect https://github.com/CSAILVision/gandissect
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
 
@@ -27,9 +31,19 @@ DCGAN-tensorflow https://github.com/carpedm20/DCGAN-tensorflow
 
 generative-models https://github.com/wiseodd/generative-models
 
+the-gan-zoo https://github.com/hindupuravinash/the-gan-zoo
+
 Detectron https://github.com/facebookresearch/Detectron
-#### 3d face reconstruction 
-https://github.com/AaronJackson/vrn
+#### 3d reconstruction 
+3d face https://github.com/AaronJackson/vrn
+
+image to volume https://github.com/chrischoy/3D-R2N2
+
 
 #### attention 
 https://github.com/philipperemy/keras-attention-mechanism
+
+https://github.com/kobiso/CBAM-keras
+
+#### docs
+https://github.com/xitu/tensorflow-docs
