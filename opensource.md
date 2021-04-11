@@ -16,6 +16,8 @@
   - parameterization https://github.com/liminchen/OptCuts
   - https://github.com/mxgmn/WaveFunctionCollapse
   - graph optimization https://github.com/RainerKuemmerle/g2o
+  - facemark api for opencv https://github.com/kurnianggoro/GSOC2017
+
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
