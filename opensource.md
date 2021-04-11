@@ -15,7 +15,7 @@
   - kbengine https://github.com/kbengine/kbengine
   - parameterization https://github.com/liminchen/OptCuts
   - https://github.com/mxgmn/WaveFunctionCollapse
-  - 
+  - graph optimization https://github.com/RainerKuemmerle/g2o
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
