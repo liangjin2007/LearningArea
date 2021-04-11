@@ -12,7 +12,7 @@
   - glm
   - imgui
   - pbrt-v3 https://github.com/mmp/pbrt-v3
-  - 
+  - kbengine https://github.com/kbengine/kbengine
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
