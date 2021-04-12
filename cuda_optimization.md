@@ -66,12 +66,43 @@ SM占有率
 
 合并访问
   指的是一个线程束对全局内存的一次访问请求导致最少数量的数据传输。
+  一个线程束访问一个全局内存float。 float是4字节， 假设一个线程束有32个线程，那么该线程束将请求32x4 = 128字节的数据。理想情况下将触发128/32=4次L2缓存的数据传输。这是合并访问。
+  一次内存读取只能读取地址为0~31字节，32~63字节，64~95字节，96~127字节等片段的数据。
 非合并访问
   合并访问的反面
  
-一个线程束访问一个全局内存float。 float是4字节， 假设一个线程束有32个线程，那么该线程束将请求32x4 = 128字节的数据。
+数据传输对数据地址的要求是从全局内存转移到L2缓存的一片内存的首地址必须是一个最小粒度（32字节）的整数倍。
 
+cudaMalloc分配的内存的首地址一定是256字节的整数倍，所以一定是32字节的整数倍。
 
+add<<<128,32>>>(x,y,z)
+
+顺序的合并访问：
+
+乱序的合并访问：比如内存索引置换一下，虽然变乱序了，但是从一个线程束的32个线程的整体的角度，但是它访问的内存地址如果合起来依然是0~31字节，32~63字节，或者0~128字节这种的。那么这种是乱序的合并
+viod __global__ add_permuted(float* x, float* y, float* z){
+  int tid_permuted = threadIdx.x ^ 0x1;
+  int n = blockIdx.x*blockDim.x+tid_permuted;
+  z[n] = x[n] + y[n];
+}
+
+不对齐的非合并访问：
+viod __global__ add_permuted(float* x, float* y, float* z){
+  int n = blockIdx.x*blockDim.x+threadIdx.x+1;
+  z[n] = x[n] + y[n];
+}
+
+跨越式的非合并访问：
+viod __global__ add_permuted(float* x, float* y, float* z){
+  int n = blockIdx.x+blockDim.x*threadIdx.x;
+  z[n] = x[n] + y[n];
+}
+
+广播式的非合并访问：没看明白
+viod __global__ add_permuted(float* x, float* y, float* z){
+  int n = threadIdx.x+blockDim.x*blockIdx.x;
+  z[n] = x[0] + y[n];
+}
 
 ```
 
