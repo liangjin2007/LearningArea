@@ -51,6 +51,8 @@ image enhancement https://github.com/mgharbi/hdrnet
 https://github.com/facebookresearch/maskrcnn-benchmark
 
 https://github.com/zexiangxu/Deep-Relighting
+
+https://github.com/allanzelener/YAD2K
 #### image
 https://github.com/NVIDIA/pix2pixHD
 
