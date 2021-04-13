@@ -32,6 +32,8 @@ keras-yolo3 https://github.com/qqwweee/keras-yolo3
 
 keras-retinanet https://github.com/fizyr/keras-retinanet
 
+https://github.com/rykov8/ssd_keras
+
 keras-rcnn https://github.com/broadinstitute/keras-rcnn
 
 mmdetection https://github.com/open-mmlab/mmdetection
@@ -46,6 +48,7 @@ Detectron https://github.com/facebookresearch/Detectron
 
 image enhancement https://github.com/mgharbi/hdrnet
 
+https://github.com/facebookresearch/maskrcnn-benchmark
 #### image
 https://github.com/NVIDIA/pix2pixHD
 
