@@ -96,16 +96,27 @@ reconstruct 3d people model https://github.com/thmoa/videoavatars
 
 https://github.com/gaolinorange/Automatic-Unpaired-Shape-Deformation-Transfer
 
-
 https://github.com/yangyanli/PointCNN
+
+https://github.com/nmoehrle/mvs-texturing
 
 3D-Machine-Learning https://github.com/timzhang642/3D-Machine-Learning
 
+https://github.com/CMU-Perceptual-Computing-Lab/MonocularTotalCapture
+
+https://github.com/intel-isl/Open3D
+
+https://github.com/sebastianstarke/AI4Animation
+
+情绪分析 https://github.com/serengil/deepface
 #### tracking
 https://github.com/foolwood/SiamMask
 
 https://github.com/rockkingjy/OpenTracker
 
+https://github.com/Smorodov/Multitarget-tracker
+
+https://github.com/foolwood/benchmark_results
 #### attention 
 https://github.com/philipperemy/keras-attention-mechanism
 
@@ -121,12 +132,22 @@ https://github.com/liangjin2007/face3d
 https://github.com/cmusatyalab/openface
 
 https://github.com/becauseofAI/HelloFace
+
+https://github.com/cleardusk/3DDFA_V2
+
+https://github.com/tranluan/Nonlinear_Face_3DMM
+
+#### motion
+https://github.com/DeepMotionEditing/deep-motion-editing
+
 #### docs
 https://github.com/xitu/tensorflow-docs
 
 https://github.com/Hvass-Labs/TensorFlow-Tutorials
 
 https://github.com/fengdu78/deeplearning_ai_books
+
+https://github.com/jikexueyuanwiki/tensorflow-zh
 #### ai
 agent学习 https://github.com/SerpentAI/SerpentAI
 
@@ -137,4 +158,6 @@ agent学习 https://github.com/SerpentAI/SerpentAI
 漫画上色 https://github.com/lllyasviel/style2paints
 
 CainCamera是一个美颜类相机 https://github.com/CainKernel/CainCamera
+
+https://github.com/thu-ml/tianshou
 
