@@ -19,6 +19,9 @@
   - facemark api for opencv https://github.com/kurnianggoro/GSOC2017
   - draco geometry compress and uncompress library https://github.com/google/draco
   - openMVG https://github.com/openMVG/openMVG
+  - openMVS https://github.com/cdcseacave/openMVS
+  - https://github.com/victorprad/InfiniTAM
+  - 结构光 https://github.com/jakobwilm/slstudio
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
