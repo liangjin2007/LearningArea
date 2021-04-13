@@ -114,6 +114,8 @@ https://github.com/cmusatyalab/openface
 #### docs
 https://github.com/xitu/tensorflow-docs
 
+https://github.com/Hvass-Labs/TensorFlow-Tutorials
+
 #### ai
 agent学习 https://github.com/SerpentAI/SerpentAI
 
