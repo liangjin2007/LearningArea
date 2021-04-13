@@ -35,6 +35,8 @@ rgbd dataset https://github.com/liangjin2007/Matterport
 
 https://github.com/mtobeiyf/ava_downloader
 
+https://github.com/jian667/face-dataset
+
 #### models
 https://github.com/tensorflow/models
 
@@ -63,6 +65,8 @@ https://github.com/facebookresearch/maskrcnn-benchmark
 https://github.com/zexiangxu/Deep-Relighting
 
 https://github.com/allanzelener/YAD2K
+
+https://github.com/simontomaskarlsson/CycleGAN-Keras
 #### image
 https://github.com/NVIDIA/pix2pixHD
 
@@ -115,11 +119,14 @@ https://github.com/mpatacchiola/deepgaze
 https://github.com/liangjin2007/face3d
 
 https://github.com/cmusatyalab/openface
+
+https://github.com/becauseofAI/HelloFace
 #### docs
 https://github.com/xitu/tensorflow-docs
 
 https://github.com/Hvass-Labs/TensorFlow-Tutorials
 
+https://github.com/fengdu78/deeplearning_ai_books
 #### ai
 agent学习 https://github.com/SerpentAI/SerpentAI
 
