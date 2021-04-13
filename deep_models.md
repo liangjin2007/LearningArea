@@ -109,6 +109,8 @@ https://github.com/ageitgey/face_recognition
 https://github.com/mpatacchiola/deepgaze
 
 https://github.com/liangjin2007/face3d
+
+https://github.com/cmusatyalab/openface
 #### docs
 https://github.com/xitu/tensorflow-docs
 
