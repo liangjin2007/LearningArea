@@ -109,6 +109,9 @@ viod __global__ add_permuted(float* x, float* y, float* z){
 
 ## 工具的使用
 - NSight Compute
+https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html
+
+
 
 - NSight System
 ```
