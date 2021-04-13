@@ -57,10 +57,19 @@ image to volume https://github.com/chrischoy/3D-R2N2
 
 image to 3d scene https://github.com/thusiyuan/holistic_scene_parsing
 
+Pixel2MeshPlusPlus https://github.com/walsvid/Pixel2MeshPlusPlus
+
+#### tracking
+https://github.com/foolwood/SiamMask
+
 #### attention 
 https://github.com/philipperemy/keras-attention-mechanism
 
 https://github.com/kobiso/CBAM-keras
+
+#### face
+https://github.com/ageitgey/face_recognition
+https://github.com/mpatacchiola/deepgaze
 
 #### docs
 https://github.com/xitu/tensorflow-docs
@@ -75,3 +84,4 @@ agent学习 https://github.com/SerpentAI/SerpentAI
 漫画上色 https://github.com/lllyasviel/style2paints
 
 CainCamera是一个美颜类相机 https://github.com/CainKernel/CainCamera
+
