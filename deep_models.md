@@ -49,6 +49,8 @@ Detectron https://github.com/facebookresearch/Detectron
 image enhancement https://github.com/mgharbi/hdrnet
 
 https://github.com/facebookresearch/maskrcnn-benchmark
+
+https://github.com/zexiangxu/Deep-Relighting
 #### image
 https://github.com/NVIDIA/pix2pixHD
 
