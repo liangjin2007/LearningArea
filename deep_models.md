@@ -47,6 +47,7 @@ Detectron https://github.com/facebookresearch/Detectron
 image enhancement https://github.com/mgharbi/hdrnet
 
 #### image
+https://github.com/NVIDIA/pix2pixHD
 
 #### 3d reconstruction 
 vrn signle image 3d face https://github.com/AaronJackson/vrn
@@ -57,8 +58,11 @@ image to volume https://github.com/chrischoy/3D-R2N2
 
 image to 3d scene https://github.com/thusiyuan/holistic_scene_parsing
 
+Pixel2Mesh https://github.com/nywang16/Pixel2Mesh
+
 Pixel2MeshPlusPlus https://github.com/walsvid/Pixel2MeshPlusPlus
 
+reconstruct 3d people model https://github.com/thmoa/videoavatars
 #### tracking
 https://github.com/foolwood/SiamMask
 
