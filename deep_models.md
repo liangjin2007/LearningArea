@@ -17,6 +17,7 @@ https://github.com/merantix/picasso
 
 https://github.com/L1aoXingyu/pytorch-beginner
 
+https://github.com/wkentaro/labelme
 
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
