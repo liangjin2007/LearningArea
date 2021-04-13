@@ -22,6 +22,8 @@
   - openMVS https://github.com/cdcseacave/openMVS
   - https://github.com/victorprad/InfiniTAM
   - 结构光 https://github.com/jakobwilm/slstudio
+  - https://github.com/patrikhuber/eos
+  - https://github.com/colmap/colmap
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
