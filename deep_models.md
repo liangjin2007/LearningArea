@@ -15,6 +15,8 @@ https://github.com/Tencent/ncnn
 
 https://github.com/merantix/picasso
 
+https://github.com/L1aoXingyu/pytorch-beginner
+
 
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
@@ -29,6 +31,8 @@ https://github.com/CSAILVision/places365
 rgbd dataset https://github.com/ScanNet/ScanNet
 
 rgbd dataset https://github.com/liangjin2007/Matterport
+
+https://github.com/mtobeiyf/ava_downloader
 
 #### models
 https://github.com/tensorflow/models
@@ -63,6 +67,8 @@ https://github.com/NVIDIA/pix2pixHD
 
 https://github.com/Joker316701882/Salient-Object-Detection
 
+ocr engine https://github.com/tesseract-ocr/tesseract
+
 #### 3d reconstruction 
 vrn signle image 3d face https://github.com/AaronJackson/vrn
 
@@ -79,6 +85,11 @@ Pixel2MeshPlusPlus https://github.com/walsvid/Pixel2MeshPlusPlus
 reconstruct 3d people model https://github.com/thmoa/videoavatars
 
 https://github.com/gaolinorange/Automatic-Unpaired-Shape-Deformation-Transfer
+
+
+https://github.com/yangyanli/PointCNN
+
+3D-Machine-Learning https://github.com/timzhang642/3D-Machine-Learning
 
 #### tracking
 https://github.com/foolwood/SiamMask
