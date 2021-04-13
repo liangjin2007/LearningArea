@@ -13,6 +13,9 @@ gandissect https://github.com/CSAILVision/gandissect
 
 https://github.com/Tencent/ncnn
 
+https://github.com/merantix/picasso
+
+
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
 
