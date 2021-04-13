@@ -16,6 +16,8 @@ https://github.com/Tencent/ncnn
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
 
+https://github.com/hardikvasa/google-images-download
+
 #### data set
 https://github.com/Tencent/tencent-ml-images
 
@@ -56,6 +58,8 @@ https://github.com/allanzelener/YAD2K
 #### image
 https://github.com/NVIDIA/pix2pixHD
 
+https://github.com/Joker316701882/Salient-Object-Detection
+
 #### 3d reconstruction 
 vrn signle image 3d face https://github.com/AaronJackson/vrn
 
@@ -70,8 +74,13 @@ Pixel2Mesh https://github.com/nywang16/Pixel2Mesh
 Pixel2MeshPlusPlus https://github.com/walsvid/Pixel2MeshPlusPlus
 
 reconstruct 3d people model https://github.com/thmoa/videoavatars
+
+https://github.com/gaolinorange/Automatic-Unpaired-Shape-Deformation-Transfer
+
 #### tracking
 https://github.com/foolwood/SiamMask
+
+https://github.com/rockkingjy/OpenTracker
 
 #### attention 
 https://github.com/philipperemy/keras-attention-mechanism
@@ -80,8 +89,10 @@ https://github.com/kobiso/CBAM-keras
 
 #### face
 https://github.com/ageitgey/face_recognition
+
 https://github.com/mpatacchiola/deepgaze
 
+https://github.com/liangjin2007/face3d
 #### docs
 https://github.com/xitu/tensorflow-docs
 
