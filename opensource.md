@@ -18,6 +18,7 @@
   - graph optimization https://github.com/RainerKuemmerle/g2o
   - facemark api for opencv https://github.com/kurnianggoro/GSOC2017
   - draco geometry compress and uncompress library https://github.com/google/draco
+  - openMVG https://github.com/openMVG/openMVG
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
