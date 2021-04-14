@@ -2,10 +2,7 @@
 - [写CUDA到底难在哪？](https://www.zhihu.com/question/437131193/answer/1800559419)
 
 - [Bank Conflict](https://blog.csdn.net/wd1603926823/article/details/78326570)
-```
-比如有个global memory buffer 是三角形顶点坐标{{p0_i, p1_i, p2_i}, ...} 它的尺寸为3*4*3*numTriangles。如何优化内存？
 
-```
 
 ## CUDA编程 基础与实践 樊哲勇 
 - 第五章 获得GPU加速的关键
@@ -111,6 +108,27 @@ viod __global__ add_permuted(float* x, float* y, float* z){
 - NSight Compute
 https://docs.nvidia.com/nsight-compute/ProfilingGuide/index.html
 
+- 更细的一些概念
+```
+SP: Streaming Processor， 即核心，可以跑一个线程。
+Warp: 一般32个线程，硬件上来说的话即32个SP。
+SM:GPU大核
+  多个SP
+  多个sheduler
+  寄存器
+  share memory
+  等
+
+https://baijiahao.baidu.com/s?id=1614489586434858736&wfr=spider&for=pc
+RTX 2070 SMs数: 36
+cuda cores: 2304
+可以算出一个SM是64个core, 也就是2个warp。因为一个SM的最大可用寄存器数为64k。
+```
+
+- cycle
+```
+
+```
 
 
 - NSight System
