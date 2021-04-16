@@ -139,3 +139,38 @@ VS2017 -> 扩展 -> NSight -> Windows -> Warp Info
 VS2017 -> 扩展 -> NSight -> Windows -> Lane Info ? 
 
 ```
+
+## CUDA调试
+如何开启调试
+```
+Ptx工程：
+- CUDA C/C++ -> Device
+  - Generate GPU Debug Information
+- CUDA C/C++ -> Host
+  - Generate Host Debug Information
+  - Debug Information Format : Program Database
+  - Optimization: Disabled
+
+
+library 工程：
+- C/C++ -> 优化 - > 已禁用
+- C/C++ -> 常规 -> 调试信息格式 : 程序数据库
+- CUDA C/C++ -> Device
+  - Generate GPU Debug Information
+- CUDA C/C++ -> Host
+  - Generate Host Debug Information
+  - Debug Information Format : Program Database
+  - Optimization: Disabled
+
+应用程序工程：
+- C/C++ -> 优化 - > 已禁用
+- C/C++ -> 常规 -> 调试信息格式 : 程序数据库
+- CUDA C/C++ -> Device
+  - Generate GPU Debug Information
+- CUDA C/C++ -> Host
+  - Generate Host Debug Information
+  - Debug Information Format : Program Database
+  - Optimization: Disabled
+- 链接器 -> 调试 -> 生成调试信息 ： 是/DEBUG
+```
+
