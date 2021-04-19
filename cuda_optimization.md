@@ -105,11 +105,12 @@ viod __global__ add_permuted(float* x, float* y, float* z){
 
 ```
 
+- 矩阵转置
 ```
 B[nx*N+ny] = A[ny*N+nx] vs B[ny*N+nx] = A[nx*N+ny]
-这两者性能不同，到底哪个快？
+这两者性能不同，到底哪个快？ 5.3ms vs 2.8ms.
 
-
+在读取和写入不能都是合并的情况下，一般来说应当尽量做到合并地写入。
 ```
 
 ## 工具的使用
