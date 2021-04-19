@@ -105,6 +105,12 @@ viod __global__ add_permuted(float* x, float* y, float* z){
 
 ```
 
+```
+B[nx*N+ny] = A[ny*N+nx] vs B[ny*N+nx] = A[nx*N+ny]
+这两者性能不同，到底哪个快？
+
+
+```
 
 ## 工具的使用
 - NSight Compute
