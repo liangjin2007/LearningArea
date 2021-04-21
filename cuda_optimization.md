@@ -183,3 +183,9 @@ library 工程：
 - 链接器 -> 调试 -> 生成调试信息 ： 是/DEBUG
 ```
 
+## 基本CUDA算法
+- PrefixSum
+- RadixSort
+- 
+
+
