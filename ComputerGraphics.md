@@ -47,7 +47,13 @@
 #### volumemtric representation
 tetrahedral mesh generation tools: Tetgen, NetGen, gmsh
 #### rig-space physics simulation method
-
+#### collision
+- openvdb
+- GVDB
+- Nanovdb
+- https://github.com/flexible-collision-library/fcl
+- http://gamma.cs.unc.edu/SELFCD/
+- https://github.com/ricortiz/SCCD
 ## 6.其他
 
 ### PBR理论
