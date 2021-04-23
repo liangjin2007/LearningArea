@@ -43,6 +43,10 @@
 - wire deformation
 - blend shapes
 ## 5.模拟
+#### rig-space
+#### volumemtric representation
+tetrahedral mesh generation tools: Tetgen, NetGen, gmsh
+#### rig-space physics simulation method
 
 ## 6.其他
 
