@@ -36,7 +36,12 @@
 ## 3.基于物理的渲染
 
 ## 4.动画
-
+#### modeling
+#### rigging
+- linear blend
+- dual quaternion skinning
+- wire deformation
+- blend shapes
 ## 5.模拟
 
 ## 6.其他
