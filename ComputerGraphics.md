@@ -53,7 +53,10 @@ tetrahedral mesh generation tools: Tetgen, NetGen, gmsh
 - Nanovdb
 - https://github.com/flexible-collision-library/fcl
 - http://gamma.cs.unc.edu/SELFCD/
+#### self-collision
 - https://github.com/ricortiz/SCCD
+- https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-32-broad-phase-collision-detection-cuda
+- 
 ## 6.其他
 
 ### PBR理论
