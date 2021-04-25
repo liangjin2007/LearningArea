@@ -24,6 +24,7 @@
   - 结构光 https://github.com/jakobwilm/slstudio
   - https://github.com/patrikhuber/eos
   - https://github.com/colmap/colmap
+  - 自碰撞检测 https://github.com/ricortiz/SCCD
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
