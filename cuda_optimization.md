@@ -184,8 +184,47 @@ library 工程：
 ```
 
 ## 基本CUDA算法
-- PrefixSum
+#### Thrust
+- Transform
+```
+transform
+fill
+replace
+copy
+sequence
+```
+- Reduction
+```
+sum
+count
+count_if
+max_element
+min_element
+inner_product
+
+```
+- PrefixSum or Scan
+```
+inclusive scan：data[2] = data[0] + data[1] + data[2]
+exclusive scan: data[2] = data[0] + data[1]
+这两者差不多, exclusive第一个值一定是0
+```
+- Reordering
+```
+partitioning
+stream compaction： 即缩短数组，去除一些元素
+copy_if
+partition
+remove and remove_if
+unique
+```
+
 - RadixSort
-- 
+```
+sort 
+sort_by_key
+
+
+```
 
 
