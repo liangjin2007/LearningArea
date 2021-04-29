@@ -109,6 +109,9 @@ https://github.com/intel-isl/Open3D
 https://github.com/sebastianstarke/AI4Animation
 
 情绪分析 https://github.com/serengil/deepface
+
+pose estimation https://github.com/trumDog/3d-human-pose-estimation 
+
 #### tracking
 https://github.com/foolwood/SiamMask
 
