@@ -25,6 +25,7 @@
   - https://github.com/patrikhuber/eos
   - https://github.com/colmap/colmap
   - 自碰撞检测 https://github.com/ricortiz/SCCD
+  - alglib https://www.alglib.net/optimization/quadraticprogramming.php  https://download.csdn.net/download/chengch2015/9047055
 - js
   - video.js：视频展示
   - glfx.js:图像处理效果
