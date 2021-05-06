@@ -412,6 +412,17 @@ public:
     virtual bool excute() = 0;          //执行节点
 };
 ```
+
+- UE4行为树与传统行为树不同
+```
+https://docs.unrealengine.com/zh-CN/InteractiveExperiences/ArtificialIntelligence/BehaviorTrees/BehaviorTreesOverview/index.html
+
+黑板
+黑板键
+事件驱动
+条件语句装饰器
+叶节点都是操作任务节点
+```
 #### 等等
 #### 其他经验
 - [集成opencv](https://nerivec.github.io/old-ue4-wiki/pages/integrating-opencv-into-unreal-engine-4.html)
