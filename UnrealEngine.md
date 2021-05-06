@@ -374,6 +374,44 @@ UAnimBlueprint
 #### 渲染
 #### 模拟
 #### 游戏逻辑
+- 行为树
+```
+https://www.gameres.com/830662.html
+
+节点
+//节点类（基类）
+class Node{
+private:
+  std::vector<Node*> children;    //子节点群
+  Node* parent;                   //父节点
+public:
+  void addChild(Node*);           //添加子节点
+  virtual bool excute() = 0;      //执行节点，返还 成功/失败
+  //...
+};
+
+
+控制节点： execute()返回true or false。 非叶子节点
+  选择节点Selector
+  顺序节点
+  并行节点
+  随机选择节点
+  随机顺序节点
+  次数限制节点
+  权值选择节点
+  
+行为节点： 叶子节点
+  前提条件
+  行为状态： ready(可执行)和正在执行(running)
+
+class BehaviorNode : public Node{
+protected:
+    std::function<bool()> condition;    //前提条件
+    BehaviorState state;                //行为状态
+public:
+    virtual bool excute() = 0;          //执行节点
+};
+```
 #### 等等
 #### 其他经验
 - [集成opencv](https://nerivec.github.io/old-ue4-wiki/pages/integrating-opencv-into-unreal-engine-4.html)
