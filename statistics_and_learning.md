@@ -10,10 +10,29 @@
 #### 第一章、统计学习方法概论
 这里有一堆概念，从概率论，统计学习，监督学习，模型，策略，算法，模型评估，模型选择，误差，过拟合，欠拟合，正则化，交叉验证，泛化能力，生成模型与判别模型，分类问题，标注问题，回归问题等进行说明。
 
+- 模型
+  - 假设空间： 包含所有可能的条件概率分布或决策函数。
+    - 定义为决策函数的集合 F={f|Y=f(X)}。参数空间。
+    - 定义为条件概率的集合 F={P|P(Y|X)}。也有参数空间。
+- 策略： 
+  - 损失函数和风险函数。损失函数L(Y, f(X))为单个样本的定义。风险函数为平均意义下的损失即期望损失 Ep(L(Y, f(X)))。
+  - 经验风险 Remp = 1/N Sum(L(Y, f(x)))。
+  - 根据大数定律，经验风险趋于风险函数。
+  - 经验风险最小化
+  - 结构风险最小化
+    - 经验风险与模型复杂度
+- 算法
+  - 具体计算方法
+
 #### 第二章、感知机
 [perceptron_dichotomy.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/perceptron/perceptron_dichotomy.py)
 
 二分类的线性分类模型。 
+
+```
+
+
+```
 #### 第三章、k邻近法
 [KNN.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/KNN/KNN.py)
 
