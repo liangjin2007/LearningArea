@@ -30,8 +30,14 @@
 二分类的线性分类模型。 
 
 ```
-
-
+模型: 假设空间为输入的线性空间
+策略：
+  损失函数: 
+    误分类点： 由线性可分的概率 yi=1 -> wxi+b > 0, yi=-1 -> wxi+b < 0。 {-yi(w xi + b) > 0}
+  经验风险函数：  
+    对误分类点： 计算到超平面的距离之和 Loss = Sum({-yi(w xi+b)) | -yi(w xi+b) > 0})
+算法：
+  随机梯度下降
 ```
 #### 第三章、k邻近法
 [KNN.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/KNN/KNN.py)
