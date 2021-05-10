@@ -59,14 +59,14 @@
    - 1.先验概率： P(Y=ck) = sum(I(yi=ck), i in [1, N])/N
    - 2.条件概率： P(X|Y=ck)
 - 策略：
-   - 极大似然估计 for 1 and 2
-   - 贝叶斯估计 for 1 and 2
-   - max后验概率, 去掉分母 求ck s.t. max(P(y)Multiply P(Xj|Y=ck) ) 
+   - max后验概率, 去掉分母 求ck s.t. max(P(y=ck) Multiply P(Xj = xj|Y = ck)) 
 - 算法：
+   - 极大似然估计 for 1 and 2, 计算公式见4.8 and 4.9
+   - 贝叶斯估计 for 1 and 2 ， 计算公式见4.10 and 4.11
    - 显示计算
 - 跟knn类似，没有实际训练过程。需要用矩阵把先验概率和条件概率存好。然后用后验概率计算出最终的概率。
-```   
-   
+```
+
 #### 第五章、决策树
 [DecisionTree.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/DecisionTree/DecisionTree.py)
 
