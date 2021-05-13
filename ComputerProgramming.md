@@ -2,6 +2,78 @@
 https://github.com/soulmachine/leetcode
 
 https://github.com/qiyuangong/leetcode
+**
+已知一个无序数组 array，元素均为正整数。给定一个目标值 target，输出数组中是否存在若干元素的组合，相加为目标值。**
+解读
+这一题本质上就是硬币凑整类型的题（换个说法而已）
+即：判断一个钱数能否通过当前币值的硬币凑出。（属于硬币凑整里面的简单题）
+
+思路：
+发现递推关系：存在target-nums[i]可以表示，则target可以表示
+发现边界值：任意nums[i]都可以单独被表示
+故可以采用动态规划解决！
+
+复杂度
+时间复杂度：O(target * nums.length)
+空间复杂度：O(target)
+
+实现
+
+/**
+ * @author QL
+ * @date 2021年5月11日
+ * @description 已知一个无序数组 array，元素均为正整数。
+ * 给定一个目标值 target，输出数组中是否存在若干元素的组合，相加为目标值。
+ * @thought 
+ * @input nums = [3,9,7,17]  target = 11
+ * @output false
+ */
+public class Test01 {
+	
+
+	public static boolean process(int[] nums, int target) {
+		
+		//处理空指针情况
+		if(nums == null || nums.length == 0) {
+			return false;
+		}
+		
+		//声明动态规划数组
+		int[] dp = new int[target+1];
+		dp[0] = 1;
+		
+		//初始化动态规划边界
+		for(int i = 0; i < nums.length; i++) {
+			if(nums[i] < dp.length) {
+				dp[nums[i]] = 1;
+			}
+		}
+		
+		//执行动态规划递推
+		for(int i = 0; i < dp.length; i++) {
+			if(dp[i] == 1) {
+				for(int j = 0 ; j < nums.length; j++) {
+					if(nums[j] + i < dp.length) {
+						dp[nums[j] + i] = 1;
+					}
+				}
+			}
+		}
+		
+		//System.out.println(Arrays.toString(dp));  //测试
+		
+		//返回结果
+		return dp[target] == 1;
+		
+	}
+	
+	//测试方法
+	public static void main(String[] args) {
+		int[] nums = {3,9,7,17};
+		System.out.println(process(nums, 11));
+	}
+
+}
 
 # Game Coding
 https://github.com/CharlesPikachu/Games
