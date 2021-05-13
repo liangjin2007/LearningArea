@@ -2,8 +2,8 @@
 https://github.com/soulmachine/leetcode
 
 https://github.com/qiyuangong/leetcode
-**
-已知一个无序数组 array，元素均为正整数。给定一个目标值 target，输出数组中是否存在若干元素的组合，相加为目标值。**
+
+**已知一个无序数组 array，元素均为正整数。给定一个目标值 target，输出数组中是否存在若干元素的组合，相加为目标值。**
 解读
 这一题本质上就是硬币凑整类型的题（换个说法而已）
 即：判断一个钱数能否通过当前币值的硬币凑出。（属于硬币凑整里面的简单题）
