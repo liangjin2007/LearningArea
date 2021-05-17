@@ -1,0 +1,4 @@
+- [1988]LBS : Linear blend skinning
+- [2007]DQS : Dual Quaternion Skinning
+- [2020]Deep Learning
+- 
