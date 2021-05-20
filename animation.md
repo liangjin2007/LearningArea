@@ -38,4 +38,4 @@
 
 深度学习方法
 - [2019]NeuroSkinning: GNN方法
-- [2020]RigNet： GNN方法， 输出Skeleton and skinning， LBS basedrig.
+- [2020]RigNet： GNN方法， 输出Skeleton and skinning， LBS based rig.
