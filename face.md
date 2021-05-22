@@ -25,81 +25,112 @@
 
 ## 参考资源
 
-- 开源Maya rigging 插件，比较大的一个工程，可以学学Maya https://github.com/mgear-dev/mgear_dist  
-  - 其中使用的Maya插件WeightDriver插件，底下使用了RBF solver去驱动权重，可以看一下代码怎么搞。
 
-- 面部模型
-3DMM representation
-Probability Morphable Model http://gravis.dmi.unibas.ch/PMM/
-
-- 人脸重建
-[2017]Large Pose 3D Face Reconstruction from a Single Image via Direct Volumetric CNN Regression
-Source code http://aaronsplace.co.uk/papers/jackson2017recon/
+- 最近综述性文章[2020]3D Morphable Face Models - Past, Present and Future及文中提到的链接
+	- 大量模型和代码 https://github.com/liangjin2007/curated-list-of-awesome-3D-Morphable-Model-software-and-data
+```
+1. Introduction
 
 
-- 3dmm_cnn 
-[2016]Regressing Robust and Discriminative 3D Morphable Models with a very Deep Neural Network
-https://github.com/anhttran/3dmm_cnn
-知乎介绍https://zhuanlan.zhihu.com/p/24316690
-- vrn 
-用CNN Regression的方法解决大姿态下的三维人脸重建问题
-https://github.com/AaronJackson/vrn
-- 4dface
-人脸检测和从2d视频重建3d人脸
-https://github.com/patrikhuber/4dface
+2. Face Capture
+	2.1 Shape Acquisition
+		2.1.1. Geometric methods
+		2.1.2. Photometric methods
+		2.1.3. Hybrid metohds
+	2.2 Appearance Capture
+	2.3 Face part specific methods
+	2.4 Dynamic capture
+	2.5 Publicly available face datasets
+	2.6 Open challenges
 
-- 头姿势估计
-https://www.learnopencv.com/head-pose-estimation-using-opencv-and-dlib/
-  - Direct Linear Transformation
-  - LM optimization
-  
-- 人脸对齐
-2D和3D人脸对齐
-https://github.com/1adrianb/face-alignment 
-https://github.com/1adrianb/2D-and-3D-face-alignment
 
-- 人脸识别
-  - openface 一个基于深度神经网络的开源人脸识别系统，128D https://github.com/cmusatyalab/openface
-  - OpenFace 人脸识别系统https://github.com/TadasBaltrusaitis/OpenFace
-  -SeetaFaceEngine 人脸识别
-    - https://github.com/seetaface/SeetaFaceEngine
-    - https://www.zhihu.com/question/50631245
+3. Modeling
+	3.1 Shape models
+		3.1.1 Global models
+		3.1.2 Local models	
+	3.2 Expression models
+		3.2.1 Additive models
+		3.2.2 Multiplicative models
+		3.2.3 Nonlinear models
+	3.3 Appearance models
+		3.3.1 Linear per-vertex models
+		3.3.2 Linear texture-space models
+		3.3.3 Nonlinear models
+	3.4 Joint shape and appearance models
+		AAM
+	3.5 Correspondence
+		3.5.1 Sparse correspondence computation
+		3.5.2 Dense correspondence computation
+		3.5.3 Jointly solving for correspondence and statistical models
+	3.6 Synthesis of novel model instances
+	3.7 Publicly available models
+	3.8 Open challenges
 
-- 换脸
-  - face_swap 换脸 https://github.com/YuvalNirkin
-  - deepfakes_faceswap https://github.com/joshua-wu/deepfakes_faceswap
 
-- 人脸表示
-[2012]A Facial Rigging Survey
+4. Image Formation
+	4.1 Geometric image formation
+		Scaled Orthographic
+		Affine
+		Perspective
+	4.2 Photometric image formation
+		Reflectance models: BRDF
+		Lighting
+		Color transformation
+	4.3 Rendering and visibility
+	4.4 Open Challenges
 
-- Retargetting
-[2017]Facial retargeting with automatic range of motion alignment
 
-- 当前面部rigging工作流程
-Registration
-[2016][siga]-Modern Techniques and Applications for Real-Time Non-rigid Registration
-ICP
+5. Analysis-By-Synthesis
+	5.1 Input Modalities(形式)
+		Multi-View Systems
+		Monocular RGBD
+		Monocular RGB
+	5.2 Energy Functions
+		Appearance error
+			vertex-wise error
+			pixel-wise error
+		Feature-based enerties : landmarks, keypoints or fiducial points
+		Background Modeling
+		Occlusions and Segmentation
+	5.3 Optimization
+		GD
+		SGD
+		Pseudo-second-order method: Gauss-Newton or Levenberg-Marquardt, BFGS
+		hierarchical optimization
+		multiresolution
+		Probabilistic methods : Bayesian inference得到一个概率分布
+	5.4 Open Challenges
+		 shape ambiguity
+		 illumination ambiguity
+	
+	
+6. Deep Learning
+	6.1 Deep Face Models
+	6.2 Deep Face Reconstruction
+		6.2.1 Supervised Reconstruction
+		6.2.2 Self-Supervised Reconstruction
+	6.3 Joint Learning of Model and Reconstruction
 
-- Action Unit识别
-2016 CVPR https://github.com/zkl20061823/DRML
 
-- 骨骼与皮肤的关系
-https://github.com/tneumann/skinning_decomposition_kavan
+7. Applications
+	7.1 Face Reconstruction
+	7.2 Entertainment
+		7.2.1 Controlling 3D Avatars for Games and VR
+		7.2.2 Virtual Try-On and  Make-Up
+		7.2.3 Face Replacement a.k.a. Face Swap
+		7.2.4 Face Reenactment and Visual Dubbing.
+	7.3 Medial Applications
+	7.4 Forensics
+	7.5 Cognitive Science, Neuroscience, and Psychology
 
-- 深度学习方法
-[2019][cvpr] Accurate 3D Face Reconstruction with Weakly-Supervised Learning: From Single Image to Image Set
-微软https://github.com/microsoft/Deep3DFaceReconstruction
-•	Python >= 3.5 (numpy, scipy, pillow, opencv)
-•	Tensorflow >= 1.4
-•	Basel Face Model 2009 (BFM09)
-•	Expression Basis (transferred from Facewarehouse by Guo et al.)
 
-[2019][cvpr] Monocular Total Capture: Posing Face, Body and Hands in the Wild
-卡内基梅隆 https://github.com/CMU-Perceptual-Computing-Lab/MonocularTotalCapture
+8. Perspective
+	8.1. Global Challenges
+	8.2 Scalability
+	8.3 Application
+	8.4 Outlook
 
-- SOTA https://github.com/YadiraF/PRNet
-- python face3d https://github.com/YadiraF/face3d
-
+```
 
 ## 基本视觉
 - [1989]Motion and structure from two perspective views: algorithms, error analysis, and error estimation
