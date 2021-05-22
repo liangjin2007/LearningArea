@@ -11,6 +11,8 @@
 - [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 - [UE4 Data Driven Development](https://www.bilibili.com/video/BV1dk4y1r752)
 - Unrela engine 4官方教程1-98 带中文字幕 https://www.bilibili.com/video/BV1vJ411J7eF?p=1
+
+
 ## 概念
 ```
 Unit : 默认是cm
@@ -106,10 +108,51 @@ Post Processing
 5. TODO: 其他方式
 ```
 
+- [内容浏览器](https://www.bilibili.com/video/BV1vJ411J7eF?p=10)
+```
+导入功能
+Place功能：比如直接拖放Actor， 材质到Viewport。
+双击可以编辑从而打开各种不同类型的编辑器： 最常用的是静态网格体。 打开界面后可以查看uv, 法向，包围体，碰撞体等信息。
+最多可以开四个内容浏览器窗口
+锁定
+从详细界面点击一个搜索图标跳到内容浏览器
+过滤器 Filters
+视图选项 view options
+  列显示，瓦片显示，etc
+  是否显示文件夹
+  显示引擎内容
+  显示开发者内容
+  缩略图编辑模式
+```
+
+
+- [设计 Design](https://www.bilibili.com/video/BV1vJ411J7eF?p=12)
+```
+分几个阶段
+  Prototype Pass :  用简单的mesh or geometry先搭一个原型出来
+  Meshing Pass : 简单光照，接近完成的网格/材质资产
+  Lighting Pass : 放置光源，调整材质，调整后处理效果
+  Polish Pass : 添加效果，Reflection Actors, Blocking Volumes, Audio, more details
+```
+
+- [关卡创建](https://www.bilibili.com/video/BV1vJ411J7eF?p=13)
+
+
+- [蓝图](https://www.bilibili.com/video/BV1vJ411J7eF?p=24)
+```
+what
+where
+how
+
+
+1. 用蓝图控制开关灯
 
 
 
-## 一般经验
+
+```
+
+## 开发经验
 ```
 一、编译源码
 1. .\Setup.bat
@@ -215,33 +258,7 @@ Input Action Pause的细节面板中有Execute when Paused
 查看Light maps： World Settings->Lightmaps
 ```
 
-- [内容浏览器](https://www.bilibili.com/video/BV1vJ411J7eF?p=10)
-```
-导入功能
-Place功能：比如直接拖放Actor， 材质到Viewport。
-双击可以编辑从而打开各种不同类型的编辑器： 最常用的是静态网格体。 打开界面后可以查看uv, 法向，包围体，碰撞体等信息。
-最多可以开四个内容浏览器窗口
-锁定
-从详细界面点击一个搜索图标跳到内容浏览器
-过滤器 Filters
-视图选项 view options
-  列显示，瓦片显示，etc
-  是否显示文件夹
-  显示引擎内容
-  显示开发者内容
-  缩略图编辑模式
-```
 
-
-- [设计 Design](https://www.bilibili.com/video/BV1vJ411J7eF?p=12)
-```
-分几个阶段
-  Prototype Pass :  用简单的mesh or geometry先搭一个原型出来
-  Meshing Pass : 简单光照，接近完成的网格/材质资产
-  Lighting Pass : 放置光源，调整材质，调整后处理效果
-  Polish Pass : 
-  
-```
 
 #### API
 ```
