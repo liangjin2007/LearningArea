@@ -155,9 +155,12 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 - awesome-ue4 https://github.com/terrehbyte/awesome-ue4
 
 ## 界面和蓝图相关
+
+
 #### 交互和快捷键
+- 快捷键
 ```
-快捷键
+
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
@@ -167,6 +170,7 @@ Ctrl+G: 分组
 Ctrl+Shift+G : 取消分组
 alt+shift+r查找引用
 alt+shift+f查找变量引用
+End: 落地键
 ctrl+B跳到资源
 ctrl+w复制一份（先选中）
 E： 旋转
@@ -178,9 +182,15 @@ D： Delay
  L键：Lerp节点
  V键：vector节点
  scalar parameter可以被代码修改
+```
 
 
-交互
+
+- 交互
+```
+切换世界空间和对象空间： 在视口右上角。 方便沿着某个方向移动。
+
+
 Layers: Double Click to select
 Select actors using this asseset.
 UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
@@ -196,12 +206,18 @@ Input Action Pause的细节面板中有Execute when Paused
 - Word Settings -> 设置GameMode override为自定义GameMode
 视口 -> Lit-> Buffer Display 光照->缓冲显示
 视口 -> Show -> Visualize -> Volumetric Lightmap
-声音
- 添加wav文件到content browser
- 右键create cur船舰Sound Cue
-查看Light maps： World Settings->Lightmaps
-
 ```
+
+
+- 声音
+```
+添加wav文件到content browser
+右键create cur船舰Sound Cue
+查看Light maps： World Settings->Lightmaps
+```
+
+
+
 #### API
 ```
 变量： 变量类型有Bool, Text/String, Int, Float， etc。还有结构体，枚举，对象类型，接口，变换，向量，旋转等类型。
@@ -390,6 +406,10 @@ UPoseAsset
 UAnimBlueprint
 ```
 #### 动画
+
+
+
+
 #### 渲染
 #### 模拟
 #### 游戏逻辑
