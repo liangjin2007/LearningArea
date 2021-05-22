@@ -229,6 +229,17 @@ Place功能：比如直接拖放Actor， 材质到Viewport。
   是否显示文件夹
   显示引擎内容
   显示开发者内容
+  缩略图编辑模式
+```
+
+
+- [设计 Design](https://www.bilibili.com/video/BV1vJ411J7eF?p=12)
+```
+分几个阶段
+  Prototype Pass :  用简单的mesh or geometry先搭一个原型出来
+  Meshing Pass : 简单光照，接近完成的网格/材质资产
+  Lighting Pass : 放置光源，调整材质，调整后处理效果
+  Polish Pass : 
   
 ```
 
