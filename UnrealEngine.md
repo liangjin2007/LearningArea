@@ -27,6 +27,10 @@ Sound Cue
 Custom Depth/Stencil用来在实时渲染中进行合成
 ```
 
+
+
+
+
 - 渲染 [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 ```
 Unreal 实时渲染流程：
@@ -89,6 +93,21 @@ DOF of Translucency
 Post Processing 
   有固定路径： DOF > Motion Blur > Bloom > Tone mapping
 ```
+
+
+
+- [放置物体](https://www.bilibili.com/video/BV1vJ411J7eF?p=5)
+```
+1. 从放置actor拖进视口
+2. 从类查看器直接拖进视口 ( 窗口 -> 开发者工具 -> 类查看器(class viewer) )
+3. 从内容浏览器拖进视口
+4. 在视口中explore到某个地方通过右键可选择最近放置过的对象进行放置。
+5. TODO: 其他方式
+```
+
+
+
+
 ## 一般经验
 ```
 一、编译源码
