@@ -10,7 +10,7 @@
 - [bilibili虚幻引擎官方](https://space.bilibili.com/138827797?spm_id_from=333.788.b_765f7570696e666f.2)
 - [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 - [UE4 Data Driven Development](https://www.bilibili.com/video/BV1dk4y1r752)
-
+- Unrela engine 4官方教程1-98 带中文字幕 https://www.bilibili.com/video/BV1vJ411J7eF?p=1
 ## 概念
 ```
 Unit : 默认是cm
@@ -32,7 +32,7 @@ Custom Depth/Stencil用来在实时渲染中进行合成
 
 
 
-- 渲染 [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
+-  [渲染](https://www.bilibili.com/video/BV1yb411c7in)
 ```
 Unreal 实时渲染流程：
 剔除-> Draw Call合并属性等-> 光栅化-> Early z pass:Depth Buffer避免重复绘制Pixel-> Custom Depth/Stencil -> GBuffers -> Static Light -> Dynamic Light -> Stationary Light -> 反射Reflection -> Translucency Sortt -> Post Processing
@@ -190,9 +190,6 @@ D： Delay
 
 - 交互
 ```
-
-
-
 Layers: Double Click to select
 Select actors using this asseset.
 UMG Layout， 内置控件，创建UI， 图表（Graph）, Input Mode, Input Action, 自定义(Custom)事件及调用， 基础游戏循环逻辑，十字星，血条，
@@ -218,7 +215,7 @@ Input Action Pause的细节面板中有Execute when Paused
 查看Light maps： World Settings->Lightmaps
 ```
 
-- 内容浏览器
+- [内容浏览器](https://www.bilibili.com/video/BV1vJ411J7eF?p=10)
 ```
 导入功能
 Place功能：比如直接拖放Actor， 材质到Viewport。
