@@ -13,6 +13,7 @@
 
 ## 概念
 ```
+Unit : 默认是cm
 Camera Speed
 Sphere Reflection Actor
 PostProcessVolume
@@ -160,7 +161,8 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 #### 交互和快捷键
 - 快捷键
 ```
-
+Ctrl+~: 切换世界空间和对象空间： 在视口右上角。 方便沿着某个方向移动。
+Ctrl+Shift+F : 打开内容浏览器
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
@@ -188,7 +190,7 @@ D： Delay
 
 - 交互
 ```
-切换世界空间和对象空间： 在视口右上角。 方便沿着某个方向移动。
+
 
 
 Layers: Double Click to select
@@ -216,7 +218,22 @@ Input Action Pause的细节面板中有Execute when Paused
 查看Light maps： World Settings->Lightmaps
 ```
 
-
+- 内容浏览器
+```
+导入功能
+Place功能：比如直接拖放Actor， 材质到Viewport。
+双击可以编辑从而打开各种不同类型的编辑器： 最常用的是静态网格体。 打开界面后可以查看uv, 法向，包围体，碰撞体等信息。
+最多可以开四个内容浏览器窗口
+锁定
+从详细界面点击一个搜索图标跳到内容浏览器
+过滤器 Filters
+视图选项 view options
+  列显示，瓦片显示，etc
+  是否显示文件夹
+  显示引擎内容
+  显示开发者内容
+  
+```
 
 #### API
 ```
