@@ -747,3 +747,23 @@ https://github.com/microsoft/AirSim
 https://github.com/ValentinKraft/Boost_PCL_UnrealThirdPartyPlugin
 
 https://github.com/tomlooman/ActionRoguelike
+
+
+## 实践
+
+- 清理C盘
+```
+清理C盘重点目标位置
+1. Local Temp C:\Users\liang.jin\AppData\Local\Temp 大概能清个10几个G出来。
+2. VSCode相关 C:\Users\liang.jin\AppData\Roaming\Code 大概能清歌20个G出来
+	User
+	Cache
+	CachedData
+3. conda C:\Users\liang.jin\.conda 大概几个G的空间。
+4. 安装megascan的程序Bridge后 C:\Users\liang.jin\Documents\Megascans Library 此目录大概有几百兆。
+5. C:\Users\liang.jin\AppData\Local\pip 几个G
+```
+
+conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
+
+
