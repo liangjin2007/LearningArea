@@ -136,7 +136,17 @@ Place功能：比如直接拖放Actor， 材质到Viewport。
 ```
 
 - [关卡创建](https://www.bilibili.com/video/BV1vJ411J7eF?p=13)
+```
+1. 放置actor中“基础”与“几何体”是不同的。 几何体中是Brush对象，可选择Additive或者Subtractive
+2. 关卡创建中使用的是几何体。
+3. 选中一个Actor后可右键->控制或者按快捷键Ctrl+Shift+P切换到使用当前actor来飞行的模式，可在Viewport左上角透视下方关闭。
+4. 关于玻璃：  按T键 可以决定鼠标点击时，玻璃物体是否会被选中。 或者界面上在 设置 -> 允许选择半透明可切换。类似地有选择组的功能，快捷键是Ctrl+Shift+G。
+5. 蓝图推门 ： 放置actor -> 基础 -> 
 
+
+
+5. 问题： 如何在已有Actor上开个洞？ 
+```
 
 - [蓝图](https://www.bilibili.com/video/BV1vJ411J7eF?p=24)
 ```
