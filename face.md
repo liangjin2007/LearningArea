@@ -1,33 +1,11 @@
 # 人脸
 
-## 计算机动画方法：
-| 年份 | 论文名 | 组织 | 输入/输出 | tracking方法 | fitting方法 | retarget方法 | 说明 |
-| -- | --- | -- | ----- | ---------- | -------- | ---------- | -- |
-| 00 | Pose Space Deformation | Centropolis | 输入：blendshapes + 一个sculpted的mesh/输出：RBF weights | ---------- | 定义: pose controls指任何操纵器； pose space指pose controls所延申的空间； 交互步骤：Sculpt pose， Define pose, Solve.| RBF网络及RBF训练，类似于MLP网络。 | 之前的方法skeleton supspace deformation(SSD), blendshape method or Shape interpolation；散点插值,scattered interpolation；具体case怎么解Sculpt形状到某个地方，要求解w. d^(x) = sum_k(wk(x)dk)/sum_k(wk(x)) vs d^(x) = sum_k(wk * phi(|x-xk|)) |
-| 04 | Deformation Transfer for Triangle Meshes | MIT | 输入：Source blend shapes + target neutral shape / 输出：Target blend shapes | ---------- | -------- | ---------- | 开源实现[Deformation-Transfer](https://github.com/chand81/Deformation-Transfer), [deformation-transfer](https://github.com/Golevka/deformation-transfer); 公式简单，应该易于实现，不过下面一篇2017年的文章提到说deformation transfer在有些情况下效果比较差 |
-| 06 | Animating Blendshape Faces by Cross-Mapping Motion Capture Data | USC | 输入：PCA系数+对应的Blendshape权重 / 输出：一个RBF模型系数，这样训练好后就直接拿RBF进行预测。 问题： RBF可否替换为MLP？ | ---------- | -------- | cross-mapping between motion capture data and target blendshape faces by RBF![faceanimation2](https://github.com/liangjin2007/data_liangjin/blob/master/faceanimation2.JPG?raw=true) | -- |
-| 08 | Transferring the Rig and Animations from a Character to Different Face Models | -- | ----- | ---------- | -------- | RBF中添加了T(x) | -- |
-| 11 | Real-time Avatar Animation from a Single Image | Saragih | 输入：图像 / 输出: ![图像](https://github.com/liangjin2007/data_liangjin/blob/master/realtime-capturing-from-single-image.JPG?raw=true)| ---------- | -------- | ---------- | 不用标定，看着质量不太好， 跟14 Kun.Zhou的目的一致 |
-| 11 | Realtime Performance-Based Facial Animation | Saragih | -- | ---------- | -------- | GMM prior | -- |
-| 12 | Facial animation retargeting framework using radial basis functions | Hungary | ----- | ---------- | -------- | 1.一种方式是将人脸上的marker点直接映射到target的bone上。 Maya Geometry Mapping: marker to bone mapping ![RBF](https://github.com/liangjin2007/data_liangjin/blob/master/RBF.JPG?raw=true) ; 2. 另一种是映射到blendshape；  | 输入xi，yi求解Rbf的w， 这样给定一个其他的x就可以从RBF函数求出对应的y |
-| 13 | High Fidelity Facial Animation Capture and Retargeting With Contours | ILM | 输入:带marker点的视频流+脸部中性人脸+Blendshape+相机参数/输出： | 左右相机的2d marker tracking | 两个优化：1.根据2d,3d bundle, 眼睛轮廓，嘴巴轮廓求解blendshape；2.使用laplace变形+2d marker限制+2d curve限制+3d curves限制+3d point constraint共5项去生成corrective shape Delta V. | 分两步：1.迁移blendshape。即将actor的rig(指blendshape weights)直接用到creature上。需要使得creature的blendshape rig是从actor的blendshape用deformation transfer 迁移过去，最后直接使用actor的weights作用在creature上；2.迁移corrective shape， | 每帧处理时间需要1-2秒 |
-| 13 | 3D Shape Regression for Real-time Facial Animation | MSRA/K.Zhou | 输入：视频流/输出：tracked mesh seq+avata animation | 分几步：1.预处理，训练一个模型使得可以从人脸图像预测出3d facial shape(注意：这里指的其实是3d landmarks), 具体训练方法为[2012]face alignment by explicit shape regression。2.预处理得到actor的blend shapes（文中有具体算法）。3.输入视频流，对每帧图像预测3d facial shape 4.![Dy method](https://raw.githubusercontent.com/liangjin2007/data_liangjin/master/faceanimation1.JPG) |两个考虑点：1.根据3d facial shape及user specific shape得到tracked mesh的head pose M及blendshape weight（类似于前一篇的bundle约束）2.构造一个GMM模型来增强时间连贯性，blendshape weight的动画先验信息，参考的是[2011]Realtime Performance-Based Facial Animation| 这一步跟前一篇文章一样，是通过最简单的方式将bs weights应用在avata上。 | 此方法跟Dynamixyz非常接近，研究此方法的缺陷也许可以找出Dynamicxyz中的不足。 相机外参是未知数, 省略了构造blendshape的过程及neutral mesh的过程（这部分可以节省大量的金钱及时间）；此方法中提到一些我曾经想实现的先验信息，比如pose先验，blendshape先验等。此方法论文中说可以实现24fps。|
-| 13 | Online Modeling For Realtime Facial Animation | EPFL | 输入：RGBD+blendshapes / 输出：pose + blend shape weights + corrective| ---------- | -------- | corrective deformation fields by graph laplacian | 缺陷：深度的噪声 |
-| 14 | Dynamic 2D/3D registration | -- | ----- | ---------- | -------- | ---------- | -- |
-| 14 | Displaced Dynamic Expression Regression for Real-time Facial Tracking and Animation | K.Zhou | 输入：视频 / 输出：2d landmark + 3的facial shape + pose M | ---------- | -------- | ---------- | 打乒乓方法，主要贡献应该是减少了对不用用户的标定，比较快，可以实现28fps，其他作者侯启明记得是个大牛 |
-| 15 | Dynamic 3D Avatar Creation from Hand-held Video Input ![](https://github.com/liangjin2007/data_liangjin/blob/master/faceanimation3.JPG?raw=true)| EPFL |预处理：通过多图重建neutral mesh和光照属性；Dynamic Modeing: 把neutral mesh变形到| ---------- | -------- | ---------- | multi-view stereo reconstruction from multiple images - > non-rigid registration -> optimized geometry, texture optimization, integrated texture -> textured model |
-| 16 | Face2Face | Stanford etc | 输入: online source actor video + target video seq / 输出：a video with actor face | ![tracking](https://github.com/liangjin2007/data_liangjin/blob/master/facereenactment1.JPG?raw=true) | 两边都得到Pose M, expression, illumination及identity | expression transfer方法 | -- |
-| 16 | Corrective 3D Reconstruction of Lips from Monocular Video | Disney/MaxPlanck/ETH Zurich | ----- | ---------- | -------- | ---------- | -- |
-| 17 | Facial Retargeting with Automatic Range of Motion Alignment | KAIST | ----- | ---------- | -------- | 1.**改进的blendshape生成方法** 从character空间的face rig生成出actor空间的blendshape；<br/>2.加正则化L2惩罚大的weight， L1推导系数性； 惩罚时间改变penalization of temporal changes wf-1 - wf来减少jitter; 提出了新颖的geometry prior(提出了微分曲面属性上的操作来代替blendshapes权重上的操作，阻止几何假象) <br/>3.反向求解actor的blendshape利用parallel parameterization法做character animation| -- |
-| 18 | State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications | -- | ----- | ---------- | -------- | parallel parameterization method | -- |
-| 18 | Production-Level Facial Performance Capture Using Deep Convolutional Neural Networks | NVIDIA/Li Hao/USC | ----- | ---------- | -------- | ---------- | offline, multiple-view stereo |
-
-
 ## 参考资源
 
+- [2017]State of the Art on Monocular 3D Face Reconstruction, Tracking, and Applications
 
 - 最近综述性文章[2020]3D Morphable Face Models - Past, Present and Future及文中提到的链接
-	- 大量模型和代码 https://github.com/liangjin2007/curated-list-of-awesome-3D-Morphable-Model-software-and-data
+  - 大量模型和代码 https://github.com/liangjin2007/curated-list-of-awesome-3D-Morphable-Model-software-and-data
 ```
 1. Introduction
 
@@ -362,8 +340,6 @@ Eigen::MatrixXd corr = inv_sqrt_diag * cov * inv_sqrt_diag;
 
 	if (k < dst.cols())
 		dst.conservativeResize(Eigen::NoChange, k);
-
-
 
 ```
 
