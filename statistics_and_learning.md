@@ -70,6 +70,7 @@
 #### 第五章、决策树
 [DecisionTree.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/DecisionTree/DecisionTree.py)
 
+```
 决策树学习通常包含三个步骤：特征选择、决策树生成和决策树的修剪。
 
 熵： H(X) = H(p) = -sum(pi log pi)表示随机变量不确定性的度量。
@@ -79,15 +80,32 @@
 信息增益： g(Y, X) = H(Y) - H(Y|X), 得知X的信息而使得类Y的信息的不确定性减少的程度。
 
 特征选择靠信息增益。
-
+```
 
 #### 第六章、逻辑回归与最大熵
 
-最大熵原理： 在所有可能的概率模型中，熵最大的模型是最好的模型。H(P) = -Sum(P(xi)logP(xi))。满足0 <= H(P) <= log|X|。 |X|指X的取值个数。
-
 [logisticRegression.py](https://github.com/Dod-o/Statistical-Learning-Method_Code/blob/master/Logistic_and_maximum_entropy_models/logisticRegression.py)
 
-极大似然估计: 极大化联合概率密度 max Mult P(Yi|xi) 等价于max sum(log(P(Yi|xi)))
+```
+模型：
+  逻辑斯蒂分布： F(x) = 1/(1+exp[-(x-miu)/gama])
+
+模型1：
+二项逻辑斯蒂回归模型：P(Y=1|x) = exp(wx+b)/(1+exp(wx+b)), P(Y=0|x) = 1/(1+exp(wx+b)) 
+一个事件的几率(odds)是指该事件发生的概率/该事件不发生的概率 = p/(1-p)。 对数几率或者logit函数 logit(p) = log(p/(1-p))
+策略1：
+  极大似然估计: 极大化联合概率密度 max Mult P(Yi|xi) 等价于max sum(log(P(Yi|xi)))。
+  L(w) = Sum(yi(w xi) - log(1+exp(w xi)))
+
+模型2：
+多项逻辑斯蒂回归模型：
+
+
+
+最大熵原理： 在所有可能的概率模型中，熵最大的模型是最好的模型。H(P) = -Sum(P(xi)logP(xi))。满足0 <= H(P) <= log|X|。 |X|指X的取值个数。
+
+
+
 
 
 
