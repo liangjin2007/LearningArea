@@ -764,6 +764,8 @@ https://github.com/tomlooman/ActionRoguelike
 5. C:\Users\liang.jin\AppData\Local\pip 几个G
 ```
 
+- conda 命令 https://zhuanlan.zhihu.com/p/67745160
+```
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
 conda config --set show_channel_urls yes
@@ -773,3 +775,6 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/
 conda install pytorch==1.8.0 torchvision==0.9.0 torchaudio==0.8.0 cudatoolkit=11.1 -c pytorch -c conda-forge
 
 
+Solving environment: failed with initial frozen solve.
+conda config --set channel_priority flexible
+```
