@@ -749,6 +749,21 @@ https://github.com/ValentinKraft/Boost_PCL_UnrealThirdPartyPlugin
 https://github.com/tomlooman/ActionRoguelike
 
 
+Body Related:
+https://paperswithcode.com/task/3d-reconstruction
+
+https://paperswithcode.com/task/3d-shape-reconstruction
+
+https://paperswithcode.com/task/pose-estimation
+
+https://paperswithcode.com/task/3d-pose-estimation
+
+https://paperswithcode.com/task/monocular-3d-human-pose-estimation
+
+https://paperswithcode.com/task/3d-absolute-human-pose-estimation
+
+https://paperswithcode.com/task/3d-multi-person-pose-estimation-absolute
+
 ## 实践
 
 - 清理C盘
