@@ -1,5 +1,7 @@
 # omp 
 
+它其实是一个CPU上的多线程加速库。通过预编译指令来控制。https://zhuanlan.zhihu.com/p/51173703
+
 https://blog.csdn.net/u011808673/article/details/80319792
 
 - CMake中添加对openmp的支持
