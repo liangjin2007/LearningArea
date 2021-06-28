@@ -260,7 +260,7 @@ camera rays
 
 
 [TOC]
-
+2
 
 # 已读论文列表
 - [2003]Bilateral Mesh Denoising 
@@ -292,3 +292,6 @@ camera rays
   - 优先队列
   - edge swap
   - edge clapse
+
+
+- [2004]deformation transfer https://blog.csdn.net/qq_34108714/article/details/103829828
