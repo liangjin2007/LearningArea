@@ -19,6 +19,13 @@ https://github.com/L1aoXingyu/pytorch-beginner
 
 https://github.com/wkentaro/labelme
 
+#### deep model to c++
+pytorch to c++ https://pytorch.org/tutorials/advanced/cpp_export.html
+
+keras to c++ https://github.com/Dobiasd/frugally-deep
+
+
+
 #### image downloader
 https://github.com/ostrolucky/Bulk-Bing-Image-downloader
 
@@ -111,6 +118,9 @@ https://github.com/sebastianstarke/AI4Animation
 情绪分析 https://github.com/serengil/deepface
 
 pose estimation https://github.com/trumDog/3d-human-pose-estimation 
+
+产品 https://www.reallusion.com/cartoon-animator/full-body-mocap/default.html#webcam-facial-mocap
+
 
 #### tracking
 https://github.com/foolwood/SiamMask
