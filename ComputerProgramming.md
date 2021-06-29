@@ -80,7 +80,29 @@ https://github.com/CharlesPikachu/Games
 
 # Hash表
 https://blog.csdn.net/weixin_43867940/article/details/105775739
+```
+struct Pair
+{
+	Pair(int v0 = 0, int v1 = 0) : pt0(v0), pt1(v1)
+	{
+	}
+	int pt0;
+	int pt1;
+};
 
+struct HashFunc {
+	size_t operator()(const StitchPair& key) const {
+		return  hash<int>()(key.pt0) ^ hash<int>()(key.pt1);
+	}
+};
+
+struct EqualFunc {
+	bool operator()(const StitchPair& lhs, const StitchPair& rhs) const {
+		return (lhs.pt0 == rhs.pt0 && lhs.pt1 == rhs.pt1) || (lhs.pt1 == rhs.pt0 && lhs.pt0 == rhs.pt1);
+	}
+};
+unordered_map<Pair, float, HashFunc, EqualFunc> HashTable;
+```
 
 # UML图说明
 ### https://www.cnblogs.com/duanxz/archive/2012/06/13/2547801.html
