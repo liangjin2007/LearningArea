@@ -39,3 +39,28 @@
 深度学习方法
 - [2019]NeuroSkinning: GNN方法
 - [2020]RigNet： GNN方法， 输出Skeleton and skinning， LBS based rig.
+
+
+#### locomotion
+- 跟motion意思很接近，只是表示从一个地方到另一个地方的移动。 比如走，跑，跳等。
+- motion > locomotion
+
+#### motion editing techniques
+- layering
+- slicing
+- optimization: e.g. ik, impose kinematic and dynamic constraints
+- deep learning techniques
+
+#### motion synthesis by Interpolation
+- generally need align animation along the timeline
+- spatial constraints
+- data-driven motion synthesis
+  - Gausssian Processes(GP) 
+
+#### character control
+
+
+#### Papers
+[2021]Neural Animation Layering for Synthesizing Martial Arts Movements
+
+
