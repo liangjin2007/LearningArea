@@ -1,3 +1,6 @@
+
+1 视频到图像动画 Real_Time_Image_Animation 效果比较差 https://github.com/anandpawara/Real_Time_Image_Animation
+
 从相机拍个照，能出一个对应的动漫角色。including moding，rigging, camera driven animation{body + face}, material, lighting, ar, interaction. 
 
 2021年06月27日
