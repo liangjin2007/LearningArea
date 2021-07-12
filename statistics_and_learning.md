@@ -124,8 +124,17 @@ https://www.cs.cmu.edu/~./awm/tutorials/svm15.pdf
 算法：
   求解凸二次规划 convex QP的最优化算法.
 
-````
+```
 
+细节
+```
+
+单个样本和超平面的间隔: gamma_i = yi(w xi + b) 
+训练集和超平面的间隔： min gamma_i
+几何间隔: s.t. ||w|| = 1, yi(wi/||wi|| xi + b/||wi||)
+
+
+```
 
 
 - 第八章、提升方法
