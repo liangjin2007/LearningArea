@@ -35,3 +35,6 @@ cd opendr/opendr
 pip install glfw
 python setup.py install
 
+cd frankmocap/docs
+
+// 从requirements.txt删除opendr那一行
