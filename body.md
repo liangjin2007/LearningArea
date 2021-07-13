@@ -23,3 +23,15 @@ https://github.com/CMU-Perceptual-Computing-Lab/openpose
 
 
 
+#### frankmocap
+conda create -n frankmocap python=3.7
+conda activate frankmocap
+//# CUDA 10.1
+conda install pytorch==1.6.0 torchvision==0.7.0 cudatoolkit=10.1 -c pytorch
+
+// download opendr
+cd opendr/opendr
+
+pip install glfw
+python setup.py install
+
