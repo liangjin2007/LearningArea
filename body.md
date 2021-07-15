@@ -41,7 +41,10 @@ cd frankmocap/docs
 // 从requirements.txt删除opendr那一行
 pip install -r requirements.txt
 
-// 安装windows版detectron2, 注意官方只支持linux/macos
+
+
+
+// 安装windows版detectron2, 注意官方虽说只支持linux/macos, 其实windows上也安装得上。 pytorch1.7
 cd ../..
 git clone https://github.com/conansherry/detectron2
 
@@ -53,5 +56,15 @@ pip install git+https://github.com/philferriere/cocoapi.git#subdirectory=PythonA
 
 cd detectron2
 python setup.py install
+
+
+// 安装pytorch3d
+pip install pytorch3d
+
+
+// 安装scripts目录里scripts/install_frankmocap.sh依赖的其他第三方
+
+
+
 
 ```
