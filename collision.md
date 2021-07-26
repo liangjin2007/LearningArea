@@ -41,10 +41,19 @@ rounding error会导致false negative(missing collisions)
 ```
 
 #### 减少false positives
-[2010][Min Tang]Fast Continuous Collision Detection using Deforming Non-Penetration Filters. http://gamma.cs.unc.edu/DNF/
+- [2010][Min Tang]Fast Continuous Collision Detection using Deforming Non-Penetration Filters. http://gamma.cs.unc.edu/DNF/
+
+- [2014]Defending Continuous Collision Detection against Errors
+```
+error tolerance
+failure-proof
 
 
-#### [2015]TightCCD
+
+
+```
+
+- [2015]TightCCD
 
 
 
