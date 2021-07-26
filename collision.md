@@ -1,4 +1,4 @@
-## 物理动力学模型 
+# 物理动力学模型 
 [1992]Dressing Animated Synthetic Actors with Complex Deformable Clothes
 ```
 dissipative function消散函数
@@ -10,8 +10,9 @@ E strain ： 是变形量的度量， a measure of the amount of deformation
 
 Lagrangian strain tensor
 
+
 ```
-## collision detection
+# Collision Detection
 - 关键词
 ```
 interfering objects
@@ -37,7 +38,7 @@ spatial subdivision:
 
 ```
 
-## collision response
+# Collision Response
 
 ```
 potential field method : 
@@ -45,5 +46,27 @@ potential field method :
 
 
 [1993]Issues in Computing Contact Forces for Nonpenetrating Rigid Bodies
+
+
+# Continuous Collision Detection(CCD)
+#### Inclusion-Based Root-Finding Method
+```
+[1993 Snyder etc ,2002 Redon etc], Inclusion-Based Root-Finding： 称为保守Conservative way。不会漏检（no false negative）。
+```
+```
+区间算数： Interval arithmetic
+```
+
+
+#### Numerical Root-Finding
+```
+三次多项式的精确求解。 
+[1997]年的方法最受欢迎。
+三次方程用来找到共面，然后验证是否重叠来决定是否发生了碰撞。
+
+
+```
+
+
 
 
