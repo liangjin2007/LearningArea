@@ -1,5 +1,3 @@
-# 物理动力学模型 
-
 # Collision Detection
 
 - collision-detection cuda
@@ -7,10 +5,14 @@
   - lcp algorithm for collision detection https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-33-lcp-algorithms-collision-detection-using-cuda
 
 
+
 # Collision Response
 
 
+
+
 # Continuous Collision Detection(CCD)
+
 #### Inclusion-Based Root-Finding Method
 ```
 [1993 Snyder etc ,2002 Redon etc], Inclusion-Based Root-Finding： 称为保守Conservative way。不会漏检（no false negative）。
@@ -26,6 +28,7 @@ separating axis theorem
 ```
 conservative overlap test: 不要遗漏碰撞
 ```
+
 #### Numerical Root-Finding
 ```
 三次多项式的精确求解。 
@@ -40,10 +43,14 @@ rounding error会导致false negative(missing collisions)
 #### 减少false positives
 [2010][Min Tang]Fast Continuous Collision Detection using Deforming Non-Penetration Filters. http://gamma.cs.unc.edu/DNF/
 
+
 #### [2015]TightCCD
 
 
+
+
 # BVH
+
 ```
 spheres
 aabb
