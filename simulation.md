@@ -6,6 +6,7 @@
 #### FEM
 - [SIGGRAPH 2012 Course](http://www.femdefo.org/)
 #### SPH
+- https://interactivecomputergraphics.github.io/SPH-Tutorial/pdf/SPH_Tutorial.pdf
 #### MPM
 - MPM论文列表 https://www.seas.upenn.edu/~cffjiang/mpm.html
 - physics based animation http://www.physicsbasedanimation.com/resources-courses/
