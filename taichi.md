@@ -1,5 +1,6 @@
 # 1小时教程 https://yuanming.taichi.graphics/publication/2020-taichi-tutorial/taichi-tutorial.pdf
 
+
 ```
 安装，CLI，架构，优点，使用
 
@@ -53,10 +54,33 @@ ti.polar_decompose
 @staticmethod
 
 13. meta programming
-  templates ti.template()
-  @ti.kernel
-  def copy(x: ti.template(), y: ti.template(), c: ti.f32):
-    for i in x:
-      y[i] = x[i] + c
+  1 templates kernel by using parameter with type ti.template()
+    @ti.kernel
+    def copy(x: ti.template(), y: ti.template(), c: ti.f32):
+      for i in x:
+        y[i] = x[i] + c
+
+  2 template kernel instantiation
+  
+  3 Field-size reflection
+    ti.init()
+    field = ti.field(dtype=ti.f32, shape=(4, 8, 16, 32, 64))
+    @ti.kernel
+    def print_shape(x: ti.template()):
+      ti.static_print(x.shape)
+      for i in ti.static(range(len(x.shape))):
+        print(x.shape[i])
+        print_shape(field)
+
+  4 Compile-time branching
+  
+  5 Forced loop-unrolling
+
+  6 Variable aliasing
+
+
+14 Differentiable Programming
+
+
 
 ```
