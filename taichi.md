@@ -81,6 +81,8 @@ ti.polar_decompose
 
 14 Differentiable Programming
 
+15 Debugging
 
+16 Visualization
 
 ```
