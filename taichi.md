@@ -17,7 +17,7 @@ def calc(i : ti.i32) -> ti.i32:
   s = 0
   return s
 
-5. function @ti.function 
+5. function @ti.func
 不需要type-hinted
 force-inlined
 只允许一个return
@@ -31,7 +31,32 @@ ti.svd
 ti.polar_decompose
 
 8. parallel for-loops
-range for
-struct for
+  range-for loops
+  struct-for loops
+
+9. atomic operations
+  += etc
+
+10. taichi scope vs python scope
+
+11. phases of a taichi program
+  1 Initialization: ti.init(...)
+  2 Field allocation: ti.field, ti.Vector.field, ti.Matrix.field
+  3 Computation (launch kernels, access fields in Python-scope)
+  4 Optional: restart the Taichi system (clear memory, destroy all variables and
+  kernels): ti.reset()
+
+12.  objective data-oriented programming
+@ti.data_oriented
+@ti.func
+@ti.kernel
+@staticmethod
+
+13. meta programming
+  templates ti.template()
+  @ti.kernel
+  def copy(x: ti.template(), y: ti.template(), c: ti.f32):
+    for i in x:
+      y[i] = x[i] + c
 
 ```
