@@ -19,19 +19,17 @@ Indirect light transport
 Ray Propagation
 ```
 
+#### 代码overview https://www.pbr-book.org/3ed-2018/Introduction/pbrt_System_Overview
+
+
+
+
 ### 效果
-https://www.pbr-book.org/3ed-2018/Introduction/pbrt_System_Overview
+
 
 ### L-System to procedually model tree
 ### Subsurface scattering algorithm
 ### Modeling by Metaballs
 ### Volumetric photon mapping
 ### Bidirectional texture function
-
-模拟布料材质
-
-
-
-
-
 
