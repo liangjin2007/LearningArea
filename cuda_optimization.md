@@ -183,6 +183,12 @@ library 工程：
 - 链接器 -> 调试 -> 生成调试信息 ： 是/DEBUG
 ```
 
+## cuda问题
+1. debug与release结果不同 ？
+
+2. kernel参数数目超出一定范围会出问题 ？
+
+
 ## 基本CUDA算法
 #### Thrust
 - Transform
