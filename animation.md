@@ -59,8 +59,26 @@
 
 #### character control
 
+#### IK
+```
+Kinematics: 
+Kinematics describes the rotational and translational motion of
+points, bodies (objects) and systems of bodies (groups of objects)
+without consideration of what causes the motion or any reference
+to mass, force or torque.
+```
+
+```
+Inverse Kinematics
+输入：Characters + joints + skin
+对输入进行动画，难点很多，1.joints很多， 2.需要满足各种各样的约束（joint restrictions, contact restrictions）
+
+手工弄的话会非常复杂且花费时间。
+```
+
 
 #### Papers
+[2017]Inverse Kinematics Techniques in Computer Graphics: A Survey
 [2021]Neural Animation Layering for Synthesizing Martial Arts Movements
 
 
