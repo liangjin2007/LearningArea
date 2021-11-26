@@ -7,11 +7,6 @@
 
 第二步 用matlab c++库向matlab发送命令
 
+vector2matlab(name, std::vector<float> array);
 
-mwSize dim[] = { v.size() };
-mxArray* m = createMatlabArray<R>(dim, 1);
-vector2matlab(v, m);
-getMatEngine().putVariable(name, m);
-
-  
 ```
