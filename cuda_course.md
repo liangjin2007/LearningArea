@@ -75,7 +75,83 @@ GPU硬件连接模型
 Linking Model: GPU跟CPU的连接模型
 Kepler 架构
 Fermi 架构
+
+第一种
+CPU <-> Northbridge memory controller <-> CPU memory
+Northbridge<->PCI Express<-> GPU Memory Controller<-> GPU
+
+...
 ```
 
+```
+CPU: Latency Oriented Cores
+GPU: Throughput Oriented Cores
+
+```
+
+
+```
+CUDA抽象机制
+
+CUDA作为并行计算平台
+语言： CUDA C
+编辑器 ： Visual Studio
+编译 ： nvcc
+SDK : CUDA toolkit, Libraries, Samples
+Profiler & Debugger : NSight
+
+
+CUDA作为编程模型
+GPU硬件的软件抽象
+不依赖于操作系统，CPU, NVIDIA GPUs
+
+
+thread  <-- CUDA cores(register, program counter,  state)
+block   <- streaming multiprocessors(threads, shared memory)
+非抢占的方式
+
+并发线程模型
+Thread->Block->Grid
+
+内存模型
+registers<--thread-->local memory
+shared memory <--block --> local memory
+global memory<-- grid
+每个线程：
+  能读写每线程的寄存器
+  能读写每线程的局部内存
+  能读写每块的共享内存
+  能读写每gird的全局内存
+  能读每grid的constant memory
+
+
+同步机制
+  原子函数： 比较慢。
+```
+
+
+```
+CUDA函数
+```
+
+```
+内核线程索引
+```
+
+```
+设备占用率 #active warps / #max warps
+
+计算能力
+threads per block
+registers per thread
+shared memory per block and shared memory configuration
+```
+
+
+```
+线程束的调度机制
+
+
+```
 
 
