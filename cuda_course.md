@@ -151,7 +151,17 @@ shared memory per block and shared memory configuration
 ```
 线程束的调度机制
 
+Block调度器
+Ready Queue : 先都在Ready Queue里
+Executing 执行 ： 
+Suspended 挂起 ：如果有某warp有访存，该warp就会被挂起。 
+Memory Request Pending : 
 
+验证warp的线程数量，看看是不是32
+加入计时功能，对warp的调度时间进行输出，并绘出散点图进行分析。
+变大block和grid的大小会如何
+
+内置变量warp size
 ```
 
 
