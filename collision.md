@@ -68,3 +68,10 @@ k-dops
 spherical shells
 ```
 
+- [2007]Early Split Clipping for Bounding Volume Hierarchies
+```
+这篇paper把BVH的算法流程画得很清楚
+
+SAH被用来选择分离面
+```
+
