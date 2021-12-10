@@ -4,11 +4,27 @@
   - broad-phase collision detection https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-32-broad-phase-collision-detection-cuda
   - lcp algorithm for collision detection https://developer.nvidia.com/gpugems/gpugems3/part-v-physics-simulation/chapter-33-lcp-algorithms-collision-detection-using-cuda
 
+## BVH
 
+```
+spheres
+aabb
+obb
+k-dops
+spherical shells
+```
+
+- [2007]Early Split Clipping for Bounding Volume Hierarchies
+```
+这篇paper把BVH的算法流程画得很清楚
+SAH被用来选择分离面
+```
+
+## Octree
+- 周昆教授有一篇论文是 Data Parallel Octrees for Surface Reconstruction 
+- Octree的改进版LooseOctree
 
 # Collision Response
-
-
 
 
 # Continuous Collision Detection(CCD)
@@ -55,23 +71,4 @@ failure-proof
 
 - [2015]TightCCD
 
-
-
-
-# BVH
-
-```
-spheres
-aabb
-obb
-k-dops
-spherical shells
-```
-
-- [2007]Early Split Clipping for Bounding Volume Hierarchies
-```
-这篇paper把BVH的算法流程画得很清楚
-
-SAH被用来选择分离面
-```
 
