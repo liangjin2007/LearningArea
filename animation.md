@@ -82,3 +82,10 @@ Inverse Kinematics
 [2021]Neural Animation Layering for Synthesizing Martial Arts Movements
 
 
+#### Mocap Data
+- 步态识别
+- walk-cycle identification
+- normalization
+
+
+
