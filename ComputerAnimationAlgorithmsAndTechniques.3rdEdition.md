@@ -25,7 +25,17 @@ Exponential map representation
       参数 vs 弧长 表： 离散化参数空间u, 求出每个indexed position对应的弧长by prefixsum(segment_i)， 前向差分，就得到一张弧长表。
       这张表怎么用：
     数值积分
+      Simpson积分
+      梯形积分
 3.2.2.速度控制 Speed control
   弧长关于t的函数 s = s(t)， 弧长后面又被称为distance。
   
 ```
+
+
+## Appendix A
+```
+Double Buffering
+Compositing
+```
+## Appendix B
