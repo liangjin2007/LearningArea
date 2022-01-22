@@ -37,5 +37,14 @@ Exponential map representation
 ```
 Double Buffering
 Compositing
+  over operation
+  interleave交错 动词
+  alpha channel
+  erroneous错误的
+  A-buffer algorithm提供
+  rgbaz
+Motion blur
+  temporal aliasing
+  
 ```
 ## Appendix B
