@@ -49,8 +49,8 @@ Drop shadows
 Billboarding and impostors
 ```
 ## Appendix B
+- Vectors and matrices
 ```
-Vectors and matrices
 运算
   乘法
   转置
@@ -63,22 +63,37 @@ Inerse matrix and solving linear systems
   LU decomposition
   lower triangular matrix x upper triangular matrix
 Singular value decomposition
-Geometric computation
-  position, point
-  direction
-  vector
-  transformation
-  Components of a vector i,j,k     A = a i + b j + c k
-  Length of a vector
-  Dot product of two vectors
-  Cross product of two vectors
-  Closest point between two lines in three-space
-  Area of a triangle
-  Area of a polygon
-    signed areas of simple elements
-  The cosine rule
-    C^2 = A^2 + B^2 - 2 A B cos theta
-  Barycentric coordinates
-  Computing bounding shapes
+```
+- Geometric computation
+```  
+position, point
+direction
+vector
+transformation
+Components of a vector i,j,k     A = a i + b j + c k
+Length of a vector
+Dot product of two vectors
+Cross product of two vectors
+Closest point between two lines in three-space
+Area of a triangle
+Area of a polygon
+  signed areas of simple elements
+The cosine rule
+  C^2 = A^2 + B^2 - 2 A B cos theta
+Barycentric coordinates
+Computing bounding shapes
+  bounding box
+  bounding slabs
+  bounding spheres
+  convex hull
+```
+
+- Transformations
+```  
+Transforming a point using vector-matrix multiplications
+Transforming a vector using vector-matrix multiplications
+axis-angle rotations
+quaternions
+  rotations by quaternions
   
 ```
