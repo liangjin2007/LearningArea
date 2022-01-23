@@ -68,7 +68,17 @@ Geometric computation
   direction
   vector
   transformation
-  i,j,k
-  
+  Components of a vector i,j,k     A = a i + b j + c k
+  Length of a vector
+  Dot product of two vectors
+  Cross product of two vectors
+  Closest point between two lines in three-space
+  Area of a triangle
+  Area of a polygon
+    signed areas of simple elements
+  The cosine rule
+    C^2 = A^2 + B^2 - 2 A B cos theta
+  Barycentric coordinates
+  Computing bounding shapes
   
 ```
