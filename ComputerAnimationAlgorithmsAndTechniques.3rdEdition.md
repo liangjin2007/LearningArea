@@ -45,6 +45,30 @@ Compositing
   rgbaz
 Motion blur
   temporal aliasing
-  
+Drop shadows  
+Billboarding and impostors
 ```
 ## Appendix B
+```
+Vectors and matrices
+运算
+  乘法
+  转置
+  identity matrix
+  inverse
+  determinant
+  submatrix
+Inerse matrix and solving linear systems
+  inverse transformation
+  LU decomposition
+  lower triangular matrix x upper triangular matrix
+Singular value decomposition
+Geometric computation
+  position, point
+  direction
+  vector
+  transformation
+  i,j,k
+  
+  
+```
