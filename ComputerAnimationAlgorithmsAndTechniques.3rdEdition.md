@@ -97,3 +97,8 @@ quaternions
   rotations by quaternions
   
 ```
+
+- Denevit and Hartenberg representation for linked appendages
+```
+
+```
