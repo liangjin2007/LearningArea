@@ -164,17 +164,39 @@
    - depth of field
 
 # Transforms
-- Matrix, Basic Transforms, Special Matrix, Quaternions, Vertex Blending, Morphing, Projections
+- Matrix, Basic Transforms, Special Matrix, Quaternions, Vertex Blending
+- Morphing
+```
+linear blending
+morph target: N + sum(wi blendshape_i)
+pose-space deformation: combine vertex blending and morph target
+precomputed vertex textures
+hardware supporting stream-out
+tessellation stage
+
+```
 - Geometry Cache Playback
    - quantization
    - spatial prediction
    - temporal prediction
    - compression
-
+- Projections
 # 着色基础 Shading Basics
 - 着色模型Shading Models
-   - Gooch shading model
-      - non-photorealistic rendering
+```
+决定曲面颜色based on view direction, light direction and surface orientation(normal)
+n, v, l
+```
+   - Gooch shading model : 
+   ```
+   c_shaded = s c_hightlight + (1-s)(t c_warm + (1-t) c_cool)
+   c_cool = (0, 0, 0.55) + 0.25 c_surface
+   c_warm = (0.3, 0.3, 0) + 0.25 c_surface
+   c_highlight = (1, 1, 1)
+   t = ((n.l)+1)/2
+   r = 2(n.l)n - l
+   s = clamp(100(r.v)-97)
+   ```
 - 光源Light Sources
 - 实现细节
 - 走样和反走样 aliasing and antialiasing
