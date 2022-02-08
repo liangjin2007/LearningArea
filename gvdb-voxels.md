@@ -1,6 +1,5 @@
 # VolumeGVDB
 
-```
 ## VDBInfo
 ```
 struct ALIGN(16) VDBInfo {
