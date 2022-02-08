@@ -198,6 +198,11 @@ n, v, l
    s = clamp(100(r.v)-97)
    ```
 - 光源Light Sources
+```
+c_shaded = f_unlit(n, v) + sum(c_lighti f_lit(l_i, n, v))
+c_shaded = f_unlit(n, v) + sum(clamp(l_i.n, 0) c_lighti f_lit(l_i, n, v)
+)
+```
 - 实现细节
 - 走样和反走样 aliasing and antialiasing
    - MSAA
