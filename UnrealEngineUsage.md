@@ -5,4 +5,4 @@ https://www.bilibili.com/video/BV1mD4y1D7D6?from=search&seid=1342978387376001640
 https://www.bilibili.com/video/BV1WK4y1J7e1?p=22&spm_id_from=pageDriver
 
 # 插件
-[插件](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%8F%92%E4%BB%B6.png?raw=true)
+![插件](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%8F%92%E4%BB%B6.png?raw=true)
