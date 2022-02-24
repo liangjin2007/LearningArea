@@ -11,3 +11,5 @@ https://www.bilibili.com/video/BV1WK4y1J7e1?p=22&spm_id_from=pageDriver
 
 # [LegsIKPlugin](https://github.com/ANtlord/LegsIKPlugin)
 
+# 资产管理器
+![资产管理器](https://github.com/liangjin2007/data_liangjin/blob/master/assetmanager.jpg?raw=true)
