@@ -1,6 +1,9 @@
 # 术语
 ![术语](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%9C%AF%E8%AF%AD.jpg?raw=true)
 
+# 帮助
+![帮助](https://github.com/liangjin2007/data_liangjin/blob/master/%E5%B8%AE%E5%8A%A9.jpg?raw=true)
+
 # 场景
 https://www.bilibili.com/video/BV1mD4y1D7D6?from=search&seid=13429783873760016408&spm_id_from=333.337.0.0
 
