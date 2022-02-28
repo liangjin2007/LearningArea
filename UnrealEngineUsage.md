@@ -12,6 +12,9 @@ https://www.bilibili.com/video/BV1WK4y1J7e1?p=22&spm_id_from=pageDriver
 - 新建插件
 - 打包插件
 
+# Widget
+![Widget](https://github.com/liangjin2007/data_liangjin/blob/master/Widget.jpg?raw=true)
+
 # [LegsIKPlugin](https://github.com/ANtlord/LegsIKPlugin)
 
 # 资产管理器
