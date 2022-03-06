@@ -12,3 +12,6 @@
 
 ### 第三章 Dawn皮肤
 ![皮肤](https://github.com/liangjin2007/data_liangjin/blob/master/Dawn1.jpg?raw=true)
+
+### 第四章 Dawn动画
+![动画](https://github.com/liangjin2007/data_liangjin/blob/master/%E5%8A%A8%E7%94%BB.jpg?raw=true)
