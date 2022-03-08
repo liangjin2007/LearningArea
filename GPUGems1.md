@@ -19,3 +19,12 @@
 ### 第五章 改进的Perlin Noise
 - Perlin Noise
 ![Perlin NOise](https://github.com/liangjin2007/data_liangjin/blob/master/PerlinNoise.jpg?raw=true)
+
+- 改进
+```
+问题：
+1.二阶导数含有非0值
+2.结果中有高频
+```
+![改进的Perlin](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%94%B9%E8%BF%9B%E7%9A%84Perline.jpg?raw=true)
+
