@@ -15,3 +15,7 @@
 
 ### 第四章 Dawn动画
 ![动画](https://github.com/liangjin2007/data_liangjin/blob/master/%E5%8A%A8%E7%94%BB.jpg?raw=true)
+
+### 第五章 改进的Perlin Noise
+- Perlin Noise
+![Perlin NOise](https://github.com/liangjin2007/data_liangjin/blob/master/PerlinNoise.jpg?raw=true)
