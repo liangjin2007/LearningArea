@@ -28,3 +28,15 @@
 ```
 ![改进的Perlin](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%94%B9%E8%BF%9B%E7%9A%84Perline.jpg?raw=true)
 
+### 第六章 Vulcan演示中的火焰
+这一章感觉写得太差，没看懂
+
+### 第七章 无数草体的渲染
+
+### 第八章 衍射的模拟
+
+
+
+
+
+
