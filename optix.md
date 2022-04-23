@@ -1,6 +1,6 @@
 # optix7course
 
-#### ex01_helloOptix
+### ex01_helloOptix
 ```
 try{
 cudaFree(0); // ??
@@ -11,7 +11,7 @@ optixInit();
 ```
 
 
-#### ex02_pipelineAndRayGen
+### ex02_pipelineAndRayGen
 - pipeline
 ```
 initOptix();
