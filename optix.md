@@ -1,4 +1,5 @@
 # optix7course
+
 #### ex01_helloOptix
 ```
 try{
@@ -8,6 +9,8 @@ optixInit();
 }catch(std::runtime_error& e){
 }
 ```
+
+
 #### ex02_pipelineAndRayGen
 - pipeline
 ```
@@ -54,3 +57,5 @@ Shader文件 devicePrograms.cu中需要写一些kernel函数用来设置SBT， �
 这个文件需要手工编译成embeded_ptx_code？ 怎么编译？
 
 ```
+
+
