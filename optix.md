@@ -799,6 +799,8 @@ extern "C" __global__ void __closesthit__radiance()
                                         ));
 ```
 
+- 下面这个函数有两个optixTrace, 前一个从surface point发出去。
+
 ```
   extern "C" __global__ void __closesthit__radiance()
   {
@@ -901,3 +903,12 @@ extern "C" __global__ void __closesthit__radiance()
   
 ```
 
+
+
+### ex09_softShadows
+
+
+### reflection
+### refraction
+### diffuse bounces
+### better material models/BRDF
