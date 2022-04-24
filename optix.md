@@ -766,6 +766,138 @@ extern "C" __global__ void __closesthit__radiance()
 
 
 ### ex09_shadowRays
+```
+    // -------------------------------------------------------
+    // radiance rays
+    // -------------------------------------------------------
+    pgDesc.hitgroup.entryFunctionNameCH = "__closesthit__radiance";
+    pgDesc.hitgroup.entryFunctionNameAH = "__anyhit__radiance";
 
+    OPTIX_CHECK(optixProgramGroupCreate(optixContext,
+                                        &pgDesc,
+                                        1,
+                                        &pgOptions,
+                                        log,&sizeof_log,
+                                        &hitgroupPGs[RADIANCE_RAY_TYPE]
+                                        ));
+    if (sizeof_log > 1) PRINT(log);
 
+    // -------------------------------------------------------
+    // shadow rays: technically we don't need this hit group,
+    // since we just use the miss shader to check if we were not
+    // in shadow
+    // -------------------------------------------------------
+    pgDesc.hitgroup.entryFunctionNameCH = "__closesthit__shadow";
+    pgDesc.hitgroup.entryFunctionNameAH = "__anyhit__shadow";
+
+    OPTIX_CHECK(optixProgramGroupCreate(optixContext,
+                                        &pgDesc,
+                                        1,
+                                        &pgOptions,
+                                        log,&sizeof_log,
+                                        &hitgroupPGs[SHADOW_RAY_TYPE]
+                                        ));
+```
+
+```
+  extern "C" __global__ void __closesthit__radiance()
+  {
+    const TriangleMeshSBTData &sbtData
+      = *(const TriangleMeshSBTData*)optixGetSbtDataPointer();
+    
+    // ------------------------------------------------------------------
+    // gather some basic hit information
+    // ------------------------------------------------------------------
+    const int   primID = optixGetPrimitiveIndex();
+    const vec3i index  = sbtData.index[primID];
+    const float u = optixGetTriangleBarycentrics().x;
+    const float v = optixGetTriangleBarycentrics().y;
+
+    // ------------------------------------------------------------------
+    // compute normal, using either shading normal (if avail), or
+    // geometry normal (fallback)
+    // ------------------------------------------------------------------
+    const vec3f &A     = sbtData.vertex[index.x];
+    const vec3f &B     = sbtData.vertex[index.y];
+    const vec3f &C     = sbtData.vertex[index.z];
+    vec3f Ng = cross(B-A,C-A);
+    vec3f Ns = (sbtData.normal)
+      ? ((1.f-u-v) * sbtData.normal[index.x]
+         +       u * sbtData.normal[index.y]
+         +       v * sbtData.normal[index.z])
+      : Ng;
+    
+    // ------------------------------------------------------------------
+    // face-forward and normalize normals
+    // ------------------------------------------------------------------
+    const vec3f rayDir = optixGetWorldRayDirection();
+    
+    if (dot(rayDir,Ng) > 0.f) Ng = -Ng;
+    Ng = normalize(Ng);
+    
+    if (dot(Ng,Ns) < 0.f)
+      Ns -= 2.f*dot(Ng,Ns)*Ng;
+    Ns = normalize(Ns);
+
+    // ------------------------------------------------------------------
+    // compute diffuse material color, including diffuse texture, if
+    // available
+    // ------------------------------------------------------------------
+    vec3f diffuseColor = sbtData.color;
+    if (sbtData.hasTexture && sbtData.texcoord) {
+      const vec2f tc
+        = (1.f-u-v) * sbtData.texcoord[index.x]
+        +         u * sbtData.texcoord[index.y]
+        +         v * sbtData.texcoord[index.z];
+      
+      vec4f fromTexture = tex2D<float4>(sbtData.texture,tc.x,tc.y);
+      diffuseColor *= (vec3f)fromTexture;
+    }
+    
+    // ------------------------------------------------------------------
+    // compute shadow
+    // ------------------------------------------------------------------
+    const vec3f surfPos
+      = (1.f-u-v) * sbtData.vertex[index.x]
+      +         u * sbtData.vertex[index.y]
+      +         v * sbtData.vertex[index.z];
+    const vec3f lightPos(-907.108f, 2205.875f, -400.0267f);
+    const vec3f lightDir = lightPos - surfPos;
+    
+    // trace shadow ray:
+    vec3f lightVisibility = 0.f;
+    // the values we store the PRD pointer in:
+    uint32_t u0, u1;
+    packPointer( &lightVisibility, u0, u1 );
+    optixTrace(optixLaunchParams.traversable,
+               surfPos + 1e-3f * Ng,
+               lightDir,
+               1e-3f,      // tmin
+               1.f-1e-3f,  // tmax
+               0.0f,       // rayTime
+               OptixVisibilityMask( 255 ),
+               // For shadow rays: skip any/closest hit shaders and terminate on first
+               // intersection with anything. The miss shader is used to mark if the
+               // light was visible.
+               OPTIX_RAY_FLAG_DISABLE_ANYHIT
+               | OPTIX_RAY_FLAG_TERMINATE_ON_FIRST_HIT
+               | OPTIX_RAY_FLAG_DISABLE_CLOSESTHIT,
+               SHADOW_RAY_TYPE,            // SBT offset
+               RAY_TYPE_COUNT,               // SBT stride
+               SHADOW_RAY_TYPE,            // missSBTIndex 
+               u0, u1 );
+
+    // ------------------------------------------------------------------
+    // final shading: a bit of ambient, a bit of directional ambient,
+    // and directional component based on shadowing
+    // ------------------------------------------------------------------
+    const float cosDN
+      = 0.1f
+      + .8f*fabsf(dot(rayDir,Ns));
+    
+    vec3f &prd = *(vec3f*)getPRD<vec3f>();
+    prd = (.1f + (.2f + .8f*lightVisibility) * cosDN) * diffuseColor;
+  }
+  
+```
 
