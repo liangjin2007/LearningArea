@@ -421,3 +421,61 @@ extern "C" __global__ void __raygen__renderFrame()
     prd = vec3f(1.f);
   }
 ```
+
+
+### ex05_firstSBTData
+- Host code
+```
+  struct __align__( OPTIX_SBT_RECORD_ALIGNMENT ) HitgroupRecord
+  {
+    __align__( OPTIX_SBT_RECORD_ALIGNMENT ) char header[OPTIX_SBT_RECORD_HEADER_SIZE];
+    TriangleMeshSBTData data;
+  };
+  
+  void buildSBT(){
+                ...
+                // ------------------------------------------------------------------
+                // build hitgroup records
+                // ------------------------------------------------------------------
+                int numObjects = 1;
+                std::vector<HitgroupRecord> hitgroupRecords;
+                for (int i=0;i<numObjects;i++) {
+                  // we only have a single object type so far
+                  int objectType = 0;
+                  HitgroupRecord rec;
+                  OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupPGs[objectType],&rec));
+                  rec.data.vertex = (vec3f*)vertexBuffer.d_pointer();
+                  rec.data.index  = (vec3i*)indexBuffer.d_pointer();
+                  rec.data.color  = model.color;
+                  hitgroupRecords.push_back(rec);
+                }
+                hitgroupRecordsBuffer.alloc_and_upload(hitgroupRecords);
+                sbt.hitgroupRecordBase          = hitgroupRecordsBuffer.d_pointer();
+                sbt.hitgroupRecordStrideInBytes = sizeof(HitgroupRecord);
+                sbt.hitgroupRecordCount         = (int)hitgroupRecords.size();
+              
+  }
+```
+
+- shader code modification
+```
+  extern "C" __global__ void __closesthit__radiance()
+  {
+    const TriangleMeshSBTData &sbtData
+      = *(const TriangleMeshSBTData*)optixGetSbtDataPointer();
+
+    // compute normal:
+    const int   primID = optixGetPrimitiveIndex();
+    const vec3i index  = sbtData.index[primID];
+    const vec3f &A     = sbtData.vertex[index.x];
+    const vec3f &B     = sbtData.vertex[index.y];
+    const vec3f &C     = sbtData.vertex[index.z];
+    const vec3f Ng     = normalize(cross(B-A,C-A));
+
+    const vec3f rayDir = optixGetWorldRayDirection();
+    const float cosDN  = 0.2f + .8f*fabsf(dot(rayDir,Ng));
+    vec3f &prd = *(vec3f*)getPRD<vec3f>();
+    prd = cosDN * sbtData.color;
+  }
+```
+
