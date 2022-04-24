@@ -479,3 +479,293 @@ extern "C" __global__ void __raygen__renderFrame()
   }
 ```
 
+
+### ex06_multipleObjects
+
+```
+    // ------------------------------------------------------------------
+    // build hitgroup records
+    // ------------------------------------------------------------------
+    int numObjects = (int)meshes.size();
+    std::vector<HitgroupRecord> hitgroupRecords;
+    for (int meshID=0;meshID<numObjects;meshID++) {
+      HitgroupRecord rec;
+      // all meshes use the same code, so all same hit group
+      OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupPGs[0],&rec));
+      rec.data.color  = meshes[meshID].color;
+      rec.data.vertex = (vec3f*)vertexBuffer[meshID].d_pointer();
+      rec.data.index  = (vec3i*)indexBuffer[meshID].d_pointer();
+      hitgroupRecords.push_back(rec);
+    }
+    hitgroupRecordsBuffer.alloc_and_upload(hitgroupRecords);
+    sbt.hitgroupRecordBase          = hitgroupRecordsBuffer.d_pointer();
+    sbt.hitgroupRecordStrideInBytes = sizeof(HitgroupRecord);
+    sbt.hitgroupRecordCount         = (int)hitgroupRecords.size();
+```
+
+- buildAccel
+```
+OptixTraversableHandle SampleRenderer::buildAccel()
+  {
+    // meshes.resize(1);
+
+    vertexBuffer.resize(meshes.size());
+    indexBuffer.resize(meshes.size());
+    
+    OptixTraversableHandle asHandle { 0 };
+    
+    // ==================================================================
+    // triangle inputs
+    // ==================================================================
+	std::vector<OptixBuildInput> triangleInput(meshes.size());
+    std::vector<CUdeviceptr> d_vertices(meshes.size());
+	std::vector<CUdeviceptr> d_indices(meshes.size());
+	std::vector<uint32_t> triangleInputFlags(meshes.size());
+
+    for (int meshID=0;meshID<meshes.size();meshID++) {
+    // upload the model to the device: the builder
+    TriangleMesh &model = meshes[meshID];
+    vertexBuffer[meshID].alloc_and_upload(model.vertex);
+    indexBuffer[meshID].alloc_and_upload(model.index);
+
+    triangleInput[meshID] = {};
+    triangleInput[meshID].type
+      = OPTIX_BUILD_INPUT_TYPE_TRIANGLES;
+
+    // create local variables, because we need a *pointer* to the
+    // device pointers
+    d_vertices[meshID] = vertexBuffer[meshID].d_pointer();
+    d_indices[meshID]  = indexBuffer[meshID].d_pointer();
+      
+    triangleInput[meshID].triangleArray.vertexFormat        = OPTIX_VERTEX_FORMAT_FLOAT3;
+    triangleInput[meshID].triangleArray.vertexStrideInBytes = sizeof(vec3f);
+    triangleInput[meshID].triangleArray.numVertices         = (int)model.vertex.size();
+    triangleInput[meshID].triangleArray.vertexBuffers       = &d_vertices[meshID];
+    
+    triangleInput[meshID].triangleArray.indexFormat         = OPTIX_INDICES_FORMAT_UNSIGNED_INT3;
+    triangleInput[meshID].triangleArray.indexStrideInBytes  = sizeof(vec3i);
+    triangleInput[meshID].triangleArray.numIndexTriplets    = (int)model.index.size();
+    triangleInput[meshID].triangleArray.indexBuffer         = d_indices[meshID];
+    
+    triangleInputFlags[meshID] = 0 ;
+    
+    // in this example we have one SBT entry, and no per-primitive
+    // materials:
+    triangleInput[meshID].triangleArray.flags               = &triangleInputFlags[meshID];
+    triangleInput[meshID].triangleArray.numSbtRecords               = 1;
+    triangleInput[meshID].triangleArray.sbtIndexOffsetBuffer        = 0; 
+    triangleInput[meshID].triangleArray.sbtIndexOffsetSizeInBytes   = 0; 
+    triangleInput[meshID].triangleArray.sbtIndexOffsetStrideInBytes = 0; 
+    }
+    // ==================================================================
+    // BLAS setup
+    // ==================================================================
+    
+    OptixAccelBuildOptions accelOptions = {};
+    accelOptions.buildFlags             = OPTIX_BUILD_FLAG_NONE
+      | OPTIX_BUILD_FLAG_ALLOW_COMPACTION
+      ;
+    accelOptions.motionOptions.numKeys  = 1;
+    accelOptions.operation              = OPTIX_BUILD_OPERATION_BUILD;
+    
+    OptixAccelBufferSizes blasBufferSizes;
+    OPTIX_CHECK(optixAccelComputeMemoryUsage
+                (optixContext,
+                 &accelOptions,
+                 triangleInput.data(),
+                 (int)meshes.size(),  // num_build_inputs
+                 &blasBufferSizes
+                 ));
+    
+    // ==================================================================
+    // prepare compaction
+    // ==================================================================
+    
+    CUDABuffer compactedSizeBuffer;
+    compactedSizeBuffer.alloc(sizeof(uint64_t));
+    
+    OptixAccelEmitDesc emitDesc;
+    emitDesc.type   = OPTIX_PROPERTY_TYPE_COMPACTED_SIZE;
+    emitDesc.result = compactedSizeBuffer.d_pointer();
+    
+    // ==================================================================
+    // execute build (main stage)
+    // ==================================================================
+    
+    CUDABuffer tempBuffer;
+    tempBuffer.alloc(blasBufferSizes.tempSizeInBytes);
+    
+    CUDABuffer outputBuffer;
+    outputBuffer.alloc(blasBufferSizes.outputSizeInBytes);
+      
+    OPTIX_CHECK(optixAccelBuild(optixContext,
+                                /* stream */0,
+                                &accelOptions,
+                                triangleInput.data(),
+                                (int)meshes.size(),
+                                tempBuffer.d_pointer(),
+                                tempBuffer.sizeInBytes,
+                                
+                                outputBuffer.d_pointer(),
+                                outputBuffer.sizeInBytes,
+                                
+                                &asHandle,
+                                
+                                &emitDesc,1
+                                ));
+    CUDA_SYNC_CHECK();
+    
+    // ==================================================================
+    // perform compaction
+    // ==================================================================
+    uint64_t compactedSize;
+    compactedSizeBuffer.download(&compactedSize,1);
+    
+    asBuffer.alloc(compactedSize);
+    OPTIX_CHECK(optixAccelCompact(optixContext,
+                                  /*stream:*/0,
+                                  asHandle,
+                                  asBuffer.d_pointer(),
+                                  asBuffer.sizeInBytes,
+                                  &asHandle));
+    CUDA_SYNC_CHECK();
+    
+    // ==================================================================
+    // aaaaaand .... clean up
+    // ==================================================================
+    outputBuffer.free(); // << the UNcompacted, temporary output buffer
+    tempBuffer.free();
+    compactedSizeBuffer.free();
+    
+    return asHandle;
+  }
+```
+
+
+### ex07_firstRealModel
+这个没啥特别的
+
+### ex08_addingTextures
+- host code
+```
+  struct TriangleMeshSBTData {
+    vec3f  color;
+    vec3f *vertex;
+    vec3f *normal;
+    vec2f *texcoord;
+    vec3i *index;
+    bool                hasTexture;
+    cudaTextureObject_t texture;
+  };
+SampleRenderer
+{
+...
+    std::vector<CUDABuffer> normalBuffer;
+    std::vector<CUDABuffer> texcoordBuffer;
+    std::vector<cudaArray_t>         textureArrays;
+    std::vector<cudaTextureObject_t> textureObjects;
+...    
+};
+  struct Texture {
+    ~Texture()
+    { if (pixel) delete[] pixel; }
+    
+    uint32_t *pixel      { nullptr };
+    vec2i     resolution { -1 };
+  };
+  
+```
+
+- shader code
+```
+    // ------------------------------------------------------------------
+    // build hitgroup records
+    // ------------------------------------------------------------------
+    int numObjects = (int)model->meshes.size();
+    std::vector<HitgroupRecord> hitgroupRecords;
+    for (int meshID=0;meshID<numObjects;meshID++) {
+      auto mesh = model->meshes[meshID];
+      
+      HitgroupRecord rec;
+      // all meshes use the same code, so all same hit group
+      OPTIX_CHECK(optixSbtRecordPackHeader(hitgroupPGs[0],&rec));
+      rec.data.color   = mesh->diffuse;
+      if (mesh->diffuseTextureID >= 0) {
+        rec.data.hasTexture = true;
+        rec.data.texture    = textureObjects[mesh->diffuseTextureID];
+      } else {
+        rec.data.hasTexture = false;
+      }
+      rec.data.index    = (vec3i*)indexBuffer[meshID].d_pointer();
+      rec.data.vertex   = (vec3f*)vertexBuffer[meshID].d_pointer();
+      rec.data.normal   = (vec3f*)normalBuffer[meshID].d_pointer();
+      rec.data.texcoord = (vec2f*)texcoordBuffer[meshID].d_pointer();
+      hitgroupRecords.push_back(rec);
+    }
+    hitgroupRecordsBuffer.alloc_and_upload(hitgroupRecords);
+    sbt.hitgroupRecordBase          = hitgroupRecordsBuffer.d_pointer();
+    sbt.hitgroupRecordStrideInBytes = sizeof(HitgroupRecord);
+    sbt.hitgroupRecordCount         = (int)hitgroupRecords.size();
+```
+
+```
+extern "C" __global__ void __closesthit__radiance()
+  {
+    const TriangleMeshSBTData &sbtData
+      = *(const TriangleMeshSBTData*)optixGetSbtDataPointer();
+    
+    // ------------------------------------------------------------------
+    // gather some basic hit information
+    // ------------------------------------------------------------------
+    const int   primID = optixGetPrimitiveIndex();
+    const vec3i index  = sbtData.index[primID];
+    const float u = optixGetTriangleBarycentrics().x;
+    const float v = optixGetTriangleBarycentrics().y;
+
+    // ------------------------------------------------------------------
+    // compute normal, using either shading normal (if avail), or
+    // geometry normal (fallback)
+    // ------------------------------------------------------------------
+    vec3f N;
+    if (sbtData.normal) {
+      N = (1.f-u-v) * sbtData.normal[index.x]
+        +         u * sbtData.normal[index.y]
+        +         v * sbtData.normal[index.z];
+    } else {
+      const vec3f &A     = sbtData.vertex[index.x];
+      const vec3f &B     = sbtData.vertex[index.y];
+      const vec3f &C     = sbtData.vertex[index.z];
+      N                  = normalize(cross(B-A,C-A));
+    }
+    N = normalize(N);
+
+    // ------------------------------------------------------------------
+    // compute diffuse material color, including diffuse texture, if
+    // available
+    // ------------------------------------------------------------------
+    vec3f diffuseColor = sbtData.color;
+    if (sbtData.hasTexture && sbtData.texcoord) {
+      const vec2f tc
+        = (1.f-u-v) * sbtData.texcoord[index.x]
+        +         u * sbtData.texcoord[index.y]
+        +         v * sbtData.texcoord[index.z];
+      
+      vec4f fromTexture = tex2D<float4>(sbtData.texture,tc.x,tc.y);
+      diffuseColor *= (vec3f)fromTexture;
+    }
+    
+    // ------------------------------------------------------------------
+    // perform some simple "NdotD" shading
+    // ------------------------------------------------------------------
+    const vec3f rayDir = optixGetWorldRayDirection();
+    const float cosDN  = 0.2f + .8f*fabsf(dot(rayDir,N));
+    vec3f &prd = *(vec3f*)getPRD<vec3f>();
+    prd = cosDN * diffuseColor;
+  }
+```
+
+
+### ex09_shadowRays
+
+
+
