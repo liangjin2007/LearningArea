@@ -9,12 +9,14 @@ https://www.bilibili.com/video/BV1mD4y1D7D6?from=search&seid=1342978387376001640
 
 # 角色系统
 https://www.bilibili.com/video/BV1WK4y1J7e1?p=22&spm_id_from=pageDriver
-
+```
 角色蓝图
 动画蓝图
   状态机
     状态Idle/Run: 输入参数（比如Speed）-> 输出Pose , 混合动画1D可以在状态里面使用。 状态的输出是动画姿势。
-
+    状态JumpStart: 直接拖动动画蓝图窗口中的资源浏览器中的动画序列资源到窗口，然后跟输出动画姿势连起来。
+    过度规则：有个资产播放器的概念需要非常重视，右键出来可以获取资产播放剩余时间什么的
+```
 
 # 插件
 ![插件](https://github.com/liangjin2007/data_liangjin/blob/master/%E6%8F%92%E4%BB%B6.png?raw=true)
