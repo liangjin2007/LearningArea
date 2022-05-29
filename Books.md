@@ -593,3 +593,140 @@ Creating a class blueprint to tie it all together 206
 Using sound effects 219
 Using particle effects 224
 ```
+
+
+## Computational Geometry Algorithms and Applications
+```
+1 Computational Geometry 1
+Introduction
+1.1 An Example: Convex Hulls 2
+1.2 Degeneracies and Robustness 8
+1.3 Application Domains 10
+1.4 Notes and Comments 13
+1.5 Exercises 15
+2 Line Segment Intersection 19
+Thematic Map Overlay
+2.1 Line Segment Intersection 20
+2.2 The Doubly-Connected Edge List 29
+2.3 Computing the Overlay of Two Subdivisions 33
+2.4 Boolean Operations 39
+2.5 Notes and Comments 40
+2.6 Exercises 41
+3 Polygon Triangulation 45
+Guarding an Art Gallery
+3.1 Guarding and Triangulations 46
+3.2 Partitioning a Polygon into Monotone Pieces 49
+3.3 Triangulating a Monotone Polygon 55
+3.4 Notes and Comments 59
+3.5 Exercises 60
+4 Linear Programming 63
+Manufacturing with Molds
+4.1 The Geometry of Casting 64
+4.2 Half-Plane Intersection 66
+4.3 Incremental Linear Programming 71
+4.4 Randomized Linear Programming 76
+4.5 Unbounded Linear Programs 79
+4.6* Linear Programming in Higher Dimensions 82
+4.7* Smallest Enclosing Discs 86
+4.8 Notes and Comments 89
+4.9 Exercises 91
+5 Orthogonal Range Searching 95
+Querying a Database
+5.1 1-Dimensional Range Searching 96
+5.2 Kd-Trees 99
+5.3 Range Trees 105
+5.4 Higher-Dimensional Range Trees 109
+5.5 General Sets of Points 110
+5.6* Fractional Cascading 111
+5.7 Notes and Comments 115
+5.8 Exercises 117
+6 Point Location 121
+Knowing Where You Are
+6.1 Point Location and Trapezoidal Maps 122
+6.2 A Randomized Incremental Algorithm 128
+6.3 Dealing with Degenerate Cases 137
+6.4* A Tail Estimate 140
+6.5 Notes and Comments 143
+6.6 Exercises 144
+7 Voronoi Diagrams 147
+The Post Office Problem
+7.1 Definition and Basic Properties 148
+7.2 Computing the Voronoi Diagram 151
+7.3 Voronoi Diagrams of Line Segments 160
+7.4 Farthest-Point Voronoi Diagrams 163
+7.5 Notes and Comments 167
+7.6 Exercises 170
+8 Arrangements and Duality 173
+Supersampling in Ray Tracing
+8.1 Computing the Discrepancy 175
+8.2 Duality 177
+8.3 Arrangements of Lines 179
+8.4 Levels and Discrepancy 185
+8.5 Notes and Comments 186
+8.6 Exercises 188
+9 Delaunay Triangulations 191
+Height Interpolation
+9.1 Triangulations of Planar Point Sets 193
+9.2 The Delaunay Triangulation 196
+9.3 Computing the Delaunay Triangulation 199
+9.4 The Analysis 205
+9.5* A Framework for Randomized Algorithms 208
+9.6 Notes and Comments 214
+9.7 Exercises 215
+10 More Geometric Data Structures 219
+Windowing
+10.1 Interval Trees 220
+10.2 Priority Search Trees 226
+10.3 Segment Trees 231
+10.4 Notes and Comments 237
+10.5 Exercises 239
+11 Convex Hulls 243
+Mixing Things
+11.1 The Complexity of Convex Hulls in 3-Space 244
+11.2 Computing Convex Hulls in 3-Space 246
+11.3* The Analysis 250
+11.4* Convex Hulls and Half-Space Intersection 253
+11.5* Voronoi Diagrams Revisited 254
+11.6 Notes and Comments 256
+11.7 Exercises 257
+12 Binary Space Partitions 259
+The Painter’s Algorithm
+12.1 The Definition of BSP Trees 261
+12.2 BSP Trees and the Painter’s Algorithm 263
+12.3 Constructing a BSP Tree 264
+12.4* The Size of BSP Trees in 3-Space 268
+12.5 BSP Trees for Low-Density Scenes 271
+12.6 Notes and Comments 278
+12.7 Exercises 279
+13 Robot Motion Planning 283
+Getting Where You Want to Be
+13.1 Work Space and Configuration Space 284
+13.2 A Point Robot 286
+13.3 Minkowski Sums 290
+13.4 Translational Motion Planning 297
+13.5* Motion Planning with Rotations 299
+13.6 Notes and Comments 303
+13.7 Exercises 305
+14 Quadtrees 307
+Non-Uniform Mesh Generation
+14.1 Uniform and Non-Uniform Meshes 308
+14.2 Quadtrees for Point Sets 309
+14.3 From Quadtrees to Meshes 315
+14.4 Notes and Comments 318
+14.5 Exercises 320
+15 Visibility Graphs 323
+Finding the Shortest Route
+15.1 Shortest Paths for a Point Robot 324
+15.2 Computing the Visibility Graph 326
+15.3 Shortest Paths for a Translating Polygonal Robot 330
+15.4 Notes and Comments 331
+15.5 Exercises 332
+16 Simplex Range Searching 335
+Windowing Revisited
+16.1 Partition Trees 336
+16.2 Multi-Level Partition Trees 343
+16.3 Cutting Trees 346
+16.4 Notes and Comments 352
+16.5 Exercises 353
+```
+
