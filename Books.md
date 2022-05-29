@@ -523,3 +523,73 @@ B Derivations 243
 B.1 The Incompressible Euler Equations . . . . . . . . . . . . 243
 ```
 
+
+## 3D Game Design with Unreal Engine 4 and Blender
+```
+Chapter 1: Unreal, My Friend, I'd Like You to Meet Blender 1
+Installing Blender 2
+Exploring the interface 3
+Customizing your settings 6
+Working with modes 8
+Jumping into our first project 8
+Getting things started in Unreal Engine 4 9
+Summary 11
+Chapter 2: Starting Our First Project 13
+Using the Content Browser to start building the level 15
+Using different types of light 28
+Adding interactive elements using Triggers and Blueprints 31
+Playtesting our level 41
+Summary 42
+Chapter 3: It's Time to Customize! 43
+Getting started making game assets 44
+Using the basic tools of polygon modeling 46
+How to use UV mapping and why it's important 57
+UV unwrapping our game asset 60
+Basic texturing techniques 66
+Summary 70
+Chapter 4: Getting the Assets to the Level 71
+Exporting our object from Blender 71
+What is FBX? 75
+Importing our object into Unreal 76
+Setting up and using our new 3D asset 79
+Summary 86
+Chapter 5: Taking This Level Up a Notch 87
+Planning a more complex level 87
+Whiteboxing a level for better asset creation 89
+Level design principles 93
+Advanced scripting techniques 95
+Win conditions 109
+Summary 112
+Chapter 6: Monster Assets – The Level Totally Needs 
+One of These 113
+Designing our asset – inspiration and concept art 114
+Advanced tools: Subdivide, Knife, Bridge Edge Loops, and more 115
+Subdivide tool 116
+Knife tool 117
+Bridge Edge Loops tool 118
+Triangulate modifier tool 118
+Using multiple shapes within Blender 119
+Summary 143
+Chapter 7: Let's Dress to Impress! 145
+Unwrapping complex objects 145
+Marking seams 146
+Unwrap tool 147
+Stitch 148
+Average Island Scale 149
+Pack Islands 150
+Using Smart UV Project 150
+Custom Marking Seams 151
+Unwrapping Cubes 152
+Unwrapping Cylinders 154
+Using different maps to create a more realistic look 165
+Summary 184
+Chapter 8: Lights, Camera, Animation! 185
+How does Blender handle animation? 185
+Rigging and using keyframes 188
+Using Blender's suite of animation tools 200
+Summary 204
+Chapter 9: Bang Bang – Let's Make It Explode 205
+Creating a class blueprint to tie it all together 206
+Using sound effects 219
+Using particle effects 224
+```
