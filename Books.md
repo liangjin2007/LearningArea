@@ -221,7 +221,38 @@ Radiance Cachingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï
 32.7 Future Work .......................................................................................605
 ```
 
-
+## Realtime Rendering 4th Edition
+```
+1 Introduction 1
+1.1 Contents Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1.2 Notation and Definitions . . . . . . . . . . . . . . . . . . . . . . . . 5
+2 The Graphics Rendering Pipeline 11
+2.1 Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+2.2 The Application Stage . . . . . . . . . . . . . . . . . . . . . . . . . 13
+2.3 Geometry Processing . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+2.4 Rasterization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+2.5 Pixel Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+2.6 Through the Pipeline . . . . . . . . . . . . . . . . . . . . . . . . . . 25
+3 The Graphics Processing Unit 29
+3.1 Data-Parallel Architectures . . . . . . . . . . . . . . . . . . . . . . 30
+3.2 GPU Pipeline Overview . . . . . . . . . . . . . . . . . . . . . . . . 34
+3.3 The Programmable Shader Stage . . . . . . . . . . . . . . . . . . . 35
+3.4 The Evolution of Programmable Shading and APIs . . . . . . . . . 37
+3.5 The Vertex Shader . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
+3.6 The Tessellation Stage . . . . . . . . . . . . . . . . . . . . . . . . . 44
+3.7 The Geometry Shader . . . . . . . . . . . . . . . . . . . . . . . . . 47
+3.8 The Pixel Shader . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
+3.9 The Merging Stage . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
+3.10 The Compute Shader . . . . . . . . . . . . . . . . . . . . . . . . . . 54
+4 Transforms 57
+4.1 Basic Transforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+4.2 Special Matrix Transforms and Operations . . . . . . . . . . . . . . 70
+4.3 Quaternions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76
+4.4 Vertex Blending . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 84
+4.5 Morphing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 87
+4.6 Geometry Cache Playback . . . . . . . . . . . . . . . . . . . . . . . 92
+4.7 Projections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 92
+```
 
 ## Fluid Simulation for Computer Graphics, Second Edition
 ```
