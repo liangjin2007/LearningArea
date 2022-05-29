@@ -221,204 +221,106 @@ Radiance Cachingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï
 32.7 Future Work .......................................................................................605
 ```
 
-## Real-time Rendering 4th Edition
+
+
+## Fluid Simulation for Computer Graphics, Second Edition
 ```
-Preface xiii
-1 Introduction 1
-1.1 Contents Overview . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
-1.2 Notation and Definitions . . . . . . . . . . . . . . . . . . . . . . . . 5
-2 The Graphics Rendering Pipeline 11
-2.1 Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
-2.2 The Application Stage . . . . . . . . . . . . . . . . . . . . . . . . . 13
-2.3 Geometry Processing . . . . . . . . . . . . . . . . . . . . . . . . . . 14
-2.4 Rasterization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
-2.5 Pixel Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 22
-2.6 Through the Pipeline . . . . . . . . . . . . . . . . . . . . . . . . . . 25
-3 The Graphics Processing Unit 29
-3.1 Data-Parallel Architectures . . . . . . . . . . . . . . . . . . . . . . 30
-3.2 GPU Pipeline Overview . . . . . . . . . . . . . . . . . . . . . . . . 34
-3.3 The Programmable Shader Stage . . . . . . . . . . . . . . . . . . . 35
-3.4 The Evolution of Programmable Shading and APIs . . . . . . . . . 37
-3.5 The Vertex Shader . . . . . . . . . . . . . . . . . . . . . . . . . . . 42
-3.6 The Tessellation Stage . . . . . . . . . . . . . . . . . . . . . . . . . 44
-3.7 The Geometry Shader . . . . . . . . . . . . . . . . . . . . . . . . . 47
-3.8 The Pixel Shader . . . . . . . . . . . . . . . . . . . . . . . . . . . . 49
-3.9 The Merging Stage . . . . . . . . . . . . . . . . . . . . . . . . . . . 53
-3.10 The Compute Shader . . . . . . . . . . . . . . . . . . . . . . . . . . 54
-4 Transforms 57
-4.1 Basic Transforms . . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
-4.2 Special Matrix Transforms and Operations . . . . . . . . . . . . . . 70
-4.3 Quaternions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 76
-4.4 Vertex Blending . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 84
-4.5 Morphing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 87
-4.6 Geometry Cache Playback . . . . . . . . . . . . . . . . . . . . . . . 92
-4.7 Projections . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 92
-5 Shading Basics 103
-5.1 Shading Models . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 103
-5.2 Light Sources . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 106
-5.3 Implementing Shading Models . . . . . . . . . . . . . . . . . . . . . 117
-5.4 Aliasing and Antialiasing . . . . . . . . . . . . . . . . . . . . . . . . 130
-5.5 Transparency, Alpha, and Compositing . . . . . . . . . . . . . . . . 148
-5.6 Display Encoding . . . . . . . . . . . . . . . . . . . . . . . . . . . . 160
-6 Texturing 167
-6.1 The Texturing Pipeline . . . . . . . . . . . . . . . . . . . . . . . . . 169
-6.2 Image Texturing . . . . . . . . . . . . . . . . . . . . . . . . . . . . 176
-6.3 Procedural Texturing . . . . . . . . . . . . . . . . . . . . . . . . . . 198
-6.4 Texture Animation . . . . . . . . . . . . . . . . . . . . . . . . . . . 200
-6.5 Material Mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . 201
-6.6 Alpha Mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 202
-6.7 Bump Mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 208
-6.8 Parallax Mapping . . . . . . . . . . . . . . . . . . . . . . . . . . . . 214
-6.9 Textured Lights . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 221
-7 Shadows 223
-7.1 Planar Shadows . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 225
-7.2 Shadows on Curved Surfaces . . . . . . . . . . . . . . . . . . . . . . 229
-7.3 Shadow Volumes . . . . . . . . . . . . . . . . . . . . . . . . . . . . 230
-7.4 Shadow Maps . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 234
-7.5 Percentage-Closer Filtering . . . . . . . . . . . . . . . . . . . . . . 247
-7.6 Percentage-Closer Soft Shadows . . . . . . . . . . . . . . . . . . . . 250
-7.7 Filtered Shadow Maps . . . . . . . . . . . . . . . . . . . . . . . . . 252
-7.8 Volumetric Shadow Techniques . . . . . . . . . . . . . . . . . . . . 257
-7.9 Irregular Z-Buffer Shadows . . . . . . . . . . . . . . . . . . . . . . 259
-7.10 Other Applications . . . . . . . . . . . . . . . . . . . . . . . . . . . 262
-8 Light and Color 267
-8.1 Light Quantities . . . . . . . . . . . . . . . . . . . . . . . . . . . . 267
-8.2 Scene to Screen . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 281
-9 Physically Based Shading 293
-9.1 Physics of Light . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 293
-9.2 The Camera . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 307
-9.3 The BRDF . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 308
-9.4 Illumination . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 315
-9.5 Fresnel Reflectance . . . . . . . . . . . . . . . . . . . . . . . . . . . 316
-9.6 Microgeometry . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 327
-9.7 Microfacet Theory . . . . . . . . . . . . . . . . . . . . . . . . . . . 331
-9.8 BRDF Models for Surface Reflection . . . . . . . . . . . . . . . . . 336
-9.9 BRDF Models for Subsurface Scattering . . . . . . . . . . . . . . . 347
-9.10 BRDF Models for Cloth . . . . . . . . . . . . . . . . . . . . . . . . 356
-9.11 Wave Optics BRDF Models . . . . . . . . . . . . . . . . . . . . . . 359
-9.12 Layered Materials . . . . . . . . . . . . . . . . . . . . . . . . . . . . 363
-9.13 Blending and Filtering Materials . . . . . . . . . . . . . . . . . . . 365
-10 Local Illumination 375
-10.1 Area Light Sources . . . . . . . . . . . . . . . . . . . . . . . . . . . 377
-10.2 Environment Lighting . . . . . . . . . . . . . . . . . . . . . . . . . 391
-10.3 Spherical and Hemispherical Functions . . . . . . . . . . . . . . . . 392
-10.4 Environment Mapping . . . . . . . . . . . . . . . . . . . . . . . . . 404
-10.5 Specular Image-Based Lighting . . . . . . . . . . . . . . . . . . . . 414
-10.6 Irradiance Environment Mapping . . . . . . . . . . . . . . . . . . . 424
-10.7 Sources of Error . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 433
-11 Global Illumination 437
-11.1 The Rendering Equation . . . . . . . . . . . . . . . . . . . . . . . . 437
-11.2 General Global Illumination . . . . . . . . . . . . . . . . . . . . . . 441
-11.3 Ambient Occlusion . . . . . . . . . . . . . . . . . . . . . . . . . . . 446
-11.4 Directional Occlusion . . . . . . . . . . . . . . . . . . . . . . . . . . 465
-11.5 Diffuse Global Illumination . . . . . . . . . . . . . . . . . . . . . . 472
-11.6 Specular Global Illumination . . . . . . . . . . . . . . . . . . . . . 497
-11.7 Unified Approaches . . . . . . . . . . . . . . . . . . . . . . . . . . . 509
-12 Image-Space Effects 513
-12.1 Image Processing . . . . . . . . . . . . . . . . . . . . . . . . . . . . 513
-12.2 Reprojection Techniques . . . . . . . . . . . . . . . . . . . . . . . . 522
-12.3 Lens Flare and Bloom . . . . . . . . . . . . . . . . . . . . . . . . . 524
-12.4 Depth of Field . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 527
-12.5 Motion Blur . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 536
-13 Beyond Polygons 545
-13.1 The Rendering Spectrum . . . . . . . . . . . . . . . . . . . . . . . . 545
-13.2 Fixed-View Effects . . . . . . . . . . . . . . . . . . . . . . . . . . . 546
-13.3 Skyboxes . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 547
-13.4 Light Field Rendering . . . . . . . . . . . . . . . . . . . . . . . . . 549
-13.5 Sprites and Layers . . . . . . . . . . . . . . . . . . . . . . . . . . . 550
-13.6 Billboarding . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 551
-13.7 Displacement Techniques . . . . . . . . . . . . . . . . . . . . . . . . 564
-13.8 Particle Systems . . . . . . . . . . . . . . . . . . . . . . . . . . . . 567
-13.9 Point Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 572
-13.10 Voxels . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 578
-14 Volumetric and Translucency Rendering 589
-14.1 Light Scattering Theory . . . . . . . . . . . . . . . . . . . . . . . . 589
-14.2 Specialized Volumetric Rendering . . . . . . . . . . . . . . . . . . . 600
-14.3 General Volumetric Rendering . . . . . . . . . . . . . . . . . . . . . 605
-14.4 Sky Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 613
-14.5 Translucent Surfaces . . . . . . . . . . . . . . . . . . . . . . . . . . 623
-14.6 Subsurface Scattering . . . . . . . . . . . . . . . . . . . . . . . . . . 632
-14.7 Hair and Fur . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 640
-14.8 Unified Approaches . . . . . . . . . . . . . . . . . . . . . . . . . . . 648
-15 Non-Photorealistic Rendering 651
-15.1 Toon Shading . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 652
-15.2 Outline Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . 654
-15.3 Stroke Surface Stylization . . . . . . . . . . . . . . . . . . . . . . . 669
-15.4 Lines . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 673
-15.5 Text Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 675
-16 Polygonal Techniques 681
-16.1 Sources of Three-Dimensional Data . . . . . . . . . . . . . . . . . . 682
-16.2 Tessellation and Triangulation . . . . . . . . . . . . . . . . . . . . . 683
-16.3 Consolidation . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 690
-16.4 Triangle Fans, Strips, and Meshes . . . . . . . . . . . . . . . . . . . 696
-16.5 Simplification . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 706
-16.6 Compression and Precision . . . . . . . . . . . . . . . . . . . . . . . 712
-17 Curves and Curved Surfaces 717
-17.1 Parametric Curves . . . . . . . . . . . . . . . . . . . . . . . . . . . 718
-17.2 Parametric Curved Surfaces . . . . . . . . . . . . . . . . . . . . . . 734
-17.3 Implicit Surfaces . . . . . . . . . . . . . . . . . . . . . . . . . . . . 749
-17.4 Subdivision Curves . . . . . . . . . . . . . . . . . . . . . . . . . . . 753
-17.5 Subdivision Surfaces . . . . . . . . . . . . . . . . . . . . . . . . . . 756
-17.6 Efficient Tessellation . . . . . . . . . . . . . . . . . . . . . . . . . . 767
-18 Pipeline Optimization 783
-18.1 Profiling and Debugging Tools . . . . . . . . . . . . . . . . . . . . . 784
-18.2 Locating the Bottleneck . . . . . . . . . . . . . . . . . . . . . . . . 786
-18.3 Performance Measurements . . . . . . . . . . . . . . . . . . . . . . 788
-18.4 Optimization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 790
-18.5 Multiprocessing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 805
-19 Acceleration Algorithms 817
-19.1 Spatial Data Structures . . . . . . . . . . . . . . . . . . . . . . . . 818
-19.2 Culling Techniques . . . . . . . . . . . . . . . . . . . . . . . . . . . 830
-19.3 Backface Culling . . . . . . . . . . . . . . . . . . . . . . . . . . . . 831
-19.4 View Frustum Culling . . . . . . . . . . . . . . . . . . . . . . . . . 835
-19.5 Portal Culling . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 837
-19.6 Detail and Small Triangle Culling . . . . . . . . . . . . . . . . . . . 839
-19.7 Occlusion Culling . . . . . . . . . . . . . . . . . . . . . . . . . . . . 840
-19.8 Culling Systems . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 850
-19.9 Level of Detail . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 852
-19.10 Rendering Large Scenes . . . . . . . . . . . . . . . . . . . . . . . . 866
-20 Efficient Shading 881
-20.1 Deferred Shading . . . . . . . . . . . . . . . . . . . . . . . . . . . . 883
-20.2 Decal Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . . 888
-20.3 Tiled Shading . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 892
-20.4 Clustered Shading . . . . . . . . . . . . . . . . . . . . . . . . . . . 898
-20.5 Deferred Texturing . . . . . . . . . . . . . . . . . . . . . . . . . . . 905
-20.6 Object- and Texture-Space Shading . . . . . . . . . . . . . . . . . . 908
-21 Virtual and Augmented Reality 915
-21.1 Equipment and Systems Overview . . . . . . . . . . . . . . . . . . 916
-21.2 Physical Elements . . . . . . . . . . . . . . . . . . . . . . . . . . . 919
-21.3 APIs and Hardware . . . . . . . . . . . . . . . . . . . . . . . . . . . 924
-21.4 Rendering Techniques . . . . . . . . . . . . . . . . . . . . . . . . . 932
-22 Intersection Test Methods 941
-22.1 GPU-Accelerated Picking . . . . . . . . . . . . . . . . . . . . . . . 942
-22.2 Definitions and Tools . . . . . . . . . . . . . . . . . . . . . . . . . . 943
-22.3 Bounding Volume Creation . . . . . . . . . . . . . . . . . . . . . . 948
-22.4 Geometric Probability . . . . . . . . . . . . . . . . . . . . . . . . . 953
-22.5 Rules of Thumb . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 954
-22.6 Ray/Sphere Intersection . . . . . . . . . . . . . . . . . . . . . . . . 955
-22.7 Ray/Box Intersection . . . . . . . . . . . . . . . . . . . . . . . . . . 959
-22.8 Ray/Triangle Intersection . . . . . . . . . . . . . . . . . . . . . . . 962
-22.9 Ray/Polygon Intersection . . . . . . . . . . . . . . . . . . . . . . . 966
-22.10 Plane/Box Intersection . . . . . . . . . . . . . . . . . . . . . . . . . 970
-22.11 Triangle/Triangle Intersection . . . . . . . . . . . . . . . . . . . . . 972
-22.12 Triangle/Box Intersection . . . . . . . . . . . . . . . . . . . . . . . 974
-22.13 Bounding-Volume/Bounding-Volume Intersection . . . . . . . . . . 976
-22.14 View Frustum Intersection . . . . . . . . . . . . . . . . . . . . . . . 981
-22.15 Line/Line Intersection . . . . . . . . . . . . . . . . . . . . . . . . . 987
-22.16 Intersection between Three Planes . . . . . . . . . . . . . . . . . . 990
-23 Graphics Hardware 993
-23.1 Rasterization . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 993
-23.2 Massive Compute and Scheduling . . . . . . . . . . . . . . . . . . . 1002
-23.3 Latency and Occupancy . . . . . . . . . . . . . . . . . . . . . . . . 1004
-23.4 Memory Architecture and Buses . . . . . . . . . . . . . . . . . . . 1006
-23.5 Caching and Compression . . . . . . . . . . . . . . . . . . . . . . . 1007
-23.6 Color Buffering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1009
-23.7 Depth Culling, Testing, and Buffering . . . . . . . . . . . . . . . . 1014
-23.8 Texturing . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1017
-23.9 Architecture . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1019
-23.10 Case Studies . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1024
-23.11 Ray Tracing Architectures . . . . . . . . . . . . . . . . . . . . . . . 1039
-24 The Future 1041
-24.1 Everything Else . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1042
-24.2 You . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1046
+ The Basics 1
+1 The Equations of Fluids 3
+1.1 Symbols . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+1.2 The Momentum Equation . . . . . . . . . . . . . . . . . . 4
+1.3 Lagrangian and Eulerian Viewpoints . . . . . . . . . . . . 7
+1.4 Incompressibility . . . . . . . . . . . . . . . . . . . . . . . 11
+1.5 Dropping Viscosity . . . . . . . . . . . . . . . . . . . . . . 13
+1.6 Boundary Conditions . . . . . . . . . . . . . . . . . . . . . 13
+2 Overview of Numerical Simulation 17
+2.1 Splitting . . . . . . . . . . . . . . . . . . . . . . . . . . . . 17
+2.2 Splitting the Fluid Equations . . . . . . . . . . . . . . . . 19
+2.3 Time Steps . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+2.4 Grids . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+2.5 Dynamic Sparse Grids . . . . . . . . . . . . . . . . . . . . 25
+2.6 Two Dimensional Simulations . . . . . . . . . . . . . . . . 27
+3 Advection Algorithms 29
+3.1 Semi-Lagrangian Advection . . . . . . . . . . . . . . . . . 29
+3.2 Boundary Conditions . . . . . . . . . . . . . . . . . . . . . 33
+3.3 Time Step Size . . . . . . . . . . . . . . . . . . . . . . . . 34
+3.4 Diffusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . 37
+3.5 Reducing Numerical Diffusion . . . . . . . . . . . . . . . . 39
+4 Level Set Geometry 43
+4.1 Signed Distance . . . . . . . . . . . . . . . . . . . . . . . . 44
+4.2 Discretizing Signed Distance Functions . . . . . . . . . . . 47
+4.3 Computing Signed Distance . . . . . . . . . . . . . . . . . 49
+4.4 Recomputing Signed Distance . . . . . . . . . . . . . . . . 54
+4.5 Operations on Level Sets . . . . . . . . . . . . . . . . . . . 55
+4.6 Contouring . . . . . . . . . . . . . . . . . . . . . . . . . . 59
+4.7 Limitations of Level Sets . . . . . . . . . . . . . . . . . . . 64
+4.8 Extrapolating Data . . . . . . . . . . . . . . . . . . . . . . 64
+5 Making Fluids Incompressible 67
+5.1 The Discrete Pressure Gradient . . . . . . . . . . . . . . . 68
+5.2 The Discrete Divergence . . . . . . . . . . . . . . . . . . . 72
+5.3 The Pressure Equations . . . . . . . . . . . . . . . . . . . 74
+5.4 Projection . . . . . . . . . . . . . . . . . . . . . . . . . . . 90
+5.5 More Accurate Curved Boundaries . . . . . . . . . . . . . 91
+5.6 The Compatibility Condition . . . . . . . . . . . . . . . . 96
+6 Smoke 99
+6.1 Temperature and Smoke Concentration . . . . . . . . . . 99
+6.2 Buoyancy . . . . . . . . . . . . . . . . . . . . . . . . . . . 102
+6.3 Variable Density Solves . . . . . . . . . . . . . . . . . . . 103
+6.4 Divergence Control . . . . . . . . . . . . . . . . . . . . . . 105
+7 Particle Methods 107
+7.1 Advection Troubles on Grids . . . . . . . . . . . . . . . . 107
+7.2 Particle Advection . . . . . . . . . . . . . . . . . . . . . . 109
+7.3 Transferring Particles to the Grid . . . . . . . . . . . . . . 111
+7.4 Particle Seeding . . . . . . . . . . . . . . . . . . . . . . . . 114
+7.5 Diffusion . . . . . . . . . . . . . . . . . . . . . . . . . . . . 115
+7.6 Particle-in-Cell Methods . . . . . . . . . . . . . . . . . . . 116
+II More Types of Fluids 121
+8 Water 123
+8.1 Marker Particles and Voxels . . . . . . . . . . . . . . . . . 123
+8.2 More Accurate Pressure Solves . . . . . . . . . . . . . . . 127
+8.3 Topology Change and Wall Separation . . . . . . . . . . . 129
+8.4 Volume Control . . . . . . . . . . . . . . . . . . . . . . . . 130
+8.5 Surface Tension . . . . . . . . . . . . . . . . . . . . . . . . 131
+9 Fire 133
+9.1 Thin Flames . . . . . . . . . . . . . . . . . . . . . . . . . 134
+9.2 Volumetric Combustion . . . . . . . . . . . . . . . . . . . 137
+10 Viscous Fluids 139
+10.1 Stress . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 139
+10.2 Applying Stress . . . . . . . . . . . . . . . . . . . . . . . . 141
+10.3 Strain Rate and Newtonian Fluids . . . . . . . . . . . . . 142
+10.4 Boundary Conditions . . . . . . . . . . . . . . . . . . . . . 147
+10.5 Implementation . . . . . . . . . . . . . . . . . . . . . . . . 148
+III More Algorithms 161
+11 Turbulence 163
+11.1 Vorticity . . . . . . . . . . . . . . . . . . . . . . . . . . . . 163
+11.2 Vorticity Confinement . . . . . . . . . . . . . . . . . . . . 167
+11.3 Procedural Turbulence . . . . . . . . . . . . . . . . . . . . 168
+11.4 Simulating Sub-Grid Turbulence . . . . . . . . . . . . . . 172
+12 Shallow Water 175
+12.1 Deriving the Shallow Water Equations . . . . . . . . . . . 176
+12.2 The Wave Equation . . . . . . . . . . . . . . . . . . . . . 180
+12.3 Discretization . . . . . . . . . . . . . . . . . . . . . . . . . 182
+13 Ocean Modeling 185
+13.1 Potential Flow . . . . . . . . . . . . . . . . . . . . . . . . 185
+13.2 Simplifying Potential Flow for the Ocean . . . . . . . . . 188
+13.3 Evaluating the Height Field Solution . . . . . . . . . . . . 193
+13.4 Unsimplifying the Model . . . . . . . . . . . . . . . . . . . 195
+13.5 Wave Parameters . . . . . . . . . . . . . . . . . . . . . . . 198
+13.6 Eliminating Periodicity . . . . . . . . . . . . . . . . . . . . 199
+14 Vortex Methods 201
+14.1 Velocity from Vorticity . . . . . . . . . . . . . . . . . . . . 202
+14.2 Biot-Savart and Streamfunctions . . . . . . . . . . . . . . 206
+14.3 Vortex Particles . . . . . . . . . . . . . . . . . . . . . . . . 207
+15 Coupling Fluids and Solids 217
+15.1 One-Way Coupling . . . . . . . . . . . . . . . . . . . . . . 217
+15.2 Weak Coupling . . . . . . . . . . . . . . . . . . . . . . . . 219
+15.3 The Immersed Boundary Method . . . . . . . . . . . . . . 222
+15.4 General Sparse Matrices . . . . . . . . . . . . . . . . . . . 223
+15.5 Strong Coupling . . . . . . . . . . . . . . . . . . . . . . . 225
+A Background 231
+A.1 Vector Calculus . . . . . . . . . . . . . . . . . . . . . . . . 231
+A.2 Numerical Methods . . . . . . . . . . . . . . . . . . . . . . 239
+B Derivations 243
+B.1 The Incompressible Euler Equations . . . . . . . . . . . . 243
 ```
+
