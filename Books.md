@@ -836,3 +836,17 @@ o Chapter 46. Improved GPU Sorting
 o Chapter 47. Flow Simulation with Complex Boundaries
 o Chapter 48. Medical Image Reconstruction with the FFT
 ```
+
+
+## GPU Gems 3
+```
+第一部分 几何体
+第二部分 光照和阴影
+第三部分 渲染
+第四部分 图像效果
+第五部分 物理仿真 
+第六部分 GPU计算
+
+```
+
+
