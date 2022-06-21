@@ -15,3 +15,13 @@
 库仑摩擦Coulomb friction 
 
 ```
+
+# Introduction to physics based animation
+- Initial Value Problem: 它是一个常微分方程
+```
+Xp(0) = X0
+dXp(t)/dt = v(Xp(t), t)
+  
+  
+```
+
