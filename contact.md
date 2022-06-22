@@ -21,7 +21,12 @@
 ```
 Xp(0) = X0
 dXp(t)/dt = v(Xp(t), t)
-  
-  
+```
+- Another Initial Value Problem
+```
+Xp(0) = X0
+Vp(0) = V0
+dXp(t)/dt = v(Xp(t), t)
+dVp(t)/dt = f(Xp(t), t)/m
 ```
 
