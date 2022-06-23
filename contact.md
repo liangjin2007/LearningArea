@@ -1,6 +1,7 @@
 # Contact and Friction Simulation for Computer Graphics
 -- Siggraph 2021 Course
 
+- 三大分类
 ```
 1. constraint based method : related to constrained optimization
 
@@ -9,6 +10,14 @@
 3. impulse based method : micro-collisions
 
 ```
+
+- 冲量、动量 
+```
+动量mv
+冲量Ft = mv1 - mv2
+角动量
+```
+
 
 
 ```
