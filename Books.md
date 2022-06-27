@@ -1,3 +1,38 @@
+## An Introduction to Physics based animation
+```
+I. A Simple Start: Particle Dynamics
+A. A Passive Particle in a Velocity Field
+B. A Particle with Mass
+C. Spring-Mass Systems
+II. Mathematical Models
+A. Physical Laws
+1. Newton’s Laws of Motion
+2. Conservation of Mass, Momentum, Energy
+B. Materials
+1. Rigid Bodies
+2. Soft Bodies (Elasticity)
+3. Fluids
+III. Spatial Discretization
+A. Lagrangian vs. Eulerian
+B. Grids, Meshes, Particles
+C. Interpolation
+D. Finite Differences
+E. Finite Elements
+V. Temporal Discretization
+A. Explicit
+1. Trapezoidal Rule vs. Midpoint
+Method
+2. Symplectic Euler
+B. Implicit Integration
+VI. Constraints
+A. Bilateral and Unilateral Constraints
+B. Soft vs. Hard Constraints
+C. Penalty Forces, Lagrange Multipliers, Generalized Coordinates
+D. Practical Rigid Body Systems
+E. Non-penetration Constraints, Collisions, and Contact
+```
+
+
 ## RayTracingGems_v1.4
 ```
 PART I: Ray Tracing Basics ��������������������������������������������������������������� 5
