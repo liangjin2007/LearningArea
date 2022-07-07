@@ -1,5 +1,42 @@
 ## sphere traced ray marching https://github.com/sungiant/sdf
 - 里面有图，关于sphere traced ray marching on sdf。比较好理解
+- https://www.cl.cam.ac.uk/teaching/1819/FGraphics/1.%20Ray%20Marching%20and%20Signed%20Distance%20Fields.pdf
+```
+讲了SDF相关的一些东西，比如：
+
+
+Raymarching signed distance fields
+vec3 raymarch(vec3 pos, vec3 raydir) {
+ int step = 0;
+ float d = getSdf(pos);
+ while (abs(d) > 0.001 && step < 50) {
+ pos = pos + raydir * d;
+ d = getSdf(pos); // Return sphere(pos) or any other
+ step++;
+ }
+
+ return
+ (step < 50) ? illuminate(pos, rayorig) : background;
+}
+
+
+
+交并差
+Combining SDFs
+Blending SDFs
+
+Transforming SDF geometry
+To rotate, translate or scale an SDF model, apply the inverse transform to the input point within your distance function.
+float sphere(vec3 pt, float radius) {
+ return length(pt) - radius;
+}
+float f(vec3 pt) {
+ return sphere(pt - vec3(0, 3, 0));
+}
+This renders a sphere centered at (0, 3, 0).
+More prosaically, assemble your local-to-world transform as usual, but apply its inverse to the pt within your distance function.
+
+```
 ## Sdf的交并差
 ```
 Take the union of two SDFs by
