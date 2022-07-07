@@ -1,5 +1,10 @@
 # Graph Neutral Network
 - https://zhuanlan.zhihu.com/p/75307407?from_voters_page=true
+- https://geometricdeeplearning.com/lectures/
+```
+
+
+```
 
 ## GCN graph convolutional network
 
