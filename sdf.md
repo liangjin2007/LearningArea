@@ -1,5 +1,5 @@
-## sphere traced ray marching https://github.com/sungiant/sdf
-- 里面有图，关于sphere traced ray marching on sdf。比较好理解
+## sphere traced ray marching 
+- https://github.com/sungiant/sdf 里面有图，关于sphere traced ray marching on sdf。比较好理解
 - https://www.cl.cam.ac.uk/teaching/1819/FGraphics/1.%20Ray%20Marching%20and%20Signed%20Distance%20Fields.pdf
 ```
 讲了SDF相关的一些东西，比如：
@@ -35,6 +35,31 @@ float f(vec3 pt) {
 }
 This renders a sphere centered at (0, 3, 0).
 More prosaically, assemble your local-to-world transform as usual, but apply its inverse to the pt within your distance function.
+
+
+计算sdf的normal
+sdf shadows
+float shadow(vec3 pt) {
+ vec3 lightDir = normalize(lightPos - pt);
+ float kd = 1;
+ int step = 0;
+ for (float t = 0.1;
+ t < length(lightPos - pt)
+ && step < renderDepth && kd > 0.001; ) {
+ float d = abs(getSDF(pt + t * lightDir));
+ if (d < 0.001) {
+ kd = 0;
+ } else {
+ kd = min(kd, 16 * d / t);
+ }
+ t += d;
+ step++;
+ }
+ return kd;
+}
+里面有图，很好地理解Soft sdf shadow
+
+Repeating SDF Geometry
 
 ```
 ## Sdf的交并差
