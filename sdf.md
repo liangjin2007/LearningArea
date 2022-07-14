@@ -96,8 +96,8 @@ Take the union of two SDFs by taking the min() of their functions.
 平移/旋转/伸缩球
 inverse transformation(rays map to rays under affine transforms)
 
-
-
+[Park_DeepSDF_Learning_Continuous_Signed_Distance_Functions_for_Shape_Representation_CVPR_2019_paper.pdf
+](https://openaccess.thecvf.com/content_CVPR_2019/papers/Park_DeepSDF_Learning_Continuous_Signed_Distance_Functions_for_Shape_Representation_CVPR_2019_paper.pdf)
 
 
 
