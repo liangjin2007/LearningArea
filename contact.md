@@ -18,21 +18,37 @@ dVp(t)/dt = f(Xp(t), t)/m
 - 三大分类
 ```
 1. constraint based method : related to constrained optimization
-
 2. penalty based method : force-based modeling
-
 3. impulse based method : micro-collisions
+```
+
+- 运动方程 equation of motion
+```
+M(t) 质量
+q(t) 位置
+u(t) 速度
+f(t, q(t), u(t)) 力
+
+牛顿-欧拉方程
+M du/dt = f， 注意paper中u上1点表示关于时间t的导数
+```
+
+
+- 时间积分
+```
+time step h
+explicit and implicit
+
+f(q-, u-)
 
 ```
-- 运动方程 equation of motion
-- 时间积分
 - 冲量、动量 
 ```
 动量mv
 冲量Ft = mv1 - mv2
 角动量
 ```
-
+-
 
 
 ```
