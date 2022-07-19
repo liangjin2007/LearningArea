@@ -38,8 +38,8 @@ M du/dt = f， 注意paper中u上1点表示关于时间t的导数
 ```
 time step h
 explicit and implicit
-
-f(q-, u-)
+f(q-, u-)和f(q+,u+)
+隐式速度u+进行一阶泰勒展开 u+ ~= u + h du/dt
 
 ```
 - 冲量、动量 
