@@ -109,8 +109,15 @@ inverse transformation(rays map to rays under affine transforms)
 ```
 
 # Deep SDF
+- 2016 Learning a probabilistic latent space of object shapes via 3d generative-adversarial modeling
 
-- 2019 DeepSDF https://www.youtube.com/watch?v=1iuLxJmQII0
-- 
+- 2019 DeepSDF DeepSDF: Learning Continuous Signed Distance Functions for Shape Representation
+  - https://www.youtube.com/watch?v=1iuLxJmQII0
+  - source code : https://github.com/facebookresearch/DeepSDF
+  
+- 2021 A-SDF: Learning Disentangled Signed Distance Function for Articulated Shape Representation
+ 
+
+
 
 
