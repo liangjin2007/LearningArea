@@ -115,6 +115,41 @@ inverse transformation(rays map to rays under affine transforms)
   - https://www.youtube.com/watch?v=1iuLxJmQII0
   - source code : https://github.com/facebookresearch/DeepSDF
   
+  ```
+  AutoEncoder
+  编码器 h = f(x), 解码器 r = g(x), 学习h使得r能重现x
+  
+  ======3D形状学习表示===========
+  
+  Point-based
+  Mesh-based
+  Voxel-based
+    Dense Grid
+    Octree-based 2017 看到有对人体做的SDF, 但感觉用的是occupancy, 没有看到光滑的表面 https://www.youtube.com/watch?v=kmMvKNNyYF4
+ 
+  TSDF : combine noisy depth maps into a single 3D model    https://www.diva-portal.org/smash/get/diva2:1136113/FULLTEXT01.pdf
+    projective signed distance field of a view 
+    公式： 
+      D_n+1(x) = (D_n(x) W_n(x) + D^(x) W^(x))/(W_n(x)+W^(x)) 可以并行地在每个cell里做？
+      W_n+1(x) = min(W_n(x)+W^(x), W_max)
+  渲染TSDF
+    Ray Marching
+    Marching Cube
+  TSDF梯度
+  ...
+  
+  
+  =========表示学习技术===================
+  GAN
+  Auto-encoders
+  Variational Auto-encoders VAE
+  
+  
+  // 总体看下来，它会对输入有限制，会做一步normalize，跟我们的case不符合。
+  
+  // 
+  
+  ```
 - 2021 A-SDF: Learning Disentangled Signed Distance Function for Articulated Shape Representation
  
 
