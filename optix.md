@@ -1,3 +1,28 @@
+# https://raytracing-docs.nvidia.com/optix7/guide/index.html#preface#
+
+- Program Types, i.e. ray interaction types, 共9种
+```
+Program type	Abbreviation
+Ray generation	RG
+Intersection	IS
+Any-hit	AH
+Closest-hit	CH
+Miss	MS
+Exception	EX
+Direct callable	DC
+Continuation callable	CC
+```
+
+- AS acceleration structure
+```
+Acceleration structure type	Abbreviation in this document	Abbreviation in the API
+Geometry acceleration structure	geometry-AS	GAS
+Instance acceleration structure	instance-AS	IAS
+Acceleration structures in general	 	AS
+Bottom-level acceleration structure (DXR and Vulkan)	BLAS	 
+Top-level acceleration structure (DXR and Vulkan)	TLAS	 
+
+```
 # optix7course
 
 ### ex01_helloOptix
