@@ -1,6 +1,7 @@
 # https://raytracing-docs.nvidia.com/optix7/guide/index.html#preface#
 
-- Program Types, i.e. ray interaction types, 共9种
+## 1 Overview
+- Program Types, i.e. ray interaction types, 共8种
 ```
 Program type	Abbreviation
 Ray generation	RG
@@ -23,6 +24,42 @@ Bottom-level acceleration structure (DXR and Vulkan)	BLAS
 Top-level acceleration structure (DXR and Vulkan)	TLAS	 
 
 ```
+
+## 2 Basic Concept and definitions
+- 2.2 Program and data model 8个类别
+  - 2.2.1. SBT : SBT shader binding table， 即program（kernel）执行需要传递的参数数据
+    - Record
+      - Record header
+      - Record data
+  - 2.2.2. Ray payload : 负载，量；在ray traversal过程中optixTrace和被调用的programs之间传递数据
+    - The ray payload is used to pass data between optixTrace and the programs invoked during ray traversal. 
+  - 2.2.3. Primitive attributes
+    - 用于在intersection program和any-hit/closest-hit program之间传递数据。
+  - 2.2.4. Buffer
+- 2.3 AS 加速结构
+- 2.4 Traversing the scene graph
+  - traversable objects or traversables : 
+  ```
+  To determine the intersection of geometric data by a ray, NVIDIA OptiX 7 searches a graph of nodes composed of acceleration structures and transformations. This   search is called a traversal; the nodes in the graph are called traversable objects or traversables
+  ```
+    - traverable object types:
+      - IAS
+      - GAS
+      - Static transform
+      - Matrix motion transform
+      - Scaling, rotation, translation(SRT) motion transform
+      
+- 2.5 Ray tracing with Optix 7
+```
+1.创建mesh的加速结构
+2.创建program/shader的pipeline
+3.创建SBT用来传数据给program/shader,设计SBT数据布局
+4.Lauch device-side kernel来调用一个ray generation program， 这个里面每个线程会调用optixTrace开始遍历。
+```
+## Context
+## Acceleration Structure
+
+
 # optix7course
 
 ### ex01_helloOptix
