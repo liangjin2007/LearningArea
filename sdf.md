@@ -91,10 +91,25 @@ Take the union of two SDFs by taking the min() of their functions.
 ## Non-linear sphere tracing for rendering deformed signed distance fields
 - https://cs.dartmouth.edu/wjarosz/publications/seyb19nonlinear.html
 
+- **Sdf的应用邻域**
+```
+除了图形学，
+还有，
+对象重建
+Tracking
+视觉中的识别任务
+物理模拟的碰撞检测
+流体模拟
+```
+
+
 - **Directly deforming implicits**
 ```
 平移/旋转/伸缩球
-inverse transformation(rays map to rays under affine transforms)
+逆变换 inverse transformation(rays map to rays under affine transforms)
+粒子系统可以用来变形隐式函数
+composition tree
+
 
 [Park_DeepSDF_Learning_Continuous_Signed_Distance_Functions_for_Shape_Representation_CVPR_2019_paper.pdf
 ](https://openaccess.thecvf.com/content_CVPR_2019/papers/Park_DeepSDF_Learning_Continuous_Signed_Distance_Functions_for_Shape_Representation_CVPR_2019_paper.pdf)
