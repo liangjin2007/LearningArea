@@ -37,3 +37,40 @@ https://www.sidefx.com/docs/hdk/index.html
 
 ```
 
+
+### Houdini Operators
+```
+节点组织：
+  Node = path /obj/geo1/file1， OP_Node
+  Network = each of the "directory levels", 用类OP_Network表示
+  Director = Root network / , 用类OP_Director或者MOT_Director
+  
+Object Manager /obj
+  contain OBJ_Node类型的Objects, object contain surface operators SOP SOP_Node. 
+  也contain OBJ_DopNet, DOP operators在OBJ_DopNet节点之下
+Channel Manager /ch, 应该是处理关键帧的。
+  CHOPNet_Node, CHOP_Node
+Output Manager /out
+  nodes derived from ROP_Node
+Shader Manager /shop
+  SHOP_Node
+Composite Manager /img
+  COPNet_Node, COP2_Node
+Shader Code Manager /vex
+  VOPNet_Node, VOP_Node
+  
+Parameters
+  OP_Parameters是OP_Node的父类， 它包含一个PRM_ParmList对象， 拥有一个PRM_Parm object数组
+  float now = context.getTime();
+  node->evalFloat("t", 0/*component index*/, now);
+  node->setFloat ...
+  node->setChRefFloat
+
+
+动态参数 Multi-Params, 每个子实例由PRM_Template定义。
+
+Ramp Parameters
+OP_Context
+
+```
+
