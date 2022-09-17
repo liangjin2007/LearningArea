@@ -44,7 +44,9 @@ https://www.sidefx.com/docs/hdk/index.html
   Node = path /obj/geo1/file1， OP_Node
   Network = each of the "directory levels", 用类OP_Network表示
   Director = Root network / , 用类OP_Director或者MOT_Director
-  
+
+
+
 Object Manager /obj
   contain OBJ_Node类型的Objects, object contain surface operators SOP SOP_Node. 
   也contain OBJ_DopNet, DOP operators在OBJ_DopNet节点之下
@@ -58,7 +60,10 @@ Composite Manager /img
   COPNet_Node, COP2_Node
 Shader Code Manager /vex
   VOPNet_Node, VOP_Node
-  
+
+
+
+
 Parameters
   OP_Parameters是OP_Node的父类， 它包含一个PRM_ParmList对象， 拥有一个PRM_Parm object数组
   float now = context.getTime();
