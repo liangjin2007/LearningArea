@@ -39,6 +39,7 @@ https://www.sidefx.com/docs/hdk/index.html
 
 
 ### Houdini Operators
+- 架构
 ```
 节点组织：
   Node = path /obj/geo1/file1， OP_Node
@@ -79,3 +80,81 @@ OP_Context
 
 ```
 
+
+- Working with Nodes
+```
+Paths : UT_String 类型
+
+node to path : node->getFullPath(path)
+node to relative path
+  
+  
+path to node pointer
+    绝对路径 OPgetDirector()->findNode(path)
+    相对路径
+    OPgetDirector()->findObjNode(path)
+    OPgetDirector()->findSOPNode(path)
+
+Creating nodes
+    获取时间： float t = context.getTime();
+    node = parentOPNetwork->createNode(nodetype, nodeName);
+    node->runCreateScript();
+    node->setFloat("t", 0, t, 0.f);
+    OP_Node* input = parentOPNetwork->findNode("null1");
+    node->setInput(0, input); //设置第一个输入
+    node->moveToGoodPosition(); // 
+    
+Traversing Nodes
+    parent->traverseChildren(nodeCallback, (void*)prefix, true);
+    
+Flags
+    Expose
+    ByPass
+    Template : as reference geometry that is not selectable
+    Footprint: viewport as reference geometry that is not selectable
+    Highlight : in the viewport
+    Display : displayed geometry for the network
+    Render : as the main rendering geometry
+    Pickable: pickable from viewport
+    Xray: displayed as Xray geometry which is drawn in wireframe
+    Audio
+    Export
+    
+Selections
+    node1->pickRequest(true); // clear node selection and then select node1
+    node2->pickRequest(false); // add node2 to the selection
+    OPgetDirector()->clearPickedItems();
+    OPgetDirector()->getPickedNodes(pickedNodes); // OP_NodeList
+    OPgetDirector()->getLastPickedNode();
+    parent->getCurrentNodePtr();
+    
+Grouping Nodes in Bundles
+    OP_BundleList * list = OPgetDirector()->getBundles();
+    list->createBundles
+    list->getBundle("bundlename");
+    list->bundleAddOps(bundle, nodes);
+    list->bundleRemoveOps(bundle, nodes);
+    bundle->getMembers()
+    
+Globbing: 是通配符的意思，用来干搜索/匹配的事情
+    mgr = OPgetDirector()->getManager("/obj");
+    bundle = OPgetDirector()->getBundles()->getPattern(
+      bundle_name,
+      mgr,/*creator*/
+      mgr,/*relative_to*/
+      "mynode*",
+      "!!OBJ!!" // only accept object node
+    ); // 内部会创建一个名为bundle_name的bundle
+    
+    bundle->getMembers(nodes);
+    
+    OPgetDirector()->getBundles()->deReferenceBundle(bundle);
+    
+Parameter Bundles
+     
+Casting Nodes
+    CAST_OBJNODE(node)
+    CAST_SOPNODE(obj_node->getChild("file1"));
+Cooking Nodes
+
+```
