@@ -158,3 +158,55 @@ Casting Nodes
 Cooking Nodes
 
 ```
+
+
+- Working with Parameters
+```
+Basics
+  OP_Parameters <- OP_Node
+    has OP_ParamList
+      OP_Param can have a number of components. A component has an optional channel
+    得到参数 evalxxx函数
+    设置参数 setxxx函数
+  Multi-Params
+     float   t = context.getTime();
+    int     num_instances = blend_sop->evalInt("nblends", 0, t);
+    int     start_idx = blend_sop->getParm("nblends").getMultiStartOffset();
+    int     instance_idx;
+    // evaluate all multi-parm instances
+    float * weights = new float[num_instances];
+    for (int i = 0; i < num_instances; i++)
+    {
+        instance_idx = start_idx + i;
+        weights[i] = evalFloatInst("weight#", &instance_idx, 0, t);
+    }
+    // ... do something with weights ...
+    delete [] weights;
+    // add a new multi-parm instance with a 0.2 weight value
+    blend_sop->setInt("nblends", 0, t, num_instances + 1);
+    instance_idx = start_idx + num_instances;
+    blend_sop->setIntInst(0.2, "weight#", &instance_idx, 0, t);
+    
+  Ramp Parameters
+    UT_Ramp
+    node->updateRampFromMultiParm(t, node->getParm("ramp_name"), ramp);
+    ramp.rampLookup(u, values);
+    node->updateMultiParmFromRamp(t, ramp, node->getParm("ramp_name"), false);
+```
+
+- Thread Safety
+```
+Modifying parameters or node data while evaluting them
+Adding/Removing points, attributes, primitives, on a GU_Detail while another thread access the same GU_Detail.
+SIM_DATA_GET in DOPs
+```
+
+- Operator Contexts
+```
+OBJ Concepts
+SOP Concepts
+  SOP_Node
+  SOP_Network
+DOP Object 
+  SIM_Object
+```
