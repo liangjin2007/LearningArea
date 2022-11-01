@@ -1849,3 +1849,90 @@ Rendering . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 333
 2.5 Conclusions . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 338
 Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 338
 ```
+
+## Numerical Methods for Engineers
+https://www.math.hkust.edu.hk/~machas/numerical-methods-for-engineers.pdf
+```
+I Scientific Computing 1
+1 Binary numbers 2
+2 Double precision 4
+3 Matlab as a calculator 6
+4 Scripts and functions 8
+5 Vectors 10
+6 Line plots 13
+7 Matrices 16
+8 Logicals 20
+9 Conditionals 22
+10 Loops 24
+11 Project I: Logistic map (Part A) 26
+12 Project I: Logistic map (Part B) 28
+II Root Finding 30
+13 Bisection method 31
+14 Newton’s method 33
+15 Secant method 35
+16 Order of convergence 37
+17 Convergence of Newton’s method 39
+18 Fractals from Newton’s method 41
+19 Coding the Newton fractal 43
+20 Root finding in Matlab 46
+21 Project II: Feigenbaum delta (Part A) 48
+ivCONTENTS v
+22 Project II: Feigenbaum delta (Part B) 50
+23 Project II: Feigenbaum delta (Part C) 51
+III Matrix Algebra 53
+24 Gaussian elimination without pivoting 54
+25 Gaussian elimination with partial pivoting 56
+26 LU decomposition with partial pivoting 58
+27 Operation counts 61
+28 Operation counts for Gaussian elimination 63
+29 Operation counts for forward and backward substitution 65
+30 Eigenvalue power method 67
+31 Eigenvalue power method (example) 69
+32 Matrix algebra in Matlab 71
+33 Systems of nonlinear equations 74
+34 Systems of nonlinear equations (example) 76
+35 Project III: Fractals from the Lorenz equations 78
+IV Quadrature and Interpolation 80
+36 Midpoint rule 81
+37 Trapezoidal rule 83
+38 Simpson’s rule 85
+39 Composite quadrature rules 87
+40 Gaussian quadrature 89
+41 Adaptive quadrature 91
+42 Quadrature in Matlab 93
+43 Interpolation 95
+44 Cubic spline interpolation (Part A) 97CONTENTS vi
+45 Cubic spline interpolation (Part B) 99
+46 Interpolation in Matlab 102
+47 Project IV: Bessel functions and their zeros 104
+V Ordinary Differential Equations 106
+48 Euler method 107
+49 Modified Euler method 109
+50 Runge-Kutta methods 111
+51 Second-order Runge-Kutta methods 112
+52 Higher-order Runge-Kutta methods 114
+53 Higher-order odes and systems 116
+54 Adaptive Runge-Kutta methods 118
+55 Integrating odes in Matlab (Part A) 120
+56 Integrating odes in Matlab (Part B) 121
+57 Shooting method for boundary value problems 124
+58 Project V: Two-body problem (Part A) 126
+59 Project V: Two-body problem (Part B) 128
+VI Partial Differential Equations 130
+60 Boundary and initial value problems 131
+Practice quiz: Classify partial differential equations 132
+61 Central difference approximation 133
+62 Discrete Laplace equation 135
+63 Natural ordering 137
+64 Matrix formulation 139
+65 Matlab solution of the Laplace equation (direct method) 141
+66 Jacobi, Gauss-Seidel and SOR methods 144CONTENTS vii
+67 Red-black ordering 146
+68 Matlab solution of the Laplace equation (iterative method) 147
+69 Explicit methods for solving the diffusion equation 149
+70 Von Neumann stability analysis 151
+71 Implicit methods for solving the diffusion equation 153
+72 Crank-Nicolson method for the diffusion equation 155
+73 Matlab solution of the diffusion equation 157
+74 Project VI: Two-dimensional diffusion equation 160
+```
