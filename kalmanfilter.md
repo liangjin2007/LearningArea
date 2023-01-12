@@ -46,6 +46,16 @@ g, h, k要根据实际情况手工调整。因为没有引入概率，没有得�
 ```
 在g-h-k滤波器的基础上引入了概率，从而得到了最优状态估计。
 
+Predict和Update中的公式可以在很多地方找到，比如opencv代码（kalmanfilter.cpp）。
+
+在没有推导理解好公式之前，可以看opencv的代码和这个链接 https://thinkautonomous.medium.com/computer-vision-for-tracking-8220759eee85
+
+涉及到几块内容 ： 
+1. x' = A x, x可以是(cx, cy, w, h, vx, vy, vw vh)这样的状态变量，我也实践过(x, y, z, vx, vy, vz, ax, ay, az)这样的状态变量
+2. 关于H和测量量：测量量可以是只有cx, cy, w, h, 或者 我实践过的我只用了(x, y, z)作为测量量。此时H是非方阵的单位阵。 
+3. 关于P, Q， R， 统计协方差相关的几个量， 需要预设。 上面链接中有做适当解释。
+4. Predict 和 Update: Update中有涉及到矩阵求逆，像我实践过的case, 是一个3x3矩阵求逆。  K卡尔曼增益矩阵是个N x 3的矩阵。 
+
 
 
 
