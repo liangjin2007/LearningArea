@@ -24,7 +24,7 @@ Surface Go Y/4/64 - Windows 10 Home in S Mode Version 1803	Download image
 https://surface.downloads.prss.microsoft.com/dbazure/SurfaceGo_BMR_41_64_1.011.2.zip?t=153f2d79-553f-4d01-9031-0ffdba63376f&e=1674065832&h=821b8c253308e17048903dd6133d573efbf3bfa7c1ac7e6ca6485a461b52563d
 ```
 
-- 创建 USB 恢复驱动器 
+- 第四步，创建 USB 恢复驱动器 
 ```
 如果使用 Surface Hub 2，请参阅 Surface Hub 2S 重置和恢复。
 
