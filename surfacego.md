@@ -8,9 +8,8 @@
 - 第二步，搜索 Surface Recovery 映像下载， 找到微软官方下载恢复镜像的页面， https://support.microsoft.com/zh-cn/surface-recovery-image
 
 
-- 第三步，选择Suface型号，输入序列号
+- 第三步，选择Suface型号，输入序列号， 可以得到两个镜像zip文件，使用迅雷下载
 ```
-可以得到两个镜像zip文件，使用迅雷下载
 下载 Surface 恢复映像
 Important: Don't download the files directly to your USB drive.
 
@@ -23,8 +22,10 @@ https://surface.downloads.prss.microsoft.com/dbazure/SurfaceGo_BMR_41_64_2.001.2
 
 Surface Go Y/4/64 - Windows 10 Home in S Mode Version 1803	Download image
 https://surface.downloads.prss.microsoft.com/dbazure/SurfaceGo_BMR_41_64_1.011.2.zip?t=153f2d79-553f-4d01-9031-0ffdba63376f&e=1674065832&h=821b8c253308e17048903dd6133d573efbf3bfa7c1ac7e6ca6485a461b52563d
+```
 
-创建 USB 恢复驱动器 
+- 创建 USB 恢复驱动器 
+```
 如果使用 Surface Hub 2，请参阅 Surface Hub 2S 重置和恢复。
 
 如果使用 Surface Duo，请参阅如果 Surface Duo 无法启动，请进行恢复。
