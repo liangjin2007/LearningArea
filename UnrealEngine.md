@@ -11,7 +11,9 @@
 - [虚幻引擎中文技术直播 第1期 虚幻引擎4的实时渲染流程](https://www.bilibili.com/video/BV1yb411c7in)
 - [UE4 Data Driven Development](https://www.bilibili.com/video/BV1dk4y1r752)
 - Unrela engine 4官方教程1-98 带中文字幕 https://www.bilibili.com/video/BV1vJ411J7eF?p=1
-
+- 最新添加 UnrealEngine官方程序范式分析.pdf https://max.book118.com/html/2019/0327/7053133100002015.shtm
+-以及书中提到的《Inside UE4》https://zhuanlan.zhihu.com/p/22813908
+- 
 
 ## 概念
 ```
