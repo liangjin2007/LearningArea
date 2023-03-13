@@ -75,6 +75,11 @@ Ctrl + M + L: 展开所有方法
 
 ### 编译lapack
 
+### 子进程 cmdline, parameters, output string
+https://blog.csdn.net/ai_admin/article/details/119784756
+
+### 软件架构
+https://blog.csdn.net/M2l0ZgSsVc7r69eFdTj/article/details/123564014
 
 
 
