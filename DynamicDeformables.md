@@ -1,4 +1,4 @@
-## deformation function and deformation energy function
+## Deformation function and Deformation energy function
 
 
 - A deformation can be represented by φ(x) : x -> x,     R3 to R3.
@@ -32,8 +32,33 @@ In our case, if a reflection has to lurk somewhere, we would prefer that it do s
   - stiffness warping
   - rotated linear 
 
-## Calculate F
+### Calculate force
+- f = -area dΨ(F)/dx, this is derivative related to x, so need to know dF/dx
+- Computing ∂Ψ/∂x
+- F = Ds Dm ^ -1， It's quite similar with the LBS bindings, Dm^-1 can be taken as transformation to local space.
 
+## Calculate Force the Tensor Way
 
+## Calculate the Force gradient the Tensor Way
+
+## A Better way for Isotropic Solids
+
+## A Friendlier Neo-Hookean Energy
+
+## The analytical EigenSystem of Isotropic Energy
+
+## A Better way of Anisotropic Solids
+
+## Tips for Computing and Debugging Force Derivatives
+
+## Thin Shell Forces
+
+## Implicit Integration Method
+
+## Constrained Backward Euler
+
+## Collision Processing
+
+## Collision Energy
 
 
