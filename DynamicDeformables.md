@@ -32,7 +32,7 @@ In our case, if a reflection has to lurk somewhere, we would prefer that it do s
   - stiffness warping
   - rotated linear 
 
-### Calculate force
+## Calculate force
 - f = -area dΨ(F)/dx, this is derivative related to x, so need to know dF/dx
 - Computing ∂Ψ/∂x
 - F = Ds Dm ^ -1， It's quite similar with the LBS bindings, Dm^-1 can be taken as transformation to local space.
