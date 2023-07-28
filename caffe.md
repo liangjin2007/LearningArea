@@ -12,9 +12,8 @@ Caffe以视觉任务为主，编译依赖里有opencv等第三方依赖库。
 - 修改./windows/caffe/caffe.vcxproj， ./windows/libcaffe/libcaffe.vcxproj中的<WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>，及打开Visual Studio修改常用里的Platform Toolset为v142
 - 注意cuDNN最好按照说明的下载V5， 并在./windows/CommonSettings.props中修改CuDNNPath为本地放cudnn的路径。
 - 做完上面这些，再打开./windows/Caffe.sln设置好configuration为Release应该能编译好libcaffe项目。但是编译caffe项目时提示libboost_thread找不到。尝试找一个新版本的boost https://sourceforge.net/projects/boost/files/boost-binaries/1.65.1/, 下载boost_1_65_1-msvc-14.1-64.exe
-
-- 
--   
+- 拷贝一份-vc141-.lib到lib64-msvc-vc14.0目录中。
+- caffe能编译通过了。
 
 ## caffestudy https://github.com/koosyong/caffestudy/
 简单例子演示Blob等。
