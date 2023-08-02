@@ -21,6 +21,8 @@ Caffe以视觉任务为主，编译依赖里有opencv等第三方依赖库。
 ## caffestudy https://github.com/koosyong/caffestudy/
 简单例子演示Blob等。
 
+## How to write a layer
+- https://chrischoy.github.io/research/making-caffe-layer/
 
 ## caffe学习资料
 ### [DIY Deep Learning](https://docs.google.com/presentation/d/1UeKXVgRvvxg9OUdh_UiC5G71UMscNPlvArsWER41PsU/edit?pli=1#slide=id.g129385c8da_651_320)
