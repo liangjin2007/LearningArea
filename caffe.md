@@ -15,6 +15,8 @@ Caffe以视觉任务为主，编译依赖里有opencv等第三方依赖库。
 - 拷贝一份-vc141-.lib到lib64-msvc-vc14.0目录中。
 - caffe能编译通过了。
 - CudaVersion必须设对，否则会导致caffe编译不过。
+- https://blog.csdn.net/u013630299/article/details/105406952
+
 
 ## caffestudy https://github.com/koosyong/caffestudy/
 简单例子演示Blob等。
@@ -24,7 +26,10 @@ Caffe以视觉任务为主，编译依赖里有opencv等第三方依赖库。
 ### [DIY Deep Learning](https://docs.google.com/presentation/d/1UeKXVgRvvxg9OUdh_UiC5G71UMscNPlvArsWER41PsU/edit?pli=1#slide=id.g129385c8da_651_320)
 #### [Model-Zoo](https://github.com/BVLC/caffe/wiki/Model-Zoo)
 ### [Tutorial](http://caffe.berkeleyvision.org/tutorial/)
-
+- [command line](http://caffe.berkeleyvision.org/tutorial/interfaces.html)
+- 
+### cs231n
+- Python Tutorial https://cs231n.github.io/python-numpy-tutorial/
 
 
 
