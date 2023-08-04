@@ -24,6 +24,8 @@ Caffe以视觉任务为主，编译依赖里有opencv等第三方依赖库。
 ## How to write a layer
 - https://chrischoy.github.io/research/making-caffe-layer/
 
+## https://indico.cern.ch/event/395374/contributions/939872/attachments/1186808/1721069/Getting_started_with_caffe_v2.pdf
+
 ## caffe学习资料
 ### [DIY Deep Learning](https://docs.google.com/presentation/d/1UeKXVgRvvxg9OUdh_UiC5G71UMscNPlvArsWER41PsU/edit?pli=1#slide=id.g129385c8da_651_320)
 #### [Model-Zoo](https://github.com/BVLC/caffe/wiki/Model-Zoo)
