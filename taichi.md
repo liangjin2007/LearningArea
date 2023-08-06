@@ -4,6 +4,11 @@
 ```
 安装，CLI，架构，优点，使用
 
+pip install taichi -U
+
+例子 ti gallery
+
+
 ///-----------------使用-------------------
 1. ti.init(arch=ti.cuda)
 
@@ -86,3 +91,10 @@ ti.polar_decompose
 16 Visualization
 
 ```
+
+
+# https://taichi.graphics/
+# https://docs.taichi-lang.org/docs/tutorial
+# https://docs.taichi-lang.org/tgc01/
+# https://space.bilibili.com/1779922645/channel/seriesdetail?sid=337716&ctype=0
+# https://www.zhihu.com/question/429149717
