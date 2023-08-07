@@ -53,3 +53,10 @@ CNN-RNN: A xxx
     - 基于物理适配的摄像机
   - 光与非光学平坦表面的交互原理
   
+3D reconstruction
+- NERF : a good PPT https://www.cs.utexas.edu/~robertom/cs391r_fall2022/slides/2022-09-06-NeRF-Elvin-Yang.pdf
+  - Neural Volumes[2019]: 受限于voxel size ? 
+  - SRN[2019]:
+    - Uses a recurrent neural network to model a rendering function
+    - Limited to simple shapes with low geometric complexity
+  - Local Light Field Fusion[2019]
