@@ -14,7 +14,29 @@ pip install taichi -U
 
 2. 数据类型 ti.i8/i16/i32/i64/u8/u16/u32/u64/f32/f64
 
-3. 面向数据的编程语言 ti.field(dtype=float, shape=(400, 200)) 
+  type casts
+    implicit casts : 稍微跟原生的python有点不一样
+    ti.casts: variable = ti.casts(variable, type)
+
+  
+  Compound type
+    vector, matrix, struct
+    vec3f = ti.types.vector(3, ti.f32)
+    mat2f = ti.types.matrix(2, 2, ti.f32)
+    ray = ti.types.struct(ro = vec3f, rd = vec3f, l = ti.i32)
+
+
+  Predefined keywords for compound type
+    ti.Vector/ti.Matrix/ti.Struct
+
+
+
+3. 面向数据的编程语言 ti.field(dtype=ti.f32, shape=(400, 200)) 
+  a global N-d array of elements
+  pixels = ti.field(dtype = float, shape=(400, 200))
+  vf = ti.Vector.field(3, ti.f32, shape = 4)   # 4 x 1 的向量的field， 每个元素是3 x 1的向量
+  scalar = ti.field(dtype=ti.f32, shape=())    # 标量
+  scalar[None] = 5.
 
 4. kernel @ti.kernel  
 compiled, statically-typed, lexically-scoped, parallel and differentiable
