@@ -12,6 +12,8 @@ pip install taichi -U
 ///-----------------使用-------------------
 1. ti.init(arch=ti.cuda)
 
+taichi scope or python scope
+
 2. 数据类型 ti.i8/i16/i32/i64/u8/u16/u32/u64/f32/f64
 
   type casts
@@ -37,13 +39,38 @@ pip install taichi -U
   vf = ti.Vector.field(3, ti.f32, shape = 4)   # 4 x 1 的向量的field， 每个元素是3 x 1的向量
   scalar = ti.field(dtype=ti.f32, shape=())    # 标量
   scalar[None] = 5.
+  tensor_field = ti.Matrix.field(n = 2, m = 2, dtype=ti.f32, shape=(64, 64))
+  global_scalar = ti.field(dtype=ti.f32, shape=())
+
 
 4. kernel @ti.kernel  
-compiled, statically-typed, lexically-scoped, parallel and differentiable
-@ti.kernel
-def calc(i : ti.i32) -> ti.i32:
-  s = 0
-  return s
+  compiled, statically-typed, lexically-scoped, parallel and differentiable
+  @ti.kernel
+  def calc(i : ti.i32) -> ti.i32:
+    s = 0
+    return s
+
+  outermost scope for会被自动并行
+  @ti.kernel
+  def foo(k: ti.f32):
+    for i in range(10): # 这个for loop会被并行
+      if(i > 42):
+        ...
+  @ti.kernel
+  def foo(k: ti.f32):
+    if(i > 42):
+      for i in range(10): # 这个for loop不会被并行
+        ...
+
+  Design code to make required loop parallel
+  把要并行的循环放到一个ti.kernel里去。让一个非kernel函数去调用kernel函数
+  ti.kernel的最外层for中 不允许break
+
+  race condition
+     += taken as atomic 
+     ti.atomic_add(global_scalar[None], xxx)
+     total[None] = total[None] + x[i] #这种方式有race condition
+
 
 5. function @ti.func
 不需要type-hinted
