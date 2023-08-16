@@ -4,8 +4,12 @@
 - 有关工作
 ```
 Radiance Caching
-  1988 irradiance caching, irradiance在场景中是比较smooth， 
-  
+  1. irradiance caching, irradiance在场景中是比较smoothly变化， 可通过albedo modulation恢复texture细节。 [1988]
+  2. irradiance probe volume [1998]难点在probe之间的插值及probe位置的选择
+  3. [2008、2009]有一波改进probe之间的插值的改进
+  4. radiance cache： representing the directional domain with spherical harmonics[2005], 因为glossy surface不满足 ** irradiance在场景中是比较smoothly变化 ** 这一条。 
+     这个radiance cache是一种数据结构，用来预计算lighting信息。
+
 
 ```
 
@@ -37,4 +41,20 @@ This can be used to create different lighting effects, simulate the appearance o
 Albedo modulation can be achieved through various techniques, such as adjusting the surface material properties, applying post-processing effects, or using image-based lighting. 
 In addition, machine learning algorithms can be used to automatically adjust the albedo of surfaces based on the desired output.
 
+```
+
+
+### Sphere Harmonics for Radiance Cache 
+```
+Spherical harmonics are a set of mathematical functions that can be used to represent functions on the surface of a sphere.
+In computer graphics, spherical harmonics are often used to precompute and store lighting information in a radiance cache.
+
+A radiance cache is a data structure that stores precomputed lighting information for a scene, which can be used to accelerate rendering by avoiding expensive lighting calculations.
+Using spherical harmonics to represent the lighting information in the radiance cache allows for efficient storage and interpolation of lighting values across the surface of the sphere.
+
+To use spherical harmonics for radiance caching, the lighting information for a scene is first represented as a set of coefficients corresponding to the basis functions of the spherical harmonics.
+These coefficients are then stored in the radiance cache, along with the positions and orientations of the cache points.
+During rendering, the lighting value at a given point in the scene can be quickly approximated by interpolating the coefficients of the nearest cache points using the spherical harmonics basis functions.
+
+Spherical harmonics offer an efficient and accurate way to represent and store lighting information for radiance caching, making them a popular choice in many computer graphics applications.
 ```
