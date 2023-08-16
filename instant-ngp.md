@@ -8,11 +8,14 @@ Radiance Caching
   2. irradiance probe volume [1998]难点在probe之间的插值及probe位置的选择
   3. [2008、2009]有一波改进probe之间的插值的改进
   4. radiance cache： representing the directional domain with spherical harmonics[2005], 因为glossy surface不满足 ** irradiance在场景中是比较smoothly变化 ** 这一条。 
-     这个radiance cache是一种数据结构，用来预计算lighting信息。
+     这个radiance cache是一种数据结构，用来预计算lighting信息。 offline rendering[2017、2018、2019], realtime rendering （compression, sparse interpolation[2017], pre-convolved environment   maps[2014、2012], spatial hashing[2018、2020]）
+```
+```
+Precomputation-based techniques
+  
 
 
 ```
-
 
 
 
