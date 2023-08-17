@@ -50,21 +50,14 @@ $$
 $$
 
 
-$$
-scattered radiance is across \textbf{x} in the direction of \omega
-$$
 
-$$
-\omega_{i} is incident direction
-$$
+  - scattered radiance is across $\textbf{x} $ in the direction of $\omega$
 
-$$
-f_{S}(\textbf{x}, \omega,\omega_{i}) is BSDF
-$$
+  - $\omega_{i}$ is incident direction
 
-$$
-L_{i}(\textbf{x}, \omega_{i}) is incident radiance入射辐度
-$$
+  - $f_{S}(\textbf{x}, \omega,\omega_{i})$ is BSDF
+
+  - $L_{i}(\textbf{x}, \omega_{i})$ is incident radiance入射辐度
 
 
 
