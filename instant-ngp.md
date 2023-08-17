@@ -42,7 +42,7 @@ Path guiding
   - $\textit{L}_{S}\left(\textbf{x}, \omega\right)$
   - $\(\int_{S^2}f(\textbf{x}, \omega, \omega_{i}) d\omega_{i}\)$
 
-  - $\(\int_{S^2}f(\textbf{x}, \omega, \omega_{i}) d\omega_{i}\)$
+  - $\(\int_{S^2}f_{S}(\textbf{x}, \omega, \omega_{i}) L_{i}(\textbf{x}, \omega_{i}) d\omega_{i}\)$
 
 
 
