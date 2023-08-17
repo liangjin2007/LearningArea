@@ -12,13 +12,37 @@ Radiance Caching
 ```
 ```
 Precomputation-based techniques
-  
+  lightmap : 当场景中光和geometry都不动时，可以把irradiance预计算到texture中。[1997]
+  light probes : [2005]
+  iterated dynamic lighting updates [2010]
+  combine with other technique like precomputed radiance transfer or visibility [2017]
+```
+```
+Fully dynamic techniques : build upon efficient rendering algorithms that reuse shading and visibility computation across pixels, extracting further efficiency through various approximations
+   photon mapping[1996]
+   many-light rendering[1997]
+   radiosity maps[2004]
+         Use point cloud to approximate scene geometry, the point cloud is rasterized into shadow map
+   ray tracing hardware
+      diffuse interreflections
+      glossy reflection
+   以上都有个问题是需要更新一个dual scene representation动态地连续地更新。   
 
+```
+```
+Path guiding
+   importance sampling
+```
+```
 
 ```
 
+```
+neural radiance cache
+  回避了dual scene representation的更新
+  
 
-
+```
 
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
