@@ -25,3 +25,7 @@ $$
 
 - [latex cheet sheet](https://wch.github.io/latexsheet/latexsheet-a4.pdf)
   
+#### bib
+- [如何设置参考文献](https://blog.csdn.net/qq_44773018/article/details/105792425)
+- 如何导入文献的BigTex
+
