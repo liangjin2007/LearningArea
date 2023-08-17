@@ -40,7 +40,7 @@ Path guiding
 - neural radiance cache
   - $\textit{L}$
 
-  - $\textit{L}_{S}\left(\textbf{x}, \omega\right)=\(\int_{S^2}f_{S}(\textbf{x}, \omega, \omega_{i}) L_{i}(\textbf{x}, \omega_{i}) |dot(\omega_{i}, \textbf{n})| d\omega_{i}\)$
+  - $\textit{L}_{S}\left(\textbf{x}, \omega\right)=\(\int_{S^2}f_{S}(\textbf{x}, \omega,\omega_{i}) L_{i}(\textbf{x}, \omega_{i}) |dot(\omega_{i}, \textbf{n})| d\omega_{i}\)$
 
 
 
