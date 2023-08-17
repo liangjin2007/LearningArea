@@ -13,11 +13,11 @@
 - d^2
 - \max
 - \sqrt
-- \pi           PI
+- $\pi$           PI
 - \sigma
 - \mu
 - centered on a new line
-- $E = mc^2$
+- 行方程 $E = mc^2$
 
 $$
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
