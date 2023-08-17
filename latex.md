@@ -13,7 +13,7 @@
 - d^2
 - \max
 - \sqrt
-- \pi
+- \pi           PI
 - \sigma
 - \mu
 - centered on a new line
