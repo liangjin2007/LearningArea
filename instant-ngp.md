@@ -38,15 +38,8 @@ Path guiding
 ```
 
 - neural radiance cache
-  - scattered radiance equation
+  - scattered radiance equation $L_{S}\left(\bfx, \omega\right)=\int_{S^2}{f_{\bfs}}$
   
-  centered on a new line
-
-
-  $$
-  f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
-  $$
-
 
 
 
