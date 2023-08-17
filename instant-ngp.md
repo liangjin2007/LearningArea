@@ -40,12 +40,29 @@ Path guiding
 - neural radiance cache
 
 $$
-\(\textit{L}_{S}\left(\textbf{x}, \omega\right)\)
+\textit{L}_{S}\left(\textbf{x}, \omega\right)
 $$
 
 
 $$
 =\(\int_{S^2}f_{S}(\textbf{x}, \omega,\omega_{i}) L_{i}(\textbf{x}, \omega_{i})|dot(\omega_{i}, \textbf{n})| d\omega_{i}\)
+$$
+
+
+$$
+scattered radiance is across \textbf{x} in the direction of \omega
+$$
+
+$$
+\omega_{i} is incident direction
+$$
+
+$$
+f_{S}(\textbf{x}, \omega,\omega_{i}) is BSDF
+$$
+
+$$
+L_{i}(\textbf{x}, \omega_{i}) is incident radiance入射辐度
 $$
 
 
