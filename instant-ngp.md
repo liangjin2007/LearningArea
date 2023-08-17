@@ -38,8 +38,6 @@ Path guiding
 ```
 
 - neural radiance cache
-  - $\textit{L}$
-
 
 $$
 \(\textit{L}_{S}\left(\textbf{x}, \omega\right)\)
