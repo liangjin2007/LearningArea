@@ -44,6 +44,12 @@ neural radiance cache
 
 ```
 
+$$
+f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
+$$
+
+
+
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
 Diffuse interreflections occur when light is reflected and scattered by surfaces in a scene, resulting in indirect lighting. 
