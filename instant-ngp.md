@@ -38,7 +38,7 @@ Path guiding
 ```
 
 - neural radiance cache
-  - scattered radiance equation $L_{S}\left(\bfx, \omega\right)=\int_{S^2}{f_{\bfs}}$
+  - scattered radiance equation $L_{S}\left(\textbf{x}, \omega\right)=\int_{S^2}{f_{\textbf{s}}}$
   
 
 
