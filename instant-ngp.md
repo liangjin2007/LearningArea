@@ -37,16 +37,13 @@ Path guiding
 
 ```
 
-```
-neural radiance cache
-  回避了dual scene representation的更新
+- neural radiance cache
+  - scattered radiance equation
   
-
-```
-
-$$
-f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
-$$
+  centered on a new line
+  $$
+  f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
+  $$
 
 
 
