@@ -22,3 +22,6 @@
 $$
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
 $$
+
+- [latex cheet sheet](https://wch.github.io/latexsheet/latexsheet-a4.pdf)
+  
