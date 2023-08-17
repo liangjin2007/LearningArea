@@ -49,10 +49,6 @@ Path guiding
 
 
 
-  - scattered radiance equation $\textit{L}_{S}\left(\textbf{x}, \omega\right)=\int_{S^2}{f_{\textbf{s}}{\left(\textbf{x},\omega, \omega_{i}\right) \textit{L}_{i}{\left(\textbf{x}, \omega_{i}\right)}}}$
-  
-
-
 
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
