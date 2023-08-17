@@ -1,7 +1,10 @@
 # Latex Cheet Sheet 
 - [latex cheet sheet1](https://wch.github.io/latexsheet/latexsheet-a4.pdf)
 - [latex cheet sheet2](https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf)
-
+- [latex cheet sheet3](https://quickref.me/latex.html)
+- [latex cheet sheet4](https://people.cs.umass.edu/~freedman/resources/Freedman_LaTeXCheatSheet.pdf)
+- [latex cheet sheet5](http://tug.ctan.org/info/latex-refsheet/LaTeX_RefSheet.pdf)
+  
   
 #### latex宏集
 - tex
