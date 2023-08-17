@@ -41,6 +41,8 @@ Path guiding
   - scattered radiance equation
   
   centered on a new line
+
+
   $$
   f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
   $$
