@@ -1,3 +1,8 @@
+# Latex Cheet Sheet 
+- [latex cheet sheet1](https://wch.github.io/latexsheet/latexsheet-a4.pdf)
+- [latex cheet sheet2](https://users.dickinson.edu/~richesod/latex/latexcheatsheet.pdf)
+
+  
 #### latex宏集
 - tex
 - Latex
@@ -23,8 +28,7 @@ $$
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
 $$
 
-- [latex cheet sheet](https://wch.github.io/latexsheet/latexsheet-a4.pdf)
-  
+
 #### bib
 - [如何设置参考文献](https://blog.csdn.net/qq_44773018/article/details/105792425)
 - 如何导入文献的BigTex
