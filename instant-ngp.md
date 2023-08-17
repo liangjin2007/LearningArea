@@ -50,7 +50,6 @@ $$
 $$
 
 
-
   - scattered radiance is across $\textbf{x} $ in the direction of $\omega$
 
   - $\omega_{i}$ is incident direction
