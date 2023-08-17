@@ -41,6 +41,9 @@ Path guiding
   - $\textit{L}$
   - $\textit{L}_{S}\left(\textbf{x}, \omega\right)$
   - $\(\int_{S^2}f(x, \omega, \omega_{i}) \,d\omega_{i}\)$
+
+
+
   - scattered radiance equation $\textit{L}_{S}\left(\textbf{x}, \omega\right)=\int_{S^2}{f_{\textbf{s}}{\left(\textbf{x},\omega, \omega_{i}\right) \textit{L}_{i}{\left(\textbf{x}, \omega_{i}\right)}}}$
   
 
