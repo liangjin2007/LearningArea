@@ -59,8 +59,7 @@ $$
 
 - 图示
 ![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing1.png?raw=true)
-
-![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing2.png?raw=true)
+![path2](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing2.png?raw=true)
 
 ### Screen-space ReSTIR[2020]
 ### LightBVH[2019]
