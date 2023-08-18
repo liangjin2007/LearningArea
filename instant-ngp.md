@@ -66,11 +66,8 @@ $$
 
 
 $$
-\documentclass{article}
 \usepackage{graphicx}
-\begin{document}
 \noindent\textbf{1111111111111111111111111}\\\\\includegraphics[scale=0.3]{path_tracing1.png}\\\\\noindent\textbf{1111111111111111111111111}
-\end{document}
 $$
 
 
