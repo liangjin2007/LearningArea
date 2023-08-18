@@ -71,10 +71,10 @@ $$
 ### training suffix
 ### adapt : multiple gradient descent steps per frame
 ### exponential moving average(EMA) of the network weights Wt
-
 $$
 \overline{W_t}:=\frac{1-\alpha}{\eta_t}\cdotW_t + \alpha\cdot\eta_{t-1}\cdot\overline{W_{t-1}}, where \eta_t := 1 - \alpha^t
 $$
+
 
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
