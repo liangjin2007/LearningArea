@@ -58,6 +58,13 @@ $$
   - $L_{i}(\textbf{x}, \omega_{i})$ is incident radiance入射辐度
 
 
+### Screen-space ReSTIR[2020]
+### LightBVH[2019]
+### Self-training method
+### Q-learning[2018、2019]
+### Progressive radiosity algorithms[2010]
+### Simulate only a subset of multibounce illumination rather than all light transport
+
 
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
@@ -100,3 +107,11 @@ During rendering, the lighting value at a given point in the scene can be quickl
 
 Spherical harmonics offer an efficient and accurate way to represent and store lighting information for radiance caching, making them a popular choice in many computer graphics applications.
 ```
+
+
+### 英语
+- reminiscent : 怀旧的，与...相像的
+- caveat: 限制条款
+- Russian roulette: 俄罗斯转盘
+
+
