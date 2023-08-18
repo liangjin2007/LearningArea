@@ -61,13 +61,20 @@ $$
 ![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing1.png?raw=true)
 ![path2](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing2.png?raw=true)
 
+
 ### Screen-space ReSTIR[2020]
 ### LightBVH[2019]
 ### Self-training method
 ### Q-learning[2018、2019]
 ### Progressive radiosity algorithms[2010]
 ### Simulate only a subset of multibounce illumination rather than all light transport
+### training suffix
+### adapt : multiple gradient descent steps per frame
+### exponential moving average(EMA) of the network weights Wt
 
+$$
+\overline{W_t}:=\frac{1-\alpha}{\eta_t}\cdotW_t + \alpha\cdot\eta_{t-1}\cdot\overline{W_{t-1}}, where \eta_t := 1 - \alpha^t
+$$
 
 ### Diffuse interreflections : 说的是反射折射引起的简介光照
 ```
@@ -116,5 +123,9 @@ Spherical harmonics offer an efficient and accurate way to represent and store l
 - reminiscent : 怀旧的，与...相像的
 - caveat: 限制条款
 - Russian roulette: 俄罗斯转盘
-
+- flickering闪烁
+- oscillations震动
+- propose to
+- dampen抑制
+- 
 
