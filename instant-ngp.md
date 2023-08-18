@@ -57,8 +57,10 @@ $$
 
   - $L_{i}(\textbf{x}, \omega_{i})$ is incident radiance入射辐度
 
-- ![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing1.png?raw=true)
+- 图示
+![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing1.png?raw=true)
 
+![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing2.png?raw=true)
 
 ### Screen-space ReSTIR[2020]
 ### LightBVH[2019]
