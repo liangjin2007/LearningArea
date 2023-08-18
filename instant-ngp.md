@@ -59,10 +59,8 @@ $$
 
 
 $$
-\begin{figure}[ht]
 \includegraphics[width=.5in]{path_tracing1.png}
 \caption{Figure 2}
-\end{figure}
 $$
 
 
