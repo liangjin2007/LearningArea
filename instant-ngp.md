@@ -57,20 +57,7 @@ $$
 
   - $L_{i}(\textbf{x}, \omega_{i})$ is incident radiance入射辐度
 
-
-
-$$
-\includegraphics[width=.5in]{path_tracing1.png}
-\caption{Figure 2}
-$$
-
-
-
-$$
-\usepackage{graphicx}
-\noindent\textbf{1111111111111111111111111}\\\\\includegraphics[scale=0.3]{path_tracing1.png}\\\\\noindent\textbf{1111111111111111111111111}
-$$
-
+- ![path](https://github.com/liangjin2007/LearningArea/blob/master/path_tracing1.png?raw=true)
 
 
 ### Screen-space ReSTIR[2020]
