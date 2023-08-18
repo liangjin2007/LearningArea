@@ -72,7 +72,7 @@ $$
 ### adapt : multiple gradient descent steps per frame
 ### exponential moving average(EMA) of the network weights Wt
 $$
-\overline{W_t}:=\frac{1-\alpha}{\eta_t}\cdotW_t + \alpha\cdot\eta_{t-1}\cdot\overline{W_{t-1}}, where \eta_t := 1 - \alpha^t
+\overline{W_t}:=\frac{1-\alpha}{\eta_t} \cdot W_t + \alpha\cdot\eta_{t-1}\cdot\overline{W_{t-1}}, \text{where }\eta_t := 1 - \alpha^t
 $$
 
 
