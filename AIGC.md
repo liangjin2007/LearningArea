@@ -24,3 +24,14 @@ https://www.speech.kth.se/research/listen-denoise-action/
   - tf.__version__
   - tf.test.is_gpu_avaliable() # deprecated 这个会返回True
   - tf.config.list_physical_devices('GPU') # 这个会返回GPU信息
+
+
+
+# 安装pytorch 
+- 既然已经安装了tensorflow gpu版，那么pytorch最好也安装在一起
+- 比较简单 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu110 # 使用相同的cuda版本
+- 检查GPU支持
+  - python
+  - import torch
+  - torch.cuda.is_available() # 返回True表示cuda支持
+
