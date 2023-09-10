@@ -17,7 +17,9 @@ https://www.speech.kth.se/research/listen-denoise-action/
   - 使用conda create -n tf_gpu python=3.8来创建一个新的环境。
   - conda activate tf_gpu
   - 安装cuda和cudnn ： conda install cudatoolkit=11.0 cudnn=8.0 -c=conda-forge
-  - 安装tensorflow-gpu 2.4.1 :   pip install --upgrade tensorflow-gpu==2.4.1
+  - 安装tensorflow-gpu 2.4.1 :   pip install --upgrade tensorflow-gpu==2.4.1，
+    -  对国内来说，需要添加一个国内镜像 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/ -upgrade tensorflow-gpu==2.4.1
+
 - 检查使用支持GPU
   - python
   - import tensorflow as tf
