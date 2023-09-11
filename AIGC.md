@@ -6,6 +6,24 @@ Diffusion https://github.com/huggingface/diffusers
 
 https://www.speech.kth.se/research/listen-denoise-action/
 
+https://keras.io/examples/
+
+https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
+
+https://github.com/ultralytics/ultralytics
+
+https://github.com/XingangPan/DragGAN
+
+https://github.com/Shimingyi/MotioNet
+
+https://github.com/anandpawara/Real_Time_Image_Animation
+
+https://github.com/liangjin2007/EverybodyDanceNow
+
+https://github.com/yzhq97/transmomo.pytorch
+
+
+
 
 
 # 安装tensorflow/pytorch/etc
