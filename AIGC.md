@@ -64,6 +64,26 @@ https://github.com/yzhq97/transmomo.pytorch
 # 如何用UE做一个自己的虚拟Avatar
 
 
+# Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
+- PCG
+  - L-System
+    - was made for describing plant growth 
+  - Perlin noise
+  - online and offline generation
+```
+PCG algorithms can be categorized in six different
+categories [1]. Pseudo random number generators, generative grammars, image
+filters, spatial algorithms, modeling, simulation of complex systems and finally
+artificial intelligence where constraint satisfaction algorithms such as WFC are
+assigned.
+```
+
+
+
+
+
+
+
 
 
 
