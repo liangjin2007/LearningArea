@@ -1691,3 +1691,77 @@ animLayer
 ```
 
 
+#8. shader相关
+- fileTexture.cpp
+```
+// DESCRIPTION: A simple example of file texture node.
+//
+// Inputs:
+//
+//	FileName: the name of the file to load
+//  UV: uv coordinate we're evaluating now.
+//
+// Output:
+//
+//  outColor: the result color.
+//
+// Need to enter the following commands before using:
+//
+//  shadingNode -asTexture fileTexture;
+//  shadingNode -asUtility place2dTexture;
+//  connectAttr place2dTexture1.outUV fileTexture1.uvCoord;
+
+ 
+class FileNode : public MPxNode
+{
+...
+	MStatus compute(const MPlug&, MDataBlock&) override
+	{
+	}
+
+
+	MImage fImage;
+	size_t fWidth;
+	size_t fHeight;
+
+	// Attributes
+	static MObject aFileName;
+	static MObject aCMConfigPath;
+	static MObject aCMWorkingSpace;
+	static MObject aColorSpace;
+	static MObject aCMEnabled;
+	static MObject aCMConfigEnabled;
+	static MObject aUVCoord;
+	static MObject aOutColor;
+	static MObject aOutAlpha;
+}
+
+
+class FileNodeOverride : public MHWRender::MPxShadingNodeOverride
+{
+
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
