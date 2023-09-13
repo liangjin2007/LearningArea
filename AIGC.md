@@ -80,10 +80,14 @@ assigned.
 
 
 # GAN
-- https://antkillerfarm.github.io/#GAN%20&%20VAE
-- 这个地方还有很多有意思的博文
+- https://antkillerfarm.github.io/#GAN%20&%20VAE, 这个地方还有很多有意思的博文
+- pix2pix ppt http://efrosgans.eecs.berkeley.edu/CVPR18_slides/pix2pix.pdf
+- cycleGAN https://www.jianshu.com/p/5bf937a0d993
+- 比cycleGAN训练更快 https://github.com/taesungp/contrastive-unpaired-translation
 
 
+# HairModeling
+- HairSteps最新代码已经发布了，但是并不是所有代码，比如生成strand部分的代码就没有， 另外只有linux环境+Mac环境， windows环境下试了一下，依赖包装不上去。 得看看pretrained model是否存在
 
 
 
