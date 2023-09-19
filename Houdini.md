@@ -213,5 +213,22 @@ DOP Object
 
 # Houdini python node
 - https://zhuanlan.zhihu.com/p/363920596
-- 
+```
+node = hou.pwd()
+geo = node.geometry()
+
+# Add code to modify contents of geo.
+# Use drop down menu to select examples.
+points = geo.points()
+prims = geo.prims()
+
+# add attribute
+a = geo.addAttrib(hou.attribType.Point, "a", (1.0, 0.0, 0.0))
+b = geo.addAttrib(hou.attribType.Prim, "b", 1)
+
+
+aStr = hou.readFile("D:/1.txt")
+bStr = hou.readFile("D:/2.txt")
+
+```
 
