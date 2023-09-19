@@ -213,7 +213,8 @@ DOP Object
 
 # Houdini python node
 - https://zhuanlan.zhihu.com/p/363920596
-- hou https://www.sidefx.com/docs/houdini/hom/hou/index.html
+- hou API https://www.sidefx.com/docs/houdini/hom/hou/index.html
+- hou.Node class https://www.sidefx.com/docs/houdini/hom/hou/Node.html
 - hou.Geometry class https://www.sidefx.com/docs/houdini/hom/hou/Geometry.html
 ```
 node = hou.pwd()
