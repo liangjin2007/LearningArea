@@ -210,3 +210,8 @@ SOP Concepts
 DOP Object 
   SIM_Object
 ```
+
+# Houdini python node
+- https://zhuanlan.zhihu.com/p/363920596
+- 
+
