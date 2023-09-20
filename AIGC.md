@@ -86,11 +86,40 @@ assigned.
 - 比cycleGAN训练更快 https://github.com/taesungp/contrastive-unpaired-translation
 
 
+
+# 人像抠图
+- MODNet: Trimap-Free Portrait Matting in Real Time
+- https://github.com/ZHKKKe/MODNet
+
+
+
 # HairModeling
 - HairSteps最新代码已经发布了，但是并不是所有代码，比如生成strand部分的代码就没有， 另外只有linux环境+Mac环境， windows环境下试了一下，依赖包装不上去。 得看看pretrained model是否存在
+- pix2pix pytorch版实践 https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix/tree/master
+- HairNet
+- Neuralhaircut
+```
+code is for linux, how to inference on windows??
+
+git clone xxx
+cd Neuralhaircut
+conda create -n neuralhaircut python=3.9.16
+conda activate neuralhaircut
+
+// 
+conda install cudatoolkit=11.6 cudnn=8.3.2 -c=conda-forge
+
+安裝pytorch
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu116 
+
+git submodule update --init --recursive
+
+
+pip install gdown   # https://github.com/wkentaro/gdown
 
 
 
+```
 
 
 
