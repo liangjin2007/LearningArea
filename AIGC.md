@@ -1,3 +1,6 @@
+# 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
+
+
 立绘 LoRA https://civitai.com/models/13090
 
 AI作图软件 MidJourney https://discord.com/invite/midjourney
