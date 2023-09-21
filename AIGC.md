@@ -1,6 +1,10 @@
 # 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
 
 
+
+
+# topic
+
 立绘 LoRA https://civitai.com/models/13090
 
 AI作图软件 MidJourney https://discord.com/invite/midjourney
@@ -122,6 +126,34 @@ pip install gdown   # https://github.com/wkentaro/gdown
 
 
 
+```
+-HairStep
+```
+
+
+```
+
+# linux code to windows bat
+- cl.exe to compile c/c++ files instead of gcc xxx
+```
+rem cl.exe compile options -- https://max.book118.com/html/2017/0610/113214867.shtm
+rem example of cl.exe compiling a main.cpp file -- https://blog.csdn.net/caozhenyu/article/details/130666879
+
+set header1="%MSVCDir%\include"
+set header2="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt"
+set header3="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um"
+set header4="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\winrt"	
+
+set lib1="%MSVCDir%\lib\x64\LIBCMT.lib"
+set lib2="%MSVCDir%\lib\x64\oldnames.lib"
+set lib3="%MSVCDir%\lib\x64\libvcruntime.lib"
+set lib4="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\ucrt\x64\libucrt.lib"
+set lib5="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\um\x64\kernel32.lib"
+set lib6="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\um\x64\Uuid.lib"
+rem if build exe program call this line -- cl.exe render.c /O2 /I %header1% /I %header2% /I %header3% /I %header4% %lib1% %lib2% %lib3% %lib4% %lib5% %lib6% 
+cl.exe render.c /O2 /LD /MD /I %header1% /I %header2% /I %header3% /I %header4% %lib1% %lib2% %lib3% %lib4% %lib5% %lib6% 
+
+cd ../..
 ```
 
 
