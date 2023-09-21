@@ -1,5 +1,5 @@
 # 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
-
+- RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
 
 
@@ -127,13 +127,97 @@ pip install gdown   # https://github.com/wkentaro/gdown
 
 
 ```
--HairStep
+# HairStep
+- 0. 由于开源代码是linux/mac上的，所以-f environment.yml通常失败，按照如下步骤来一步步步构建环境
+```
+首先看一下environment.yml中python的版本是3.6.13
+创建基本环境 conda create -n hairstep python=3.6.13
+conda activate hairstep
+
+安装pytorch pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+pip install -r requirements.txt
+
+
+git clone --recursive https://github.com/GAP-LAB-CUHK-SZ/HairStep.git
+cd HairStep
+
+
+接下来需要编译3DDFA_V2，一个3D人脸预测模型.
+  原始指令
+    cd external/3DDFA_V2
+    sh ./build.sh
+      cd FaceBoxes
+      sh ./build_cpu_nms.sh
+      cd ..
+      
+      cd Sim3DR
+      sh ./build_sim3dr.sh
+      cd ..
+      
+      cd utils/asset
+      gcc -shared -Wall -O3 render.c -o render.so -fPIC
+      cd ../..
+    cd ../../
+  需要修改为
+    ./build.bat
+      cd FaceBoxes
+      ./build_cpu_nms.bat
+      cd ..
+      
+      cd Sim3DR
+      ./build_sim3dr.bat
+      cd ..
+      
+      cd utils/asset
+      set header1="%MSVCDir%\include"
+      set header2="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\ucrt"
+      set header3="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um"
+      set header4="C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\winrt"	
+      set lib1="%MSVCDir%\lib\x64\LIBCMT.lib"
+      set lib2="%MSVCDir%\lib\x64\oldnames.lib"
+      set lib3="%MSVCDir%\lib\x64\libvcruntime.lib"
+      set lib4="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\ucrt\x64\libucrt.lib"
+      set lib5="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\um\x64\kernel32.lib"
+      set lib6="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.22000.0\um\x64\Uuid.lib"
+      cl.exe render.c /O2 /LD /MD /I %header1% /I %header2% /I %header3% /I %header4% %lib1% %lib2% %lib3% %lib4% %lib5% %lib6% 
+      
+      cd ../..
+      pause 
+
+windows上build_cpu_nms.bat编译不过， 参考https://github.com/cleardusk/3DDFA_V2/issues/12#issuecomment-697479173
+  1. f you got "cl : Command line error D8021 : invalid numeric argument '/Wno-cpp'" error modify 47 line of build.py to extra_compile_args=['std=c99'],
+
+
+执行 python -m scripts.img2hairstep
+  pip install tqdm
+
+执行 python scripts/get_lmk.py
+  pip install pyyaml
+  change the code in FaceBoxes/utils/nms/cpu_nms.pyx near line 18 to
+
+      def cpu_nms(np.ndarray[np.float32_t, ndim=2] dets, np.float thresh):
+          cdef np.ndarray[np.float32_t, ndim=1] x1 = dets[:, 0]
+          cdef np.ndarray[np.float32_t, ndim=1] y1 = dets[:, 1]
+          cdef np.ndarray[np.float32_t, ndim=1] x2 = dets[:, 2]
+          cdef np.ndarray[np.float32_t, ndim=1] y2 = dets[:, 3]
+          cdef np.ndarray[np.float32_t, ndim=1] scores = dets[:, 4]
+      
+          cdef np.ndarray[np.float32_t, ndim=1] areas = (x2 - x1 + 1) * (y2 - y1 + 1)
+          cdef np.ndarray[np.int64_t, ndim=1] order = scores.argsort()[::-1]
+      
+          cdef int ndets = dets.shape[0]
+          cdef np.ndarray[np.int64_t, ndim=1] suppressed = \
+                  np.zeros((ndets), dtype=np.int64)
+  re-execute build_cpu_nms.bat
+
 ```
 
 
-```
 
-# linux code to windows bat
+
+- 1. Change several xxx.sh to xxx.bat
+
+- 2. linux code to windows bat
 - cl.exe to compile c/c++ files instead of gcc xxx
 ```
 rem cl.exe compile options -- https://max.book118.com/html/2017/0610/113214867.shtm
@@ -155,9 +239,9 @@ cl.exe render.c /O2 /LD /MD /I %header1% /I %header2% /I %header3% /I %header4% 
 
 cd ../..
 ```
+  - Press Ctrl-Q in notepad++ to add/remove rem for each line
 
-- Press Ctrl-Q in notepad++ to add/remove rem for each line
-  
+- 3. 
 
 
 
