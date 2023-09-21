@@ -156,6 +156,9 @@ cl.exe render.c /O2 /LD /MD /I %header1% /I %header2% /I %header3% /I %header4% 
 cd ../..
 ```
 
+- Press Ctrl-Q in notepad++ to add/remove rem for each line
+  
+
 
 
 
