@@ -227,11 +227,51 @@ prims = geo.prims()
 
 # add attribute
 a = geo.addAttrib(hou.attribType.Point, "a", (1.0, 0.0, 0.0))
-b = geo.addAttrib(hou.attribType.Prim, "b", 1)
+b = geo.addAttrib(hou.attribType.Prim, "b", (1.0, 0.0, 0.0))
 
 
-aStr = hou.readFile("D:/1.txt")
-bStr = hou.readFile("D:/2.txt")
+aStr = hou.readFile("D:/1.txt").split(" ")
+bStr = hou.readFile("D:/2.txt").split(" ")
+
+for i in range(len(points)):
+    p = points[i]
+    avalue = float(aStr[i])
+    if avalue > 0.9:
+        avalue = 1.0
+    else:
+        avalue = 0.0
+    #print("avalue %r" % avalue) 
+    p.setAttribValue(Color, (avalue, 0.0, 0.0))
+    
+b_len = len(bStr)
+
+print("b_len %r prim_len %r" % (b_len, len(prims)))
+
+for i in range(len(prims)):  
+    p = prims[i]
+    bvalue = bStr[i]
+    
+    #print("bvalue %r" % bvalue) 
+    c = 1.0
+    if bvalue == 5:
+        c = 1.0
+    else:
+        c = 0.0
+    
+    p.setAttribValue(b, (c, 0.0, 0.0))
 
 ```
+
+# Houdini nodes
+```
+File
+Alembic
+Unpack
+Group Create
+Python
+Visualize
+Divide
+```
+
+
 
