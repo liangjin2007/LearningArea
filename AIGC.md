@@ -214,7 +214,7 @@ windows上build_cpu_nms.bat编译不过， 参考https://github.com/cleardusk/3D
 执行 python -m scripts.opt_cam
 执行 python -m scripts.recon3D
    pip install rtree
-   pip install pyglet
+   pip install pyglet==1.2.4
    add mesh.show() to visualize trimesh object.
    发现卡死了 卡在export_hair_real上了。
    
