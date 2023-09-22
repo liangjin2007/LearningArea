@@ -217,7 +217,40 @@ windows上build_cpu_nms.bat编译不过， 参考https://github.com/cleardusk/3D
    pip install pyglet==1.2.4
    add mesh.show() to visualize trimesh object.
    发现卡死了 卡在export_hair_real上了。
-   
+    修改lib/hair_util.py中的save_strands_with_mesh把所有10000根头发先存出来会快很多。
+    改成这样
+      def save_strands_with_mesh(strands, mesh_path, outputpath, err=0.3, is_eval=False):
+          mesh = trimesh.load(mesh_path, process=False)
+          #for coarse mesh /1000.0
+          if is_eval:
+              mesh.vertices = mesh.vertices/1000.0
+          print("save_strands_with_mesh start...")
+      
+          lst_pc_all_valid = []
+          lst_num_pt = []
+          pc_all_valid = []
+          lines = []
+          sline = 0
+      
+          strands_new = strands.reshape(-1, 3)
+          print(strands_new.shape)
+      
+          lines = [[0, 0]] * strands.shape[0]*(strands.shape[1] - 1)
+          
+          seg_index = 0
+          for i in range(strands.shape[0]):
+              for j in range(strands.shape[1]-1):
+                  lines[seg_index] = [sline + j, sline + j + 1]
+                  seg_index += 1
+              sline += strands.shape[1]
+          print("\tfinish collect lines and pc_all_valid...")
+      
+          line_set = o3d.geometry.LineSet(points=o3d.utility.Vector3dVector(strands_new), lines=o3d.utility.Vector2iVector(lines))
+          o3d.io.write_line_set(outputpath, line_set)
+      
+          print("\tfinish write_line_set...")
+      
+          #o3d.visualization.draw_geometries([line_set])
 
 ```
 
