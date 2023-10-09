@@ -71,6 +71,15 @@ https://github.com/yzhq97/transmomo.pytorch
 # 如何用UE做一个自己的虚拟Avatar
 
 
+
+# 3D Reconstruction
+- nerf
+- [2022]instant-ngp
+- [2023]https://github.com/graphdeco-inria/gaussian-splatting
+
+
+
+
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
   - L-System
@@ -86,6 +95,10 @@ assigned.
 ```
 
 
+
+
+
+
 # GAN
 - https://antkillerfarm.github.io/#GAN%20&%20VAE, 这个地方还有很多有意思的博文
 - pix2pix ppt http://efrosgans.eecs.berkeley.edu/CVPR18_slides/pix2pix.pdf
@@ -94,9 +107,17 @@ assigned.
 
 
 
+
+
+
+
+
 # 人像抠图
 - MODNet: Trimap-Free Portrait Matting in Real Time
 - https://github.com/ZHKKKe/MODNet
+
+
+
 
 
 
@@ -123,10 +144,12 @@ git submodule update --init --recursive
 
 
 pip install gdown   # https://github.com/wkentaro/gdown
-
-
-
 ```
+
+
+
+
+
 # HairStep
 - 0. 由于开源代码是linux/mac上的，所以-f environment.yml通常失败，按照如下步骤来一步步步构建环境
 ```
@@ -283,7 +306,8 @@ cd ../..
 ```
   - Press Ctrl-Q in notepad++ to add/remove rem for each line
 
-- 3. 
+
+
 
 
 
