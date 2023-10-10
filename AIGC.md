@@ -81,7 +81,8 @@ https://github.com/yzhq97/transmomo.pytorch
 - [2022]instant-ngp
 - [2023]https://github.com/graphdeco-inria/gaussian-splatting
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
-
+- https://neuralradiancefields.io/velox-xr-announces-instant-ngp-to-unreal-engine-5/
+  
 
 
 
