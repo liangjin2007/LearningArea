@@ -82,7 +82,8 @@ https://github.com/yzhq97/transmomo.pytorch
 - [2023]https://github.com/graphdeco-inria/gaussian-splatting
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
 - https://neuralradiancefields.io/velox-xr-announces-instant-ngp-to-unreal-engine-5/
-  
+- https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
+- UE Sparse Volume Textures https://zhuanlan.zhihu.com/p/643961497   
 
 
 
