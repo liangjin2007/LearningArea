@@ -5,6 +5,7 @@ git config --global user.email "xxx"
 ssh-keygen -t rsa
 copy the content of .ssh/xxx.pub to add ssh key
 git clone xxx
+git submodule update --init --recursive
 cd xxx
 git checkout xxx
 git branch xxx 创建本地branch
