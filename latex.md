@@ -27,9 +27,11 @@
 - \sigma
 - \mu
 - centered on a new line
+
 $$
 f(x) = \frac{1}{\sqrt{2\pi\sigma^2}} e^{-\frac{(x - \mu)^2}{2\sigma^2}}
 $$
+
 - 行方程 $E = mc^2$
 - 积分 \int_0^1{p(x) dx}  $\int_0^1{p(x) dx}$
 
