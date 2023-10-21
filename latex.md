@@ -34,7 +34,7 @@ $$
 
 - 行方程 $E = mc^2$
 - 积分 \int_0^1{p(x) dx}  $\int_0^1{p(x) dx}$
-
+- github不识别\left \right
 
 #### bib
 - [如何设置参考文献](https://blog.csdn.net/qq_44773018/article/details/105792425)
