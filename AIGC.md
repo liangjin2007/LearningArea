@@ -90,7 +90,7 @@ https://github.com/yzhq97/transmomo.pytorch
 # Differential Rendering 《Differentiable Rendering: A Survey》
 - 绘制函数 Rendering Function $I = (I_c, I_d) = R(\Phi_s, \Phi_m, \Phi_l, \Phi_c)$
   - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
-  - 输出$I = \left\{I_c, I_d\right\}$ 
+  - 输出$`I = \left\{I_c, I_d\right\}`$  分别代表RGB image or depth image
 - Try to learn $\Phi_s, \Phi_m, \Phi_l, \Phi_c$ ， 分别代表形状参数，材质参数， 光照参数， 相机参数
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
