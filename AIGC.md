@@ -93,16 +93,51 @@ https://github.com/yzhq97/transmomo.pytorch
   - 输出$`I = \left\{I_c, I_d\right\}`$  分别代表RGB image or depth image
 - Try to learn $\Phi_s, \Phi_m, \Phi_l, \Phi_c$ ， 分别代表形状参数，材质参数， 光照参数， 相机参数
 - 为了能学习，需要知道$\frac{\partial I}{\partial \Phi}$ 怎么（近似）算，并尽量好。
-- Mesh
+- **Mesh**
   - 包括两步 对每个pixel（1） 分配一个最近的三角形给它 （2）根据三角形顶点颜色计算pixel 颜色。
     - 第一步涉及到离散selection，不可微
     - 第二步可微 why??
       - Popular reflection models such as Phong [47], Lambertian [48] and Spherical Harmonics [49] are all differentiable. 
-  - [2014]OpenDR
-    - $\frac{\partial I_c}{\partial \Phi_s}$ is approximated by differential filters e.g. Sobel filter.
-  - [2018]Neural 3D mesh renderer(NMR)
-    - non-local approximated gradients with 也利用了 $\frac{\partial loss}{\partial \Phi_s}$
-  - [2018]rasterization derivatives using the barycentric coordinates of each triangle with respect to each pixel
+  - 近似梯度 approximated gradients $\frac{\partial I}{\partial \Phi}$， backward pass时需要用。
+    - [2014]OpenDR
+      - $\frac{\partial I_c}{\partial \Phi_s}$ is approximated by differential filters e.g. Sobel filter.
+    - [2018]Neural 3D mesh renderer(NMR)
+      - non-local approximated gradients with 也利用了 $\frac{\partial loss}{\partial \Phi_s}$
+    - [2018]rasterization derivatives using the barycentric coordinates of each triangle with respect to each pixel, 负值重心坐标。
+  - approximated rendering： 这是另一个思路:对物体的hard boundary近似成光滑过度，也就是近似forward pass(rasterization)。
+    - [2014]一种方法是给三维物体定义density parameter，渲染出来在物体边界上会比较模糊和光滑
+    - [2019]Soft Rasterizer
+      - 替换z-buffer-based triangle selection of rasterization with probabilistic approach
+      - aggregation function ??
+  - Global illumination
+    - try to resolve the discontinuity in the rendering equation 
+      - [2018]Differential Monte Carlo ray tracing by edge sampling.
+    - try to estimate the derivatives of the path integral formulation
+      - [2020] Path-Space DR
+- **Voxel**
+  - Volume, 二值或者非二值，
+  - Occupancy probablility $P_O \in [p_min, p_max]$ 表示a ray's absorption(transparency) at a certain point.
+  - Material information
+  - ray marching
+  - Shapes
+    - Distance function DF
+    - SDF
+    - TSDF
+  - **绘制过程也分两步**
+    - 1. Collecting the voxels that are located along a ray
+      - [2019][2020]world space
+      - [2019]project the the screen space and perform bilinear sampling similar to [2015]Spatial Transformer Networks
+      - [2019]warp field, inverse warp
+    - 2. Aggregating voxels along a ray
+      - [2016] occupancy probability to each pixel
+      - EA, VH, and AO models.
+- **Point Cloud**
+- **Implicit Representations**
+  
+
+- **Find some source code to read** https://github.com/thalesfm/differentiable-renderer
+ 
+
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
   - L-System
