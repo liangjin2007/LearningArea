@@ -1,4 +1,4 @@
-# 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
+![image](https://github.com/liangjin2007/LearningArea/assets/4059558/278e2fa2-b269-499d-b376-4d7b7078c659)# 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
 - RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
 
@@ -77,7 +77,9 @@ https://github.com/yzhq97/transmomo.pytorch
 
 
 # 3D Reconstruction
-- nerf
+- nerf [2020] https://www.matthewtancik.com/nerf
+- nerf ppt https://www.slideshare.net/taeseonryu/nerf-representing-scenes-as-neural-radiance-fields-for-view-synthesis-251398636
+  - related to Differential Rendering  
 - [2022]instant-ngp
 - [2023]https://github.com/graphdeco-inria/gaussian-splatting
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
@@ -85,8 +87,11 @@ https://github.com/yzhq97/transmomo.pytorch
 - https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
 - UE Sparse Volume Textures https://zhuanlan.zhihu.com/p/643961497   
 
-
-
+# Differential Rendering 《Differentiable Rendering: A Survey》
+- 绘制函数 Rendering Function $I = (I_c, I_d) = R(\Phi_s, \Phi_m, \Phi_l, \Phi_c)$
+  - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
+  - 输出$I = \left\{I_c, I_d\right\}$ 
+- Try to learn $\Phi_s, \Phi_m, \Phi_l, \Phi_c$ ， 分别代表形状参数，材质参数， 光照参数， 相机参数
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
   - L-System
