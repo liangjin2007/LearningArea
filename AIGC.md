@@ -1,4 +1,4 @@
-![image](https://github.com/liangjin2007/LearningArea/assets/4059558/278e2fa2-b269-499d-b376-4d7b7078c659)# 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
+- 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
 - RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
 
