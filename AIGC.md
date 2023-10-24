@@ -92,6 +92,17 @@ https://github.com/yzhq97/transmomo.pytorch
   - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
   - 输出$`I = \left\{I_c, I_d\right\}`$  分别代表RGB image or depth image
 - Try to learn $\Phi_s, \Phi_m, \Phi_l, \Phi_c$ ， 分别代表形状参数，材质参数， 光照参数， 相机参数
+- 为了能学习，需要知道$\frac{\partial I}{\partial \Phi}$ 怎么（近似）算，并尽量好。
+- Mesh
+  - 包括两步 对每个pixel（1） 分配一个最近的三角形给它 （2）根据三角形顶点颜色计算pixel 颜色。
+    - 第一步涉及到离散selection，不可微
+    - 第二步可微 why??
+      - Popular reflection models such as Phong [47], Lambertian [48] and Spherical Harmonics [49] are all differentiable. 
+  - [2014]OpenDR
+    - $\frac{\partial I_c}{\partial \Phi_s}$ is approximated by differential filters e.g. Sobel filter.
+  - [2018]Neural 3D mesh renderer(NMR)
+    - non-local approximated gradients with 也利用了 $\frac{\partial loss}{\partial \Phi_s}$
+  - [2018]rasterization derivatives using the barycentric coordinates of each triangle with respect to each pixel
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
   - L-System
