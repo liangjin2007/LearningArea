@@ -141,12 +141,6 @@ https://github.com/yzhq97/transmomo.pytorch
 - **2.5.Neural Rendering**
 - **4. Application**
   - Object Reconstruction
-  ```
-First, collecting multi-view, real-world images of an object
-is often impossible or too costly. Second, creating accurate
-annotations for some scene parameters, such as camera and
-light, is difficult for humans
-  ```
     - 标注数据不好弄
     - shape network
     - camera network ?
@@ -157,7 +151,10 @@ light, is difficult for humans
   - 3D Adversarial Examples
   - Other Application
 - **5.Libraries**
-  - 
+  - PyTorch3D
+  - Mitsuba 2
+  - Kaolin
+  - TensorFlow Graphics
 - **Find some source code to read** https://github.com/thalesfm/differentiable-renderer
  
 
