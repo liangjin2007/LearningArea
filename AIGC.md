@@ -87,13 +87,13 @@ https://github.com/yzhq97/transmomo.pytorch
 - https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
 - UE Sparse Volume Textures https://zhuanlan.zhihu.com/p/643961497   
 
-# Differential Rendering 《Differentiable Rendering: A Survey》
+# [2020]Differential Rendering 《Differentiable Rendering: A Survey》从图像观察3D场景参数
 - 绘制函数 Rendering Function $I = (I_c, I_d) = R(\Phi_s, \Phi_m, \Phi_l, \Phi_c)$
   - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
   - 输出$`I = \left\{I_c, I_d\right\}`$  分别代表RGB image or depth image
 - Try to learn $\Phi_s, \Phi_m, \Phi_l, \Phi_c$ ， 分别代表形状参数，材质参数， 光照参数， 相机参数
 - 为了能学习，需要知道$\frac{\partial I}{\partial \Phi}$ 怎么（近似）算，并尽量好。
-- **Mesh**
+- **2.1.Mesh**
   - 包括两步 对每个pixel（1） 分配一个最近的三角形给它 （2）根据三角形顶点颜色计算pixel 颜色。
     - 第一步涉及到离散selection，不可微
     - 第二步可微 why??
@@ -114,7 +114,7 @@ https://github.com/yzhq97/transmomo.pytorch
       - [2018]Differential Monte Carlo ray tracing by edge sampling.
     - try to estimate the derivatives of the path integral formulation
       - [2020] Path-Space DR
-- **Voxel**
+- **2.2.Voxel**
   - Volume, 二值或者非二值，
   - Occupancy probablility $P_O \in [p_min, p_max]$ 表示a ray's absorption(transparency) at a certain point.
   - Material information
@@ -131,10 +131,33 @@ https://github.com/yzhq97/transmomo.pytorch
     - 2. Aggregating voxels along a ray
       - [2016] occupancy probability to each pixel
       - EA, VH, and AO models.
-- **Point Cloud**
-- **Implicit Representations**
-  
-
+- **2.3.Point Cloud**
+- **2.4.Implicit Representations**
+  - neural implicit representation F(P)
+  - occupancy
+  - transparency
+  - probability of occupancy
+  - [2019]learning to infer implicit surfaces without 3d supervision.
+- **2.5.Neural Rendering**
+- **4. Application**
+  - Object Reconstruction
+  ```
+First, collecting multi-view, real-world images of an object
+is often impossible or too costly. Second, creating accurate
+annotations for some scene parameters, such as camera and
+light, is difficult for humans
+  ```
+    - 标注数据不好弄
+    - shape network
+    - camera network ?
+  - Human reconstruction
+    - Body Shape and Pose Reconstruction
+    - Hand Shape and Pose Reconstruction
+    - Face Reconstruction
+  - 3D Adversarial Examples
+  - Other Application
+- **5.Libraries**
+  - 
 - **Find some source code to read** https://github.com/thalesfm/differentiable-renderer
  
 
