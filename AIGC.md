@@ -79,7 +79,10 @@ https://github.com/yzhq97/transmomo.pytorch
 # 3D Reconstruction
 - nerf [2020] https://www.matthewtancik.com/nerf
 - nerf ppt https://www.slideshare.net/taeseonryu/nerf-representing-scenes-as-neural-radiance-fields-for-view-synthesis-251398636
-  - related to Differential Rendering  
+  - MLP networks 表示5D neural radiance field $(x, y, z, \theta, \phi) \to (r, g, b, \sigma)$
+  - related to Volume based Differential Rendering
+ 
+  -  
 - [2022]instant-ngp
 - [2023]https://github.com/graphdeco-inria/gaussian-splatting
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
