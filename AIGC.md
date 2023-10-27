@@ -77,10 +77,12 @@ https://github.com/yzhq97/transmomo.pytorch
 
 
 # 3D Reconstruction
+- LLFF [2019] https://github.com/fyusion/llff
 - nerf [2020] https://www.matthewtancik.com/nerf
 - nerf ppt https://www.slideshare.net/taeseonryu/nerf-representing-scenes-as-neural-radiance-fields-for-view-synthesis-251398636
   - MLP networks 表示5D neural radiance field $(x, y, z, \theta, \phi) \to (r, g, b, \sigma)$
-  - related to Volume based Differential Rendering
+  - related to Volume based Differential Rendering, hierarchical sampling
+  - A positional encoding, map 5D coordinates to higher dimensional space
  
   -  
 - [2022]instant-ngp
