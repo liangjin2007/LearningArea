@@ -33,6 +33,13 @@ https://github.com/yzhq97/transmomo.pytorch
 - https://github.com/liangjin2007/ultralytics
 - 需要独立再创建一个environment
 
+# stable-diffusion-webui 107k Star https://github.com/AUTOMATIC1111/stable-diffusion-webui
+
+
+
+
+
+
 
 
 
