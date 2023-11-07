@@ -90,10 +90,10 @@ https://github.com/yzhq97/transmomo.pytorch
   - MLP networks 表示5D neural radiance field $(x, y, z, \theta, \phi) \to (r, g, b, \sigma)$
   - related to Volume based Differential Rendering, hierarchical sampling
   - A positional encoding, map 5D coordinates to higher dimensional space
- 
-  -  
-- [2022]instant-ngp
+- [2022]instant-ngp 能輸出density field, 但精度比较低
+- [2023]PlenVDB: VDB + Nerf，更快的训练 + 更快的渲染 https://plenvdb.github.io/
 - [2023]https://github.com/graphdeco-inria/gaussian-splatting
+- 
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
 - https://neuralradiancefields.io/velox-xr-announces-instant-ngp-to-unreal-engine-5/
 - https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
