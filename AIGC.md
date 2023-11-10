@@ -2,7 +2,6 @@
 - RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
 
-
 # topic
 
 立绘 LoRA https://civitai.com/models/13090
