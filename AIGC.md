@@ -92,7 +92,9 @@ https://github.com/yzhq97/transmomo.pytorch
   - A positional encoding, map 5D coordinates to higher dimensional space
 - [2022]instant-ngp 能輸出density field, 但精度比较低
 - [2023]PlenVDB: VDB + Nerf，更快的训练 + 更快的渲染 https://plenvdb.github.io/
-- [2023]https://github.com/graphdeco-inria/gaussian-splatting
+- [2023]Wonder3D https://arxiv.org/pdf/2310.15008.pdf
+- [2023]Gaussian Splatting https://github.com/graphdeco-inria/gaussian-splatting
+- [2023]Sparse3D: Distilling Multiview-Consistent Diffusion for Object Reconstruction from Sparse Views https://arxiv.org/pdf/2308.14078.pdf
 - 
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
 - https://neuralradiancefields.io/velox-xr-announces-instant-ngp-to-unreal-engine-5/
@@ -169,6 +171,15 @@ https://github.com/yzhq97/transmomo.pytorch
   - TensorFlow Graphics
 - **Find some source code to read** https://github.com/thalesfm/differentiable-renderer
  
+
+# [2023]Wonder3D
+- Score Distillation Sampling SDS method
+  - 2D diffusion prior: means the diffusion implicit feature representation? instead of CNN representation
+  - reconstruction 3d from 2D diffusion prior
+  - cross-domain diffusion model to predict normal map and the corresponding color images
+
+# [2023]Sparse3D
+
 
 # Expanding Wave Function Collapse with Growing Grids for Procedural Content Generation
 - PCG
