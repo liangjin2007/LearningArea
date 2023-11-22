@@ -100,6 +100,16 @@ https://github.com/yzhq97/transmomo.pytorch
 - https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
 - UE Sparse Volume Textures https://zhuanlan.zhihu.com/p/643961497   
 
+# Learn high-frequency signal
+- Coordinate-MLPs
+  - encode continuous signals $ f : R^n \to R^m$  as their weights
+    - 比如： 输入是低维坐标(x, y) positions, 输出是采样的信号值at each coordinates e.g. pixel intensities.
+  - 跟普通MLPs的区别是它可以encode 高频信号 ——减轻spectral bias of the MLPs
+  - 有三种coordinate-MLPs
+    - Random Fourier Feature MLPs
+      - positional embedding layer 
+
+
 # [2020]Differential Rendering 《Differentiable Rendering: A Survey》从图像观察3D场景参数
 - 绘制函数 Rendering Function $I = (I_c, I_d) = R(\Phi_s, \Phi_m, \Phi_l, \Phi_c)$
   - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
@@ -168,8 +178,34 @@ https://github.com/yzhq97/transmomo.pytorch
   - Mitsuba 2
   - Kaolin
   - TensorFlow Graphics
-- **Find some source code to read** https://github.com/thalesfm/differentiable-renderer
- 
+- **Find some source code to read**
+  - https://github.com/thalesfm/differentiable-renderer 
+  
+  - scene
+  ```
+  template<typename T>
+  class Shape {
+  ...
+  virtual bool intersect(Vector<T, 3> orig, Vector<T, 3> dir, double& t) const = 0;
+  virtual Vector<T, 3> normal(Vector<T, 3> point) const = 0;
+  };
+  
+  
+  template<typename T>
+  using Scene = std::vector<Shape<T>*>;
+  ```
+  
+  - camera
+  ```
+  template<typename T>
+  class Camera {
+    Camera(width, height, vfov, eye_position = (0, 0, 0), forward = (0, 0, -1), right = (1, 0, 0), up = (0, 1, 0));
+    void look_at(eye, at, up = (0, 1, 0));  // Setup m_eye, m_forward, m_right, m_up
+    double aspect() const{return double(m_width)/m_height; }
+  
+    // ray tracing related sample ray
+    std::tuple<Vector<T, 3>, double> sample(x, y) const;
+  ```
 
 # [2023]Wonder3D
 - Score Distillation Sampling SDS method
