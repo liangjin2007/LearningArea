@@ -200,11 +200,27 @@ https://github.com/yzhq97/transmomo.pytorch
   template<typename T>
   class Camera {
     Camera(width, height, vfov, eye_position = (0, 0, 0), forward = (0, 0, -1), right = (1, 0, 0), up = (0, 1, 0));
+
     void look_at(eye, at, up = (0, 1, 0));  // Setup m_eye, m_forward, m_right, m_up
+
+    int width() const;
+    int height() const;
+    Vector<T, 3> eye() const;
+    
     double aspect() const{return double(m_width)/m_height; }
   
     // ray tracing related sample ray
-    std::tuple<Vector<T, 3>, double> sample(x, y) const;
+    std::tuple<Vector<T, 3>, double> sample(x, y) const{
+      // 1. y is from top to down, that's why * -m_up
+      // 2. fov is in the field of view angle in the y direction, that's why m_right need multiply aspect() which is width/height
+      double s = (x + random::uniform()) / m_width; // [0.0, 1.0]
+      double t = (y + random::uniform()) / m_height; // [0.0, 1.0]
+      Vector<T, 3> dir = m_forward;
+      dir += (2*s - 1) * aspect() * tan(vfov/2) * m_right;
+      dir += (2*t - 1) * tan(vfov/2) * -m_up;
+      dir = normalize(dir);
+      return std::make_tuple(dir, 1);
+    }
   ```
 
 # [2023]Wonder3D
