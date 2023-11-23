@@ -181,7 +181,7 @@ https://github.com/yzhq97/transmomo.pytorch
 - **Find some source code to read**
   - https://github.com/thalesfm/differentiable-renderer 
 
-  - ** Vector Autograd如何实现 ** 暂时没看明白
+  - **Vector Autograd如何实现** 暂时没看明白
   ```
   template<typename T, std::size_t N, bool Autograd = false> class Vector;
 
@@ -198,6 +198,7 @@ https://github.com/yzhq97/transmomo.pytorch
   };
   ```
   
+
   - Emitter
   ```
   template<typename T> class Emitter{
@@ -212,9 +213,11 @@ https://github.com/yzhq97/transmomo.pytorch
   }；
   ```
   
+
   - BxDF
   ```
   class BxDF{
+
     virtual Vector<T, 3, true> operator()(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in, const Vector<T, 3>& dir_out) const = 0;
 
     virtual std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const = 0; // return the output direction + pdf value.
@@ -240,9 +243,10 @@ https://github.com/yzhq97/transmomo.pytorch
     return x * frame[0] + y * frame[1] + z * frame[2];
   }
   
-  class DiffuseBxDF : public BxDF<T>{
-  ...
 
+
+  class DiffuseBxDF : public BxDF<T>
+  {
   Vector<T, 3, true> operator()(normal, dir_in, dir_out) override{ return m_color/pi; }
   
   std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const{
@@ -259,6 +263,8 @@ https://github.com/yzhq97/transmomo.pytorch
   Vector<T, 3, true> m_color;
   };
 
+
+  
 
   
   ```
