@@ -180,14 +180,44 @@ https://github.com/yzhq97/transmomo.pytorch
   - TensorFlow Graphics
 - **Find some source code to read**
   - https://github.com/thalesfm/differentiable-renderer 
+
+  - Emitter
+  ```
+  template<typename T> class Emitter{
+    virtual Vector<T, 3, true> emission() const = 0; // 返回的是啥
+  };
+
+  template<typename T>
+  class AreaEmitter : public Emitter<T>{
+    AreaEmitter(Vector<T, 3, true> emission);
+
+    Vector<T, 3, true> emission() const override{ return m_emission; } // 一个常向量， 代表啥呢？
+  }；
+  ```
   
+  - BxDF
+  ```
+
+  ```
+  
+  - Light
+  ```
+  用Shape表示， 点光源， Sphere<T> light(center, radius, nullptr/*no BxDF*/, emitter);
+  ```
+
   - scene
   ```
+  
   template<typename T>
   class Shape {
-  ...
+  Shape(BxDF<T>* bxdf = nullptr, Emitter<T> emitter = nullptr);
+  
   virtual bool intersect(Vector<T, 3> orig, Vector<T, 3> dir, double& t) const = 0;
+
   virtual Vector<T, 3> normal(Vector<T, 3> point) const = 0;
+
+  BxDF<T>* bxdf();
+  Emitter<T> emitter();
   };
   
   
@@ -221,6 +251,16 @@ https://github.com/yzhq97/transmomo.pytorch
       dir = normalize(dir);
       return std::make_tuple(dir, 1);
     }
+  };
+  ```
+
+  - write exr file
+  ```
+  #include <ImfRgba.h>
+  #include <ImfRgbaFile.h>
+  Imf::RgbaOutputFile file(filename, width, height, Imf::WRITE_RGBA);
+  file.setFrameBuffer(pixels.dasta(), 1, width);
+  file.writePixels(height);
   ```
 
 # [2023]Wonder3D
