@@ -181,6 +181,23 @@ https://github.com/yzhq97/transmomo.pytorch
 - **Find some source code to read**
   - https://github.com/thalesfm/differentiable-renderer 
 
+  - ** Vector Autograd如何实现 ** 暂时没看明白
+  ```
+  template<typename T, std::size_t N, bool Autograd = false> class Vector;
+
+  template<typename T, std::size_t N>
+  class Vector<T, N> {
+  ...
+  std::array<T, N> m_data; 
+  };
+
+  template<typename T, std::size_t N>
+  class Vector<T, N, true>{
+  ...
+  std::shared_ptr<internal::AutogradNode<T, N>> m_ptr;
+  };
+  ```
+  
   - Emitter
   ```
   template<typename T> class Emitter{
@@ -197,7 +214,39 @@ https://github.com/yzhq97/transmomo.pytorch
   
   - BxDF
   ```
+  class BxDF{
+    virtual Vector<T, 3, true> operator()(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in, const Vector<T, 3>& dir_out) const = 0;
 
+    virtual std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const = 0;
+  };
+
+  std::array<Vector<T, 3>, 3> make_frame(const Vector<T, 3>& normal)
+  {
+    e1 = {1, 0, 0};
+    e2 = {0, 1, 0};
+
+    tangent = ...;
+    bitangent = ...;
+
+    return {tangent, bitangent, normal};
+  }
+
+  Vector<T, 3> angle_to_dir(theta, phi, const std::array<Vector<T, 3>, 3>& frame)
+  {
+    x = cos(phi) * sin(theta);  // it seems phi's range is [0, 360]
+    y = sin(phi) * sin(theta);
+    z = cos(theta);             // it seems the's range is [0, 180] 维度方向从北极到南极？
+
+    return x * frame[0] + y * frame[1] + z * frame[2];
+  }
+  
+  class DiffuseBxDF : public BxDF<T>{
+  ...
+  std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const{
+    double theta
+  }
+  };
+  
   ```
   
   - Light
