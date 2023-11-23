@@ -217,7 +217,7 @@ https://github.com/yzhq97/transmomo.pytorch
   class BxDF{
     virtual Vector<T, 3, true> operator()(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in, const Vector<T, 3>& dir_out) const = 0;
 
-    virtual std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const = 0;
+    virtual std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const = 0; // return the output direction + pdf value.
   };
 
   std::array<Vector<T, 3>, 3> make_frame(const Vector<T, 3>& normal)
@@ -242,10 +242,24 @@ https://github.com/yzhq97/transmomo.pytorch
   
   class DiffuseBxDF : public BxDF<T>{
   ...
+
+  Vector<T, 3, true> operator()(normal, dir_in, dir_out) override{ return m_color/pi; }
+  
   std::tuple<Vector<T, 3>, double> sample(const Vector<T, 3>& normal, const Vector<T, 3>& dir_in) const{
-    double theta
+    // diffuse model's out_dir is not related to dir_in.
+
+    // out_dir is randomly sampled
+    theta = asin(random::uniform());
+    phi = 2 * pi * random::uniform();
+    frame = make_frame(normal);
+    dir = angle_to_dir(theta, phi, frame);
+    pdf = cos(theta)/pi;                         // why this is cos(theta)/pi
+    reutrn std::make_tuple(dir, pdf);
   }
+  Vector<T, 3, true> m_color;
   };
+
+
   
   ```
   
