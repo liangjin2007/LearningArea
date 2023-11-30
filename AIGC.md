@@ -79,7 +79,7 @@ https://github.com/yzhq97/transmomo.pytorch
 
 
 
-
+# VAE
 
 
 # 3D Reconstruction
@@ -100,7 +100,23 @@ https://github.com/yzhq97/transmomo.pytorch
 - https://neuralradiancefields.io/nerfs-in-unreal-engine-5-alpha-announced-by-luma-ai/ 注意 luma-ai的官网暂时访问不了
 - UE Sparse Volume Textures https://zhuanlan.zhihu.com/p/643961497   
 
+- [x, y, z, theta, phi] -> radiance + density.
+
+- [x, y, z] -> SDF
+
+- 点云重建
+- [2022]https://research.nvidia.com/labs/toronto-ai/LION/
+
+
+
+
+
 # Learn high-frequency signal
+
+
+
+
+
 - Coordinate-MLPs
   - encode continuous signals $ f : R^n \to R^m$  as their weights
     - 比如： 输入是低维坐标(x, y) positions, 输出是采样的信号值at each coordinates e.g. pixel intensities.
