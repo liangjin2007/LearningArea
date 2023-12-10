@@ -28,6 +28,9 @@ https://github.com/liangjin2007/EverybodyDanceNow
 
 https://github.com/yzhq97/transmomo.pytorch
 
+https://stability.ai/research/adversarial-diffusion-distillation
+
+
 # yolov8 
 - https://github.com/liangjin2007/ultralytics
 - 需要独立再创建一个environment
