@@ -61,6 +61,80 @@ Finally, the rendered pixels are displayed on the screen when the framebuffer is
 It's important to note that glDrawPixels is considered a legacy function in modern OpenGL and is not commonly used in modern applications. Instead, it's more common to use textured geometry or framebuffer objects with attached textures or renderbuffers for efficient rendering in OpenGL.
 ```
 
+```
+copy GL_PIXEL_PACK_BUFFER to depth target?
+
+
+To copy the contents of a GL_PIXEL_PACK_BUFFER to a depth target, you can use the following steps:
+
+Bind the pixel pack buffer using glBindBuffer(GL_PIXEL_PACK_BUFFER, pbo), where pbo is the ID of your pixel pack buffer.
+
+Bind the depth target, such as a depth renderbuffer or depth texture, as the read framebuffer attachment using glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer) and then attaching the depth target using glFramebufferRenderbuffer or glFramebufferTexture2D.
+
+Call glReadPixels to read the depth data from the pixel pack buffer into the depth target. Set the parameters such as the starting pixel coordinates, width, height, format, and type to match the desired depth target. For example:
+
+
+glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+Unbind the pixel pack buffer using glBindBuffer(GL_PIXEL_PACK_BUFFER, 0).
+Here's an example of how the code might look:
+
+
+// Assume pbo is the ID of your pixel pack buffer and depthRenderbuffer is the ID of your depth renderbuffer
+
+// Bind the pixel pack buffer
+glBindBuffer(GL_PIXEL_PACK_BUFFER, pbo);
+
+// Bind the framebuffer with the depth renderbuffer as the read framebuffer attachment
+glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+glFramebufferRenderbuffer(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+
+// Read the depth data from the pixel pack buffer into the depth renderbuffer
+glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
+// Unbind the pixel pack buffer
+glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+Make sure to replace width, height, framebuffer, depthRenderbuffer, and pbo with the appropriate values specific to your application.
+
+It's important to note that this method can be inefficient in certain scenarios, as reading from the GPU-bound pixel pack buffer can introduce a synchronization point. In general, it is recommended to use framebuffer objects and textures instead for efficient rendering and copying of depth data in modern OpenGL applications.
+
+
+copy depth target to GL_PIXEL_PACK_BUFFER object?
+
+
+To copy the contents of a depth target, such as a depth renderbuffer or depth texture, to a GL_PIXEL_PACK_BUFFER object, you can use the following steps:
+
+Bind the depth target, such as a depth renderbuffer or depth texture, as the read framebuffer attachment using glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer) and then attaching the depth target using glFramebufferRenderbuffer or glFramebufferTexture2D.
+
+Bind the pixel pack buffer using glBindBuffer(GL_PIXEL_PACK_BUFFER, pbo), where pbo is the ID of your pixel pack buffer.
+
+Call glReadPixels to read the depth data from the depth target into the pixel pack buffer. Set the parameters such as the starting pixel coordinates, width, height, format, and type to match the desired depth target. For example:
+
+
+glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+Unbind the pixel pack buffer using glBindBuffer(GL_PIXEL_PACK_BUFFER, 0).
+Here's an example of how the code might look:
+
+
+// Assume pbo is the ID of your pixel pack buffer and depthRenderbuffer is the ID of your depth renderbuffer
+
+// Bind the framebuffer with the depth renderbuffer as the read framebuffer attachment
+glBindFramebuffer(GL_READ_FRAMEBUFFER, framebuffer);
+glFramebufferRenderbuffer(GL_READ_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderbuffer);
+
+// Bind the pixel pack buffer
+glBindBuffer(GL_PIXEL_PACK_BUFFER, pbo);
+
+// Read the depth data from the depth renderbuffer into the pixel pack buffer
+glReadPixels(0, 0, width, height, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+
+// Unbind the pixel pack buffer
+glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
+Make sure to replace width, height, framebuffer, depthRenderbuffer, and pbo with the appropriate values specific to your application.
+
+Please note that the depth values obtained from glReadPixels will be in the range [0, 1] for normalized depth formats. If you require the depth values in a different range or format, you may need to process the data after reading it into the pixel pack buffer.
+
+Also, keep in mind that reading depth data using glReadPixels can be slow due to the potential need to synchronize with the GPU. If possible, consider using framebuffer objects and textures instead for efficient rendering and copying of depth data in modern OpenGL applications.
+```
 
 ## 各种各样的拷贝
 
