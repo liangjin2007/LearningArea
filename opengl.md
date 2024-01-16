@@ -38,7 +38,28 @@ By following these steps, you can achieve efficient data sharing between OpenGL 
 Keep in mind that proper synchronization and resource management must be implemented to ensure correct data access and avoid conflicts between OpenGL and CUDA operations.
 ```
 
+```
+what's the source of glDrawPixels?
 
+
+The source of glDrawPixels is typically the CPU memory (system RAM) rather than a specific OpenGL object like a texture or buffer.
+
+glDrawPixels is used to directly draw pixel data stored in the CPU memory onto the currently bound framebuffer. It allows you to specify the pixel format, data type, width, height, and other parameters to describe the pixel data you want to draw. The pixel data is passed as a pointer to the start of the pixel data in CPU memory.
+
+Here's a general overview of how glDrawPixels works:
+
+Bind the desired framebuffer object using glBindFramebuffer(GL_FRAMEBUFFER, framebuffer).
+
+Set the desired pixel unpacking parameters using glPixelStorei to specify the desired alignment, row length, skip pixels, and skip rows.
+
+Call glDrawPixels with the appropriate parameters to specify the pixel format, data type, width, height, and pointer to the pixel data.
+
+OpenGL reads the pixel data from the CPU memory and rasterizes it onto the currently bound framebuffer. The rasterization process converts the pixel data into fragments that are processed by subsequent stages of the rendering pipeline, such as fragment shading and blending.
+
+Finally, the rendered pixels are displayed on the screen when the framebuffer is presented (e.g., by calling glfwSwapBuffers in a GLFW-based application).
+
+It's important to note that glDrawPixels is considered a legacy function in modern OpenGL and is not commonly used in modern applications. Instead, it's more common to use textured geometry or framebuffer objects with attached textures or renderbuffers for efficient rendering in OpenGL.
+```
 
 
 ## 各种各样的拷贝
