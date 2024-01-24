@@ -13,13 +13,20 @@ glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
 - what's the source of glDrawPixels?
 - In vertex shader, will (MVP * vert_position).z be in canonical space[0, 1] or [-1, 1] ? No.
 ## Multiple Passes OpenGL Rendering
-Use GL_BLEND
-```
-
-
-```
-
-
+- 同一pixel有许多fragment, 硬件有fragment count limit，所以复杂场景会有假象
+- **虽然在渲染pass 0时使用了自己新建的fbo（fbo上绑了）进行绑定, 渲染时仍然会更新默认fbo 0的depth buffer（是否会更新color buffer？ 也会）。**
+- fragment shader中 frag_out = xxx 其实对应的是每个被当前像素射线射到的所有三角形内对应点的fragment，**其实同一像素会被调用多次**。
+- fragment shader后面还有per-fragment operations ： 各种Test只是过滤fragments.
+  - Early Depth Test: 比较fragment的深度值与depth buffer的深度值。注意这个不是Depth Test
+  - Stencil Test: Stencil Buffer启用时比较fragment的stencil值与stencil buffer的stencil值
+  - Depth Test:
+  - Alpha Test
+  - Blending Test
+  - Dithering
+  - Output Merger
+  ```
+  If blending is enabled, this stage performs the blending operation. It takes the fragment color and combines it with the color already present in the color buffer, using the specified blending factors and blending equation.
+  ```
 ## APIs
 
 - glDepthMask(GL_FALSE): is an OpenGL function call that is used to disable writing to the depth buffer.
