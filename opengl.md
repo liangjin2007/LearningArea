@@ -32,8 +32,17 @@ glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
   ```
   If blending is enabled, this stage performs the blending operation. It takes the fragment color and combines it with the color already present in the color buffer, using the specified blending factors and blending equation.
   ```
-  - 得到深度 -(MVP * p).z
-  - frag_out
+- 得到深度 -(MVP * p).z
+- frag_out
+- 用glBlend功能 + render color buffer来获取depth range.
+```
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    glBlendEquation(GL_MIN); 
+    glClearColor(1e30f, 1e30f, 1e30f, 1.f);
+    glClear(GL_COLOR_BUFFER_BIT);
+```
+
 ## APIs
 
 - glDepthMask(GL_FALSE): is an OpenGL function call that is used to disable writing to the depth buffer.
@@ -41,8 +50,12 @@ glBindBuffer(GL_PIXEL_PACK_BUFFER, 0);
 - glBlendEquation(GL_MIN): default equation is GL_FUNC_ADD. GL_MIN, means min(source color, destination color)
 - glDepthFunc(GL_LEQUAL);
 - glDepthRange(0.0, 1.0);
--
-
+- glEnable(GL_COLOR_LOGIC_OP); : A logic operation is a bitwise operation that combines the pixel values in the framebuffer with the pixel values of the incoming fragments. It allows for various operations such as AND, OR, XOR, etc. to be performed on the pixel values.
+- glLogicOp(GL_OR);
+- glClearColor(1e30f, 1e30f, 1e30f, 1e30f);
+- glClearDepth(1.0);
+- glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+- glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_TRUE); // The function takes four boolean parameters that specify whether each channel is enabled or disabled for writing.   
 ## Opengl glsl Shader
 - Opengl 450 core vertex shader
 ```
