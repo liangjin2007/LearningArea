@@ -95,15 +95,4 @@ void main()
 - particle systems
 - simulating a light source.
 - depth peeling
-```
-The depth peeling process typically involves the following steps:
-
-Render the scene normally, storing the depth and color values for each fragment.
-
-Repeat the following steps for a specified number of peels:
-a. Set up a depth range for the current peel, which excludes the depth range of the previously rendered peels.
-b. Render the scene again, considering only the geometry within the current depth range.
-c. Update the depth and color values only for the fragments that are closer to the camera than the previous peels.
-
-Composite the color values of the visible fragments from all the peels, taking into account their depths and transparency.
-```
+- hair: Kajiya BRDF
