@@ -5,7 +5,7 @@
 
 # topic
 
-LLM 
+LLM https://github.com/DSXiangLi/DecryptPrompt
 
 游戏 https://github.com/liangjin2007/ai-game-development-tools
 
