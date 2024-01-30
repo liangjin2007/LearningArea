@@ -1,10 +1,13 @@
-[toc]
-
+# 杂项
 - 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
 - RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
 
 # topic
+
+LLM 
+
+游戏 https://github.com/liangjin2007/ai-game-development-tools
 
 立绘 LoRA https://civitai.com/models/13090
 
@@ -20,7 +23,7 @@ https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix
 
 https://github.com/ultralytics/ultralytics
 
-https://github.com/XingangPan/DragGAN
+图片编辑 https://github.com/XingangPan/DragGAN
 
 https://github.com/Shimingyi/MotioNet
 
