@@ -1,4 +1,15 @@
 ## Learning Video https://www.youtube.com/watch?v=NwabG-znu9Y
+## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
+
+## Nodes
+https://www.sidefx.com/docs/houdini/nodes/index.html
+
+
+
+
+
+
+
 
 ## C++ API HDK
 https://www.sidefx.com/docs/hdk/index.html
