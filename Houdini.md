@@ -1,5 +1,37 @@
 ## Learning Video https://www.youtube.com/watch?v=NwabG-znu9Y
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
+## Hierarchical Set of Library
+```
+Utility Libraries
+  AU
+  CL
+  CVEX
+  EXPR
+  IMG/TIL
+  VEX
+  SYS/UT - Basic Utilities
+  Third Party Dependencies: Boost, Intel TBB, etc
+Operator Libraries
+  CH - Channel(animation) Library
+  PRM - Parameters
+  OP - Base classes for all Houdini nodes
+    Operator definitions
+    Node interfaces
+    Galleries - parameter presets
+    Takes - layer of parameters
+  Specialized Operator Libraries
+    OBJ - Objects, SOP - Surface Ops, CHOP - Channels Ops, etc
+    Mirror of Houdini node contexts
+Node Architecture
+  // UML 图示符号
+Node Libraries
+Geometry Libraries
+Simulation/DOPs
+Specialized Node Libraries
+Some UI
+Python Customnization
+```
+
 
 ## Nodes
 https://www.sidefx.com/docs/houdini/nodes/index.html
