@@ -19,6 +19,19 @@
 
 ```
 
+- 插件开发
+```
+1. 实际是一个dll
+2. Houdini启动的时候会加载
+3. 可以包含定制的node operators, script commands 及其他对象
+4. 插件加载顺序
+5. 定位和执行dll中的hook函数（注册HDK代码）
+6. cmd.exe, -> hscript -> dsoinfo命令用于看看加载了哪些插件。
+7. HOUDINI_DSO_PATH
+```
+
+
+## 如何开发刷子
 
 
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
@@ -57,11 +70,6 @@ Python Customnization
 
 ## Nodes
 https://www.sidefx.com/docs/houdini/nodes/index.html
-
-
-
-
-
 
 
 
