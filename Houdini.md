@@ -1,4 +1,26 @@
 ## Learning Video https://www.youtube.com/watch?v=NwabG-znu9Y
+## HDK https://www.sidefx.com/docs/hdk/index.html
+- Introduction to the HDK
+这边只关心Windows平台上的开发
+```
+1. 需要用对应于Houdini的编译器版本 vc142 Microsoft Visual C++ 2019, version 16.9.4(Windows SDK version?)
+2. 需要MSVCDir环境变量指定VC subdirectory.
+3. HDK应用例子：standalone/geoisosurface.C， 一个包含main函数的应用，生成一个后缀为.bgeo的几何文件。 
+3.1. 命令行编译：Start->All Programs->Side Effects Software -> Houdini X.Y.ZZZ ->Command Line Tools
+
+  mkdir HDK
+  cd HDK
+  copy "C:\Program Files\Side Effects Software\Houdini X.Y.ZZZ\toolkit\samples\standalone\geoisosurface.C"
+  hcustom -s geoisosurface.C // 这个会生成一个./geoisosurface.exe应用程序。
+
+3.2. 执行
+  ./geoisosurface.exe // 会生成sphere.bgeo
+  gplay sphere.bego // 用gplay应用查看这个文件。
+
+```
+
+
+
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
 ## Hierarchical Set of Library
 ```
