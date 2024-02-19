@@ -33,46 +33,59 @@
 
 ## 如何开发刷子
 
-1. 继承自SOP_BrushBase还是SOP_Node ?
-samples中有两个例子一个是继承自SOP_BrushBase，另一个是继承自SOP_Node。 ？？
 
-2. what is key delegate symbol in houdini?
+
+### 1. 看完 HDK -> Houdini Operators
+- Architectural Overview
 ```
-In Houdini, the "key delegate symbol" refers to a special syntax used in expressions or scripting to access and manipulate keyframe data of an attribute or parameter.
-
-The key delegate symbol is represented by the @ symbol followed by the name of the attribute or parameter. It allows you to reference keyframes and their values for animation purposes.
-
-Here are a few examples to illustrate the usage of the key delegate symbol:
-
-Accessing the value of a keyframe at a specific frame:
-
-@myAttributeFrame5
-This expression retrieves the value of the myAttribute attribute at frame 5.
-
-Manipulating keyframes using the key delegate symbol:
-
-
-@myAttribute += 2
-This expression adds 2 to the value of the myAttribute attribute at the current frame.
-
-Interpolating values between keyframes:
-
-
-lerp(@myAttributeFrame1, @myAttributeFrame10, fit01($F, 1, 10))
-This expression linearly interpolates between the values of the myAttribute attribute at frame 1 and frame 10 based on the current frame $F.
-
-The key delegate symbol enables you to access and manipulate keyframe data in Houdini, allowing for animation control and creating dynamic behaviors. It is commonly used in expressions, scripts, and parameter expressions throughout Houdini.
+Node Organization
+  Houdini scene : 一个节点层次组成。 每个节点有一个Path。 OP_Node, OP_Network。 /obj/geo1是一个对象， 类型是OP_Network, 包含一个SOP_Node 类型对象的集合。
+  / 即 Director。 /中的nodes有的时候称为Managers。
+  Managers: /obj, /ch, /out, /shop, /img, /vex
+OP_Director
+  OPgetDirector()->clearPickedItems();
+Class Hierarchy
 ```
 
+- Working with Nodes
+```
+Paths
+Create Nodes
+Traversing Nodes
+Flags
+Selections
+  node->pickRequest(bool clear);
+  OPgetDirector()->getPickedNodes(picked_nodes);
+Grouping Nodes in Bundles
+  OPgetDirector()->getBundles();
+Casting Nodes
+  OBJ_NODE* obj_node = CAST_OBJNODE(node);
+  sop_node = CAST_SOPNODE(obj_node->getChild("file1"));
+Cooking Nodes
+  cookMe()
+```  
 
+- Working with Parameters
+```
+Basics
+  OP_Parameters contains a PRM_ParmList, which owns an array of PRM_Parm objects. 参数有component, 每个component有一个可选的channel（CH_CHannel对象）
+  parameter evaluation functions
+  CHgetEvalTime()
+  OP_Context::getTime()
+  float tx = node->evalFloat("t", component_index, context.getTime());
+Multi-Params
+Ramp Parameters
+```
 
+- Thread Safety
+```
 
+```
 
+- Operator Contexts
+```
 
-
-
-
-
+```
 
 
 
