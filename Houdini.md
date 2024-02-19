@@ -304,7 +304,28 @@ Writing a SOP
     SOP_TimeCompare.C 可以看看怎么处理多个input。
 
   Local Variables in SOPs
-    
+    SOP_Node::evalVariableValue
+    SOP_Node::setVariableOrder
+    SOP_Node::setCurGdh
+    SOP_Node::myGdpHandle
+    SOP_Node::inputGeoHandle
+    SOP_Node::setupLocalVars
+    Cook的时候估计参数， OP_Node::evalInt。SOP_Node::myCurPtOff, SOP_Node::myCurVtxOff, SOP_Node::myCurVtxNum, and SOP_Node::myCurPrimOff.
+    SOP_Node::resetLocalVarRefs.
+
+  Adding Guide Geometry to SOPs
+    SOPs 可以有2个regular guides(GOP_Guide)
+    Cook guide: SOP_NodeFlags::setNeedGuide1 和  SOP_NodeFlags::setNeedGuide2
+    SOP_Node::cookMyGuide1 和 SOP_Node::cookMyGuide2
+    SOP_Flatten.C
+
+  Manipulating Attributes inside SOPs
+    SOP/SOP_TimeCompare.C
+    SOP/SOP_DetailAttrib.C 
+
+  Abusing SOP Cook Mechanism
+  The Many Ways to Create a SOP
+
 ```
 
 
