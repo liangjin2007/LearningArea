@@ -32,9 +32,6 @@
 
 
 ## 如何开发刷子
-
-
-
 ### 1. 看完 HDK -> Houdini Operators
 - Architectural Overview
 ```
@@ -84,9 +81,62 @@ Ramp Parameters
 
 - Operator Contexts
 ```
-
+OBJ Concepts
+SOP Concepts
+  creating and modifying Houdini geometry.
+  Cooking SOPs
+    SOP_Node::cookMySop()
+    SOP_Node::duplicateSource, etc
+  Gorups in SOPs
+    SOP_Node::parseGroups
+    SOP_Node::parsePrimitiveGorups
+    SOP_Node::parsePointGroups
+  Node Flags
+    OP_Network::getDisplayNodePtr() and OP_Network::getRenderNodePtr()
+    setBypass
+    setLock
+  Buiding Custom SOPs
+  Retrieving Cooked Data
+    void accessGeometry(SOP_Node* sop_node, fpreal cook_time)
+    {
+        // Get our parent.
+        OP_Node *parent_node = sop_node->getParent();
+        
+        // Store the cooking status of our parent node.
+        bool was_cooking = false;
+        if(parent_node)
+        {
+            was_cooking = parent_node->isCookingRender();
+            parent_node->setCookingRender(true);
+        }
+        // Create a context with the time we want the geometry at.
+        OP_Context  context(cook_time);
+        // Get a handle to the geometry.
+        GU_DetailHandle gd_handle = sop_node->getCookedGeoHandle(context);
+        // Check if we have a valid detail handle.
+        if(!gd_handle.isNull())
+        {
+            // Finally, get at the actual GU_Detail.
+            const GU_Detail* gdp = gd_handle.gdp();
+            // Do something with our geometry.
+            // ...
+        }
+        // Restore the cooking flag, if we changed it.
+        if(parent_node)
+            parent_node->setCookingRender(was_cooking);
+    }
+  Transformations
+    bool getWorldTransform(SOP_Node* sop_node, fpreal cook_time, UT_DMatrix4 &xform)
+    {
+        OP_Context  context(cook_time);
+        OBJ_Node *  creator = CAST_OBJNODE(sop_node->getCreator());
+        return creator->getLocalToWorldTransform(context, xform);
+    }
+```
+-Building Custom Operators
 ```
 
+```
 
 
 
