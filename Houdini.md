@@ -33,6 +33,50 @@
 
 ## 如何开发刷子
 
+1. 继承自SOP_BrushBase还是SOP_Node ?
+samples中有两个例子一个是继承自SOP_BrushBase，另一个是继承自SOP_Node。 ？？
+
+2. what is key delegate symbol in houdini?
+```
+In Houdini, the "key delegate symbol" refers to a special syntax used in expressions or scripting to access and manipulate keyframe data of an attribute or parameter.
+
+The key delegate symbol is represented by the @ symbol followed by the name of the attribute or parameter. It allows you to reference keyframes and their values for animation purposes.
+
+Here are a few examples to illustrate the usage of the key delegate symbol:
+
+Accessing the value of a keyframe at a specific frame:
+
+@myAttributeFrame5
+This expression retrieves the value of the myAttribute attribute at frame 5.
+
+Manipulating keyframes using the key delegate symbol:
+
+
+@myAttribute += 2
+This expression adds 2 to the value of the myAttribute attribute at the current frame.
+
+Interpolating values between keyframes:
+
+
+lerp(@myAttributeFrame1, @myAttributeFrame10, fit01($F, 1, 10))
+This expression linearly interpolates between the values of the myAttribute attribute at frame 1 and frame 10 based on the current frame $F.
+
+The key delegate symbol enables you to access and manipulate keyframe data in Houdini, allowing for animation control and creating dynamic behaviors. It is commonly used in expressions, scripts, and parameter expressions throughout Houdini.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
 ## Hierarchical Set of Library
