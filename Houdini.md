@@ -135,7 +135,176 @@ SOP Concepts
 ```
 -Building Custom Operators
 ```
+Registration
+  inputs数目
+  是否加入TAB菜单
 
+Parameters
+  Basics
+  Parameter Types
+  SWitchers
+  Multi-Parms
+  Ramps
+  Menus
+  Disabling and Hiding Parameters
+    OP_Parameters::updateParmsFlags
+  Obsolete Parameters
+    OP_Operator::setObsoleteTemplates
+
+Cooking
+  Handling Interrupts
+  #include <UT/UT_Interrupt.h>
+  {
+      // Interrupt scope closes automatically when 'progress' is destructed.
+      UT_AutoInterrupt progress("Performing My Operation");
+      // some loop ... using SOPs as an example
+      for (GA_Iterator it(gdp->getPointRange()); !it.atEnd(); ++it)
+      {
+          // test if user requested abort
+          if (progress.wasInterrupted())
+              break;
+      }
+  }
+
+Local Variables
+  // First, let us get a bunch of unique integers
+  enum {
+      VAR_PT,     // Current point
+      VAR_NPT,    // Total number of points
+      VAR_ID,     // Particle ID
+      VAR_LIFE,   // Life time
+  };
+  // Next, we define our local variable table
+  CH_LocalVariable
+  SOP_MyNode::myVariables[] = {
+      { "PT",     VAR_PT },
+      { "NPT",    VAR_NPT },
+      { "ID",     VAR_ID },
+      { "LIFE",   VAR_LIFE },
+      { 0 }       // End the table with a null entry
+  };
+  bool
+  SOP_MyNode::evalVariableValue(fpreal &val, int index, int thread)
+  {
+      GA_Offset        ppt_offset;
+      int              id;
+      UT_Vector2D      life;
+      if (!GAisValid(myCurrPoint))    // Sorry, we're in an invalid state
+          return false;
+      switch (index)
+      {
+          case VAR_PT:
+              val = fpreal(myCurrPoint);
+              return true;
+          case VAR_NPT:
+              val = fpreal(myTotalPoints);
+              return true;
+          case VAR_ID:
+              if (myInputGeo && myInputIdHandle.isValid())
+              {
+                  ppt_offset = myInputGeo->pointOffset(myCurrPoint);
+                  id = myInputIdHandle(ppt_offset);
+                  val = fpreal(id);
+                  return true;
+              }
+              return false;
+          case VAR_LIFE:
+              if (myInputGeo && myInputLifeHandle.isValid())
+              {
+                  ppt_offset = myInputGeo->pointOffset(myCurrPoint);
+                  life = myInputLifeHandle(ppt_offset);
+                  val = life.x() / life.y();
+                  return true;
+              }
+              return false;
+      }
+      // Not one of our variables, must delegate to the base class.
+      return SOP_Node::evalVariableValue(val, index, thread);
+  }
+  OP_ERROR
+  SOP_MyNode::cookMySop(OP_Context &context)
+  {
+      fpreal  t = context.getTime();
+      ...
+      // Now, we loop through each point, doing expression
+      // evaluation INSIDE the loop.
+      for (myCurrPoint = GA_Index(0); myCurrPoint < myTotalPoints; myCurrPoint++)
+      {
+          // When evaluating parms, it's possible that the expression
+          // would use one of our local variables, so 
+          pos.x() = evalFloat("posx", 0, t);
+          ...
+      }
+      myCurrPoint = GA_INVALID_INDEX; // Make sure to flag that we're done cooking
+      ...
+  }
+
+Dependencies
+  Name Dependencies
+    比如参数为其他node名，那么当这个node名字改变时需要相应的改变
+    PRM_TYPE_DYNAMIC_PATH
+  Data Dependencies
+    data dependency graph
+    OP_Node::addExtraInput(), 比如Object Merge SOP
+
+    OP_ERROR 
+    SOP_MyNode::cookMySop(OP_Context &context)
+    {
+        fpreal      t = context.getTime();
+        UT_DMatrix4 xform(1.0); // identity
+        OBJ_Node *  obj_node;
+        UT_String   obj_path;
+        // ...
+        evalString(obj_path, "objpath", 0, t);
+        obj_node = findOBJNode(obj_path);
+        if (obj_node)
+        {
+            obj_node->getLocalToWorldTransform(context, xform); // use its data
+            addExtraInput(obj_node, OP_INTEREST_DATA);          // tell Houdini
+        }
+        // ...
+    }
+
+    // If depend on other node's parameter.
+    fpreal t = context.getTime();
+    int    pi = other_node->getParmList()->getParmIndex("r");
+    int    vi = 1;
+    fpreal ry = other_node->evalFloat(pi, vi, t);
+    addExtraInput(other_node, pi, vi);
+
+Help
+  overload OP_Operator::getHDKHelp
+  text file operator_name.txt， 放到$HOME/houdiniX.Y/help/nodes/OPTYPE
+  HTML server bool OP_Operator::getOpHelpURL(UT_String &str){ str.harden("http://xxxx"); return true; }
+
+Icon
+  svg format
+  $HOME/houdiniX.Y/config/Icons
+
+Writing a SOP
+  Creating Geometry
+    generator node
+    SOP_Node::cookMySop
+      local member variable called gdp（GU_Detail）
+      GU_Detail::clearAndDestroy(), not fast
+      GEO_Detail::stashAll(), GEO_Detail::destroyStashed()
+
+      GU_Detail::appendPoint, GU_PrimPoly::build, 例子 SOP_Star.C
+
+  Changing Geometry
+    filter node
+    OP_Node::lockInput
+    SOP_Node::inputGeo
+    OP_Node::unlockInput
+    OP_Node::lockInputs and OP_Node::unlockInputs.
+    SOP_Node::duplicateSource
+    SOP_Node::duplicatePointSource
+    SOP_PointWave.C
+    SOP_HOMWave.C
+    SOP_TimeCompare.C 可以看看怎么处理多个input。
+
+  Local Variables in SOPs
+    
 ```
 
 
