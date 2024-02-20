@@ -331,6 +331,33 @@ Writing a SOP
 ### 2. 看完Houdini User Interface
 
 
+### 3. State
+UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState -> BM_SingleOpState -> MSS_SingleOpBaseState -> MSS_SingleOpState
+
+- UI
+- UI_Object: 所有有能力收到UI_Events的基类。 UI_Object -> UI_Value
+```
+有关的类型:
+  UT_WorkBuffer, UT_Assert, UT_UniquePtr, UI_Event, enum UI_EventType, UI_Manager, UI_Queue, UI_DeviceEvent, UI_Value, UI_KeyDelegate, UI_HotkeyEcho,
+  UI_ObjectList, UI_ValueList, UI_KeyDelegateList
+  UI_EventMethod : typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
+
+成员函数：
+
+  一堆处理事件的：
+virtual void handleEvent(UI_Event*);
+deleteReferences(UI_Object* to_whom);
+
+
+
+```
+- AP_Interface
+```
+UT_Url, UT_SharedPtr, UT_SymbolMap<T>
+UI_Manager, UI_Feel, UI_KeyDelegate, UI_Window
+
+
+```
 
 
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
