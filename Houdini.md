@@ -334,7 +334,39 @@ Writing a SOP
 ### 3. State
 UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState -> BM_SingleOpState -> MSS_SingleOpBaseState -> MSS_SingleOpState
 
-- UI
+- UT_StringHolder
+- UT_StringRef
+- UT_String
+- UT_StringArray
+- UT_StringPager
+- UT_StringMap
+- UT_StringSet
+- UT_StringStream
+- UT_StringView
+- UT_StringUtils
+- UT_StringMMPattern
+
+
+- UI_EventMethod
+typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
+
+- UI_Event:
+Wrapper of UI_DeviceEvent
+```
+UI_Value* value;
+UI_Object* source;
+UI_Object* target;
+UI_EventMethod method;
+UI_EventType type;
+UI_DeviceEvent state;   // the recent event
+UI_Reason reason;
+UT_Array<UI_DeviceEvent> * myStateHistory; // can be 0, denotes as collapsed events
+
+函数：
+trigger()
+```
+
+
 - UI_Object: 所有有能力收到UI_Events的基类。 UI_Object -> UI_Value
 ```
 有关的类型:
