@@ -545,7 +545,82 @@ virtual int handleDoubleClickEvent(e); // 第一个处理DoubleClick的state
 virtual void handleGeoChangedEvent(e);
 virtual void handleDetailLookGeomChanged(BM_DetailLook *look);
 
+virtual void render(r, x, y) override;
+virtual void renderPartialOverlay(r, x, y);
+
+virtual int generate(how, parms);
+void startGenerating(how, requestnew, exsitu);
+virtual void stopGenerating();
+
+int hasOpNode(node) const;
+handleOpNodeChange(node);
+handleOpUIChange(node);
+handleOpNetChange(network);
+handleOpNetClear();
+
+virtual int handleNodeDeleted(node);
+
+// BM_StateFlags related functions
+void wantsLocates(int yesNo);
+...
+
+virtual bool ignoreDisplayFlagChange() const;
+
+virtual bool getAllowIndirectHandleDrag() const; // MMB can be used for indirect handle drags.
+
+PI_StateTemplate &getTemplate() const;
+
+virtual int isOpIndependent() const;
+
+virtual void refreshBindings(id, op_type);
+
+virtual bool showPersistent() const;
+
+virtual bool getShowSelectedOp() const;
+
+virtual UI_Feel* getCustomSelectModeSideBar() const;
+
+virtual bool useSecureSelection() const;
+
+virtual bool useVolatileSelection() const;
+
+// Drag and drop support
+virtual int testDragDrop(DD_Source&);
+...
+
+//
+virtual bool switchHandleTool(BM_MoveTool::Type tool, bool reveal_updated_handles){return false;}
+
+virtual void initializeHUDs();
+int updateHUD(args);
+void enterHUD();
+void exitHUD();
+void renderHUD();
+
+成员变量：
+myState;
+myFlags;
+static UI_Event theDelayedSelectionEvent;
+PI_StateTemplate &myTemplate;
+bool myCursorPushed;
+int myBusyCounter;
+int myUniqueId;
+myQtNotifier;
+myViewNotifier;
 ```
+
+-
+
+
+## QA
+what is work bench?
+
+what is detached attribute?
+
+what is feel ? feel containing extra buttons of the state.
+
+what is PIs?
+
 
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
 ## Hierarchical Set of Library
