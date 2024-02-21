@@ -345,7 +345,8 @@ UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_Op
 - UT_StringView
 - UT_StringUtils
 - UT_StringMMPattern
-
+- UT_Bimap
+...  
 
 - UI_EventMethod
 typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
@@ -363,6 +364,11 @@ UI_Reason reason;
 UT_Array<UI_DeviceEvent> * myStateHistory; // can be 0, denotes as collapsed events
 
 函数：
+UI_Event(t, to, from, e);
+UI_Event(v, to, from, r);
+UI_Event(v, to, callback, from, r);
+UI_Event(t, to, callback, from);
+
 trigger()
 ```
 
@@ -375,22 +381,158 @@ trigger()
   UI_EventMethod : typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
 
 成员函数：
+UI_Object();
 
-  一堆处理事件的：
-virtual void handleEvent(UI_Event*);
-deleteReferences(UI_Object* to_whom);
+getParent();
+setParent();
+void addDependent()
+void removeDependent();
 
+virtual handleEvent(UI_Event* event);
+void setEvent(e) cosnt;
+void distributeEvent(e, int upwards);
+void relayEvent(e, UI_Object* target);
+void purgeEvents(t, target, method);
+void triggerImmediateEvent(e, int upwards);
 
+// interests
+UI_Value::interestedInValue(UI_Value *)
+
+/ key
+UI_KeyDelegate::addKeyDelegateClientship(UI_KeyDelegate *)
+
+// key related
+static void keyEcho(...)
+static toggleKeyEcho(...)
+
+成员变量：
+UI_Object* myParent
+UI_ObjectList myDependents;
+UI_ValueList myValueInterests;
+UT_UniquePtr<UI_KeyDelegateList> myKeyDelegateClientships;
+static UI_Manager *theUIManager;  // UI_Object::getManager();
+static UI_Queue* theUIQueue;   // UI_Object::getInputQueue();
 
 ```
-- AP_Interface
+
+- AP_Interface: 维护named UI_Feel 和 UI_Value之间的hash表, AP means Application。
 ```
+有关的类：
 UT_Url, UT_SharedPtr, UT_SymbolMap<T>
 UI_Manager, UI_Feel, UI_KeyDelegate, UI_Window
 
+成员函数：
+AP_Interface(const char* myname, const char* const * names, UI_EventMethod const* methods);
+void wireInterface(UI_Manager *uims);
+void unwireInterface(UI_Manager *uims);
+bool readUIFile(xxx);
+AP_Interface::createPreferenceFile();
+void setValueSymbol(symbol, value, bool warn= true);
+void setObjectSymbol(symbol, obj, bool warn= true);
+UI_Feel getFeelSymbol(symbol);
+void setKeyDelegateSymbol(symbol, delegate, bool warn = true);
+template<typename T> T* findObject(name);
+template<typename T> T* findValue(name);
+virtual void initApplication(uims, argc, argv);
+
+成员变量：
+static AP_Interface::theMainApplication;
+UI_NamedValueMap *myValueTable;UI_NamedObjectMap *myObjectTable;
+UI_NamedKeyDelegateMap * myKeyDelegateTable;
+xxx myKeyBindingProxyRequestTable;
+
+全局函数：
+SIgetObject(app, name);
+SIgetValue(app, name);
 
 ```
 
+- BM_SimpleState: handles and states
+```
+有关的类：
+RE_Render, RE_Cursor, UI_Menu, BM_SceneManager, BM_Viewport
+
+成员函数：
+BM_SimpleState(BM_SceneManager&app, cursor, name, vnames, vmethods);
+getIconName
+getLabel
+getDescription
+getHotkeyString
+getStateMenu()
+getSelectorMenu()
+getExtraStateMenu()
+onBeginRMBMenu();
+enter() = 0, exit() = 0, interrupt(); resume();
+virtual void handleMouseEvent(e) = 0;
+virtual void handleKeyEvent(int key, e) final;
+virtual void handleKeyTypeEvent(key, e, viewport);
+virtual void render(r, x, y);
+virtual vid overlayRender(r, x, y);
+virtual int getToolboxCount() const;
+virtual UI_Feel *getToolbox(index) const;
+volatile state and non-volatile state
+virtual bool isOverlay() const;
+virtual int getVolatileToolboxCount() const;
+virtual UI_Feel* getVolatileToolbox(int index) const;
+// Handle ? 
+virtual int isHandle() const = 0;
+virtual int isModifier() const = 0;  //
+
+sceneManager();
+replaceCursor(newcursor);
+unsigned int getViewportMask();
+
+beginDistributedUndoBlock(operation, blocktype, ignore_log);
+endDistributedUndoBlock(ignore_log);
+
+void pushCursor();
+void popCursor();
+setDefaultCursor();
+void initializeUI();
+
+void mouseDown(e);
+int mouseDown() const;
+
+void setViewportMask(unsigned mask);
+成员变量：
+mySceneManager
+muCursor
+myPrevState
+myVolatileViewport
+UI_Feel *myMenuGadget;
+UI_Feel * myOrthoMenuGadget;
+UI_Feel *mySimpleToolbox;
+myUndoWorkerFinder;
+myCursorStack;
+```  
+
+- BM_ParmState: 支持parameters的state/handle, 貌似相關接口都沒有在samples中出現。
+```
+成员函数：
+
+dialogFeel() const;
+getToolboxCount();
+getToolbox(int index);
+virtual int disableParms();
+
+const PRM_Parm* parameter(name) const;
+PRM_ParmList *parameters() const;
+UI_Value *parmValue() const;
+
+成员变量：
+myParmToolbox
+myParmList
+myParmVal
+myToolboxParmVal
+myParmDialog
+myExtraParmDialog
+myPresetInfo;
+```
+
+- BM_State: BM state的基类
+```
+
+```
 
 ## Samples positions Side Effects Software\Houdini 18.5.696\toolkit
 ## Hierarchical Set of Library
