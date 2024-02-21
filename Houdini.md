@@ -447,7 +447,7 @@ SIgetValue(app, name);
 
 ```
 
-- BM_SimpleState: handles and states
+- BM_SimpleState: handles and states， 不可实例化
 ```
 有关的类：
 RE_Render, RE_Cursor, UI_Menu, BM_SceneManager, BM_Viewport
@@ -506,7 +506,7 @@ myUndoWorkerFinder;
 myCursorStack;
 ```  
 
-- BM_ParmState: 支持parameters的state/handle, 貌似相關接口都沒有在samples中出現。
+- BM_ParmState: 支持parameters的state/handle, 貌似相關接口都沒有在samples中出現。 不可实例化
 ```
 成员函数：
 
@@ -529,8 +529,21 @@ myExtraParmDialog
 myPresetInfo;
 ```
 
-- BM_State: BM state的基类
+- BM_State: BM state的基类, 看isHandle()是返回0， 可实例化
 ```
+有关的类：
+DD_ChoiceList
+函数：
+int isHandle() const override{ return 0; }
+virtual void concealState();
+virtual void revealState();
+
+virtual int preprocessSelect(e);
+virtual int handleMouseEvent(e) override;
+virtual int handleMouseWheelEvent(e); // 第一个处理Wheel的state
+virtual int handleDoubleClickEvent(e); // 第一个处理DoubleClick的state
+virtual void handleGeoChangedEvent(e);
+virtual void handleDetailLookGeomChanged(BM_DetailLook *look);
 
 ```
 
