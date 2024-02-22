@@ -1,22 +1,19 @@
 ## Learning Video https://www.youtube.com/watch?v=NwabG-znu9Y
 ## HDK https://www.sidefx.com/docs/hdk/index.html
-- Introduction to the HDK
+### 1. 看完 Introduction to the HDK
 这边只关心Windows平台上的开发
 ```
 1. 需要用对应于Houdini的编译器版本 vc142 Microsoft Visual C++ 2019, version 16.9.4(Windows SDK version?)
 2. 需要MSVCDir环境变量指定VC subdirectory.
 3. HDK应用例子：standalone/geoisosurface.C， 一个包含main函数的应用，生成一个后缀为.bgeo的几何文件。 
 3.1. 命令行编译：Start->All Programs->Side Effects Software -> Houdini X.Y.ZZZ ->Command Line Tools
-
   mkdir HDK
   cd HDK
   copy "C:\Program Files\Side Effects Software\Houdini X.Y.ZZZ\toolkit\samples\standalone\geoisosurface.C"
   hcustom -s geoisosurface.C // 这个会生成一个./geoisosurface.exe应用程序。
-
 3.2. 执行
   ./geoisosurface.exe // 会生成sphere.bgeo
   gplay sphere.bego // 用gplay应用查看这个文件。
-
 ```
 
 - 插件开发
@@ -30,9 +27,7 @@
 7. HOUDINI_DSO_PATH
 ```
 
-
-## 如何开发刷子
-### 1. 看完 HDK -> Houdini Operators
+### 2. 看完 Houdini Operators
 - Architectural Overview
 ```
 Node Organization
@@ -325,14 +320,189 @@ Writing a SOP
 
   Abusing SOP Cook Mechanism
   The Many Ways to Create a SOP
+```
+
+
+
+## CMake 模板
+```
+cmake_minimum_required( VERSION 3.20 )
+
+project( xxx )
+set(CMAKE_CXX_STANDARD 17)
+
+# Assume one element of $ENV{PATH} is HOUDINI bin path.
+# get houdini path to VAR houdini_path
+set(houdini_path "")
+string(REPLACE "\;" ";" PATH_LIST "$ENV{PATH}") # remove the last slash
+string(REPLACE "\n" "" PATH_LIST "${PATH_LIST}") # remove the \n
+foreach(p ${PATH_LIST})
+	message(warning ${p})
+	if(EXISTS "${p}/houdini.exe")
+		cmake_path(GET p PARENT_PATH arg0)
+		set(houdini_path ${arg0})
+		message(warning "Houdini Path = ${houdini_path}")
+	endif()
+endforeach()
+if(NOT EXISTS ${houdini_path})
+	message(FATAL_ERROR "Houdini path is not found from environment PATH = $ENV{PATH}.")
+endif()
+
+message(STATUS "Houdini Path ${houdini_path}")
+
+
+# CMAKE_PREFIX_PATH must contain the path to the toolkit/cmake subdirectory of
+# the Houdini installation. See the "Compiling with CMake" section of the HDK
+# documentation for more details, which describes several options for
+# specifying this path.
+list( APPEND CMAKE_PREFIX_PATH "${houdini_path}/toolkit/cmake" )
+
+# Locate Houdini's libraries and header files.
+# Registers an imported library target named 'Houdini'.
+find_package( Houdini REQUIRED )
+
+set( library_name xxx )
+
+# add some extra include and library directories.
+include_directories("${CMAKE_CURRENT_LIST_DIR}/../xxx")
+link_directories("${CMAKE_CURRENT_LIST_DIR}/../xxx")
+
+# Add a library and its source files.
+file(GLOB TOOL_C_SOURCES "*.C")
+file(GLOB TOOL_CPP_SOURCES "*.cpp")
+file(GLOB TOOL_UIS "*.ui")
+file(GLOB TOOL_HEADERS "*.h")
+file(GLOB TOOL_ICONS "*.svg")
+add_library( ${library_name} SHARED ${TOOL_C_SOURCES} ${TOOL_CPP_SOURCES} ${TOOL_HEADERS} ${TOOL_UIS} ${TOOL_ICONS})
+
+# Link against the Houdini libraries, and add required include directories and
+# compile definitions.
+target_link_libraries( ${library_name} Houdini <extra_xxx_library>)
+target_include_directories( ${library_name} PRIVATE ${CMAKE_CURRENT_BINARY_DIR}) # for xxx.proto.h
+
+# Sets several common target properties, such as the library's output directory.
+houdini_configure_target( ${library_name} )
+
+houdini_get_default_install_dir( H_OUTPUT_INSTDIR ) # get C:/users/xxxx/Documents/HoudiniX.Y/xxx
+
+message(STATUS "Output Dir ${H_OUTPUT_INSTDIR}")
+message(STATUS "Houdini Package Version ${Houdini_VERSION}")
+
+foreach( f ${TOOL_ICONS} )
+file(COPY "${f}" DESTINATION "${H_OUTPUT_INSTDIR}/config/Icons/")
+endforeach()
+
+foreach( f ${TOOL_UIS} )
+file(COPY "${f}" DESTINATION "${H_OUTPUT_INSTDIR}/config/Applications/")
+endforeach()
+
+message(STATUS "C Files: ${TOOL_C_SOURCES}")
+message(STATUS "CPP Files: ${TOOL_CPP_SOURCES}")
+
+houdini_generate_proto_headers(OUTPUT_VAR PROTO_HEADERS FILES ${TOOL_C_SOURCES}) # generate propo.h for all .C files.
+message(STATUS "PROTO_HEADERS ${PROTO_HEADERS}")
+```
+
+
+## 看HDK C++ 代码
+### 理解各种概念
+可以搜索看看samples中各种库都是怎么用的，比如PI_, PRM_。
+#### 2.0. standalone
+// 是否可以定义Hscript cmd文件来自动创建Shelf Tool
+```
+MOT_Director* boss = new MOT_Director("standalone");
+OPsetDirector(boss);
+PIcreateResourceManager();
+CMD_Manager * cmd = boss->getCommandManager();
+cmd->doPrompt();
+cmd->sendInput("source -q 123.cmd"); // 执行123.cmd中的所有Hscript命令。
+```
+#### 2.1. SYS库
+```
+SYS_Types.h
+  buf.sprintf("volume_%" SYS_PRId64, (exint)prim->getMapIndex());
+SYS_Math.h
+  SYSdegToGrad()
+  SYScos()
+SYS_Floor.h
+SYS_Inline.h
+SYS_FORCE_INCLINE
+SYS_StaticAssert.h
+SYS_TypeTraits.h
+SYS_Pragma.h
+```
+
+### 2.2. UT库 Utilities
+```
+UT_ASSERT(xxxx);
+
+UT_AutoInterrupt interrupt("Writing curve transforms");
+if (interrupt.wasInterrupted()) {
+    return;
+}
+
+
 
 ```
 
-### 2. 看完Houdini User Interface
+#### 2.3. PI库 Procedural Interface 库。
+PI_ResourceTemplate -> PI_StateTemplate
+                    -> PI_HandleTemplate
+                    -> PI_PITemplate
+                    -> PI_SelectorTemplate
+#### 2.4. PRM库
+PRM_Template 和 PRM_Instance一起定义PRM_Parm, PRM_Template是PRM_Parm的静态成员。
+PRM_Item vs PRM_Name for PRM_ChoiceList。 前者带icon。
 
-
-### 3. State
 UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState -> BM_SingleOpState -> MSS_SingleOpBaseState -> MSS_SingleOpState
+
+#### 2.5. GA库
+- enums and namespaces
+```
+  GA_AttributeOwner values GA_ATTRIB_VERTEX, GA_ATTRIB_POINT, GA_ATTRIB_PRIMITIVE, GA_ATTRIB_GLOBAL // 
+  GA_Storage : GA_STORE_REAL32 etc // in GA_Types.h
+  GA_TypeInfo : GA_TYPE_HPOINT, GA_TYPE_XXX
+  GA_GroupType : GA_GROUP_xxx
+
+namespace GA_Names // in GA_Names.h
+  P, Pw, N, uv, v, wCd, Alpha, xxx
+```
+
+- Attributes and Detail
+```
+GA_ATINumeric //GA_ATINumeric.h
+GA_ROHandleT, GA_RWHandleT //GA_Handle.h
+GA_Detail // GA_Detail.h, The detail stores lists of attributes (GA_Attribute) 
+
+GA_Primitive
+  GA_Detail *myDetail;
+  GA_Offset myOffset;
+  GA_OffsetList myVertexList;
+
+```
+#### 2.6. GT库： Geometry 库
+
+
+#### 2.6. GEO库 is also Geometry 库
+```
+GA_Detail -> GEO_Detail // This defines the detail class (the container for all points/primitives)
+GA_Primitive -> GEO_Primitive -> GEO_HULL
+          
+```
+#### 2.6. GU库： Geometry Utility 库
+```
+GEO_Detail -> GU_Detail // GU_Detail represents a container for geometry.  It contains primitives,
+ *	points, vertices, etc. and all of the attributes. It also provides some
+ *	conventient methods for manipulating geometry.
+
+GEO_PrimCircle -> GU_PrimCircle
+```
+
+
+
+#### 2.7. SOP库
+
+#### 2.3. State
 
 - UT_StringHolder
 - UT_StringRef
@@ -609,7 +779,7 @@ myQtNotifier;
 myViewNotifier;
 ```
 
--
+- BM_OpState: automated state that links handles with op parameters.
 
 
 ## QA
