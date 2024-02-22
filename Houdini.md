@@ -441,7 +441,7 @@ if (interrupt.wasInterrupted()) {
     return;
 }
 
-
+UT_IntrusivePtr
 
 ```
 
@@ -470,7 +470,7 @@ namespace GA_Names // in GA_Names.h
 
 - Attributes and Detail
 ```
-GA_ATINumeric //GA_ATINumeric.h
+GA_Attribute -> GA_ATINumeric //GA_ATINumeric.h
 GA_ROHandleT, GA_RWHandleT //GA_Handle.h
 GA_Detail // GA_Detail.h, The detail stores lists of attributes (GA_Attribute) 
 
@@ -479,44 +479,143 @@ GA_Primitive
   GA_Offset myOffset;
   GA_OffsetList myVertexList;
 
-```
-#### 2.6. GT库： Geometry 库
 
+// Copy attributes satisfied some conditions.
+//static GA_AttributeFilter	 selectStandard(const GA_Attribute *exclude=0);
+GA_AttributeFilter filter = GA_AttributeFilter::selectOr(GA_AttributeFilter::selectStandard(gdp->getP()), GA_AttributeFilter::selectGroup());
+GA_PointWrangler ptwrangler(*gdp, filter);
+if (ptwrangler.getNumAttributes() > 0) ptwrangler.copyAttributeValues(newptoff, oldptoff);
+
+
+GA_PolyCounts
+GA_PointWrangler
+
+
+```
 
 #### 2.6. GEO库 is also Geometry 库
 ```
 GA_Detail -> GEO_Detail // This defines the detail class (the container for all points/primitives)
 GA_Primitive -> GEO_Primitive -> GEO_HULL
-          
+GA_PolyCounts -> GEO_PolyCounts           
 ```
-#### 2.6. GU库： Geometry Utility 库
+#### 2.7. GU库： Geometry Utility 库
 ```
 GEO_Detail -> GU_Detail // GU_Detail represents a container for geometry.  It contains primitives,
  *	points, vertices, etc. and all of the attributes. It also provides some
  *	conventient methods for manipulating geometry.
 
+GU_Detail -> GOP_Guide
+GU_DetailHandle -> GU_ConstDetailHandle
+GU_DetailHandleAutoReadLock
+GU_DetailHandleAutoWriteLock
+
+
 GEO_PrimCircle -> GU_PrimCircle
+
+GU_Group
+
+GU_Curve
+
+GU_StencilPixel
+GU_BrushStencilMode
+GU_BrushStencil
+	UT_Array<GU_StencilPixel>	 myEntries;
+	    UT_IntArray			 myStencilRef;
+    	UT_IntArray			 myPointPass;
+    		UT_Vector3Array		 myColours;
+		UT_Array<UT_IntArray *>	*myPt2Vtx;
+    	UT_Array<GA_Offset>		*myVtx;
+    		const GU_Detail		*myGdp;
+    	int				 myCurPixel, myCurSubIdx;
+    	int				 myCurIteratePass;
+    		bool			 myCurIsVertexIterate;
+GU_BrushMergeMode
+GU_BrushNib
+GU_Brush
 ```
 
+#### 2.8. GT库
+ Geometry 库 使用 GA and GU的几何库。 可以理解为GT比GA和GU还要高级。
+```
+GDT : Geometry Data Type。
+The GDT data structures provide a flexible and efficient representation of geometric primitives, attributes, and connectivity information. They are designed to handle various types of geometry, including points, curves, polygons, and volumes.
+
+GDT包含如下这些数据结构：
+
+/// @see GT_AttributeList
+typedef UT_IntrusivePtr<GT_AttributeList>	GT_AttributeListHandle;
+/// @see GT_AttributeMap
+typedef UT_IntrusivePtr<GT_AttributeMap>	GT_AttributeMapHandle;
+/// @see GT_DataArray
+typedef UT_IntrusivePtr<GT_DataArray>		GT_DataArrayHandle;
+/// @see GT_Primitive
+typedef UT_IntrusivePtr<GT_Primitive>		GT_PrimitiveHandle;
+/// @see GT_Transform
+typedef UT_IntrusivePtr<GT_Transform>		GT_TransformHandle;
+/// @see GT_TransformArray
+typedef UT_IntrusivePtr<GT_TransformArray>	GT_TransformArrayHandle;
+/// @see GT_FaceSetMap
+typedef UT_IntrusivePtr<GT_FaceSetMap>		GT_FaceSetMapPtr;
+
+```
+
+#### 2.9. UI库
+```
+
+```
+#### 2.10. SOP库
+- enums
+```
+SOP_BrushEvent
+    SOP_BRUSHSTROKE_BEGIN,
+    SOP_BRUSHSTROKE_ACTIVE,
+    SOP_BRUSHSTROKE_END,
+    SOP_BRUSHSTROKE_CLICK,
+    SOP_BRUSHSTROKE_NOP
+SOP_BrushOp :
+    SOP_BRUSHOP_UNASSIGNED,
+    SOP_BRUSHOP_DEFORM,
+    SOP_BRUSHOP_COMB,
+    SOP_BRUSHOP_PAINT,
+    SOP_BRUSHOP_SMOOTH,
+    SOP_BRUSHOP_SCRIPT,
+    SOP_BRUSHOP_SMOOTHDEFORM,
+    SOP_BRUSHOP_EYEDROP,
+    SOP_BRUSHOP_ERASE,
+    SOP_BRUSHOP_SMOOTHATTRIB,
+    SOP_BRUSHOP_SMOOTHNORMAL,
+    SOP_BRUSHOP_CALLBACK,
+    SOP_BRUSHOP_DRAGTEXTURE,
+    SOP_BRUSHOP_SCALETEXTURE,
+    SOP_BRUSHOP_SMOOTHTEXTURE,
+    SOP_BRUSHOP_SMOOTHLAYER,
+    SOP_BRUSHOP_SMOOTHSINGLE,
+    SOP_BRUSHOP_REDUCE,
+    SOP_BRUSHOP_ERASESINGLE,
+    SOP_BRUSHOP_LIFT,
+    SOP_BRUSHOP_ROTATE,
+    SOP_BRUSHOP_SMUDGE,
+    SOP_BRUSHOP_SCALE,
+SOP_BrushShape :     SOP_BRUSHSHAPE_CIRCLE, SOP_BRUSHSHAPE_SQUARE, SOP_BRUSHSHAPE_BITMAP
+    SOP_BRUSHSHAPE_CIRCLE,
+    SOP_BRUSHSHAPE_SQUARE,
+    SOP_BRUSHSHAPE_BITMAP
+SOP_BrushVisType
+    SOP_BRUSHVIS_FALSECOLOUR,
+    SOP_BRUSHVIS_CAPTUREWEIGHT
+```
+
+```
+SOP_Node -> SOP_GDT -> SOP_BrushBase
+SOP_UndoGDT
+SOP_UndoGDTOpDepend
 
 
-#### 2.7. SOP库
+```
 
-#### 2.3. State
+#### 2.11. State
 
-- UT_StringHolder
-- UT_StringRef
-- UT_String
-- UT_StringArray
-- UT_StringPager
-- UT_StringMap
-- UT_StringSet
-- UT_StringStream
-- UT_StringView
-- UT_StringUtils
-- UT_StringMMPattern
-- UT_Bimap
-...  
 
 - UI_EventMethod
 typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
