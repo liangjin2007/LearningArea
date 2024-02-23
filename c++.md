@@ -1,12 +1,6 @@
 ## c++ 11
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP11.md
 
-
-= default; // you want to use the compiler-generated version of that function, so you don't need to specify a body.
-= delete; //  specify that you don't want the compiler to generate that function automatically.
-noexcept
-
-
 ## c++ 14
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP14.md
 
@@ -17,5 +11,38 @@ noexcept
 
 ## c++ 20
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP20.md
+
+
+## Unknown
+
+= default; // you want to use the compiler-generated version of that function, so you don't need to specify a body.
+
+= delete; //  specify that you don't want the compiler to generate that function automatically.
+
+void func() noexcept; // this function don't throw, equal to "void func() noexcept(true);"
+
+noexcept(func) // true, noexcept(expression) return true or false 
+
+explicit xxx;
+
+Copy Constructor
+
+Move Constructor:   ClassName(ClassName &&rhs)
+
+{x, y, z} corresponding to std::initializer_list<T>
+
+variable template parameters and parameter pack expansion feature of C++
+```
+  template<typename... Args>
+  void myFunction(Args... args)
+  {
+      // ...
+      ((std::cout << args << " "), ...); // parameter pack expansion
+  }
+```
+
+using Base = xxx;
+using Base::Base;
+
 
 
