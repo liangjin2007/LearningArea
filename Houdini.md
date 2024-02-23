@@ -514,25 +514,9 @@ GU_DetailHandleAutoWriteLock
 GEO_PrimCircle -> GU_PrimCircle
 
 GU_Group
-
 GU_Curve
 
-GU_StencilPixel
-GU_BrushStencilMode
-GU_BrushStencil
-	UT_Array<GU_StencilPixel>	 myEntries;
-	    UT_IntArray			 myStencilRef;
-    	UT_IntArray			 myPointPass;
-    		UT_Vector3Array		 myColours;
-		UT_Array<UT_IntArray *>	*myPt2Vtx;
-    	UT_Array<GA_Offset>		*myVtx;
-    		const GU_Detail		*myGdp;
-    	int				 myCurPixel, myCurSubIdx;
-    	int				 myCurIteratePass;
-    		bool			 myCurIsVertexIterate;
-GU_BrushMergeMode
-GU_BrushNib
-GU_Brush
+GU_PrimPoly vs GU_PrimMesh
 ```
 
 #### 2.8. GT库
@@ -565,55 +549,8 @@ typedef UT_IntrusivePtr<GT_FaceSetMap>		GT_FaceSetMapPtr;
 
 ```
 #### 2.10. SOP库
-- enums
 ```
-SOP_BrushEvent
-    SOP_BRUSHSTROKE_BEGIN,
-    SOP_BRUSHSTROKE_ACTIVE,
-    SOP_BRUSHSTROKE_END,
-    SOP_BRUSHSTROKE_CLICK,
-    SOP_BRUSHSTROKE_NOP
-SOP_BrushOp :
-    SOP_BRUSHOP_UNASSIGNED,
-    SOP_BRUSHOP_DEFORM,
-    SOP_BRUSHOP_COMB,
-    SOP_BRUSHOP_PAINT,
-    SOP_BRUSHOP_SMOOTH,
-    SOP_BRUSHOP_SCRIPT,
-    SOP_BRUSHOP_SMOOTHDEFORM,
-    SOP_BRUSHOP_EYEDROP,
-    SOP_BRUSHOP_ERASE,
-    SOP_BRUSHOP_SMOOTHATTRIB,
-    SOP_BRUSHOP_SMOOTHNORMAL,
-    SOP_BRUSHOP_CALLBACK,
-    SOP_BRUSHOP_DRAGTEXTURE,
-    SOP_BRUSHOP_SCALETEXTURE,
-    SOP_BRUSHOP_SMOOTHTEXTURE,
-    SOP_BRUSHOP_SMOOTHLAYER,
-    SOP_BRUSHOP_SMOOTHSINGLE,
-    SOP_BRUSHOP_REDUCE,
-    SOP_BRUSHOP_ERASESINGLE,
-    SOP_BRUSHOP_LIFT,
-    SOP_BRUSHOP_ROTATE,
-    SOP_BRUSHOP_SMUDGE,
-    SOP_BRUSHOP_SCALE,
-SOP_BrushShape :     SOP_BRUSHSHAPE_CIRCLE, SOP_BRUSHSHAPE_SQUARE, SOP_BRUSHSHAPE_BITMAP
-    SOP_BRUSHSHAPE_CIRCLE,
-    SOP_BRUSHSHAPE_SQUARE,
-    SOP_BRUSHSHAPE_BITMAP
-SOP_BrushVisType
-    SOP_BRUSHVIS_FALSECOLOUR,
-    SOP_BRUSHVIS_CAPTUREWEIGHT
 ```
-
-```
-SOP_Node -> SOP_GDT -> SOP_BrushBase
-SOP_UndoGDT
-SOP_UndoGDTOpDepend
-
-
-```
-
 #### 2.11. State
 
 
@@ -879,6 +816,306 @@ myViewNotifier;
 ```
 
 - BM_OpState: automated state that links handles with op parameters.
+
+
+#### 2.12. 刷子相关
+- Geometry creation: SOP_Star.C
+```  
+auto &&sopparms = cookparms.parms<SOP_StarParms>();
+GU_Detail *detail = cookparms.gdh().gdpNC();
+
+// We need two points per division
+exint npoints = sopparms.getDivs()*2;
+
+if (npoints < 4)
+{
+// With the range restriction we have on the divisions, this
+// is actually impossible, (except via integer overflow),
+// but it shows how to add an error message or warning to the SOP.
+cookparms.sopAddWarning(SOP_MESSAGE, "There must be at least 2 divisions; defaulting to 2.");
+npoints = 4;
+}
+
+// If this SOP has cooked before and it wasn't evicted from the cache,
+// its output detail will contain the geometry from the last cook.
+// If it hasn't cooked, or if it was evicted from the cache,
+// the output detail will be empty.
+// This knowledge can save us some effort, e.g. if the number of points on
+// this cook is the same as on the last cook, we can just move the points,
+// (i.e. modifying P), which can also save some effort for the viewport.
+
+GA_Offset start_ptoff;
+if (detail->getNumPoints() != npoints)
+{
+// Either the SOP hasn't cooked, the detail was evicted from
+// the cache, or the number of points changed since the last cook.
+
+// This destroys everything except the empty P and topology attributes.
+detail->clearAndDestroy();
+
+// Build 1 closed polygon (as opposed to a curve),
+// namely that has its closed flag set to true,
+// and the right number of vertices, as a contiguous block
+// of vertex offsets.
+GA_Offset start_vtxoff;
+detail->appendPrimitivesAndVertices(GA_PRIMPOLY, 1, npoints, start_vtxoff, true);
+
+// Create the right number of points, as a contiguous block
+// of point offsets.
+start_ptoff = detail->appendPointBlock(npoints);
+
+// Wire the vertices to the points.
+for (exint i = 0; i < npoints; ++i)
+{
+    detail->setVertexPoint(start_vtxoff+i,start_ptoff+i);
+}
+
+// We added points, vertices, and primitives,
+// so this will bump all topology attribute data IDs,
+// P's data ID, and the primitive list data ID.
+detail->bumpDataIdsForAddOrRemove(true, true, true);
+}
+else
+{
+// Same number of points as last cook, and we know that last time,
+// we created a contiguous block of point offsets, so just get the
+// first one.
+start_ptoff = detail->pointOffset(GA_Index(0));
+
+// We'll only be modifying P, so we only need to bump P's data ID.
+detail->getP()->bumpDataId();
+}
+
+// Everything after this is just to figure out what to write to P and write it.
+
+const SOP_StarParms::Orient plane = sopparms.getOrient();
+const bool allow_negative_radius = sopparms.getNradius();
+
+UT_Vector3 center = sopparms.getT();
+
+int xcoord, ycoord, zcoord;
+switch (plane)
+{
+case SOP_StarParms::Orient::XY:         // XY Plane
+    xcoord = 0;
+    ycoord = 1;
+    zcoord = 2;
+    break;
+case SOP_StarParms::Orient::YZ:         // YZ Plane
+    xcoord = 1;
+    ycoord = 2;
+    zcoord = 0;
+    break;
+case SOP_StarParms::Orient::ZX:         // XZ Plane
+    xcoord = 0;
+    ycoord = 2;
+    zcoord = 1;
+    break;
+}
+
+// Start the interrupt scope
+UT_AutoInterrupt boss("Building Star");
+if (boss.wasInterrupted())
+return;
+
+float tinc = M_PI*2 / (float)npoints;
+float outer_radius = sopparms.getRad().x();
+float inner_radius = sopparms.getRad().y();
+
+// Now, set all the points of the polygon
+for (exint i = 0; i < npoints; i++)
+{
+// Check to see if the user has interrupted us...
+if (boss.wasInterrupted())
+    break;
+
+float angle = (float)i * tinc;
+bool odd = (i & 1);
+float rad = odd ? inner_radius : outer_radius;
+if (!allow_negative_radius && rad < 0)
+    rad = 0;
+
+UT_Vector3 pos(SYScos(angle)*rad, SYSsin(angle)*rad, 0);
+// Put the circle in the correct plane.
+pos = UT_Vector3(pos(xcoord), pos(ycoord), pos(zcoord));
+// Move the circle to be centred at the correct position.
+pos += center;
+
+// Since we created a contiguous block of point offsets,
+// we can just add i to start_ptoff to find this point offset.
+GA_Offset ptoff = start_ptoff + i;
+detail->setPos3(ptoff, pos);
+}
+
+```
+
+```
+GA_GBElement -> GA_GBPoint -> GEO_Point
+	    const GA_IndexMap	*myIndexMap;
+    	    GA_Offset		 myOffset;
+
+
+GA_Detail -> GEO_Detail -> GU_Detail
+	这些类的实际数据都在基类GA_Detail中。
+GA_Primitive -> GEO_Primitive -> GEO_TriMesh -> GEO_Face -> GEO_PrimPoly
+					     -> GEO_PrimTriStrip
+					     -> GEO_PrimTriFan
+					     -> GEO_PrimPolySoup
+                              -> GEO_Hull -> GEO_PrimMesh
+                              -> GEO_PrimitiveVolume
+	                      -> GEO_Quadric -> GEO_PrimSphere
+                              -> GEO_PrimVDB
+				-> GEO_VolumeElementBase -> GEO_PrimTetrahedron
+			      -> GEO_PrimTriBezier
+	这些类的实际数据都在基类GA_Primitive中。
+		GA_Detail *myDetail;
+	    	GA_Offset myOffset;
+	    	GA_OffsetList myVertexList;
+
+
+GU_RayIntersect
+	需要熟悉这个的用法
+
+
+GU_StencilPixel
+GU_BrushStencilMode: enum
+GU_BrushStencil： D->GU_StencilPixel
+	UT_Array<GU_StencilPixel>	 myEntries;
+	    UT_IntArray			 myStencilRef;
+    	UT_IntArray			 myPointPass;
+    		UT_Vector3Array		 myColours;
+		UT_Array<UT_IntArray *>	*myPt2Vtx;
+    	UT_Array<GA_Offset>		*myVtx;
+    		const GU_Detail		*myGdp;
+    	int				 myCurPixel, myCurSubIdx;
+    	int				 myCurIteratePass;
+    		bool			 myCurIsVertexIterate;
+GU_BrushMergeMode: enum
+GU_BrushNib
+GU_Brush: myBrush
+   const GA_PrimitiveGroup	*myGroup;
+    const GA_PointGroup	*myPointGroup;
+    GU_Detail		*myGdp;
+    const GU_Detail	*myIsectGdp;
+    bool		 myPtNmlSet;
+    UT_Vector3Array	 myPtNmlCache;
+    GEO_PointTree	*myPointTree;
+    GEO_PointTree	*myUVPointTree;
+    UT_StringHolder      myUVTreeAttribName;
+    UT_Vector3Array	 myPointPos;
+    UT_Vector3Array	 myUVPointPos;
+    UT_Array<UT_Array<GA_Index> > myFloodConnected;
+    // Vertex offsets into myIsectGdp
+    UT_Array<GA_Offset>				myIsectVtx;
+    // Vertex offsets into myGdp
+    UT_Array<GA_Offset>				myGeoVtx;
+    UT_Array<UT_IntArray *>			myPt2Vtx;
+    // This assigns each vertex to a unique number depending on
+    // its texture coordinate & point number.  Thus, vertices with
+    // matching texture coordinates & point numbers will have
+    // the same class.
+    UT_IntArray					myVtxClass;
+    // First ring of each point...
+    UT_Array<GA_OffsetArray>			myRingZero;
+    // This is the number of edges attached to each point ring.
+    // If it is less than twice the myRingZero.entries(), we have
+    // a boundary point.
+    UT_IntArray					myRingValence;
+    UT_Array<UT_Array<GA_Offset> *>		myVtxRingZero;
+    UT_Array<UT_IntArray *>			myVtxRingClass;
+    GA_RWHandleF	 myColourAttrib;
+    GA_RWHandleV3	 myColourAttribV3;
+    int			 myColourSize;
+    bool		 myColourVertex;
+    GA_RWHandleF	 myAlphaAttrib;
+    bool		 myAlphaVertex;
+    GA_RWHandleV3 	 myTextureAttrib;
+    bool		 myTextureVertex;
+    GA_RWHandleV3	 myNormalAttrib;
+    GA_RWHandleV3	 myVisualizeAttrib;
+    float		 myVisLow, myVisHigh;
+    UT_ColorRamp	 myVisMode;
+    bool		 myWriteAlpha;
+    bool		 myUseCaptureRegion;
+    int			 myCaptureIdx;
+    bool                 myNormalizeWeight;
+    GEO_Detail::CaptureType myCaptureType;
+    bool		 myUseVisibility;
+    GU_BrushMergeModeCallback	 myMergeModeCallback;
+    void			*myMergeModeCallbackData;
+    GU_BrushStencil			myStencil;
+
+
+SOP_BrushEvent
+SOP_BrushOp :
+SOP_BrushShape :     SOP_BRUSHSHAPE_CIRCLE, SOP_BRUSHSHAPE_SQUARE, SOP_BRUSHSHAPE_BITMAP
+SOP_BrushVisType
+
+继承关系： SOP_Node -> SOP_GDT -> SOP_BrushBase
+SOP_GDT
+    // Current and Cumulative ("Permanent") deltas;
+    // the permanent one is saved to disk.
+    GDT_Detail		*myPermanentDelta;
+    GDT_Detail		*myCurrentDelta;
+    bool		 myCookedFlag; // have we cooked yet?
+    bool		 myNotifyCacheFlag;
+    // Selection group
+    const GA_Group	*myGroup;
+    // myNewOpLabel cannot be static or else we will have only one copy for
+    // all derived classes!
+    UT_String		 myNewOpLabel; // label for undos
+
+
+SOP_BrushBase
+    UT_Vector3		 myLastPos;
+    UT_Vector3		 myBrushDir;
+    // This stores the last uv location chosen in the 3d viewport.
+    GA_Index		 myPendingLastUVPrimitive;
+    UT_Vector3		 myPendingLastUVPrimitiveUV;
+    // This is the last uv location chosen in the 3d viewport that
+    // was cooked with.
+    GA_Index		 myLastUVPrimitive;
+    UT_Vector3		 myLastUVPrimitiveUV;
+    // This is the last uv position that was cooked with.
+    bool		 myLastUVPosValid;
+    UT_Vector3		 myLastUVPos;
+    UT_Vector3		 myUVBrushDir;
+    UT_Vector3		 myUVBrushPos;
+    GU_Brush	 	 myBrush;
+    GU_RayIntersect	*myRayIntersect;
+    TIL_TextureMap	*myNibFile;
+    GU_Detail		*myBrushCursor;
+    UT_Matrix3		 myCursorOrient;
+    // These two are intentionally ephemeral variable which is NOT saved.
+    // The state tweaks this to turn on/off visualization.
+    bool	 	 myForceVisualize;
+    int			 myIsectNodeId;
+    /// These track our last geo and last isectgeo to see if it has changed.
+    /// @{
+    int                  myLastGDPId;
+    int                  myLastIsectGDPId;
+    GA_Size              myLastIsectGDPPtCount;
+    int64                myLastIsectGDPTopoId;
+    int64                myLastIsectGDPPrimId;
+    int64                myLastIsectGDPPId;
+    int64                myLastIsectGDPVisId;
+    int64                myLastIsectGDPPrGrpId;
+    int64                myLastIsectGDPPtGrpId;
+    /// @}
+    // This is so our callbacks know our cook time...
+    fpreal		 myCookTime;
+    bool		 myHitInUV;
+    UT_StringHolder      myUVAttribName;
+    GDT_Detail		 myMirroredDelta;
+    GDT_MirrorTransform	 myMirrorTransform;
+    SOP_BrushOp		 myCachedBrushOp[SOP_BRUSH_NUM_PENS];
+
+
+SOP_UndoGDT
+SOP_UndoGDTOpDepend
+
+
+```
 
 
 ## QA
