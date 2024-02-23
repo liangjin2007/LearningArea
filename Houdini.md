@@ -545,15 +545,6 @@ typedef UT_IntrusivePtr<GT_FaceSetMap>		GT_FaceSetMapPtr;
 ```
 
 #### 2.9. UI库
-```
-
-```
-#### 2.10. SOP库
-```
-```
-#### 2.11. State
-
-
 - UI_EventMethod
 typedef void (UI_Object::*UI_EventMethod)(UI_Event* );
 
@@ -650,175 +641,33 @@ xxx myKeyBindingProxyRequestTable;
 全局函数：
 SIgetObject(app, name);
 SIgetValue(app, name);
-
 ```
-
-- BM_SimpleState: handles and states， 不可实例化
+#### 2.10. SOP库
 ```
-有关的类：
-RE_Render, RE_Cursor, UI_Menu, BM_SceneManager, BM_Viewport
-
-成员函数：
-BM_SimpleState(BM_SceneManager&app, cursor, name, vnames, vmethods);
-getIconName
-getLabel
-getDescription
-getHotkeyString
-getStateMenu()
-getSelectorMenu()
-getExtraStateMenu()
-onBeginRMBMenu();
-enter() = 0, exit() = 0, interrupt(); resume();
-virtual void handleMouseEvent(e) = 0;
-virtual void handleKeyEvent(int key, e) final;
-virtual void handleKeyTypeEvent(key, e, viewport);
-virtual void render(r, x, y);
-virtual vid overlayRender(r, x, y);
-virtual int getToolboxCount() const;
-virtual UI_Feel *getToolbox(index) const;
-volatile state and non-volatile state
-virtual bool isOverlay() const;
-virtual int getVolatileToolboxCount() const;
-virtual UI_Feel* getVolatileToolbox(int index) const;
-// Handle ? 
-virtual int isHandle() const = 0;
-virtual int isModifier() const = 0;  //
-
-sceneManager();
-replaceCursor(newcursor);
-unsigned int getViewportMask();
-
-beginDistributedUndoBlock(operation, blocktype, ignore_log);
-endDistributedUndoBlock(ignore_log);
-
-void pushCursor();
-void popCursor();
-setDefaultCursor();
-void initializeUI();
-
-void mouseDown(e);
-int mouseDown() const;
-
-void setViewportMask(unsigned mask);
-成员变量：
-mySceneManager
-muCursor
-myPrevState
-myVolatileViewport
-UI_Feel *myMenuGadget;
-UI_Feel * myOrthoMenuGadget;
-UI_Feel *mySimpleToolbox;
-myUndoWorkerFinder;
-myCursorStack;
-```  
-
-- BM_ParmState: 支持parameters的state/handle, 貌似相關接口都沒有在samples中出現。 不可实例化
 ```
-成员函数：
-
-dialogFeel() const;
-getToolboxCount();
-getToolbox(int index);
-virtual int disableParms();
-
-const PRM_Parm* parameter(name) const;
-PRM_ParmList *parameters() const;
-UI_Value *parmValue() const;
-
-成员变量：
-myParmToolbox
-myParmList
-myParmVal
-myToolboxParmVal
-myParmDialog
-myExtraParmDialog
-myPresetInfo;
-```
-
-- BM_State: BM state的基类, 看isHandle()是返回0， 可实例化
-```
-有关的类：
-DD_ChoiceList
-函数：
-int isHandle() const override{ return 0; }
-virtual void concealState();
-virtual void revealState();
-
-virtual int preprocessSelect(e);
-virtual int handleMouseEvent(e) override;
-virtual int handleMouseWheelEvent(e); // 第一个处理Wheel的state
-virtual int handleDoubleClickEvent(e); // 第一个处理DoubleClick的state
-virtual void handleGeoChangedEvent(e);
-virtual void handleDetailLookGeomChanged(BM_DetailLook *look);
-
-virtual void render(r, x, y) override;
-virtual void renderPartialOverlay(r, x, y);
-
-virtual int generate(how, parms);
-void startGenerating(how, requestnew, exsitu);
-virtual void stopGenerating();
-
-int hasOpNode(node) const;
-handleOpNodeChange(node);
-handleOpUIChange(node);
-handleOpNetChange(network);
-handleOpNetClear();
-
-virtual int handleNodeDeleted(node);
-
-// BM_StateFlags related functions
-void wantsLocates(int yesNo);
-...
-
-virtual bool ignoreDisplayFlagChange() const;
-
-virtual bool getAllowIndirectHandleDrag() const; // MMB can be used for indirect handle drags.
-
-PI_StateTemplate &getTemplate() const;
-
-virtual int isOpIndependent() const;
-
-virtual void refreshBindings(id, op_type);
-
-virtual bool showPersistent() const;
-
-virtual bool getShowSelectedOp() const;
-
-virtual UI_Feel* getCustomSelectModeSideBar() const;
-
-virtual bool useSecureSelection() const;
-
-virtual bool useVolatileSelection() const;
-
-// Drag and drop support
-virtual int testDragDrop(DD_Source&);
-...
-
-//
-virtual bool switchHandleTool(BM_MoveTool::Type tool, bool reveal_updated_handles){return false;}
-
-virtual void initializeHUDs();
-int updateHUD(args);
-void enterHUD();
-void exitHUD();
-void renderHUD();
-
-成员变量：
-myState;
-myFlags;
-static UI_Event theDelayedSelectionEvent;
-PI_StateTemplate &myTemplate;
-bool myCursorPushed;
-int myBusyCounter;
-int myUniqueId;
-myQtNotifier;
-myViewNotifier;
-```
-
-- BM_OpState: automated state that links handles with op parameters.
+#### 2.11. BM库和MSS库
 
 
 #### 2.12. 刷子相关
+- [Brush tools documentation](https://www.sidefx.com/docs/houdini/basics/brush.html)
+
+- Houdini Basics
+```
+GETTING STARTED
+Introduction to Houdini
+User interface https://www.sidefx.com/docs/houdini/basics/ui.html
+Viewing the scene
+Selecting objects and components
+Using handles https://www.sidefx.com/docs/houdini/basics/handles.html
+Working with objects
+Tab menu
+Networks and parameters
+```
+
+- [Houdini Commands](https://www.sidefx.com/docs/houdini/commands/_guide.html)
+
+
+
 - Geometry creation: SOP_Star.C
 ```  
 auto &&sopparms = cookparms.parms<SOP_StarParms>();
@@ -949,6 +798,7 @@ detail->setPos3(ptoff, pos);
 
 ```
 
+- Brush Related Classes
 ```
 GA_GBElement -> GA_GBPoint -> GEO_Point
 	    const GA_IndexMap	*myIndexMap;
@@ -1113,7 +963,174 @@ SOP_BrushBase
 
 SOP_UndoGDT
 SOP_UndoGDTOpDepend
+```
 
+- UI related
+```
+UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState - > BM_SingleOpState -> MSS_SingleOpBaseState-> MSS_SingleOpState -> MSS_BrushBaseState
+AP_Interface
+    UI_NamedValueMap	 *myValueTable;
+    UI_NamedObjectMap	 *myObjectTable;
+    UI_NamedKeyDelegateMap	 *myKeyDelegateTable;
+    NamedProxyRequestMap	 *myKeyBindingProxyRequestTable;	
+BM_SimpleState
+    BM_SceneManager 	&mySceneManager;// The sceneManager I'm a state of.
+    const char		*myCursor;	// the name of our cursor.
+    BM_SimpleState	*myPrevState;	// The state we're preempting
+    BM_Viewport		*myVolatileViewport; // the viewport that events
+					     // dealing with menus and other
+					     // volatile handles should go to
+    UI_Feel		*myMenuGadget;	   // the feel that holds the menu
+    UI_Feel		*myOrthoMenuGadget;// the feel that holds the menu to
+					   // be used in ortho viewports
+    int			myDistributedUndoBlockLevel;
+    UI_Feel		*mySimpleToolbox;
+    unsigned int	 myViewportMask; // bit mask for viewports in which
+					 // we need to handle events.
+    int			 myMouseDown; // mouse button down on START or PICKED
+    UT_UndoWorkerFinder<BM_SimpleState> myUndoWorkerFinder;
+    UT_Array<RE_Cursor*> myCursorStack;
+BM_ParmState
+    UT_String		 myName; 	// name 
+    UT_String		 myEnglishName; // name in English
+    PSI2_DialogPRMExported *myParmToolbox;
+    PRM_ParmList	*myParmList;	// the parms inside the dialog
+    UI_Value		*myParmVal;	// value to communicate with parms
+    UI_Value		*myToolboxParmVal;
+    PSI2_DialogPRM	*myParmDialog;	// the dialog that holds the parms
+    PSI2_DialogPRM	*myExtraParmDialog; // an extra copy of that dialog.
+    PRM_PresetInfo	*myPresetInfo;
+    unsigned		 myOwnParmsFlag:1,  // own its parm list and dialog?
+			 mySaveParmForUndoFlag:1; //should save parm for undo?
+BM_State
+    PI_StateTemplate	&myTemplate;
+    bool		myCursorPushed;
+    int			myBusyCounter;
+    int			myUniqueId;
+    // HUD info updates queued while this state was being constructed in
+    // BM_ResourceManager::newState().
+    UT_Array<HUDInfoArgsCopyUPtr>	myNewStateHUDQueue;
+    // Specific data member for handling the HUD notifications.
+    UT_SharedPtr<bmQtNotifier>	myQtNotifier;
+    UT_SharedPtr<bmViewNotifier> myViewNotifier;
+
+BM_OpState : virtual class
+    BM_OpView				&myViewer;
+    UT_ValArray<opbm_DialogInfo *>	 myDialogs;
+    UT_ValArray<opbm_PIContext *>	 myPIs;
+    UT_ValArray<UI_Feel *>		 myMiscFeels;
+    SI_Folders				*myFolders;
+    static const char			*STATE_DIALOG_FOLDER;
+    static const char			*HANDLES_FOLDER;
+    static const char			*OP_DIALOG_FOLDER;
+    static int				 theAutoHighlightFlag;
+    UT_Map<std::pair<int32 /*folder id*/, int64 /*ui cache id*/>, opbm_UIInfo> myUIInfoMap;
+
+BM_SingleOpState； virtual class
+   // data
+    int			 myOpNodeId;
+    OP_Node		*mySavedOpNode;
+    OPUI_Dialog		*myOpToolbox;
+    UT_SymbolMap<int>	 myHandleTable;
+
+    // As long as this state is alive, remember what PIs are visible
+    UT_BitArray		 myHandleVisibility;
+
+    UT_String		 myRestartInfoFile;
+    UT_IntArray		 myRestartOpInputs;
+    UT_StringArray	 myRestartOpIndirectInputs;
+    int			 myRestartOpId;
+
+OP3D_InputSelector
+	
+PI_BindingSelectorInfo
+    UT_String		 myName;
+    UT_String		 myDescription;
+    UT_String		 myPrompt;
+    UT_String		 myOpParm;
+    UT_String		 myMenu;
+    UT_String		 myPrimMask;
+    int			 myOpInput;
+    bool		 myOpInputReq;
+    bool		 myAllowDrag;
+    bool		 myAstSelAll;
+    UT_String		 myExtraInfo;
+
+MSS_SelectorBind
+	OP3D_InputSelector		*mySelector;
+	const PI_BindingSelectorInfo	*mySelectorInfo;
+
+MSS_SingleOpState
+    // info about selectors
+    UT_Array<MSS_SelectorBind>		 mySelectors;
+    OP3D_InputSelector			*myCurrentSelector;
+    const PI_BindingSelectorInfo	*myCurrentSelectorInfo;
+    // Selector used for selector hotkeys when in quickselect mode and 
+    // secure selection is turned off.
+    OP3D_InputSelector			*myHotkeySelector;
+    UI_Menu *				 myHotkeySelectorMenu;
+    // The selector index is the index of the current selector in the list of
+    // selectors provided for this state.  It coincides with the index into
+    // the gdp's set of temporary selections.
+    int					 mySelectorIndex;
+    UT_ValArray<UT_StringArray *>	 myReselectPathLists;
+    UT_StringArray			 myReselectSelectionStrings;
+    UT_Array<GA_GroupType>	 	 myReselectSelectionTypes;
+    UI_Value				 mySelFinishedValue;
+    float				 mySelectorActiveCoords[2];
+    UI_Event				 myRapidFireActiveEvent;
+    UI_Value				 myRapidFireActiveEventValue;
+    mss_InputSelectorUndoWorker *	 mySelectorUndoWorker;
+    int					 mySelectableFlag; // uses selectors?
+    unsigned				 myMouseTakenFlag:1; // can rapid-fire?
+    bool				 myFirstSelectionFlag;
+    bool				 myInNonSecureUndo;
+    bool				 myInNonSecureSelector;
+    bool				 myAllowExportingCookSelectionType;
+    bool				 myHasGeoChangedInterest;
+    int					 myDoubleClickUndoLevel;
+
+MSS_SingleOpBaseState
+	nothing
+
+MSS_BrushBaseState
+    DM_ModifierKeys	 myModifierKeys;
+    DM_ModifierKeys	 myFinishModifierKeys;
+    DM_ModifierKeys	 myWheelModifierKeys;
+    SOP_BrushBase	*mySavedBrushNode;
+    GU_RayIntersect 	 myRayIntersect;
+    DM_Detail		 myBrushHandle;
+    GU_Detail		 myBrushCursor;
+    UT_Matrix4		 myBrushCursorXform;
+    bool		 myRenderBrushCursor;
+    bool		 myBrushCursorIsUV;
+    bool		 myOneHit;
+    bool		 myLocatedFlag;
+    UT_Vector2		 myOldCoord;
+
+    // These are used track the resizing of the cursor in the viewport
+    bool		 myResizingCursor;
+    int			 myLastCursorX, myLastCursorY;
+
+    // This is used to stash the last valid cursor orientation.
+    // This allows us to rebuild the orientation to resize on
+    // the users request without reintersecting.
+    bool		 myOldOrientValid;
+    fpreal		 myOldOrientT;
+    UT_Vector3		 myOldOrientHitPos;
+    UT_Vector3		 myOldOrientHitNml;
+    float		 myOldOrientScaleHistory;
+    bool		 myOldOrientIsUV;
+    GA_Index		 myOldOrientHitPrim;
+    float		 myOldOrientHitU;
+    float		 myOldOrientHitV;
+    float		 myOldOrientHitW;
+
+    UI_Value		 myPrimaryButtonVal;
+    UI_Value		 mySecondaryButtonVal;
+    UI_Value		 myBrushShapeVal;
+    UI_Value		 myBrushOrientVal;
+    UI_Value		 myAccumStencilVal;
 
 ```
 
