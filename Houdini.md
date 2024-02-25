@@ -642,6 +642,356 @@ xxx myKeyBindingProxyRequestTable;
 SIgetObject(app, name);
 SIgetValue(app, name);
 ```
+
+- State
+```
+UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState - > BM_SingleOpState -> MSS_SingleOpBaseState-> MSS_SingleOpState -> MSS_BrushBaseState
+AP_Interface
+    UI_NamedValueMap	 *myValueTable;
+    UI_NamedObjectMap	 *myObjectTable;
+    UI_NamedKeyDelegateMap	 *myKeyDelegateTable;
+    NamedProxyRequestMap	 *myKeyBindingProxyRequestTable;	
+BM_SimpleState
+    BM_SceneManager 	&mySceneManager;// The sceneManager I'm a state of.
+    const char		*myCursor;	// the name of our cursor.
+    BM_SimpleState	*myPrevState;	// The state we're preempting
+    BM_Viewport		*myVolatileViewport; // the viewport that events
+					     // dealing with menus and other
+					     // volatile handles should go to
+    UI_Feel		*myMenuGadget;	   // the feel that holds the menu
+    UI_Feel		*myOrthoMenuGadget;// the feel that holds the menu to
+					   // be used in ortho viewports
+    int			myDistributedUndoBlockLevel;
+    UI_Feel		*mySimpleToolbox;
+    unsigned int	 myViewportMask; // bit mask for viewports in which
+					 // we need to handle events.
+    int			 myMouseDown; // mouse button down on START or PICKED
+    UT_UndoWorkerFinder<BM_SimpleState> myUndoWorkerFinder;
+    UT_Array<RE_Cursor*> myCursorStack;
+BM_ParmState
+    UT_String		 myName; 	// name 
+    UT_String		 myEnglishName; // name in English
+    PSI2_DialogPRMExported *myParmToolbox;
+    PRM_ParmList	*myParmList;	// the parms inside the dialog
+    UI_Value		*myParmVal;	// value to communicate with parms
+    UI_Value		*myToolboxParmVal;
+    PSI2_DialogPRM	*myParmDialog;	// the dialog that holds the parms
+    PSI2_DialogPRM	*myExtraParmDialog; // an extra copy of that dialog.
+    PRM_PresetInfo	*myPresetInfo;
+    unsigned		 myOwnParmsFlag:1,  // own its parm list and dialog?
+			 mySaveParmForUndoFlag:1; //should save parm for undo?
+BM_State
+    PI_StateTemplate	&myTemplate;
+    bool		myCursorPushed;
+    int			myBusyCounter;
+    int			myUniqueId;
+    // HUD info updates queued while this state was being constructed in
+    // BM_ResourceManager::newState().
+    UT_Array<HUDInfoArgsCopyUPtr>	myNewStateHUDQueue;
+    // Specific data member for handling the HUD notifications.
+    UT_SharedPtr<bmQtNotifier>	myQtNotifier;
+    UT_SharedPtr<bmViewNotifier> myViewNotifier;
+
+BM_OpState : virtual class
+    BM_OpView				&myViewer;
+    UT_ValArray<opbm_DialogInfo *>	 myDialogs;
+    UT_ValArray<opbm_PIContext *>	 myPIs;
+    UT_ValArray<UI_Feel *>		 myMiscFeels;
+    SI_Folders				*myFolders;
+    static const char			*STATE_DIALOG_FOLDER;
+    static const char			*HANDLES_FOLDER;
+    static const char			*OP_DIALOG_FOLDER;
+    static int				 theAutoHighlightFlag;
+    UT_Map<std::pair<int32 /*folder id*/, int64 /*ui cache id*/>, opbm_UIInfo> myUIInfoMap;
+
+BM_SingleOpState； virtual class
+   // data
+    int			 myOpNodeId;
+    OP_Node		*mySavedOpNode;
+    OPUI_Dialog		*myOpToolbox;
+    UT_SymbolMap<int>	 myHandleTable;
+
+    // As long as this state is alive, remember what PIs are visible
+    UT_BitArray		 myHandleVisibility;
+
+    UT_String		 myRestartInfoFile;
+    UT_IntArray		 myRestartOpInputs;
+    UT_StringArray	 myRestartOpIndirectInputs;
+    int			 myRestartOpId;
+
+	
+PI_BindingSelectorInfo
+    UT_String		 myName;
+    UT_String		 myDescription;
+    UT_String		 myPrompt;
+    UT_String		 myOpParm;
+    UT_String		 myMenu;
+    UT_String		 myPrimMask;
+    int			 myOpInput;
+    bool		 myOpInputReq;
+    bool		 myAllowDrag;
+    bool		 myAstSelAll;
+    UT_String		 myExtraInfo;
+
+MSS_SelectorBind
+	OP3D_InputSelector		*mySelector;
+	const PI_BindingSelectorInfo	*mySelectorInfo;
+
+MSS_SingleOpState
+    // info about selectors
+    UT_Array<MSS_SelectorBind>		 mySelectors;
+    OP3D_InputSelector			*myCurrentSelector;
+    const PI_BindingSelectorInfo	*myCurrentSelectorInfo;
+    // Selector used for selector hotkeys when in quickselect mode and 
+    // secure selection is turned off.
+    OP3D_InputSelector			*myHotkeySelector;
+    UI_Menu *				 myHotkeySelectorMenu;
+    // The selector index is the index of the current selector in the list of
+    // selectors provided for this state.  It coincides with the index into
+    // the gdp's set of temporary selections.
+    int					 mySelectorIndex;
+    UT_ValArray<UT_StringArray *>	 myReselectPathLists;
+    UT_StringArray			 myReselectSelectionStrings;
+    UT_Array<GA_GroupType>	 	 myReselectSelectionTypes;
+    UI_Value				 mySelFinishedValue;
+    float				 mySelectorActiveCoords[2];
+    UI_Event				 myRapidFireActiveEvent;
+    UI_Value				 myRapidFireActiveEventValue;
+    mss_InputSelectorUndoWorker *	 mySelectorUndoWorker;
+    int					 mySelectableFlag; // uses selectors?
+    unsigned				 myMouseTakenFlag:1; // can rapid-fire?
+    bool				 myFirstSelectionFlag;
+    bool				 myInNonSecureUndo;
+    bool				 myInNonSecureSelector;
+    bool				 myAllowExportingCookSelectionType;
+    bool				 myHasGeoChangedInterest;
+    int					 myDoubleClickUndoLevel;
+
+MSS_SingleOpBaseState
+	nothing
+
+MSS_BrushBaseState
+    DM_ModifierKeys	 myModifierKeys;
+    DM_ModifierKeys	 myFinishModifierKeys;
+    DM_ModifierKeys	 myWheelModifierKeys;
+    SOP_BrushBase	*mySavedBrushNode;
+    GU_RayIntersect 	 myRayIntersect;
+    DM_Detail		 myBrushHandle;
+    GU_Detail		 myBrushCursor;
+    UT_Matrix4		 myBrushCursorXform;
+    bool		 myRenderBrushCursor;
+    bool		 myBrushCursorIsUV;
+    bool		 myOneHit;
+    bool		 myLocatedFlag;
+    UT_Vector2		 myOldCoord;
+
+    // These are used track the resizing of the cursor in the viewport
+    bool		 myResizingCursor;
+    int			 myLastCursorX, myLastCursorY;
+
+    // This is used to stash the last valid cursor orientation.
+    // This allows us to rebuild the orientation to resize on
+    // the users request without reintersecting.
+    bool		 myOldOrientValid;
+    fpreal		 myOldOrientT;
+    UT_Vector3		 myOldOrientHitPos;
+    UT_Vector3		 myOldOrientHitNml;
+    float		 myOldOrientScaleHistory;
+    bool		 myOldOrientIsUV;
+    GA_Index		 myOldOrientHitPrim;
+    float		 myOldOrientHitU;
+    float		 myOldOrientHitV;
+    float		 myOldOrientHitW;
+
+    UI_Value		 myPrimaryButtonVal;
+    UI_Value		 mySecondaryButtonVal;
+    UI_Value		 myBrushShapeVal;
+    UI_Value		 myBrushOrientVal;
+    UI_Value		 myAccumStencilVal;
+
+```
+
+- Selector
+```
+UI_Object -> AP_Interface -> BM_InputSelector -> DM_InputSelector -> OP3D_InputSelectorBase -> OP3D_InputSelector -> OP3D_GenericSelector
+
+BM_InputSelector
+    PI_SelectorTemplate	&myTemplate;
+    BM_View		*myBaseViewer;
+    const char		*myBumpedCursor; // cursor I'm replacing when active
+
+DM_InputSelector: virtual class
+OP3D_InputSelectorBase
+    Proxy			*myProxy;
+    DM_Workbench		*myWorkbench;
+
+    UI_Value			*myFinishedValue;
+    UI_Value			*myLocatedValue;
+    UI_Value			*mySelectionStyle;
+    UI_Value			*myVisiblePickValue;
+    UI_Value			*myContainedPickValue;
+    UI_Value			*mySelectionRule;
+
+    SI_RubberBox		*myPickBox;	// for box selection
+    SI_Lasso			*myPickLasso;	// for lasso selection
+    SI_Brush			*myPickBrush;	// for brush selection
+    SI_Brush			*myPickLaser;	// for laser selection
+
+    DM_SelectMode		 myPreferredSelectMode;
+    bool			 myAllowDragging;
+    bool			 myAllowFinishingFlag;
+    bool			 myAllowFinishWithExistingSelection;
+    bool			 myAllowQuickSelect;
+    bool			 myAllowEmptyQuickSelect;
+    bool			 myJustDisplayedOpFlag;
+    bool			 myActivePicking;
+
+    UT_StringMap<UT_IntArray>	 myPriorObjSelections;
+    bool			 myCreatedPriorSelections;
+ 
+    static bool			 thePickingMenuOn;
+    static bool			 theAllowUseExistingSelection;
+    static bool			 theSelectFullLoops;
+
+    // Drawable selection
+    bool			 myDrawableSelectableFlag;
+    UT_StringArray		 myDrawableMask;
+
+OP3D_InputSelector
+   // Hotkey methods
+    static UI_HotkeyHelper::Entry   theHotkeyList[];
+
+    UI_HotkeyHelper	 myHotkeyHelper;
+    DM_Viewport		*myHotkeyViewport;
+
+    UT_String		 myCurrentPrompt;
+    UT_String		 myDefaultPrompt;
+
+    UT_String		 myCreatorStateName;
+
+    UI_Value		*myGeoChangedValue;
+    UI_Value		*mySelectionTypeValue;	// prims, points, etc.
+    UI_Value		*myFullSelection;	// select whole gdp
+    UI_Value		*myAlwaysLocate;	// always do locating
+
+    // A selector can optionally be "sloppy" as described in the comment for
+    // setSloppyPick(), whereby the user can pick any of the component types
+    // allowed by mySloppyPickMask (automatically built from myAllowedTypes).
+    // Once a component is picked in this mode, mySloppySelectionType will be
+    // set and only components of that type can be selected until selections
+    // are cleared.
+    unsigned		 mySloppyPickMask;
+    GA_GroupType	 mySloppySelectionType;
+    GA_GroupType	 mySloppyFallbackSelectionType;
+    bool		 mySloppyPick;
+    bool		 mySloppySelectionTypeIsSet;
+
+    // When overriding the values indicated by the UI buttons for the
+    // above, keep previous values so we can restore.
+    bool		 myCustomSelValFlag;
+    int			 mySavedSelType;
+    int			 mySavedSelRule;
+    int			 mySavedSelStyle;
+    int			 mySavedFullSel;
+    int			 mySavedAlwaysLocate;
+
+    GEO_PrimTypeCompat::TypeMask myPrimMask;	// polygon, nurbs, etc.
+    
+    // NB: The relative order of the selection infos only matters when the
+    //     individual selections have the same pick order set.
+    UT_Array<OP3D_SelectionInfo> mySelectionInfos;
+    UT_Map<InfoKey, int>	 mySelectionInfoLookup;
+
+    UT_IntArray			 mySelectedInfoIndices;
+    int				 myNextPickOrder;
+
+    typedef OP3D_SelectionManager::ComponentScopeKey ScopeKey;
+    ScopeKey			 myScope;
+    
+    int			 myLastMouseDown;	// needed for changed events
+    int			 myLastMouseStartX;	//   "     "     "      "
+    int			 myLastMouseStartY;	//   "     "     "      "
+
+    bool                 myResizingCursor;      // Cursor resize drag active.
+
+    int			 myNodeIdForReselecting;// reselecting for this node
+
+    bool		 myUseExistingTempSelection;
+    bool		 myUseExistingCookSelection;
+    bool		 myStashSelectionOnFinish;
+    bool		 myInputRequiredFlag;	// is an input op required?
+    bool		 myAllowDragSelFlag;	// allow box/lasso selecting?
+    bool		 myFullSelFlag;		// do only full selections?
+    bool		 mySaveUndosFlag;	// save undo information?
+    bool		 myUseAsteriskToSelectAll; // use '*' to select all?
+    bool		 myUsePrimsInEdgeSelectionFlag; // use primitives when
+						// selecting edges (e.g. 0e1)
+    bool		 myPickAtObjLevelFlag;	// pick geo at OBJ level
+    bool		 myAllowEdgeRingSelection;
+    int		 	 myOffsetVertexMarkersOverride;
+    int		 	 myOffsetVertexMarkersSaved;
+
+    // Flag to track whether the auto converted selections stored in the
+    // selection info have been set.
+    bool		 myAutoConvertedSelectionsFlag;
+
+    // After we finish selecting we must remember our type.
+    PI_GeometryType	 myFinishGeometryType;
+    int			 myFinishGroupTypeMenuVal;
+
+    // Component type of current selection.
+    PI_GeometryType	 myCurrentComponentType;
+
+    // A flag to track whether this selector is currently updating the geometry
+    // type buttons in setGeometryType().
+    bool		 myUpdatingGeometryTypeButtons;
+
+    bool		 myHadDoubleClick;
+    
+    struct InitialSelection
+    {
+	GA_GroupType type;
+	int index;
+	UT_StringHolder selection_string;
+    };
+    UT_StringMap<InitialSelection>	 myInitialSelections;
+
+    OP3D_InputSelectorUndoWorker	*myUndoWorker;
+    bool				 myOwnUndoWorker;
+    PI_GeometryTypeArray		 myAllowedTypes;
+
+    HeldHotkeyCacheUPtr			 myHeldHotkeyCache;
+
+    // Utility for edge loops.  The loop start pick is persistent across
+    // multiple locate events, and so myLoopStartPickPath should be used
+    // to identify the geometry to use with myLoopStartPick instead of
+    // myLoopStartPick.getLookId() and myLoopStartPick.getDetailIndex().
+    // To help avoid unnecessary lookups using the path, we track when
+    // we've already updated the myLoopStartPick record to match the path
+    // across extended operations in myLoopStartPickRecordMatchesPath.
+    OP3D_EdgeLoopHelper			*myEdgeLoopHelper;
+    UT_String				 myLoopStartPickPath;
+    GR_PickRecord			 myLoopStartPick;
+    GR_PickRecord			 myLoopPrevPick;
+    bool				 myLoopStartPickOnlyLocated;
+    bool				 myLoopStartPickRecordMatchesPath;
+    OP3D_ValidForPickFilter		 myValidForPickFilter;
+    void				*myValidForPickFilterData;
+
+    LocateFilter	 myLocateFilter 			= nullptr;
+    bool		 myAllowMultiPickLoopStart		= false;
+
+    // A map from SOP node ID and detail handle index to a helper class for
+    // pattern selections.
+    UT_Map<std::pair<int, int>, OP3D_PatternSelectHelper*> myPatternHelpers;
+
+    // Drawable selection
+    GUI_DetailLookPtr myDrawablePicker;
+
+OP3D_GenericSelector
+    no member
+```
+
 #### 2.10. SOP库
 ```
 ```
@@ -965,174 +1315,7 @@ SOP_UndoGDT
 SOP_UndoGDTOpDepend
 ```
 
-- UI related
-```
-UI_Object -> AP_Interface -> BM_SimpleState -> BM_ParmState -> BM_State -> BM_OpState - > BM_SingleOpState -> MSS_SingleOpBaseState-> MSS_SingleOpState -> MSS_BrushBaseState
-AP_Interface
-    UI_NamedValueMap	 *myValueTable;
-    UI_NamedObjectMap	 *myObjectTable;
-    UI_NamedKeyDelegateMap	 *myKeyDelegateTable;
-    NamedProxyRequestMap	 *myKeyBindingProxyRequestTable;	
-BM_SimpleState
-    BM_SceneManager 	&mySceneManager;// The sceneManager I'm a state of.
-    const char		*myCursor;	// the name of our cursor.
-    BM_SimpleState	*myPrevState;	// The state we're preempting
-    BM_Viewport		*myVolatileViewport; // the viewport that events
-					     // dealing with menus and other
-					     // volatile handles should go to
-    UI_Feel		*myMenuGadget;	   // the feel that holds the menu
-    UI_Feel		*myOrthoMenuGadget;// the feel that holds the menu to
-					   // be used in ortho viewports
-    int			myDistributedUndoBlockLevel;
-    UI_Feel		*mySimpleToolbox;
-    unsigned int	 myViewportMask; // bit mask for viewports in which
-					 // we need to handle events.
-    int			 myMouseDown; // mouse button down on START or PICKED
-    UT_UndoWorkerFinder<BM_SimpleState> myUndoWorkerFinder;
-    UT_Array<RE_Cursor*> myCursorStack;
-BM_ParmState
-    UT_String		 myName; 	// name 
-    UT_String		 myEnglishName; // name in English
-    PSI2_DialogPRMExported *myParmToolbox;
-    PRM_ParmList	*myParmList;	// the parms inside the dialog
-    UI_Value		*myParmVal;	// value to communicate with parms
-    UI_Value		*myToolboxParmVal;
-    PSI2_DialogPRM	*myParmDialog;	// the dialog that holds the parms
-    PSI2_DialogPRM	*myExtraParmDialog; // an extra copy of that dialog.
-    PRM_PresetInfo	*myPresetInfo;
-    unsigned		 myOwnParmsFlag:1,  // own its parm list and dialog?
-			 mySaveParmForUndoFlag:1; //should save parm for undo?
-BM_State
-    PI_StateTemplate	&myTemplate;
-    bool		myCursorPushed;
-    int			myBusyCounter;
-    int			myUniqueId;
-    // HUD info updates queued while this state was being constructed in
-    // BM_ResourceManager::newState().
-    UT_Array<HUDInfoArgsCopyUPtr>	myNewStateHUDQueue;
-    // Specific data member for handling the HUD notifications.
-    UT_SharedPtr<bmQtNotifier>	myQtNotifier;
-    UT_SharedPtr<bmViewNotifier> myViewNotifier;
 
-BM_OpState : virtual class
-    BM_OpView				&myViewer;
-    UT_ValArray<opbm_DialogInfo *>	 myDialogs;
-    UT_ValArray<opbm_PIContext *>	 myPIs;
-    UT_ValArray<UI_Feel *>		 myMiscFeels;
-    SI_Folders				*myFolders;
-    static const char			*STATE_DIALOG_FOLDER;
-    static const char			*HANDLES_FOLDER;
-    static const char			*OP_DIALOG_FOLDER;
-    static int				 theAutoHighlightFlag;
-    UT_Map<std::pair<int32 /*folder id*/, int64 /*ui cache id*/>, opbm_UIInfo> myUIInfoMap;
-
-BM_SingleOpState； virtual class
-   // data
-    int			 myOpNodeId;
-    OP_Node		*mySavedOpNode;
-    OPUI_Dialog		*myOpToolbox;
-    UT_SymbolMap<int>	 myHandleTable;
-
-    // As long as this state is alive, remember what PIs are visible
-    UT_BitArray		 myHandleVisibility;
-
-    UT_String		 myRestartInfoFile;
-    UT_IntArray		 myRestartOpInputs;
-    UT_StringArray	 myRestartOpIndirectInputs;
-    int			 myRestartOpId;
-
-OP3D_InputSelector
-	
-PI_BindingSelectorInfo
-    UT_String		 myName;
-    UT_String		 myDescription;
-    UT_String		 myPrompt;
-    UT_String		 myOpParm;
-    UT_String		 myMenu;
-    UT_String		 myPrimMask;
-    int			 myOpInput;
-    bool		 myOpInputReq;
-    bool		 myAllowDrag;
-    bool		 myAstSelAll;
-    UT_String		 myExtraInfo;
-
-MSS_SelectorBind
-	OP3D_InputSelector		*mySelector;
-	const PI_BindingSelectorInfo	*mySelectorInfo;
-
-MSS_SingleOpState
-    // info about selectors
-    UT_Array<MSS_SelectorBind>		 mySelectors;
-    OP3D_InputSelector			*myCurrentSelector;
-    const PI_BindingSelectorInfo	*myCurrentSelectorInfo;
-    // Selector used for selector hotkeys when in quickselect mode and 
-    // secure selection is turned off.
-    OP3D_InputSelector			*myHotkeySelector;
-    UI_Menu *				 myHotkeySelectorMenu;
-    // The selector index is the index of the current selector in the list of
-    // selectors provided for this state.  It coincides with the index into
-    // the gdp's set of temporary selections.
-    int					 mySelectorIndex;
-    UT_ValArray<UT_StringArray *>	 myReselectPathLists;
-    UT_StringArray			 myReselectSelectionStrings;
-    UT_Array<GA_GroupType>	 	 myReselectSelectionTypes;
-    UI_Value				 mySelFinishedValue;
-    float				 mySelectorActiveCoords[2];
-    UI_Event				 myRapidFireActiveEvent;
-    UI_Value				 myRapidFireActiveEventValue;
-    mss_InputSelectorUndoWorker *	 mySelectorUndoWorker;
-    int					 mySelectableFlag; // uses selectors?
-    unsigned				 myMouseTakenFlag:1; // can rapid-fire?
-    bool				 myFirstSelectionFlag;
-    bool				 myInNonSecureUndo;
-    bool				 myInNonSecureSelector;
-    bool				 myAllowExportingCookSelectionType;
-    bool				 myHasGeoChangedInterest;
-    int					 myDoubleClickUndoLevel;
-
-MSS_SingleOpBaseState
-	nothing
-
-MSS_BrushBaseState
-    DM_ModifierKeys	 myModifierKeys;
-    DM_ModifierKeys	 myFinishModifierKeys;
-    DM_ModifierKeys	 myWheelModifierKeys;
-    SOP_BrushBase	*mySavedBrushNode;
-    GU_RayIntersect 	 myRayIntersect;
-    DM_Detail		 myBrushHandle;
-    GU_Detail		 myBrushCursor;
-    UT_Matrix4		 myBrushCursorXform;
-    bool		 myRenderBrushCursor;
-    bool		 myBrushCursorIsUV;
-    bool		 myOneHit;
-    bool		 myLocatedFlag;
-    UT_Vector2		 myOldCoord;
-
-    // These are used track the resizing of the cursor in the viewport
-    bool		 myResizingCursor;
-    int			 myLastCursorX, myLastCursorY;
-
-    // This is used to stash the last valid cursor orientation.
-    // This allows us to rebuild the orientation to resize on
-    // the users request without reintersecting.
-    bool		 myOldOrientValid;
-    fpreal		 myOldOrientT;
-    UT_Vector3		 myOldOrientHitPos;
-    UT_Vector3		 myOldOrientHitNml;
-    float		 myOldOrientScaleHistory;
-    bool		 myOldOrientIsUV;
-    GA_Index		 myOldOrientHitPrim;
-    float		 myOldOrientHitU;
-    float		 myOldOrientHitV;
-    float		 myOldOrientHitW;
-
-    UI_Value		 myPrimaryButtonVal;
-    UI_Value		 mySecondaryButtonVal;
-    UI_Value		 myBrushShapeVal;
-    UI_Value		 myBrushOrientVal;
-    UI_Value		 myAccumStencilVal;
-
-```
 
 
 ## QA
