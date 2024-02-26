@@ -434,6 +434,24 @@ DM_MouseHook
 ## 看HDK C++ 代码
 ### 理解各种概念
 可以搜索看看samples中各种库都是怎么用的，比如PI_, PRM_。
+- registers
+```  
+void newModelState(BM_ResourceManager *m);
+void newHandle(BM_ResourceManager *m);
+void newOpHandleLink(BM_ResourceManager *m);
+void newOpHandleBinding(BM_ResourceManager *m);
+void newSelector(BM_ResourceManager *m);
+void newBRAYImageFilter(void *);
+void newBRAYPixelFilter(void *);
+void newBRAYSampleFilter(void *);
+void newRenderHook(DM_RenderTable *table);
+void newDopOperator(OP_OperatorTable *table);
+void newLopOperator(OP_OperatorTable *table);	
+```
+
+
+
+
 #### 2.0. standalone
 // 是否可以定义Hscript cmd文件来自动创建Shelf Tool
 ```
