@@ -322,6 +322,23 @@ Writing a SOP
   The Many Ways to Create a SOP
 ```
 
+### 3. Houdini User Interface
+- UI Overview
+```
+分成以下几种类型：
+	Feel(UI_Feel) 描述单个Gadget或者container的行为
+	Look(UI_Look) 描述一个Gadget或者container的可视化表示
+	Interface(AP_Interface) Gadgets(对话框或者Panes)
+	Value(UI_Value) 一个变量，跟其他Gadget&Houdini通信
+Gadget
+	可识别的UI control, 例如button, slider, or field
+	基本的Gadget由一个UI_Feel和UI_Look组成
+	绝大多数的Gadget的Look已经定义好了，不用用户提供。
+	
+```
+
+
+
 
 
 ## CMake 模板
