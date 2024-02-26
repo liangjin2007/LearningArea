@@ -403,6 +403,33 @@ houdini_generate_proto_headers(OUTPUT_VAR PROTO_HEADERS FILES ${TOOL_C_SOURCES})
 message(STATUS "PROTO_HEADERS ${PROTO_HEADERS}")
 ```
 
+## 看HDK文档看看HDK能做什么
+### DM库
+
+#### Custom Viewport Rendering https://www.sidefx.com/docs/hdk/_h_d_k__viewport.html
+```
+DM_RenderTable
+DM_PrimitiveHook
+DM_SceneHook
+DM_SceneRenderHook
+void
+newRenderHook(DM_RenderTable *table)
+{
+    // Register this hook as a replacement for the background rendering. 
+    table->registerSceneHook(new DM_BackgroundHook,
+			     DM_HOOK_BACKGROUND,
+			     DM_HOOK_REPLACE_NATIVE);
+
+    // Note that the name or label doesn't have to match the hook's name.
+    table->installSceneOption("checker_bg", "Checkered Background");
+}
+
+
+```
+#### Custom Viewport Event Handling
+DM_EventTable
+DM_MouseHook
+
 
 ## 看HDK C++ 代码
 ### 理解各种概念
@@ -1000,23 +1027,6 @@ OP3D_GenericSelector
 
 #### 2.12. 刷子相关
 - [Brush tools documentation](https://www.sidefx.com/docs/houdini/basics/brush.html)
-
-- Houdini Basics
-```
-GETTING STARTED
-Introduction to Houdini
-User interface https://www.sidefx.com/docs/houdini/basics/ui.html
-Viewing the scene
-Selecting objects and components
-Using handles https://www.sidefx.com/docs/houdini/basics/handles.html
-Working with objects
-Tab menu
-Networks and parameters
-```
-
-- [Houdini Commands](https://www.sidefx.com/docs/houdini/commands/_guide.html)
-
-
 
 - Geometry creation: SOP_Star.C
 ```  
