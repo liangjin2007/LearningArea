@@ -1,32 +1,6 @@
 ## Learning Video https://www.youtube.com/watch?v=NwabG-znu9Y
 ## HDK https://www.sidefx.com/docs/hdk/index.html
 ### 1. 看完 Introduction to the HDK
-这边只关心Windows平台上的开发
-```
-1. 需要用对应于Houdini的编译器版本 vc142 Microsoft Visual C++ 2019, version 16.9.4(Windows SDK version?)
-2. 需要MSVCDir环境变量指定VC subdirectory.
-3. HDK应用例子：standalone/geoisosurface.C， 一个包含main函数的应用，生成一个后缀为.bgeo的几何文件。 
-3.1. 命令行编译：Start->All Programs->Side Effects Software -> Houdini X.Y.ZZZ ->Command Line Tools
-  mkdir HDK
-  cd HDK
-  copy "C:\Program Files\Side Effects Software\Houdini X.Y.ZZZ\toolkit\samples\standalone\geoisosurface.C"
-  hcustom -s geoisosurface.C // 这个会生成一个./geoisosurface.exe应用程序。
-3.2. 执行
-  ./geoisosurface.exe // 会生成sphere.bgeo
-  gplay sphere.bego // 用gplay应用查看这个文件。
-```
-
-- 插件开发
-```
-1. 实际是一个dll
-2. Houdini启动的时候会加载
-3. 可以包含定制的node operators, script commands 及其他对象
-4. 插件加载顺序
-5. 定位和执行dll中的hook函数（注册HDK代码）
-6. cmd.exe, -> hscript -> dsoinfo命令用于看看加载了哪些插件。
-7. HOUDINI_DSO_PATH
-```
-
 ### 2. 看完 Houdini Operators
 - Architectural Overview
 ```
@@ -338,7 +312,20 @@ Gadget
 ```
 
 
+### 4. [Houdini Digital Assets](https://www.sidefx.com/docs/hdk/_h_d_k__h_d_a_intro.html)
 
+```
+
+HDA: an HDA encapsulates a node network that, as a whole, performs an operation intended for this custom operator. Usually, an HDA encapsulates a node network that, as a whole, performs an operation intended for this custom operator.
+When Houdini starts, it uses the HOUDINI_OTLSCAN_PATH to look for the OTL files or HOUDINI_OPLIBRARIES_PATH to look for OPlibrary files that specify the list of OTLs to load.
+
+In Houdini, the OP_OTLManager is responsible for managing the digital assets, and it holds a list of OP_OTLLibrary instances that in turn contain a list of OP_OTLDefinition objects, each corresponding to an HDA.
+
+
+OTL: Operator Type Library file. The OTL can contain many HDAs
+
+
+```
 
 
 ## CMake 模板
