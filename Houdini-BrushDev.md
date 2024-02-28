@@ -35,3 +35,4 @@ It's not HScript, but HOM python scripts.
 
 # Calling HOM Python scripts from C++ code
 OP_Node::executePythonScript(UT_String cmd, context);
+- hou python library(which is corresponding to HOM) https://www.sidefx.com/docs/houdini/hom/index.html
