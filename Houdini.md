@@ -313,7 +313,6 @@ Gadget
 
 
 ### 4. [Houdini Digital Assets](https://www.sidefx.com/docs/hdk/_h_d_k__h_d_a_intro.html)
-
 ```
 
 HDA: an HDA encapsulates a node network that, as a whole, performs an operation intended for this custom operator. Usually, an HDA encapsulates a node network that, as a whole, performs an operation intended for this custom operator.
@@ -324,8 +323,25 @@ In Houdini, the OP_OTLManager is responsible for managing the digital assets, an
 
 OTL: Operator Type Library file. The OTL can contain many HDAs
 
+```
+
+- 导入已有otl
+```
+File -> Merge只能merge hip
+File -> Import -> Houdini Digital Asset -> {.hda或者.otl}
+
+network editor中选择节点，右键 -> Type Properties
 
 ```
+
+- 制作otl或者hda
+```
+选择c++定义的节点，右键 -> Type Properties -> Save To Library -> Accept.
+```
+
+- 保存otl/hda
+
+
 
 
 ## CMake 模板
