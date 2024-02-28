@@ -14,10 +14,24 @@
 - [ ] Register SOP Node
 - [ ] Brush SOP Implementation
   - [ ] The Basic Classes 
-  - [ ] About Cook Inputs
   - [ ] About Guides
+  - [ ] Viewer <State|Handle>
   - [ ] About State
   - [ ] About Handle
   - [ ] About Selector
-
+  - [ ] About Cook Inputs
+- [ ] Can we directly use include/HOM c++ APIs in SOP plugin? -- **No**. 
+- [ ] Calling HOM Python scripts from C++ code
 # CMake
+
+
+# Concepts: Viewer <State|Handle>
+In Type Properties of a node, we can create python State and Handle. Such created State and Handle is called **Viewer** State and Handle.
+We can register such type state and handle in C++ code by PIgetResourceManager()->registerHandle
+
+# [Python Scripts](https://www.sidefx.com/docs/houdini/hom/index.html)
+It's not HScript, but HOM python scripts.
+用Python scripts来写[viewer handle](https://www.sidefx.com/docs/houdini/hom/state_handles.html)
+
+# Calling HOM Python scripts from C++ code
+OP_Node::executePythonScript(UT_String cmd, context);
