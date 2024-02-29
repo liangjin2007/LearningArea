@@ -5,6 +5,9 @@
 
 # topic
 
+AnimateAnyone 阿里 https://github.com/guoqincode/Open-AnimateAnyone
+
+
 LLM https://github.com/DSXiangLi/DecryptPrompt
 
 游戏 https://github.com/liangjin2007/ai-game-development-tools
