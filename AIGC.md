@@ -5,8 +5,10 @@
 
 # topic
 
-AnimateAnyone 阿里 https://github.com/guoqincode/Open-AnimateAnyone
-
+阿里：
+AnimateAnyone https://github.com/guoqincode/Open-AnimateAnyone
+OutfitAnyone https://github.com/selfitcamera/Outfit-Anyone-in-the-Wild?tab=readme-ov-file
+EMO https://github.com/HumanAIGC/EMO
 
 LLM https://github.com/DSXiangLi/DecryptPrompt
 
