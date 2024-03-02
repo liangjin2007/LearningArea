@@ -21,7 +21,8 @@
   - [ ] About Selector
   - [ ] About Cook Inputs
 - [ ] Can we directly use include/HOM c++ APIs in SOP plugin? -- **No**. 
-- [ ] Calling HOM Python scripts from C++ code
+- [ ] Calling HOM Python scripts from C++ code. -- **Yes**.
+- [ ] Can we directly register viewer state and viewer handle by executePythonScript? -- **No**
 # CMake
 
 
