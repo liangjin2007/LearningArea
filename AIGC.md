@@ -30,16 +30,9 @@ https://github.com/ultralytics/ultralytics
 
 图片编辑 https://github.com/XingangPan/DragGAN
 
-https://github.com/Shimingyi/MotioNet
-
-https://github.com/anandpawara/Real_Time_Image_Animation
-
-https://github.com/liangjin2007/EverybodyDanceNow
-
 https://github.com/yzhq97/transmomo.pytorch
 
 https://stability.ai/research/adversarial-diffusion-distillation
-
 
 # yolov8 
 - https://github.com/liangjin2007/ultralytics
