@@ -1,7 +1,6 @@
 # 显示/渲染相关
 
 ## [VEX](https://www.sidefx.com/docs/houdini/vex/index.html)
-## [The Book of Shaders](https://www.github.com/)
 ### 介绍
 ```
 1. VEX不是scripting的可选项，但是是一个用于写shader和custom节点的更高效，小巧的一般目的语言。
@@ -72,3 +71,17 @@ Operators
   应该跟c语言一致
   
 ```
+
+## GLSL Shader 
+https://www.sidefx.com/docs/houdini/shade/glsl.html
+
+
+## HOM
+```
+hou.displaySetType
+  SceneObject, SelectedObject, GhostObject, DisplayModel, CurrentModel, TemplateModel
+hou.glShadingType
+  Flat, FlatWire, Smooth, SmoothWire, MatCapWire, MatCap, HiddenLineInvisable, HiddenLineGhost, WireGhost, Wire, ShadedBoundingBox, WireBoundingBox
+
+```
+
