@@ -81,13 +81,7 @@ https://stability.ai/research/adversarial-diffusion-distillation
 
 
 # 如何用UE做一个自己的虚拟Avatar
-
-
-
-
 # VAE
-
-
 # 3D Reconstruction
 - LLFF [2019] https://github.com/fyusion/llff
 - nerf [2020] https://www.matthewtancik.com/nerf
@@ -117,6 +111,8 @@ https://stability.ai/research/adversarial-diffusion-distillation
 
 
 
+
+
 # Learn high-frequency signal
 
 
@@ -131,8 +127,16 @@ https://stability.ai/research/adversarial-diffusion-distillation
     - Random Fourier Feature MLPs
       - positional embedding layer 
 
+# Image to Image General Application Framework
+- [2016][引用22032] Image-to-Image Translation with Conditional Adversarial Networks https://arxiv.org/pdf/1611.07004.pdf
+```
+观点1： MSE loss会导致模糊
+观点2： GAN可以学习loss函数，而且这个loss函数是更高级的目标，使得输出跟真实的很像。 GAN是学一个生成模型+loss函数，loss函数用于区分生成的结果是real or fake。
 
-# [2020]Differential Rendering 《Differentiable Rendering: A Survey》从图像观察3D场景参数
+
+```
+# Differential 
+- [2020]Differential Rendering 《Differentiable Rendering: A Survey》从图像观察3D场景参数
 - 绘制函数 Rendering Function $I = (I_c, I_d) = R(\Phi_s, \Phi_m, \Phi_l, \Phi_c)$
   - 输入$`\Phi = \left\{\Phi_s, \Phi_m, \Phi_l, \Phi_c\right\}`$
   - 输出$`I = \left\{I_c, I_d\right\}`$  分别代表RGB image or depth image
@@ -232,9 +236,11 @@ assigned.
 
 
 # GAN
+完成度0 目标：学习10个GAN网络代码
 - https://antkillerfarm.github.io/#GAN%20&%20VAE, 这个地方还有很多有意思的博文
 - pix2pix ppt http://efrosgans.eecs.berkeley.edu/CVPR18_slides/pix2pix.pdf
-- cycleGAN https://www.jianshu.com/p/5bf937a0d993
+- GAN原理和cycleGAN原理 https://www.jianshu.com/p/5bf937a0d993
+- Pytorch-GAN https://github.com/eriklindernoren/PyTorch-GAN
 - 比cycleGAN训练更快 https://github.com/taesungp/contrastive-unpaired-translation
 
 
