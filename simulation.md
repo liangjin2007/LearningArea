@@ -3,6 +3,7 @@
 [2017]A Survey on Position Based Dynamics, 2017
 - 目标求dp使得C(p + dp) = 0
 - C(p)定义时应该要跟平移和旋转不相关。
+- ![动量守恒](https://github.com/liangjin2007/data_liangjin/blob/master/simulation/momentum_conservation.png?raw=true)
 - dp取C(p)梯度方向可以保证动量守恒
 - ![pbd约束投影](https://github.com/liangjin2007/data_liangjin/blob/master/simulation/pbd.png?raw=true)
 
