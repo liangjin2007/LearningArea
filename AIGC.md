@@ -93,6 +93,17 @@ https://stability.ai/research/adversarial-diffusion-distillation
 - [2023]PlenVDB: VDB + Nerf，更快的训练 + 更快的渲染 https://plenvdb.github.io/
 - [2023]Wonder3D https://arxiv.org/pdf/2310.15008.pdf
 - [2023]Gaussian Splatting https://github.com/graphdeco-inria/gaussian-splatting
+```
+https://huggingface.co/blog/gaussian-splatting
+Position: XYZ
+Convariance: how it's stretched/scaled (3x3 matrix)
+Color: what color it is (RGB)
+Alpha: how transparent it is (α)
+
+
+
+
+```  
 - [2023]Sparse3D: Distilling Multiview-Consistent Diffusion for Object Reconstruction from Sparse Views https://arxiv.org/pdf/2308.14078.pdf
 - 
 - Input video to instant-ngp https://neuralradiancefields.io/how-to-create-a-nerf-using-a-input-video-through-ffmpeg/
