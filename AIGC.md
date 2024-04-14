@@ -78,7 +78,8 @@ https://stability.ai/research/adversarial-diffusion-distillation
   - import torch
   - torch.cuda.is_available() # 返回True表示cuda支持
 
-
+- 中国镜像https://blog.csdn.net/weixin_41985687/article/details/132380234
+- pytorch官网的conda 安装命令 conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
 
 # 如何用UE做一个自己的虚拟Avatar
 # VAE
