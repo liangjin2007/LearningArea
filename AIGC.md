@@ -458,8 +458,33 @@ cd ../..
 
 
 
+# PhotoMaker
+- Ref https://github.com/bmaltais/PhotoMaker/tree/v1.0.1?tab=readme-ov-file
+```
+开启代理：
+Install Python 3.10.  https://www.python.org/ftp/python/3.10.9/python-3.10.9-amd64.exe
+Install the Visual Studio 2015, 2017, 2019, and 2022 redistributable. https://aka.ms/vs/17/release/vc_redist.x64.exe
 
 
+git clone https://github.com/bmaltais/PhotoMaker.git
+cd PhotoMaker
+conda create --name photomaker python=3.10
+conda activate photomaker
 
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --set show_channel_urls yes
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64
+
+关闭代理：
+conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+
+开启代理
+pip3 install -r requirements-windows.txt
+
+python gradio_demo/app.py
+
+```
 
 
