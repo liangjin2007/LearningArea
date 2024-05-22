@@ -15,10 +15,10 @@
 - 以及书中提到的《Inside UE4》https://zhuanlan.zhihu.com/p/22813908
 - UE5.4文档 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-engine-5-4-documentation
 
-## UE5.4文档
+## UE 5.4文档
 
 
-
+- 13 shading models https://www.youtube.com/watch?v=-mAcsaMDuaw
 
 
 
