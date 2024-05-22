@@ -20,7 +20,8 @@
 
 - 13 shading models https://www.youtube.com/watch?v=-mAcsaMDuaw
 - 9 input modifiers https://www.youtube.com/watch?v=MN-0otRNmZI
-- 
+- About Shading Models https://advances.realtimerendering.com/s2023/2023%20Siggraph%20-%20Substrate.pdf
+  
 
 
 
