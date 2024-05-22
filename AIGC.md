@@ -506,6 +506,6 @@ python gradio_demo/app.py
 网络要能够输入query point p, 返回sdf值
 一个target mesh对应训练一个nn，这肯定不太实用
 学习一系列Shapes的latent space
-
+Conditioned latent vector. (z, x) -> (sdf)
 ```
 
