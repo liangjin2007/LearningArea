@@ -487,4 +487,25 @@ python gradio_demo/app.py
 
 ```
 
+# [2019][CVPR]DeepSDF
+- 背景
+```
+  1. 3D Shape learning的表示：
+    1.1. 基于点的，比如雷达数据，至少5篇以上工作
+    1.2. 基于网格的，至少8篇以上的工作
+    1.3. 基于体素的，至少6篇以上的工作
+
+  2. Representation Learning技术：
+    GAN, Auto Encoder, Auto Decoder(Optimize Latent Vectors),
+  3. Shape Completion
+    RBF拟合, Poisson reconstruction, data-driven method, 
+```
+
+- DeepSDF ![](https://github.com/liangjin2007/data_liangjin/blob/master/deepsdf.png?raw=true)
+```
+网络要能够输入query point p, 返回sdf值
+一个target mesh对应训练一个nn，这肯定不太实用
+学习一系列Shapes的latent space
+
+```
 
