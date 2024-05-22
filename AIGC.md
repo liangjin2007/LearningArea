@@ -487,7 +487,7 @@ python gradio_demo/app.py
 
 ```
 
-# [2019][CVPR]DeepSDF
+# [2019][CVPR][32++]DeepSDF
 - 背景
 ```
   1. 3D Shape learning的表示：
