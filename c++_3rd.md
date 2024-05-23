@@ -102,7 +102,7 @@ libigl中有一个将mosek解二次规划的问题封装成Eigen接口。
 
 
 
-### 几何
+### 几何算法
 #### libigl
 深入使用
 ```
@@ -227,8 +227,24 @@ double r = colmap::RandomReal<double>(-0.0001, 0.0001);
 ### GPU Programming
 
 #### CUDA
-熟悉CUDA概念和编程，善于涉及算法
+熟悉CUDA概念和编程，善于涉及算法。NSight Compute和NSight System
 #### Optix
+
+
+### Graphicis
+```
+opengl API。
+glsl shaders。
+RenderDoc调试代码。
+HairStrandsRendering中集成几十个G的体素可视化，修改render函数支持mesh, 头发， volume的深度遮挡关系。
+可视化编辑几十个G的体素。
+```
+
+### 数据格式
+#### Alembic库
+这个接触较多。
+#### FBXSDK
+#### OpenUSD
 
 
 ### 其他
