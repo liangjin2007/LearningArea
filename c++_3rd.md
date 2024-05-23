@@ -156,6 +156,29 @@ cv::Scalar, cv::Size, cv::Rect, cv::Point, cv::KeyPoint, cv::Point2f
 cv::format
 ```
 
+### 其他
+#### Eigen
+用得比较多，默认col major。
+
+求解稀疏最小二乘
+
+求解RBF，用于做面补驱动。 
+
+Eigen从某一个版本开始支持在CUDA kernel或者device function中使用Eigen，有个类似于EIGEN_GPU的宏控制。
+
+```
+Eigen::Map
+Eigen::MatrixXf
+Eigen::VectorXd
+Eigen::RowVectorXd
+Eigen::Vector3d
+Eigen::Vector3f
+Eigen::Quaternion
+Eigen::SparseMatrix
+Eigen::Matrix
+.block<3, 3>(start_row, start_col)
+```
+
 
 
 
