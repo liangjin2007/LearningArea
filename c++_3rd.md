@@ -35,29 +35,58 @@ C++开发中经常会用到第三方库，此文档记录这些年的一些经�
 
 代码示例：
 ```
-	using ceres::DynamicAutoDiffCostFunction;
-	using ceres::CostFunction;
-	using ceres::Problem;
-	using ceres::Solver;
-	using ceres::Solve;
+using ceres::DynamicAutoDiffCostFunction;
+using ceres::CostFunction;
+using ceres::Problem;
+using ceres::Solver;
+using ceres::Solve;
 
-  struct ResidualFuncXXX {
-     ResidualFuncXXX(...);
+Problem problem;
 
-     // Critical member function to define weighted residual value
-     template <typename T> bool operator()(T const* const* w, T* residual) const {
-       residual[0] = xxx;
-       residual[1] = xxx;
-       residual[2] = xxx;
- 
-       return true;
-     }
+struct ResidualFuncXXX {
+ResidualFuncXXX(...);
 
-  // const members related to residual functions, e.g. constant coefficients, vectors, matrices etc.
-  }
+// Critical member function to define weighted residual value
+template <typename T> bool operator()(T const* const* w, T* residual) const {
+	// e.g.
+	residual[0] = xxx;
+	residual[1] = xxx;
+	residual[2] = xxx;
+	
+	return true;
+}
 
+// const members related to residual functions, e.g. constant coefficients, vectors, matrices etc.
+}
 
+// Let n be variable object count
 
+// one parameter block x
+std::vector<double> xs(n);
+std::vector<double*> parameter_blocks;
+parameter_blocks.push_back(&xs[0]);
+
+// Add residuals to cost
+auto cost_function_i = new DynamicAutoDiffCostFunction<ResidualFuncXXX, 4>(new ResidualFuncXXX(...));
+cost_function_i->AddParameterBlock(n);
+cost_function_i->SetNumResiduals(2);
+problem.AddResidualBlock(cost_function_i, NULL, parameter_blocks);  
+
+for (i = 0; i < n; i++) {
+	problem.SetParameterLowerBound(parameter_blocks[0], i, lower_bound);
+	problem.SetParameterUpperBound(parameter_blocks[0], i, upper_bound);
+};
+
+Solver::Options options;
+options.linear_solver_type = ceres::ITERATIVE_SCHUR;
+options.num_threads = 8;
+options.num_linear_solver_threads = 8; // only SPARSE_SCHUR can use this
+options.minimizer_progress_to_stdout = true;
+options.max_num_iterations = 100;
+
+Solver::Summary summary;
+Solve(options, &problem, &summary);
+std::cout << summary.BriefReport() << "\n";
 ```
 
 
