@@ -116,6 +116,13 @@ igl::harmonic
 #### PoissonRecon
 #### 
 
+### DCC SDK
+#### Maya c++ toolkit， Maya mel
+从0到1开发过单目/双目驱动面部动画, 动画编辑器。
+
+#### Houdini HDK, hou python scripting
+从0到1开发过实时刷子
+
 
 ### 视觉
 #### opencv
@@ -212,6 +219,13 @@ auto rad = colmap::DegToRad(deg);
 double r = colmap::RandomReal<double>(-0.0001, 0.0001);
 
 ```
+
+### GPU Programming
+
+#### CUDA
+熟悉CUDA概念和编程，善于涉及算法
+#### Optix
+
 
 ### 其他
 #### Eigen
