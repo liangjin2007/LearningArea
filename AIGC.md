@@ -509,3 +509,8 @@ python gradio_demo/app.py
 Conditioned latent vector. (z, x) -> (sdf)
 ```
 
+# [2024][sig]Neural Geometry Fields For Meshes 
+```
+Geometry Images方法的neural network版本， 优点是不用做texture packing等。
+```
+
