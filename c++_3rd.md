@@ -27,11 +27,12 @@ C++开发中经常会用到第三方库，此文档记录这些年的一些经�
 
 ## 使用过的第三方库
 ### 求解器
-- ceres [](https://github.com/ceres-solver/ceres-solver)
-
+#### ceres [](https://github.com/ceres-solver/ceres-solver)
+```
 1. 解非线性最小二乘问题， 带边界约束。
 
 2. 解无约束优化问题
+```
 
 代码示例：
 ```
@@ -88,6 +89,14 @@ Solver::Summary summary;
 Solve(options, &problem, &summary);
 std::cout << summary.BriefReport() << "\n";
 ```
+
+#### mosek64_9_1 [](https://docs.mosek.com/latest/capi/index.html)
+线性规划，二次规划等优化问题都可以用mosek求解。 从SDK中寻找doc/capi.pdf，可以看到c语言版本的api。
+
+
+
+
+
 
 
 
