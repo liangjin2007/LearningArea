@@ -26,6 +26,7 @@ C++开发中经常会用到第三方库，此文档记录这些年的一些经�
 
 
 ## 使用过的第三方库
+
 ### 求解器
 #### ceres [](https://github.com/ceres-solver/ceres-solver)
 ```
@@ -97,6 +98,16 @@ libigl中有一个将mosek解二次规划的问题封装成Eigen接口。
 
 这边我重写过一个版本。
 
+### 几何
+#### libigl
+
+```
+igl::path_to_executable()
+
+```
+#### PoissonRecon
+#### 
+
 
 ### 视觉
 #### opencv
@@ -154,6 +165,44 @@ cv::Scalar, cv::Size, cv::Rect, cv::Point, cv::KeyPoint, cv::Point2f
 
 // utilities
 cv::format
+```
+
+#### colmap-3.5
+
+著名的MVS库，编译非常复杂, 第三方库较多非常折腾。 CameraMatrix * ProjectMatrix * X = homogeneous 2d coordinate
+Utility函数比较方便。
+
+```
+
+
+// utilities
+colmap::JointPaths
+colmap::StringTrim
+colmap::StringPrintf
+colmap::StringSplit
+colmap::StringReplace
+colmap::GetParentDir
+colmap::CreateDirIfNotExist
+colmap::ExistsFile
+colmap::ExistsDir
+
+
+
+// Structs
+colmap::Camera
+colmap::Image
+
+// MVS function
+std::vector<>colmap::TriangulatePoints
+auto err = colmap::CalculateReprojectionError(point2d, point3d, projmatrix, camera);
+Eigen::Vector2d uv = colmap::ProjectPointToImage(p, projmatrix, camera);
+
+// Math
+Eigen::Vector4d q = colmap::RotationMatrixToQuaternion(R);
+Eigen::Matrix3d R = colmap::EulerAnglesToRotationMatrix(ex, ey, ez);
+auto rad = colmap::DegToRad(deg);
+double r = colmap::RandomReal<double>(-0.0001, 0.0001);
+
 ```
 
 ### 其他
