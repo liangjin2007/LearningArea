@@ -91,7 +91,7 @@ std::cout << summary.BriefReport() << "\n";
 ```
 
 #### mosek64_9_1 [](https://docs.mosek.com/latest/capi/index.html)
-线性规划，二次规划等优化问题都可以用mosek求解。 从SDK中寻找doc/capi.pdf[](https://github.com/liangjin2007/math_related/blob/main/mosek_capi.pdf)，可以看到c语言版本的api 。
+线性规划，二次规划等优化问题都可以用mosek求解。 从SDK中寻找doc/capi.pdf[doc/capi.pdf](https://github.com/liangjin2007/math_related/blob/main/mosek_capi.pdf)，可以看到c语言版本的api 。
 
 libigl中有一个将mosek解二次规划的问题封装成Eigen接口。 
 
