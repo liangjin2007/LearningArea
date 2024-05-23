@@ -117,6 +117,7 @@ libigl中有一个将mosek解二次规划的问题封装成Eigen接口。
 
 
 
+
   
 
 
