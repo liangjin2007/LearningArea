@@ -91,13 +91,70 @@ std::cout << summary.BriefReport() << "\n";
 ```
 
 #### mosek64_9_1 [](https://docs.mosek.com/latest/capi/index.html)
-线性规划，二次规划等优化问题都可以用mosek求解。 从SDK中寻找doc/capi.pdf[doc/capi.pdf](https://github.com/liangjin2007/math_related/blob/main/mosek_capi.pdf)，可以看到c语言版本的api 。
+线性规划，二次规划等优化问题都可以用mosek求解。 从SDK中寻找[doc/capi.pdf](https://github.com/liangjin2007/math_related/blob/main/mosek_capi.pdf)，可以看到c语言版本的api 。
 
 libigl中有一个将mosek解二次规划的问题封装成Eigen接口。 
 
 这边我重写过一个版本。
 
 
+### 视觉
+#### opencv
+使用过的版本为4.11的gpu版本。
+
+在做深度学习期间，还使用过python版的opencv （pip install opencv-python）
+
+```
+// 读图片
+cv::Mat img = cv::imread(input_img);
+
+// 转换颜色空间，从bgr 2 hsv
+cv::Mat img1;
+cv::cvtColor(img, img1, cv::COLOR_BGR2HSV);
+
+...
+
+// 矩阵运算
+cv::absdiff(img1, img2, img3);
+cv::mean
+
+
+// 灰度图的blob detection
+// use blob detector to detect similar pixel components in images. 
+std::vector<cv::KeyPoint> keypoints;
+
+// ref: How to setup Blob parameters ? https://www.geeksforgeeks.org/find-circles-and-ellipses-in-an-image-using-opencv-python/
+cv::SimpleBlobDetector::Params params;
+// setup params
+...
+
+cv::Ptr<cv::SimpleBlobDetector> detector = cv::SimpleBlobDetector::create(params);
+detector->detect(gray, keypoints);
+
+
+// indexing
+uchar value = gray.at<uchar>(py, px);
+
+
+// 显示图片
+cv::imshow("title", img);
+cv::waitKey(0);
+
+// 图形绘制
+cv::line
+cv:circle
+cv::putText
+cv::rectangle
+
+// 鼠标回调
+cv::setMouseCallback(...);
+
+// 常用数据结构
+cv::Scalar, cv::Size, cv::Rect, cv::Point, cv::KeyPoint, cv::Point2f
+
+// utilities
+cv::format
+```
 
 
 
