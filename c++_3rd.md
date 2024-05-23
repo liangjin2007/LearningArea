@@ -100,11 +100,19 @@ libigl中有一个将mosek解二次规划的问题封装成Eigen接口。
 
 ### 几何
 #### libigl
-
+深入使用
 ```
 igl::path_to_executable()
-
+igl::mosek::mosek_quadprog()
+igl::unproject_onto_mesh()
+igl::harmonic
 ```
+
+
+#### openvdb
+较深入地使用过，实现过VR中的实时体素刷子（带颜色的交并差）
+#### gvdb
+较深入地使用过，大型体素编辑器及实时动态高性能SDF生成。
 #### PoissonRecon
 #### 
 
