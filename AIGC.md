@@ -487,7 +487,7 @@ python gradio_demo/app.py
 
 ```
 
-# [2019][CVPR][32++]DeepSDF
+# [2019][CVPR][3200+引用]DeepSDF， facebookresearch
 - 背景
 ```
   1. 3D Shape learning的表示：
@@ -504,13 +504,29 @@ python gradio_demo/app.py
 - DeepSDF ![](https://github.com/liangjin2007/data_liangjin/blob/master/deepsdf.png?raw=true)
 ```
 网络要能够输入query point p, 返回sdf值
+
 一个target mesh对应训练一个nn，这肯定不太实用
+
 学习一系列Shapes的latent space
+
 Conditioned latent vector. (z, x) -> (sdf)
+
+代码 https://github.com/facebookresearch/DeepSDF.git
+
 ```
 
 # [2024][sig]Neural Geometry Fields For Meshes 
 ```
+无代码
+
 Geometry Images方法的neural network版本， 优点是不用做texture packing等。
+
+Quad Patch, bilinear interpolation
+
+使用了positional encoding in Nerf, enc(v, f) = (enc(v), f) = (sin(2^0 v), cos(2^0 v), ..., sin(2^L v), cos(2^L v), f)
+
+Jittering
+
+直接优化|sdf_pred - sdf_gt|不够稳定， 相反通过inverse rendering优化appearance更稳定。
 ```
 
