@@ -375,10 +375,13 @@ HairStrandsRendering中集成几十个G的体素可视化，修改render函数�
 #### FBXSDK
 
 
+
+
 ### 其他
 #### stl
 #### boost
-filesystem
+filesystem后续新版C++基本上支持相同功能。
+
 #### Eigen
 用得比较多，默认col major。
 
@@ -457,6 +460,30 @@ exit(app.exit(e));
 return args;
 }
 ```
+
+#### cxxopts
+```
+#include "cxxopts.hpp"
+cxxopts::Options options(str1, str2);
+	options.add_options()
+		("i,ixxxx", str1, cxxopts::value<std::string>())
+		("b,bxxxx", str2, cxxopts::value<int>())
+		("c,cxxxx", str3)
+		("d,dxxxx", str4, cxxopts::value<int>()->default_value("3"))
+		;
+auto result = options.parse(argc, argv);
+
+if (result.count("help"))
+{
+	std::cout << options.help() << std::endl;
+	exit(0);
+}
+
+bool value = result["ixxxx"].as<bool>();
+
+```
+#### protobuf 消息压缩
+
 
 
 
