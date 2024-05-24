@@ -118,7 +118,93 @@ igl::harmonic
 #### gvdb
 较深入地使用过，大型体素编辑器及实时动态高性能SDF生成。
 #### PoissonRecon
-#### 
+#### tetgen 
+- source code https://github.com/ufz/tetgen
+- 文档 https://github.com/liangjin2007/math_related/blob/main/tetgen.pdf
+```
+使用不多，刚测试跑通
+    tetgenio in, out;
+    int i;
+
+    // All indices start from 1.
+    in.firstnumber = 0;
+
+    in.numberofpoints = 8;
+    in.pointlist = new REAL[in.numberofpoints * 3];
+    in.pointlist[0] = 0;  // node 1.
+    in.pointlist[1] = 0;
+    in.pointlist[2] = 0;
+    in.pointlist[3] = 2;  // node 2.
+    in.pointlist[4] = 0;
+    in.pointlist[5] = 0;
+    in.pointlist[6] = 2;  // node 3.
+    in.pointlist[7] = 2;
+    in.pointlist[8] = 0;
+    in.pointlist[9] = 0;  // node 4.
+    in.pointlist[10] = 2;
+    in.pointlist[11] = 0;
+    // Set node 5, 6, 7, 8.
+    for (i = 4; i < 8; i++) {
+        in.pointlist[i * 3] = in.pointlist[(i - 4) * 3];
+        in.pointlist[i * 3 + 1] = in.pointlist[(i - 4) * 3 + 1];
+        in.pointlist[i * 3 + 2] = 12;
+    }
+
+    // For pure Delaunay triangulation, "Q" suppresses all output except errors, and "z" indexes the output starting from zero.
+    tetrahedralize((char*)"Qz", &in, &out);
+
+    //// Output mesh to files 'barout.node', 'barout.ele' and 'barout.face'.
+    //out.save_nodes((char*)"barout");
+    //out.save_elements((char*)"barout");
+    //out.save_faces((char*)"barout");
+
+    std::cout << "Generated " << out.numberoftetrahedra << " tetrahedra." << std::endl;
+    for (int i = 0; i < out.numberoftetrahedra; i++)
+    {
+        int* tetrahedra = &(out.tetrahedronlist[i * 4]);
+        std::cout << "tetrahedra " << i << ": " << tetrahedra[0] << ", " << tetrahedra[1] << ", " << tetrahedra[2] << ", " << tetrahedra[3] << std::endl;
+    };
+
+    
+    // This will output a mesh tetgen-tmpfile.1.mesh in cmake build directory. Use Gmsh to visualize it.
+    tetrahedralize((char*)"Qzg", &in, nullptr);
+
+    // This will output a mesh tetgen-tmpfile.1.vtk in cmake build directory.
+    //tetrahedralize((char*)"Qzk", &in, nullptr);
+```
+#### fTetWild
+这个库没它所说的那么好用，经常出现奇奇怪怪的问题
+#### pcl
+```
+typedef pcl::PointXYZ PointXYZT;
+typedef pcl::PointXYZLNormal PointT;
+typedef pcl::PointXYZRGBNormal PointColorT;
+
+pcl::PointCloud<PointT> cloud;
+pcl::KdTreeFLANN<PointT> kdtree;
+pcl::sqrPointToLineDistance(pt, linept, linedir)
+pcl::PLYWriter writer; writer.write<PointT>(filename, cloud, true, false);
+pcl::io::loadPLYFile(filename.c_str(), cloud);
+
+pcl::PointCloud<pcl::PointXYZ> points;
+...
+std::vector<pcl::Vertices> polygons;
+for (auto& tri : Triangles)
+{
+pcl::Vertices triangle;
+triangle.vertices.push_back(tri[0]);
+triangle.vertices.push_back(tri[1]);
+triangle.vertices.push_back(tri[2]);
+polygons.push_back(triangle);
+}
+pcl::PolygonMesh mesh;
+pcl::PCLPointCloud2 points_blob;
+pcl::toPCLPointCloud2(*points, points_blob);
+mesh.cloud = points_blob;
+mesh.polygons = polygons;
+pcl::io::savePLYFile(filename, mesh);
+```
+
 
 ### DCC SDK
 #### Maya c++ toolkit， Maya mel
@@ -245,7 +331,21 @@ HairStrandsRendering中集成几十个G的体素可视化，修改render函数�
 这个接触较多。
 #### FBXSDK
 #### OpenUSD
+由Pixar Animation Studio发明的，包含一系列基本工具和功能，能让您的工作流程、团队和项目全面提速。
+- https://www.nvidia.cn/omniverse/usd/
+```
+可扩展:
+提供开放、可扩展的框架和生态系统，具有可用于在 3D 虚拟世界中执行合成、编辑、查询、渲染、协作和仿真任务的 API
 
+非破坏性:
+有助于在场景创建和素材聚合过程中实现非破坏性工作流程和流畅无阻的协作，让团队能够合作进行迭代设计。
+
+方便协同:
+不特定于任何文件系统，而是通过提供可扩展的素材解析器，来支持任何数据存储模型和不同的数据源。
+
+可自定义:
+不特定于任何文件系统，而是通过提供可扩展的素材解析器，来支持任何数据存储模型和不同的数据源。
+```  
 
 ### 其他
 #### Eigen
