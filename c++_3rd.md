@@ -1,8 +1,15 @@
 C++开发中经常会用到第三方库，此文档记录这些年的一些经验：
 
+**目录:**
 - 编译成目标平台的库
 - 使用过的第三方库 
-
+  - 求解器
+  - 几何算法
+  - DCC SDK
+  - GPU Programming
+  - Graphics
+  - 数据格式
+  - 其他
 
 ## 编译成目标平台的库
 
@@ -333,6 +340,9 @@ HairStrandsRendering中集成几十个G的体素可视化，修改render函数�
 
 
 ### 其他
+#### stl
+#### boost
+filesystem
 #### Eigen
 用得比较多，默认col major。
 
@@ -355,9 +365,75 @@ Eigen::Matrix
 .block<3, 3>(start_row, start_col)
 ```
 
+#### json nlohmann
+```
+#include "json.hpp"
+using nlohmann::json json;
 
+std::ifstream i("xxx.json");
+json jobj = json::parse(i);
 
+json jobj;
+std::vector<float> value = jobj[index0][index1].get<vector<float>>();
 
+```
+#### lib torch
+```
+#include "torch/script.h"
+std::vector<float> v;
+...
+torch::Tensor tv = torch::tensor(v).t();
+torch::Tensor c = torch::matmul(a, b).t();
+torch::Tensor d = c.reshape({ m, n }).t();
+torch::Tensor e = torch::inverse(rotate);
+
+torch::jit::script::Module m = torch::jit::load("xxx.pt");
+torch::Tensor out = m.forward({input_tensor}).toTensor();
+```
+
+#### .conf library cpptoml
+
+需要修改代码来支持非 param = v的行。
+
+```
+auto config = cpptoml::parse_file(conffile);
+auto a = *(config->get_qualified_as<std::string>(param_name_str));
+auto b = *(config->get_array_of<int64_t>(param_name_str));
+*(config->get_as<int>(param_name_str));
+if(config->contains(param_name_str)){}
+```
+
+#### CLI -- command line interface
+```
+#include "CLI/CLI.hpp"
+
+struct Args
+{
+std::string a;
+bool b = false;
+...
+};
+
+Args parse_args(int argc, char* argv[])
+{
+Args args;
+
+CLI::App app{ "appication name" };
+
+app.add_option("--xxx", args.a, default_value_str);
+app.add_flag("--b", args.b, comment_str);
+...
+try 
+{
+app.parse(argc, argv);
+}
+catch (const CLI::ParseError& e) {
+exit(app.exit(e));
+}
+
+return args;
+}
+```
 
 
 
