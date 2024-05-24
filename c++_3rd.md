@@ -9,6 +9,7 @@ C++开发中经常会用到第三方库，此文档记录这些年的一些经�
   - GPU Programming
   - Graphics
   - 数据格式
+  - 引擎
   - 网络
   - 其他
 
@@ -217,10 +218,208 @@ pcl::io::savePLYFile(filename, mesh);
 ### DCC SDK
 #### Maya c++ toolkit， Maya mel
 从0到1开发过单目/双目驱动面部动画, 动画编辑器。
+```
+节点，DG图， plug, attribute。
+
+设计插件。
+
+实践：
+Maya开启socket监听接口1000, commandPort -bs 10000000 -n ":1000"; c++侧可以通过socket连接到该端口，然后发送mel命令给Maya以执行批处理数据的功能。
+
+```
+
+- Maya c++ plugin MPxData
+```
+
+
+#include <maya/MFnPlugin.h>
+#include <maya/MGlobal.h>
+#include <maya/MPxData.h> // For self defined data
+
+如果我们已经有一个类有一些成员变量和函数，可以直接把它封装成一个maya的数据。
+
+class Algorithm
+{
+public:
+	Algorithm();
+	void Do();
+private:
+	Eigen::VectorXd input;
+	Eigen::MatrixXd coeff;
+};
+
+class AlgorithmData : public MPxData
+{
+	public:
+		AlgorithmData();
+		~AlgorithmData() override;
+
+		// Override methods in MPxData.
+		//
+		MStatus         readASCII(const MArgList&, unsigned& lastElement) override;
+		MStatus         readBinary(istream& in, unsigned length) override;
+		MStatus         writeASCII(ostream& out) override;
+		MStatus         writeBinary(ostream& out) override;
+		void			copy(const MPxData&) override;
+		MTypeId                 typeId() const override;
+		MString					name() const override;
+
+		const Algorithm& algorithm() const;
+		Algorithm& algorithm();
+	
+		static const MString    typeName;
+		static const MTypeId    id;
+		static void*            creator();
+
+	private:
+		Algorithm data;
+};
+```
+
+- Maya c++ plugin MPxNode
+```
+class AlgorithmNode : public MPxNode
+{
+public:
+    AlgorithmNode();
+    ~AlgorithmNode() override;
+    
+    MStatus compute(const MPlug &plug, MDataBlock &data) override{
+	MStatus status;
+	if (plug == aAlgorithmOutput)
+	{
+		int count = datablock.inputValue(aInput1).asInt();
+		MDataHandle h = datablock.inputValue(aAlgorithmData);
+		AlgorithmData* data = dynamic_cast<AlgorithmData*>(h.asPluginData());
+		Algorithm& algo = data->algorithm();
+		algo.Do(count);
+
+	        MArrayDataHandle arrayHandle = datablock.outputArrayValue(aAlgorithmOutput, &status);
+		if (arrayHandle.elementCount() != count)
+		{
+			MArrayDataBuilder builder = arrayHandle.builder(&status);
+			for (int i = 0; i < count; i++) {
+				builder.addElement(i).asFloat();
+			};
+
+			arrayHandle.set(builder);
+		}
+
+		for (int i = 0; i < count; i++)
+		{
+			arrayHandle.jumpToElement(i);
+			MDataHandle cvHandle = arrayHandle.outputValue();
+			float &cvValue = cvHandle.asFloat();
+			cvValue = algo.output[i];
+		};
+
+		arrayHandle.setAllClean();
+
+		datablock.setClean(plug);
+	}
+	return status;
+    }
+
+    static void *creator(){
+    	return new AlgorithmNode();
+    }
+    static MStatus initialize()
+    {
+	MStatus status;
+	MFnNumericAttribute nAttr;
+	MFnTypedAttribute tAttr;
+
+	aInput1 = nAttr.create(attr_name_long1, attr_name_short1, MFnNumericData::kFloat);
+	aAlgorithmData = tAttr.create(attr_name_long2, attr_name_short2, AlgorithmData::id, MObject::kNullObj);
+	aAlgorithmOutput = nAttr.create(attr_name_long3, attr_name_short3, MFnNumericData::kFloat);
+        status = nAttr.setArray(true);
+        status = nAttr.setUsesArrayDataBuilder(true);
+	status = addAttribute(aInput1);
+	status = addAttribute(aAlgorithmData);
+	status = addAttribute(aAlgorithmOutput);
+	status = attributeAffects(aInput1, aAlgorithmOutput);
+	status = attributeAffects(aAlgorithmData, aAlgorithmOutput);
+	return status;
+    }
+
+    static MString nodeName;
+    static MTypeId id;
+
+    static MObject aInput1;
+    static MObject aAlgorithmData;
+
+    // Output.
+    static MObject aAlgorithmOutput;
+};
+```
+
+- Maya c++ plugin command
+```
+class AlgorithmCmd : MPxCommand
+{
+public:
+    AlgorithmCmd();
+    ~AlgorithmCmd() override;
+    MStatus doIt(const MArgList &args) override
+    {
+	MArgParser argData(syntax(), args, &status);
+	int argXXXX;
+	...
+	if (argData.isFlagSet(xxxx))
+	    argData.getFlagArgument(xxxx, 0, argXXXX);
+	...
+
+	// Create node
+
+	// Connect node attributes
+
+	// Setup attribute values.
+    }
+
+    inline bool isUndoable() const override { return false;  }
+    static void *creator();
+    static void cleanup();
+    static MSyntax newSyntax();
+    static MString commandName;
+	static MString importerName;
+	static MString trainerName;
+	static MString trackerName;
+	static MString retargetingName;
+};
+```
+  
+- Maya c++ plugin registeration/unregistration
+```
+//register plugin
+MStatus initializePlugin(MObject obj){
+	MStatus status;
+	MFnPlugin pluginFn(obj, compony_str, version_str, other_str, &status);
+
+	status = pluginFn.registerData("AlgorithmData", AlgorithmData::id, AlgorithmData::creator);
+	status = pluginFn.registerNode(AlgorithmNode::nodeName, AlgorithmNode::id, AlgorithmNode::creator, AlgorithmNode::initialize, MPxNode::kDependNode);
+	status = pluginFn.registerCommand(AlgorithmCmd::commandName, AlgorithmCmd::creator, AlgorithmCmd::newSyntax);
+	return status;
+}
+MStatus uninitializePlugin(MObject obj) {
+	MStatus status;
+	MFnPlugin pluginFn(obj);
+	status = pluginFn.deregisterCommand(AlgorithmCmd::commandName);
+	status = pluginFn.deregisterNode(AlgorithmNode::id);
+	status = pluginFn.deregisterData(AlgorithmData::id);
+	return status;
+}
+```
+
 
 #### Houdini HDK, hou python scripting
 从0到1开发过实时刷子
-
+```
+python viewer state for mouse interaction
+c++ SOP plugin for geometry processing
+vscode 打开 HoudiniX.Y/houdini/python3.10.libs/， HoudiniX.Y/toolkit, HoudiniX.Y/houdini/viewer_states, HoudiniX.Y/houdini/viewer_handles
+浏览器打开 Houdini文档 https://www.sidefx.com/docs/houdini/index.html
+ChatGPT 搜索相关概念和实现，往往有幻觉出入，需要自己验证。
+```
 
 ### 视觉
 #### opencv
@@ -362,6 +561,7 @@ torch::Tensor out = m.forward({input_tensor}).toTensor();
 
 
 ### Graphicis
+- opengl API
 ```
 opengl API。
 glsl shaders。
@@ -369,14 +569,41 @@ RenderDoc调试代码。
 HairStrandsRendering中集成几十个G的体素可视化，修改render函数支持mesh, 头发， volume的深度遮挡关系。
 可视化编辑几十个G的体素。
 ```
+- DX12
+```
 
+```
 ### 数据格式
 #### Alembic库
 这个接触较多。
 #### FBXSDK
 
+
+
+### 引擎
+- 如何将一个c++库封装成UE的插件
+```
+创建一个动态链接库（DLL）用纯C接口封装这个库的功能（UE不支持使用stl）。
+
+#ifdef XXX_STATIC
+#define XXX_API
+#else
+#ifdef XXX_EXPORT
+#define XXX_API _declspec(dllexport)
+#else
+#define XXX_API _declspec(dllimport)
+#endif
+#endif
+
+
+
+```  
+
+
 ### 网络
 ZeroMQ, librdkafka, draco, ZmqNetwork, protobuf
+
+
 
 
 ### 其他
