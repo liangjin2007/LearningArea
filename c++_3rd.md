@@ -9,6 +9,7 @@ C++开发中经常会用到第三方库，此文档记录这些年的一些经�
   - GPU Programming
   - Graphics
   - 数据格式
+  - 网络
   - 其他
 
 ## 编译成目标平台的库
@@ -374,7 +375,8 @@ HairStrandsRendering中集成几十个G的体素可视化，修改render函数�
 这个接触较多。
 #### FBXSDK
 
-
+### 网络
+ZeroMQ, librdkafka, draco, ZmqNetwork, protobuf
 
 
 ### 其他
@@ -482,8 +484,6 @@ if (result.count("help"))
 bool value = result["ixxxx"].as<bool>();
 
 ```
-#### protobuf 消息压缩
-
 
 
 
