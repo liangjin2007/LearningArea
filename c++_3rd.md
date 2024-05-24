@@ -342,8 +342,10 @@ block， warp等概念。
 ```
 
 #### Optix
+[之前有单独记录过一个页面](https://github.com/liangjin2007/LearningArea/blob/master/optix.md)
 
 #### lib torch
+未能尝试编写代码
 ```
 #include "torch/script.h"
 std::vector<float> v;
