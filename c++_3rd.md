@@ -321,7 +321,41 @@ double r = colmap::RandomReal<double>(-0.0001, 0.0001);
 
 #### CUDA
 熟悉CUDA概念和编程，善于涉及算法。NSight Compute和NSight System
+```
+修改当前Visual Studio 工程以支持CUDA。
+	在Visual Studio .vcproj的两处添加CUDA 11.4.props。
+运行时Runtime SDK
+Kernel执行方式
+   kernel_name<<<grid_dim, block_dim>>>(param, ...);
+   cuLaunch
+   cuda graph execution
+同步执行和异步执行
+异步执行的同步化
+Context
+Stream
+Event
+block， warp等概念。
+如何知道一个显卡的最大线程数。
+如何优化当前代码
+如何设计算法
+
+```
+
 #### Optix
+
+#### lib torch
+```
+#include "torch/script.h"
+std::vector<float> v;
+...
+torch::Tensor tv = torch::tensor(v).t();
+torch::Tensor c = torch::matmul(a, b).t();
+torch::Tensor d = c.reshape({ m, n }).t();
+torch::Tensor e = torch::inverse(rotate);
+
+torch::jit::script::Module m = torch::jit::load("xxx.pt");
+torch::Tensor out = m.forward({input_tensor}).toTensor();
+```
 
 
 ### Graphicis
@@ -376,19 +410,6 @@ json jobj = json::parse(i);
 json jobj;
 std::vector<float> value = jobj[index0][index1].get<vector<float>>();
 
-```
-#### lib torch
-```
-#include "torch/script.h"
-std::vector<float> v;
-...
-torch::Tensor tv = torch::tensor(v).t();
-torch::Tensor c = torch::matmul(a, b).t();
-torch::Tensor d = c.reshape({ m, n }).t();
-torch::Tensor e = torch::inverse(rotate);
-
-torch::jit::script::Module m = torch::jit::load("xxx.pt");
-torch::Tensor out = m.forward({input_tensor}).toTensor();
 ```
 
 #### .conf library cpptoml
