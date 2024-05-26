@@ -1,3 +1,20 @@
+# 书单目录
+- An Introduction to Physics based animation
+- RayTracingGems_v1.4
+- Realtime Rendering 4th Edition
+- Fluid Simulation for Computer Graphics, Second Edition
+- 3D Game Design with Unreal Engine 4 and Blender
+- Computational Geometry Algorithms and Applications
+- GPU Gems 1
+- GPU Gems 2
+- GPU Gems 3
+- GPU Pro 1
+- GPU Pro 2
+- GPU Pro 3
+- GPU Pro 4
+- GPUZen Advanced Rendering Techniques
+- Numerical Methods for Engineers
+- 
 ## An Introduction to Physics based animation
 ```
 I. A Simple Start: Particle Dynamics
