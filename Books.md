@@ -3,6 +3,7 @@
 - RayTracingGems_v1.4
 - Realtime Rendering 4th Edition
 - Fluid Simulation for Computer Graphics, Second Edition
+- Contact and Friction Simulation for Computer Graphics
 - 3D Game Design with Unreal Engine 4 and Blender
 - Computational Geometry Algorithms and Applications
 - GPU Gems 1
@@ -18,7 +19,10 @@
 - Video Tracking : theory and practise
 - ComputerVision-cs4476
 - Practical Rendering And Computation With Direct3D11
-  
+- 统计学习方法 李航
+- Physical Based Rendering
+- OpenGL https://learnopengl.com/book/book_pdf.pdf
+-   
 ## An Introduction to Physics based animation
 ```
 I. A Simple Start: Particle Dynamics
