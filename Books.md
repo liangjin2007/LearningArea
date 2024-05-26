@@ -1,4 +1,4 @@
-# 书单目录
+# 书单和课程目录
 - An Introduction to Physics based animation
 - RayTracingGems_v1.4
 - Realtime Rendering 4th Edition
@@ -14,7 +14,11 @@
 - GPU Pro 4
 - GPUZen Advanced Rendering Techniques
 - Numerical Methods for Engineers
-- 
+- ComputerAnimationAlgorithmsAndTechniques.3rdEdition
+- Video Tracking : theory and practise
+- ComputerVision-cs4476
+- Practical Rendering And Computation With Direct3D11
+  
 ## An Introduction to Physics based animation
 ```
 I. A Simple Start: Particle Dynamics
