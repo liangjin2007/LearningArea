@@ -19,19 +19,14 @@ or-tools是一个Google开发的专门解优化问题的库。
 
 ## 文档
 - 主入口 https://developers.google.com/optimization?hl=zh-cn
+- **指南** https://developers.google.com/optimization/introduction?hl=zh-cn
 - 代码中包含的文档 https://github.com/google/or-tools/tree/stable/ortools/constraint_solver/docs
-```
-此地址中有TSP， VRP,  VRP的进阶的图，可能更适合直接进到这里来看。
-```  
 - C++头文件中的注释
-```
-结合代码来看可能更能理解接口的使用和问题的数学定义。
-```
 - Constraint Programming  http://kti.mff.cuni.cz/~bartak/constraints/index.html
 ## [示例](https://developers.google.com/optimization/examples?hl=zh-cn)
 
 ## 知识点
-[指南](https://developers.google.com/optimization/introduction?hl=zh-cn)中提到:
+[**指南**](https://developers.google.com/optimization/introduction?hl=zh-cn)中提到:
 - 约束规划
 - 线性和混合整数规划
 ```
@@ -82,11 +77,6 @@ OR 工具中用于此类问题的主要求解器是线性优化求解器，它�
 装箱是指将一组不同大小的对象打包到具有不同容量的容器中的问题。目标是根据容器的容量来打包尽可能多的对象。这种特殊情况是 Knapsack 问题，其中只有一个容器。
 
 详细了解装箱
-
-调度
-调度问题涉及分配资源以在特定时间执行一组任务。一个重要的示例是求职招聘问题，即在多台机器上处理多个作业。 每个作业都由一系列任务组成，这些任务必须按给定顺序执行，并且每个任务都必须在特定的机器上处理。问题在于如何分配时间表，以便在尽可能短的时间间隔内完成所有作业。
-
-详细了解时间安排
 
 路由
 路线规划问题涉及为车队寻找遍历网络的最佳路线，由有向图定义。什么是优化问题？中描述的将包裹分配给送货卡的问题就是路线问题的一个示例。另一个是旅行推销员问题。
@@ -1810,7 +1800,7 @@ int main() {
 ## 打包问题(packing)
 包问题的目标是找到将一组给定大小的项打包到具有固定packing的容器中的最佳方式。packing典型应用是高效地将箱子加载到货车上。 通常，由于容量限制，无法打包所有商品。在这种情况下，问题是找出总大小不超过最大可容纳在容器中的项的子集。
 
-打包问题有多种类型。其中最重要的两个是“背包问题”和“装箱问题”。
+打包问题有多种类型。其中最重要的两个是**背包问题和装箱问题**。
 
 - 背包问题：
 
@@ -1825,32 +1815,1334 @@ int main() {
 请注意，您可能是针对单个背包的多维问题，也可能是只有一个维度的多维背包问题。
 
 
+- 装箱问题：
+最广为人知的打包问题之一是装箱，即装箱时有多个容量相同的容器（称为装箱）。bin-packingbin-packing与多背包问题不同，箱子的数量并非固定的。相反，目标是找到容纳所有项的最小数量的分箱。
+
+下面这个简单的示例说明了多背包问题和装箱问题之间的区别。假设一家公司有货运卡车，每辆卡车的承重能力为 18,000 磅，需要运送 130,000 磅的商品。
+
+多个背包：您有五辆卡车，您想加载其中最重的物品。
+
+装箱：您有 20 辆卡车（足以容纳所有物品），并且希望使用最少的卡车来装运所有物品。
+
+### 背包问题(knapsack问题)
+- algorithms/knapsack_solver.h
+```
+#include <algorithm>
+#include <cstdint>
+#include <iterator>
+#include <numeric>
+#include <sstream>
+#include <vector>
+
+#include "ortools/algorithms/knapsack_solver.h"
+
+namespace operations_research {
+void RunKnapsackExample() {
+  // Instantiate the solver.
+  KnapsackSolver solver(
+      KnapsackSolver::KNAPSACK_MULTIDIMENSION_BRANCH_AND_BOUND_SOLVER,
+      "KnapsackExample");
+
+  std::vector<int64_t> values = {
+      360, 83, 59,  130, 431, 67, 230, 52,  93,  125, 670, 892, 600,
+      38,  48, 147, 78,  256, 63, 17,  120, 164, 432, 35,  92,  110,
+      22,  42, 50,  323, 514, 28, 87,  73,  78,  15,  26,  78,  210,
+      36,  85, 189, 274, 43,  33, 10,  19,  389, 276, 312};
+
+  std::vector<std::vector<int64_t>> weights = {
+      {7,  0,  30, 22, 80, 94, 11, 81, 70, 64, 59, 18, 0,  36, 3,  8,  15,
+       42, 9,  0,  42, 47, 52, 32, 26, 48, 55, 6,  29, 84, 2,  4,  18, 56,
+       7,  29, 93, 44, 71, 3,  86, 66, 31, 65, 0,  79, 20, 65, 52, 13}};
+
+  std::vector<int64_t> capacities = {850};
+
+  solver.Init(values, weights, capacities);
+  int64_t computed_value = solver.Solve();
+
+  // Print solution
+  std::vector<int> packed_items;
+  for (std::size_t i = 0; i < values.size(); ++i) {
+    if (solver.BestSolutionContains(i)) packed_items.push_back(i);
+  }
+  std::ostringstream packed_items_ss;
+  std::copy(packed_items.begin(), packed_items.end() - 1,
+            std::ostream_iterator<int>(packed_items_ss, ", "));
+  packed_items_ss << packed_items.back();
+
+  std::vector<int64_t> packed_weights;
+  packed_weights.reserve(packed_items.size());
+  for (const auto& it : packed_items) {
+    packed_weights.push_back(weights[0][it]);
+  }
+  std::ostringstream packed_weights_ss;
+  std::copy(packed_weights.begin(), packed_weights.end() - 1,
+            std::ostream_iterator<int>(packed_weights_ss, ", "));
+  packed_weights_ss << packed_weights.back();
+
+  int64_t total_weights =
+      std::accumulate(packed_weights.begin(), packed_weights.end(), int64_t{0});
+
+  LOG(INFO) << "Total value: " << computed_value;
+  LOG(INFO) << "Packed items: {" << packed_items_ss.str() << "}";
+  LOG(INFO) << "Total weight: " << total_weights;
+  LOG(INFO) << "Packed weights: {" << packed_weights_ss.str() << "}";
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::RunKnapsackExample();
+  return EXIT_SUCCESS;
+}
+```
+
+### 多背包问题
+- MPSolver解法
+```
+// Solve a multiple knapsack problem using a MIP solver.
+#include <iostream>
+#include <memory>
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/linear_solver/linear_expr.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+
+void MultipleKnapsackMip() {
+  const std::vector<int> weights = {
+      {48, 30, 42, 36, 36, 48, 42, 42, 36, 24, 30, 30, 42, 36, 36}};
+  const std::vector<int> values = {
+      {10, 30, 25, 50, 35, 30, 15, 40, 30, 35, 45, 10, 20, 30, 25}};
+  const int num_items = weights.size();
+  std::vector<int> all_items(num_items);
+  std::iota(all_items.begin(), all_items.end(), 0);
+
+  const std::vector<int> bin_capacities = {{100, 100, 100, 100, 100}};
+  const int num_bins = bin_capacities.size();
+  std::vector<int> all_bins(num_bins);
+  std::iota(all_bins.begin(), all_bins.end(), 0);
+
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  // Variables.
+  // x[i][b] = 1 if item i is packed in bin b.
+  std::vector<std::vector<const MPVariable*>> x(
+      num_items, std::vector<const MPVariable*>(num_bins));
+  for (int i : all_items) {
+    for (int b : all_bins) {
+      x[i][b] = solver->MakeBoolVar(absl::StrFormat("x_%d_%d", i, b));
+    }
+  }
+
+  // Constraints.
+  // Each item is assigned to at most one bin.
+  for (int i : all_items) {
+    LinearExpr sum;
+    for (int b : all_bins) {
+      sum += x[i][b];
+    }
+    solver->MakeRowConstraint(sum <= 1.0);
+  }
+  // The amount packed in each bin cannot exceed its capacity.
+  for (int b : all_bins) {
+    LinearExpr bin_weight;
+    for (int i : all_items) {
+      bin_weight += LinearExpr(x[i][b]) * weights[i];
+    }
+    solver->MakeRowConstraint(bin_weight <= bin_capacities[b]);
+  }
+
+  // Objective.
+  // Maximize total value of packed items.
+  MPObjective* const objective = solver->MutableObjective();
+  LinearExpr objective_value;
+  for (int i : all_items) {
+    for (int b : all_bins) {
+      objective_value += LinearExpr(x[i][b]) * values[i];
+    }
+  }
+  objective->MaximizeLinearExpr(objective_value);
+
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  if (result_status == MPSolver::OPTIMAL) {
+    LOG(INFO) << "Total packed value: " << objective->Value();
+    double total_weight = 0.0;
+    for (int b : all_bins) {
+      LOG(INFO) << "Bin " << b;
+      double bin_weight = 0.0;
+      double bin_value = 0.0;
+      for (int i : all_items) {
+        if (x[i][b]->solution_value() > 0) {
+          LOG(INFO) << "Item " << i << " weight: " << weights[i]
+                    << " value: " << values[i];
+          bin_weight += weights[i];
+          bin_value += values[i];
+        }
+      }
+      LOG(INFO) << "Packed bin weight: " << bin_weight;
+      LOG(INFO) << "Packed bin value: " << bin_value;
+      total_weight += bin_weight;
+    }
+    LOG(INFO) << "Total packed weight: " << total_weight;
+  } else {
+    LOG(INFO) << "The problem does not have an optimal solution.";
+  }
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::MultipleKnapsackMip();
+  return EXIT_SUCCESS;
+}
+```
+
+- CP-SAP解法
+```
+// Solves a multiple knapsack problem using the CP-SAT solver.
+#include <stdlib.h>
+
+#include <map>
+#include <numeric>
+#include <tuple>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+
+namespace operations_research {
+namespace sat {
+
+void MultipleKnapsackSat() {
+  const std::vector<int> weights = {
+      {48, 30, 42, 36, 36, 48, 42, 42, 36, 24, 30, 30, 42, 36, 36}};
+  const std::vector<int> values = {
+      {10, 30, 25, 50, 35, 30, 15, 40, 30, 35, 45, 10, 20, 30, 25}};
+  const int num_items = static_cast<int>(weights.size());
+  std::vector<int> all_items(num_items);
+  std::iota(all_items.begin(), all_items.end(), 0);
+
+  const std::vector<int> bin_capacities = {{100, 100, 100, 100, 100}};
+  const int num_bins = static_cast<int>(bin_capacities.size());
+  std::vector<int> all_bins(num_bins);
+  std::iota(all_bins.begin(), all_bins.end(), 0);
+
+  CpModelBuilder cp_model;
+
+  // Variables.
+  // x[i, b] = 1 if item i is packed in bin b.
+  std::map<std::tuple<int, int>, BoolVar> x;
+  for (int i : all_items) {
+    for (int b : all_bins) {
+      auto key = std::make_tuple(i, b);
+      x[key] = cp_model.NewBoolVar().WithName(absl::StrFormat("x_%d_%d", i, b));
+    }
+  }
+
+  // Constraints.
+  // Each item is assigned to at most one bin.
+  for (int i : all_items) {
+    std::vector<BoolVar> copies;
+    for (int b : all_bins) {
+      copies.push_back(x[std::make_tuple(i, b)]);
+    }
+    cp_model.AddAtMostOne(copies);
+  }
+
+  // The amount packed in each bin cannot exceed its capacity.
+  for (int b : all_bins) {
+    LinearExpr bin_weight;
+    for (int i : all_items) {
+      bin_weight += x[std::make_tuple(i, b)] * weights[i];
+    }
+    cp_model.AddLessOrEqual(bin_weight, bin_capacities[b]);
+  }
+
+  // Objective.
+  // Maximize total value of packed items.
+  LinearExpr objective;
+  for (int i : all_items) {
+    for (int b : all_bins) {
+      objective += x[std::make_tuple(i, b)] * values[i];
+    }
+  }
+  cp_model.Maximize(objective);
+
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  if (response.status() == CpSolverStatus::OPTIMAL ||
+      response.status() == CpSolverStatus::FEASIBLE) {
+    LOG(INFO) << "Total packed value: " << response.objective_value();
+    double total_weight = 0.0;
+    for (int b : all_bins) {
+      LOG(INFO) << "Bin " << b;
+      double bin_weight = 0.0;
+      double bin_value = 0.0;
+      for (int i : all_items) {
+        auto key = std::make_tuple(i, b);
+        if (SolutionIntegerValue(response, x[key]) > 0) {
+          LOG(INFO) << "Item " << i << " weight: " << weights[i]
+                    << " value: " << values[i];
+          bin_weight += weights[i];
+          bin_value += values[i];
+        }
+      }
+      LOG(INFO) << "Packed bin weight: " << bin_weight;
+      LOG(INFO) << "Packed bin value: " << bin_value;
+      total_weight += bin_weight;
+    }
+    LOG(INFO) << "Total packed weight: " << total_weight;
+  } else {
+    LOG(INFO) << "The problem does not have an optimal solution.";
+  }
+
+  // Statistics.
+  LOG(INFO) << "Statistics";
+  LOG(INFO) << CpSolverResponseStats(response);
+}
+}  // namespace sat
+}  // namespace operations_research
+
+int main() {
+  operations_research::sat::MultipleKnapsackSat();
+  return EXIT_SUCCESS;
+}
+```
+
+### 装箱问题
+```
+#include <iostream>
+#include <memory>
+#include <numeric>
+#include <ostream>
+#include <vector>
+
+#include "ortools/linear_solver/linear_expr.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+struct DataModel {
+  const std::vector<double> weights = {48, 30, 19, 36, 36, 27,
+                                       42, 42, 36, 24, 30};
+  const int num_items = weights.size();
+  const int num_bins = weights.size();
+  const int bin_capacity = 100;
+};
+
+void BinPackingMip() {
+  DataModel data;
+
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  std::vector<std::vector<const MPVariable*>> x(
+      data.num_items, std::vector<const MPVariable*>(data.num_bins));
+  for (int i = 0; i < data.num_items; ++i) {
+    for (int j = 0; j < data.num_bins; ++j) {
+      x[i][j] = solver->MakeIntVar(0.0, 1.0, "");
+    }
+  }
+  // y[j] = 1 if bin j is used.
+  std::vector<const MPVariable*> y(data.num_bins);
+  for (int j = 0; j < data.num_bins; ++j) {
+    y[j] = solver->MakeIntVar(0.0, 1.0, "");
+  }
+
+  // Create the constraints.
+  // Each item is in exactly one bin.
+  for (int i = 0; i < data.num_items; ++i) {
+    LinearExpr sum;
+    for (int j = 0; j < data.num_bins; ++j) {
+      sum += x[i][j];
+    }
+    solver->MakeRowConstraint(sum == 1.0);
+  }
+  // For each bin that is used, the total packed weight can be at most
+  // the bin capacity.
+  for (int j = 0; j < data.num_bins; ++j) {
+    LinearExpr weight;
+    for (int i = 0; i < data.num_items; ++i) {
+      weight += data.weights[i] * LinearExpr(x[i][j]);
+    }
+    solver->MakeRowConstraint(weight <= LinearExpr(y[j]) * data.bin_capacity);
+  }
+
+  // Create the objective function.
+  MPObjective* const objective = solver->MutableObjective();
+  LinearExpr num_bins_used;
+  for (int j = 0; j < data.num_bins; ++j) {
+    num_bins_used += y[j];
+  }
+  objective->MinimizeLinearExpr(num_bins_used);
+
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  // Check that the problem has an optimal solution.
+  if (result_status != MPSolver::OPTIMAL) {
+    std::cerr << "The problem does not have an optimal solution!";
+    return;
+  }
+  std::cout << "Number of bins used: " << objective->Value() << std::endl
+            << std::endl;
+  double total_weight = 0;
+  for (int j = 0; j < data.num_bins; ++j) {
+    if (y[j]->solution_value() == 1) {
+      std::cout << "Bin " << j << std::endl << std::endl;
+      double bin_weight = 0;
+      for (int i = 0; i < data.num_items; ++i) {
+        if (x[i][j]->solution_value() == 1) {
+          std::cout << "Item " << i << " - Weight: " << data.weights[i]
+                    << std::endl;
+          bin_weight += data.weights[i];
+        }
+      }
+      std::cout << "Packed bin weight: " << bin_weight << std::endl
+                << std::endl;
+      total_weight += bin_weight;
+    }
+  }
+  std::cout << "Total packed weight: " << total_weight << std::endl;
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::BinPackingMip();
+  return EXIT_SUCCESS;
+}
+```
 
 
 
+## 路由Routing
+```
+最常见的优化任务之一是车辆路线，其目标是为前往一组地点的车队找到最佳路线。通常，“最佳”是指总距离或费用最少的路线。 以下是路由问题的一些示例：
+
+一家包裹配送服务公司想要为司机指定送货路线。
+一家有线电视公司希望为技术人员分配用于拨打住宅服务电话的路由。
+一家拼车公司想要为司机分配上车和下车路线。
+其中最著名的路线问题是旅行推销员问题 (TSP)：对于需要探访不同营业地点的客户并返回出发地的销售人员，找出最短的路线。TSP 可以用图表示，其中节点对应位置，而边（或弧形）表示位置之间的直接行程。例如，下图显示了一个仅有四个位置（分别标记为 A、B、C 和 D）的 TSP。任意两个位置之间的距离由连接这两个位置的边旁边的数字指定。
+
+tsp 动画
+
+通过计算所有可能路线的距离，可以看到最短路线是 ACDBA，总距离为 35 + 30 + 15 + 10 = 90。
+
+地点越多，问题就越严重。上面的示例中只有六条路线。但如果有 10 个位置（不计算起点），则路由数量为 362880。如果是 20 个营业地点，此数量会跳到 2432902008176640000。 详尽搜索所有可能的路线可以保证找到最短路径，但这对于除一小部分位置以外的所有位置来说很难计算。对于更大的问题，需要使用优化技术智能搜索解决方案空间，并找到最佳（或接近优化）的解决方案。
+
+更通用的 TSP 版本是车辆路线问题 (VRP)，其中有多辆车辆。在大多数情况下，VRP 都有限制：例如，车辆可能具有承载最大重量或最大体积的物品容量，或者驾驶员可能需要在客户要求的指定时间范围内造访某些地点。
 
 
+OR-Tools 可以解决多种类型的 VRP 问题，包括：
+
+旅行销售人员问题，即只有一辆车的典型路线问题。
+车辆路线问题，是对多辆车辆的 TSP 的泛化。
+具有容量限制的 VRP，即车辆可携带商品的最大容量。
+设有时间范围的 VRP：车辆必须按照指定的时间间隔到访地点。
+具有资源限制的 VRP，例如在仓库（路线的起点）装卸车辆的空间或人员。
+存在访问量下降的 VRP。在这种情况下，车辆并非必须造访所有地点，但必须针对每次访问丢失而支付罚金。
+
+车辆路线问题的限制
+车辆路线问题从本质上说是难以解决的：解决问题所需的时间会随着问题规模成倍增长。对于足够大的问题，OR-Tools（或任何其他路由软件）可能需要数年时间才能找到最佳解决方案。因此，OR-Tools 有时会返回良好的解决方案，但并非最佳解决方案。如需找到更好的解决方案，请更改求解器的搜索选项。如需查看示例，请参阅更改搜索策略。
+
+我们还应该补充一点，还有一些其他求解器，例如 Concorde，专用于求解非常大的 TSP 以获得最优性，这些求解器在这方面超过了 OR-Tools。但是，OR-Tools 提供了一个更好的平台，用于解决更宽泛的路由问题，这些问题包含的限制超出纯 TSP 的限制。
+
+```
 
 
+### TSP问题
+```
+创建数据
+struct DataModel {
+  const std::vector<std::vector<int64_t>> distance_matrix{
+      {0, 2451, 713, 1018, 1631, 1374, 2408, 213, 2571, 875, 1420, 2145, 1972},
+      {2451, 0, 1745, 1524, 831, 1240, 959, 2596, 403, 1589, 1374, 357, 579},
+      {713, 1745, 0, 355, 920, 803, 1737, 851, 1858, 262, 940, 1453, 1260},
+      {1018, 1524, 355, 0, 700, 862, 1395, 1123, 1584, 466, 1056, 1280, 987},
+      {1631, 831, 920, 700, 0, 663, 1021, 1769, 949, 796, 879, 586, 371},
+      {1374, 1240, 803, 862, 663, 0, 1681, 1551, 1765, 547, 225, 887, 999},
+      {2408, 959, 1737, 1395, 1021, 1681, 0, 2493, 678, 1724, 1891, 1114, 701},
+      {213, 2596, 851, 1123, 1769, 1551, 2493, 0, 2699, 1038, 1605, 2300, 2099},
+      {2571, 403, 1858, 1584, 949, 1765, 678, 2699, 0, 1744, 1645, 653, 600},
+      {875, 1589, 262, 466, 796, 547, 1724, 1038, 1744, 0, 679, 1272, 1162},
+      {1420, 1374, 940, 1056, 879, 225, 1891, 1605, 1645, 679, 0, 1017, 1200},
+      {2145, 357, 1453, 1280, 586, 887, 1114, 2300, 653, 1272, 1017, 0, 504},
+      {1972, 579, 1260, 987, 371, 999, 701, 2099, 600, 1162, 1200, 504, 0},
+  };
+  const int num_vehicles = 1;
+  const RoutingIndexManager::NodeIndex depot{0};
+};   
 
 
+创建路由模型
+DataModel data;
+RoutingIndexManager manager(data.distance_matrix.size(), data.num_vehicles,
+                            data.depot);
+//// Create Routing Index Manager, starts and ends
+//RoutingIndexManager manager(data.distance_matrix.size(), data.num_vehicles,
+//                           data.starts, data.ends);
+RoutingModel routing(manager);
 
 
+创建距离回调
+如需使用路由求解器，您需要创建一个距离（或公交）回调：该函数可接受任意一对位置并返回它们之间的距离。最简单的方法是使用距离矩阵。
+const int transit_callback_index = routing.RegisterTransitCallback(
+    [&data, &manager](const int64_t from_index,
+                      const int64_t to_index) -> int64_t {
+      // Convert from routing variable Index to distance matrix NodeIndex.
+      const int from_node = manager.IndexToNode(from_index).value();
+      const int to_node = manager.IndexToNode(to_index).value();
+      return data.distance_matrix[from_node][to_node];
+    });
+
+设置旅行花销（Cost）
+routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index);
+
+在此示例中，弧线费用评估器是 transit_callback_index，它是求解器对距离回调的内部引用。这意味着，任何两个位置之间的行程费用只是它们之间的距离。不过，总体而言，费用还可能会涉及到其他因素。
+此外，您还可以使用 routing.SetArcCostEvaluatorOfVehicle() 方法定义多个弧形评估器，以评估车辆在营业地点之间行驶的情况。例如，如果车辆的速度不同，那么您可以将不同地点之间的行程费用定义为距离除以车辆速度（也就是行程时间）。
 
 
+设置搜索参数
+RoutingSearchParameters searchParameters = DefaultRoutingSearchParameters();
+searchParameters.set_first_solution_strategy(
+    FirstSolutionStrategy::PATH_CHEAPEST_ARC);
 
 
+求解并打印解决方案
+const Assignment* solution = routing.SolveWithParameters(searchParameters);
+//! @brief Print the solution.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  // Inspect solution.
+  LOG(INFO) << "Objective: " << solution.ObjectiveValue() << " miles";
+  int64_t index = routing.Start(0);
+  LOG(INFO) << "Route:";
+  int64_t distance{0};
+  std::stringstream route;
+  while (!routing.IsEnd(index)) {
+    route << manager.IndexToNode(index).value() << " -> ";
+    const int64_t previous_index = index;
+    index = solution.Value(routing.NextVar(index));
+    distance += routing.GetArcCostForVehicle(previous_index, index, int64_t{0});
+  }
+  LOG(INFO) << route.str() << manager.IndexToNode(index).value();
+  LOG(INFO) << "Route distance: " << distance << "miles";
+  LOG(INFO) << "";
+  LOG(INFO) << "Advanced usage:";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+};
+PrintSolution(manager, routing, *solution);
+
+将路线保存到列表或数组
+作为直接输出解决方案的替代方案，您可以将路由（或 VRP 的路由）保存到列表或数组中。这样做的好处是，您可以在日后需要时利用这些路线。例如，您可以使用不同的参数多次运行程序，并将返回的解决方案中的路线保存到文件中进行比较。
 
 
+std::vector<std::vector<int>> GetRoutes(const Assignment& solution,
+                                        const RoutingModel& routing,
+                                        const RoutingIndexManager& manager) {
+  // Get vehicle routes and store them in a two dimensional array, whose
+  // i, j entry is the node for the jth visit of vehicle i.
+  std::vector<std::vector<int>> routes(manager.num_vehicles());
+  // Get routes.
+  for (int vehicle_id = 0; vehicle_id < manager.num_vehicles(); ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    routes[vehicle_id].push_back(manager.IndexToNode(index).value());
+    while (!routing.IsEnd(index)) {
+      index = solution.Value(routing.NextVar(index));
+      routes[vehicle_id].push_back(manager.IndexToNode(index).value());
+    }
+  }
+  return routes;
+}
+
+```
+
+- 更改搜索策略
+```
+RoutingSearchParameters searchParameters = DefaultRoutingSearchParameters();
+searchParameters.set_local_search_metaheuristic(
+    LocalSearchMetaheuristic::GUIDED_LOCAL_SEARCH);
+searchParameters.mutable_time_limit()->set_seconds(30);
+search_parameters.set_log_search(true);
+```  
+
+### VRP问题
+在车辆路线规划问题 (VRP) 中，目标是为访问一组位置的多辆车辆找出最佳路线。（如果只有一辆车，这种情况就会归为销售人员出差问题。）
+
+但是，什么是 VRP 的“最佳路线”呢？其中一个答案是总距离最短的路线。但是，如果没有其他约束条件，则最佳解决方案是仅分配一辆车来访问所有位置，并找到该车辆的最短路线。这本质上与 TSP 的问题相同。
+
+定义最佳路线的更好方法是，尽量缩短所有车辆中最长的单个路线的长度。如果目标是尽快完成所有提交，这就是正确的定义。下面的 VRP 示例查找了以这种方式定义的最佳路线。
+
+在后面的部分中，我们将介绍通过添加车辆约束条件来泛化 TSP 的其他方法，包括：
+
+容量限制：车辆需要在到达的每个地点自提物品，但有最大承载能力。
+
+时间窗口：必须在特定时间范围内访问每个营业地点。
 
 
+```
+#include <algorithm>
+#include <cstdint>
+#include <sstream>
+#include <vector>
+
+#include "ortools/constraint_solver/routing.h"
+#include "ortools/constraint_solver/routing_enums.pb.h"
+#include "ortools/constraint_solver/routing_index_manager.h"
+#include "ortools/constraint_solver/routing_parameters.h"
+
+namespace operations_research {
+struct DataModel {
+  const std::vector<std::vector<int64_t>> distance_matrix{
+      {0, 548, 776, 696, 582, 274, 502, 194, 308, 194, 536, 502, 388, 354, 468,
+       776, 662},
+      {548, 0, 684, 308, 194, 502, 730, 354, 696, 742, 1084, 594, 480, 674,
+       1016, 868, 1210},
+      {776, 684, 0, 992, 878, 502, 274, 810, 468, 742, 400, 1278, 1164, 1130,
+       788, 1552, 754},
+      {696, 308, 992, 0, 114, 650, 878, 502, 844, 890, 1232, 514, 628, 822,
+       1164, 560, 1358},
+      {582, 194, 878, 114, 0, 536, 764, 388, 730, 776, 1118, 400, 514, 708,
+       1050, 674, 1244},
+      {274, 502, 502, 650, 536, 0, 228, 308, 194, 240, 582, 776, 662, 628, 514,
+       1050, 708},
+      {502, 730, 274, 878, 764, 228, 0, 536, 194, 468, 354, 1004, 890, 856, 514,
+       1278, 480},
+      {194, 354, 810, 502, 388, 308, 536, 0, 342, 388, 730, 468, 354, 320, 662,
+       742, 856},
+      {308, 696, 468, 844, 730, 194, 194, 342, 0, 274, 388, 810, 696, 662, 320,
+       1084, 514},
+      {194, 742, 742, 890, 776, 240, 468, 388, 274, 0, 342, 536, 422, 388, 274,
+       810, 468},
+      {536, 1084, 400, 1232, 1118, 582, 354, 730, 388, 342, 0, 878, 764, 730,
+       388, 1152, 354},
+      {502, 594, 1278, 514, 400, 776, 1004, 468, 810, 536, 878, 0, 114, 308,
+       650, 274, 844},
+      {388, 480, 1164, 628, 514, 662, 890, 354, 696, 422, 764, 114, 0, 194, 536,
+       388, 730},
+      {354, 674, 1130, 822, 708, 628, 856, 320, 662, 388, 730, 308, 194, 0, 342,
+       422, 536},
+      {468, 1016, 788, 1164, 1050, 514, 514, 662, 320, 274, 388, 650, 536, 342,
+       0, 764, 194},
+      {776, 868, 1552, 560, 674, 1050, 1278, 742, 1084, 810, 1152, 274, 388,
+       422, 764, 0, 798},
+      {662, 1210, 754, 1358, 1244, 708, 480, 856, 514, 468, 354, 844, 730, 536,
+       194, 798, 0},
+  };
+  const int num_vehicles = 4;
+  const RoutingIndexManager::NodeIndex depot{0};
+};
+
+//! @brief Print the solution.
+//! @param[in] data Data of the problem.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const DataModel& data, const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  int64_t max_route_distance{0};
+  for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    LOG(INFO) << "Route for Vehicle " << vehicle_id << ":";
+    int64_t route_distance{0};
+    std::stringstream route;
+    while (!routing.IsEnd(index)) {
+      route << manager.IndexToNode(index).value() << " -> ";
+      const int64_t previous_index = index;
+      index = solution.Value(routing.NextVar(index));
+      route_distance += routing.GetArcCostForVehicle(previous_index, index,
+                                                     int64_t{vehicle_id});
+    }
+    LOG(INFO) << route.str() << manager.IndexToNode(index).value();
+    LOG(INFO) << "Distance of the route: " << route_distance << "m";
+    max_route_distance = std::max(route_distance, max_route_distance);
+  }
+  LOG(INFO) << "Maximum of the route distances: " << max_route_distance << "m";
+  LOG(INFO) << "";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+}
+
+void VrpGlobalSpan() {
+  // Instantiate the data problem.
+  DataModel data;
+
+  // Create Routing Index Manager
+  RoutingIndexManager manager(data.distance_matrix.size(), data.num_vehicles,
+                              data.depot);
+
+  // Create Routing Model.
+  RoutingModel routing(manager);
+
+  // Create and register a transit callback.
+  const int transit_callback_index = routing.RegisterTransitCallback(
+      [&data, &manager](const int64_t from_index,
+                        const int64_t to_index) -> int64_t {
+        // Convert from routing variable Index to distance matrix NodeIndex.
+        const int from_node = manager.IndexToNode(from_index).value();
+        const int to_node = manager.IndexToNode(to_index).value();
+        return data.distance_matrix[from_node][to_node];
+      });
+
+  // Define cost of each arc.
+  routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index);
+
+  // Add Distance constraint. 只有这两个函数跟TSP是不同的，但是没怎么看懂？？
+  routing.AddDimension(transit_callback_index, 0, 3000,
+                       true,  // start cumul to zero
+                       "Distance");
+  routing.GetMutableDimension("Distance")->SetGlobalSpanCostCoefficient(100);
+
+  // Setting first solution heuristic.
+  RoutingSearchParameters searchParameters = DefaultRoutingSearchParameters();
+  searchParameters.set_first_solution_strategy(
+      FirstSolutionStrategy::PATH_CHEAPEST_ARC);
+
+  // Solve the problem.
+  const Assignment* solution = routing.SolveWithParameters(searchParameters);
+
+  // Print solution on console.
+  if (solution != nullptr) {
+    PrintSolution(data, manager, routing, *solution);
+  } else {
+    LOG(INFO) << "No solution found.";
+  }
+}
+}  // namespace operations_research
+
+int main(int /*argc*/, char* /*argv*/[]) {
+  operations_research::VrpGlobalSpan();
+  return EXIT_SUCCESS;
+}
+
+```
+
+### 容量限制
+是一种 VRP，车辆承载能力有限，需要在各个地点**取货或交货**。这些物品具有数量（例如重量或体积），而车辆具有的最大容量。问题在于以最低的费用自提或配送商品，同时不超过车辆的容量。
+
+在以下示例中，我们假定提取了所有商品。如果所有项目都在投递，在这种情况下，解决此问题的节目也可以正常运行：在本例中，您可以考虑在车辆完全离开仓库时应用容量限制。但在这两种情况下，容量限制的实现方式相同。
+
+```
+// 额外的数据
+const std::vector<int64_t> demands{
+    0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8,
+};
+const std::vector<int64_t> vehicle_capacities{15, 15, 15, 15};
+
+// 添加需求回调和容量限制
+除了距离回调之外，该求解器还需要一个需求回调（用于返回每个位置的需求）以及一个容量限制维度。以下代码会创建这些内容。
+const int demand_callback_index = routing.RegisterUnaryTransitCallback(
+    [&data, &manager](const int64_t from_index) -> int64_t {
+      // Convert from routing variable Index to demand NodeIndex.
+      const int from_node = manager.IndexToNode(from_index).value();
+      return data.demands[from_node];
+    });
+routing.AddDimensionWithVehicleCapacity(
+    demand_callback_index,    // transit callback index
+    int64_t{0},               // null capacity slack
+    data.vehicle_capacities,  // vehicle maximum capacities
+    true,                     // start cumul to zero
+    "Capacity");
+
+与将一对位置作为输入而执行的距离回调不同，需求回调仅依赖于交付的位置 (from_node)。
+
+由于容量限制涉及车辆携带的负载（即车辆沿途累积的重量），因此我们需要为容量创建一个维度，类似于上一个 VRP 示例中的距离维度。
+
+在本例中，我们使用 AddDimensionWithVehicleCapacity 方法，该方法采用容量矢量。
+
+由于此示例中的所有车辆容量都相同，因此您可以使用 AddDimension 方法，该方法为所有车辆数量设置一个上限。但 AddDimensionWithVehicleCapacity 能处理更常见的情况，即不同车辆具有不同的容量。
+
+多种货运类型和容量的问题
+
+在更复杂的 CVRP 中，每辆车可能搭载多种不同类型的货物，每种类型的车辆都有最大容量。例如，燃料运输卡车可能使用多种容量各异的油箱运输多种燃料。为了处理此类问题，只需为每种货运类型创建不同的容量回调和维度（请务必为它们指定唯一名称）。
+
+添加解决方案打印机
+解决方案打印机会显示每辆车的路线及其累计负载，即车辆在路线上停止时搭载的总金额。
+//! @brief Print the solution.
+//! @param[in] data Data of the problem.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const DataModel& data, const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  int64_t total_distance = 0;
+  int64_t total_load = 0;
+  for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    LOG(INFO) << "Route for Vehicle " << vehicle_id << ":";
+    int64_t route_distance = 0;
+    int64_t route_load = 0;
+    std::stringstream route;
+    while (!routing.IsEnd(index)) {
+      const int node_index = manager.IndexToNode(index).value();
+      route_load += data.demands[node_index];
+      route << node_index << " Load(" << route_load << ") -> ";
+      const int64_t previous_index = index;
+      index = solution.Value(routing.NextVar(index));
+      route_distance += routing.GetArcCostForVehicle(previous_index, index,
+                                                     int64_t{vehicle_id});
+    }
+    LOG(INFO) << route.str() << manager.IndexToNode(index).value();
+    LOG(INFO) << "Distance of the route: " << route_distance << "m";
+    LOG(INFO) << "Load of the route: " << route_load;
+    total_distance += route_distance;
+    total_load += route_load;
+  }
+  LOG(INFO) << "Total distance of all routes: " << total_distance << "m";
+  LOG(INFO) << "Total load of all routes: " << total_load;
+  LOG(INFO) << "";
+  LOG(INFO) << "Advanced usage:";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+}
+```
+- 完整程序
+```
+#include <cstdint>
+#include <sstream>
+#include <vector>
+
+#include "google/protobuf/duration.pb.h"
+#include "ortools/constraint_solver/routing.h"
+#include "ortools/constraint_solver/routing_enums.pb.h"
+#include "ortools/constraint_solver/routing_index_manager.h"
+#include "ortools/constraint_solver/routing_parameters.h"
+
+namespace operations_research {
+struct DataModel {
+  const std::vector<std::vector<int64_t>> distance_matrix{
+      {0, 548, 776, 696, 582, 274, 502, 194, 308, 194, 536, 502, 388, 354, 468,
+       776, 662},
+      {548, 0, 684, 308, 194, 502, 730, 354, 696, 742, 1084, 594, 480, 674,
+       1016, 868, 1210},
+      {776, 684, 0, 992, 878, 502, 274, 810, 468, 742, 400, 1278, 1164, 1130,
+       788, 1552, 754},
+      {696, 308, 992, 0, 114, 650, 878, 502, 844, 890, 1232, 514, 628, 822,
+       1164, 560, 1358},
+      {582, 194, 878, 114, 0, 536, 764, 388, 730, 776, 1118, 400, 514, 708,
+       1050, 674, 1244},
+      {274, 502, 502, 650, 536, 0, 228, 308, 194, 240, 582, 776, 662, 628, 514,
+       1050, 708},
+      {502, 730, 274, 878, 764, 228, 0, 536, 194, 468, 354, 1004, 890, 856, 514,
+       1278, 480},
+      {194, 354, 810, 502, 388, 308, 536, 0, 342, 388, 730, 468, 354, 320, 662,
+       742, 856},
+      {308, 696, 468, 844, 730, 194, 194, 342, 0, 274, 388, 810, 696, 662, 320,
+       1084, 514},
+      {194, 742, 742, 890, 776, 240, 468, 388, 274, 0, 342, 536, 422, 388, 274,
+       810, 468},
+      {536, 1084, 400, 1232, 1118, 582, 354, 730, 388, 342, 0, 878, 764, 730,
+       388, 1152, 354},
+      {502, 594, 1278, 514, 400, 776, 1004, 468, 810, 536, 878, 0, 114, 308,
+       650, 274, 844},
+      {388, 480, 1164, 628, 514, 662, 890, 354, 696, 422, 764, 114, 0, 194, 536,
+       388, 730},
+      {354, 674, 1130, 822, 708, 628, 856, 320, 662, 388, 730, 308, 194, 0, 342,
+       422, 536},
+      {468, 1016, 788, 1164, 1050, 514, 514, 662, 320, 274, 388, 650, 536, 342,
+       0, 764, 194},
+      {776, 868, 1552, 560, 674, 1050, 1278, 742, 1084, 810, 1152, 274, 388,
+       422, 764, 0, 798},
+      {662, 1210, 754, 1358, 1244, 708, 480, 856, 514, 468, 354, 844, 730, 536,
+       194, 798, 0},
+  };
+  const std::vector<int64_t> demands{
+      0, 1, 1, 2, 4, 2, 4, 8, 8, 1, 2, 1, 2, 4, 4, 8, 8,
+  };
+  const std::vector<int64_t> vehicle_capacities{15, 15, 15, 15};
+  const int num_vehicles = 4;
+  const RoutingIndexManager::NodeIndex depot{0};
+};
+
+//! @brief Print the solution.
+//! @param[in] data Data of the problem.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const DataModel& data, const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  int64_t total_distance = 0;
+  int64_t total_load = 0;
+  for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    LOG(INFO) << "Route for Vehicle " << vehicle_id << ":";
+    int64_t route_distance = 0;
+    int64_t route_load = 0;
+    std::stringstream route;
+    while (!routing.IsEnd(index)) {
+      const int node_index = manager.IndexToNode(index).value();
+      route_load += data.demands[node_index];
+      route << node_index << " Load(" << route_load << ") -> ";
+      const int64_t previous_index = index;
+      index = solution.Value(routing.NextVar(index));
+      route_distance += routing.GetArcCostForVehicle(previous_index, index,
+                                                     int64_t{vehicle_id});
+    }
+    LOG(INFO) << route.str() << manager.IndexToNode(index).value();
+    LOG(INFO) << "Distance of the route: " << route_distance << "m";
+    LOG(INFO) << "Load of the route: " << route_load;
+    total_distance += route_distance;
+    total_load += route_load;
+  }
+  LOG(INFO) << "Total distance of all routes: " << total_distance << "m";
+  LOG(INFO) << "Total load of all routes: " << total_load;
+  LOG(INFO) << "";
+  LOG(INFO) << "Advanced usage:";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+}
+
+void VrpCapacity() {
+  // Instantiate the data problem.
+  DataModel data;
+
+  // Create Routing Index Manager
+  RoutingIndexManager manager(data.distance_matrix.size(), data.num_vehicles,
+                              data.depot);
+
+  // Create Routing Model.
+  RoutingModel routing(manager);
+
+  // Create and register a transit callback.
+  const int transit_callback_index = routing.RegisterTransitCallback(
+      [&data, &manager](const int64_t from_index,
+                        const int64_t to_index) -> int64_t {
+        // Convert from routing variable Index to distance matrix NodeIndex.
+        const int from_node = manager.IndexToNode(from_index).value();
+        const int to_node = manager.IndexToNode(to_index).value();
+        return data.distance_matrix[from_node][to_node];
+      });
+
+  // Define cost of each arc.
+  routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index);
+
+  // Add Capacity constraint.
+  const int demand_callback_index = routing.RegisterUnaryTransitCallback(
+      [&data, &manager](const int64_t from_index) -> int64_t {
+        // Convert from routing variable Index to demand NodeIndex.
+        const int from_node = manager.IndexToNode(from_index).value();
+        return data.demands[from_node];
+      });
+  routing.AddDimensionWithVehicleCapacity(
+      demand_callback_index,    // transit callback index
+      int64_t{0},               // null capacity slack
+      data.vehicle_capacities,  // vehicle maximum capacities
+      true,                     // start cumul to zero
+      "Capacity");
+
+  // Setting first solution heuristic.
+  RoutingSearchParameters search_parameters = DefaultRoutingSearchParameters();
+  search_parameters.set_first_solution_strategy(
+      FirstSolutionStrategy::PATH_CHEAPEST_ARC);
+  search_parameters.set_local_search_metaheuristic(
+      LocalSearchMetaheuristic::GUIDED_LOCAL_SEARCH);
+  search_parameters.mutable_time_limit()->set_seconds(1);
+
+  // Solve the problem.
+  const Assignment* solution = routing.SolveWithParameters(search_parameters);
+
+  // Print solution on console.
+  PrintSolution(data, manager, routing, *solution);
+}
+}  // namespace operations_research
+
+int main(int /*argc*/, char* /*argv*/[]) {
+  operations_research::VrpCapacity();
+  return EXIT_SUCCESS;
+}
+```
 
 
+### 车辆自提和配送（Vehicle Routing with Pickups and Deliveries ）
+在本部分中，我们将介绍一个 VRP，其中，每辆车在各个位置取走物品，然后将物品放在其他位置。但问题是为车辆分配路线，以方便自提和配送所有商品，同时最大限度地缩短最长路线的长度。
+
+额外提供自提和配送地点。
+
+```
+ const std::vector<std::vector<RoutingIndexManager::NodeIndex>>
+      pickups_deliveries{
+          {RoutingIndexManager::NodeIndex{1},
+           RoutingIndexManager::NodeIndex{6}},
+          {RoutingIndexManager::NodeIndex{2},
+           RoutingIndexManager::NodeIndex{10}},
+          {RoutingIndexManager::NodeIndex{4},
+           RoutingIndexManager::NodeIndex{3}},
+          {RoutingIndexManager::NodeIndex{5},
+           RoutingIndexManager::NodeIndex{9}},
+          {RoutingIndexManager::NodeIndex{7},
+           RoutingIndexManager::NodeIndex{8}},
+          {RoutingIndexManager::NodeIndex{15},
+           RoutingIndexManager::NodeIndex{11}},
+          {RoutingIndexManager::NodeIndex{13},
+           RoutingIndexManager::NodeIndex{12}},
+          {RoutingIndexManager::NodeIndex{16},
+           RoutingIndexManager::NodeIndex{14}},
+      };
+
+```
+
+- 完整程序
+```
+#include <cstdint>
+#include <sstream>
+#include <vector>
+
+#include "ortools/constraint_solver/routing.h"
+#include "ortools/constraint_solver/routing_enums.pb.h"
+#include "ortools/constraint_solver/routing_index_manager.h"
+#include "ortools/constraint_solver/routing_parameters.h"
+
+namespace operations_research {
+struct DataModel {
+  const std::vector<std::vector<int64_t>> distance_matrix{
+      {0, 548, 776, 696, 582, 274, 502, 194, 308, 194, 536, 502, 388, 354, 468,
+       776, 662},
+      {548, 0, 684, 308, 194, 502, 730, 354, 696, 742, 1084, 594, 480, 674,
+       1016, 868, 1210},
+      {776, 684, 0, 992, 878, 502, 274, 810, 468, 742, 400, 1278, 1164, 1130,
+       788, 1552, 754},
+      {696, 308, 992, 0, 114, 650, 878, 502, 844, 890, 1232, 514, 628, 822,
+       1164, 560, 1358},
+      {582, 194, 878, 114, 0, 536, 764, 388, 730, 776, 1118, 400, 514, 708,
+       1050, 674, 1244},
+      {274, 502, 502, 650, 536, 0, 228, 308, 194, 240, 582, 776, 662, 628, 514,
+       1050, 708},
+      {502, 730, 274, 878, 764, 228, 0, 536, 194, 468, 354, 1004, 890, 856, 514,
+       1278, 480},
+      {194, 354, 810, 502, 388, 308, 536, 0, 342, 388, 730, 468, 354, 320, 662,
+       742, 856},
+      {308, 696, 468, 844, 730, 194, 194, 342, 0, 274, 388, 810, 696, 662, 320,
+       1084, 514},
+      {194, 742, 742, 890, 776, 240, 468, 388, 274, 0, 342, 536, 422, 388, 274,
+       810, 468},
+      {536, 1084, 400, 1232, 1118, 582, 354, 730, 388, 342, 0, 878, 764, 730,
+       388, 1152, 354},
+      {502, 594, 1278, 514, 400, 776, 1004, 468, 810, 536, 878, 0, 114, 308,
+       650, 274, 844},
+      {388, 480, 1164, 628, 514, 662, 890, 354, 696, 422, 764, 114, 0, 194, 536,
+       388, 730},
+      {354, 674, 1130, 822, 708, 628, 856, 320, 662, 388, 730, 308, 194, 0, 342,
+       422, 536},
+      {468, 1016, 788, 1164, 1050, 514, 514, 662, 320, 274, 388, 650, 536, 342,
+       0, 764, 194},
+      {776, 868, 1552, 560, 674, 1050, 1278, 742, 1084, 810, 1152, 274, 388,
+       422, 764, 0, 798},
+      {662, 1210, 754, 1358, 1244, 708, 480, 856, 514, 468, 354, 844, 730, 536,
+       194, 798, 0},
+  };
+  const std::vector<std::vector<RoutingIndexManager::NodeIndex>>
+      pickups_deliveries{
+          {RoutingIndexManager::NodeIndex{1},
+           RoutingIndexManager::NodeIndex{6}},
+          {RoutingIndexManager::NodeIndex{2},
+           RoutingIndexManager::NodeIndex{10}},
+          {RoutingIndexManager::NodeIndex{4},
+           RoutingIndexManager::NodeIndex{3}},
+          {RoutingIndexManager::NodeIndex{5},
+           RoutingIndexManager::NodeIndex{9}},
+          {RoutingIndexManager::NodeIndex{7},
+           RoutingIndexManager::NodeIndex{8}},
+          {RoutingIndexManager::NodeIndex{15},
+           RoutingIndexManager::NodeIndex{11}},
+          {RoutingIndexManager::NodeIndex{13},
+           RoutingIndexManager::NodeIndex{12}},
+          {RoutingIndexManager::NodeIndex{16},
+           RoutingIndexManager::NodeIndex{14}},
+      };
+  const int num_vehicles = 4;
+  const RoutingIndexManager::NodeIndex depot{0};
+};
+
+//! @brief Print the solution.
+//! @param[in] data Data of the problem.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const DataModel& data, const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  int64_t total_distance{0};
+  for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    LOG(INFO) << "Route for Vehicle " << vehicle_id << ":";
+    int64_t route_distance{0};
+    std::stringstream route;
+    while (!routing.IsEnd(index)) {
+      route << manager.IndexToNode(index).value() << " -> ";
+      const int64_t previous_index = index;
+      index = solution.Value(routing.NextVar(index));
+      route_distance += routing.GetArcCostForVehicle(previous_index, index,
+                                                     int64_t{vehicle_id});
+    }
+    LOG(INFO) << route.str() << manager.IndexToNode(index).value();
+    LOG(INFO) << "Distance of the route: " << route_distance << "m";
+    total_distance += route_distance;
+  }
+  LOG(INFO) << "Total distance of all routes: " << total_distance << "m";
+  LOG(INFO) << "";
+  LOG(INFO) << "Advanced usage:";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+}
+
+void VrpGlobalSpan() {
+  // Instantiate the data problem.
+  DataModel data;
+
+  // Create Routing Index Manager
+  RoutingIndexManager manager(data.distance_matrix.size(), data.num_vehicles,
+                              data.depot);
+
+  // Create Routing Model.
+  RoutingModel routing(manager);
+
+  // Define cost of each arc.
+  const int transit_callback_index = routing.RegisterTransitCallback(
+      [&data, &manager](const int64_t from_index,
+                        const int64_t to_index) -> int64_t {
+        // Convert from routing variable Index to distance matrix NodeIndex.
+        const int from_node = manager.IndexToNode(from_index).value();
+        const int to_node = manager.IndexToNode(to_index).value();
+        return data.distance_matrix[from_node][to_node];
+      });
+  routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index);
+
+  // Add Distance constraint.
+  routing.AddDimension(transit_callback_index,  // transit callback
+                       0,                       // no slack
+                       3000,  // vehicle maximum travel distance
+                       true,  // start cumul to zero
+                       "Distance");
+  RoutingDimension* distance_dimension =
+      routing.GetMutableDimension("Distance");
+  distance_dimension->SetGlobalSpanCostCoefficient(100);
+
+  // Define Transportation Requests.
+  Solver* const solver = routing.solver();
+  for (const auto& request : data.pickups_deliveries) {
+    const int64_t pickup_index = manager.NodeToIndex(request[0]);
+    const int64_t delivery_index = manager.NodeToIndex(request[1]);
+    routing.AddPickupAndDelivery(pickup_index, delivery_index);
+    solver->AddConstraint(solver->MakeEquality(
+        routing.VehicleVar(pickup_index), routing.VehicleVar(delivery_index)));
+    solver->AddConstraint(
+        solver->MakeLessOrEqual(distance_dimension->CumulVar(pickup_index),
+                                distance_dimension->CumulVar(delivery_index)));
+  }
+
+  // Setting first solution heuristic.
+  RoutingSearchParameters searchParameters = DefaultRoutingSearchParameters();
+  searchParameters.set_first_solution_strategy(
+      FirstSolutionStrategy::PARALLEL_CHEAPEST_INSERTION);
+
+  // Solve the problem.
+  const Assignment* solution = routing.SolveWithParameters(searchParameters);
+
+  // Print solution on console.
+  PrintSolution(data, manager, routing, *solution);
+}
+}  // namespace operations_research
+
+int main(int /*argc*/, char* /*argv*/[]) {
+  operations_research::VrpGlobalSpan();
+  return EXIT_SUCCESS;
+}
+```
 
 
+### 时间范围限制 VRPTW问题 
+许多车辆路线问题都涉及为仅在特定时间段内空闲的客户安排上门服务。
 
+这些问题称为具有时间范围的车辆路线规划问题 (VRPTW)。
 
+VRPTW 示例
+本页将通过一个示例来了解如何解决 VRPTW 问题。由于问题涉及时间窗口，因此数据包括时间矩阵，其中包含位置之间的行程时间（而不是先前示例中的距离矩阵）。
 
+下图以蓝色显示要游览的地点，以黑色显示仓库。 每个地点的上方都会显示时间范围。如需详细了解如何定义位置，请参阅 VRP 部分中的位置坐标。
 
+我们的目标是尽可能缩短车辆的总行程时间。
+
+- 完整程序
+```
+#include <cstdint>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "ortools/constraint_solver/routing.h"
+#include "ortools/constraint_solver/routing_enums.pb.h"
+#include "ortools/constraint_solver/routing_index_manager.h"
+#include "ortools/constraint_solver/routing_parameters.h"
+
+namespace operations_research {
+struct DataModel {
+  const std::vector<std::vector<int64_t>> time_matrix{
+      {0, 6, 9, 8, 7, 3, 6, 2, 3, 2, 6, 6, 4, 4, 5, 9, 7},
+      {6, 0, 8, 3, 2, 6, 8, 4, 8, 8, 13, 7, 5, 8, 12, 10, 14},
+      {9, 8, 0, 11, 10, 6, 3, 9, 5, 8, 4, 15, 14, 13, 9, 18, 9},
+      {8, 3, 11, 0, 1, 7, 10, 6, 10, 10, 14, 6, 7, 9, 14, 6, 16},
+      {7, 2, 10, 1, 0, 6, 9, 4, 8, 9, 13, 4, 6, 8, 12, 8, 14},
+      {3, 6, 6, 7, 6, 0, 2, 3, 2, 2, 7, 9, 7, 7, 6, 12, 8},
+      {6, 8, 3, 10, 9, 2, 0, 6, 2, 5, 4, 12, 10, 10, 6, 15, 5},
+      {2, 4, 9, 6, 4, 3, 6, 0, 4, 4, 8, 5, 4, 3, 7, 8, 10},
+      {3, 8, 5, 10, 8, 2, 2, 4, 0, 3, 4, 9, 8, 7, 3, 13, 6},
+      {2, 8, 8, 10, 9, 2, 5, 4, 3, 0, 4, 6, 5, 4, 3, 9, 5},
+      {6, 13, 4, 14, 13, 7, 4, 8, 4, 4, 0, 10, 9, 8, 4, 13, 4},
+      {6, 7, 15, 6, 4, 9, 12, 5, 9, 6, 10, 0, 1, 3, 7, 3, 10},
+      {4, 5, 14, 7, 6, 7, 10, 4, 8, 5, 9, 1, 0, 2, 6, 4, 8},
+      {4, 8, 13, 9, 8, 7, 10, 3, 7, 4, 8, 3, 2, 0, 4, 5, 6},
+      {5, 12, 9, 14, 12, 6, 6, 7, 3, 3, 4, 7, 6, 4, 0, 9, 2},
+      {9, 10, 18, 6, 8, 12, 15, 8, 13, 9, 13, 3, 4, 5, 9, 0, 9},
+      {7, 14, 9, 16, 14, 8, 5, 10, 6, 5, 4, 10, 8, 6, 2, 9, 0},
+  };
+  const std::vector<std::pair<int64_t, int64_t>> time_windows{
+      {0, 5},    // depot
+      {7, 12},   // 1
+      {10, 15},  // 2
+      {16, 18},  // 3
+      {10, 13},  // 4
+      {0, 5},    // 5
+      {5, 10},   // 6
+      {0, 4},    // 7
+      {5, 10},   // 8
+      {0, 3},    // 9
+      {10, 16},  // 10
+      {10, 15},  // 11
+      {0, 5},    // 12
+      {5, 10},   // 13
+      {7, 8},    // 14
+      {10, 15},  // 15
+      {11, 15},  // 16
+  };
+  const int num_vehicles = 4;
+  const RoutingIndexManager::NodeIndex depot{0};
+};
+
+//! @brief Print the solution.
+//! @param[in] data Data of the problem.
+//! @param[in] manager Index manager used.
+//! @param[in] routing Routing solver used.
+//! @param[in] solution Solution found by the solver.
+void PrintSolution(const DataModel& data, const RoutingIndexManager& manager,
+                   const RoutingModel& routing, const Assignment& solution) {
+  const RoutingDimension& time_dimension = routing.GetDimensionOrDie("Time");
+  int64_t total_time{0};
+  for (int vehicle_id = 0; vehicle_id < data.num_vehicles; ++vehicle_id) {
+    int64_t index = routing.Start(vehicle_id);
+    LOG(INFO) << "Route for vehicle " << vehicle_id << ":";
+    std::ostringstream route;
+    while (!routing.IsEnd(index)) {
+      auto time_var = time_dimension.CumulVar(index);
+      route << manager.IndexToNode(index).value() << " Time("
+            << solution.Min(time_var) << ", " << solution.Max(time_var)
+            << ") -> ";
+      index = solution.Value(routing.NextVar(index));
+    }
+    auto time_var = time_dimension.CumulVar(index);
+    LOG(INFO) << route.str() << manager.IndexToNode(index).value() << " Time("
+              << solution.Min(time_var) << ", " << solution.Max(time_var)
+              << ")";
+    LOG(INFO) << "Time of the route: " << solution.Min(time_var) << "min";
+    total_time += solution.Min(time_var);
+  }
+  LOG(INFO) << "Total time of all routes: " << total_time << "min";
+  LOG(INFO) << "";
+  LOG(INFO) << "Advanced usage:";
+  LOG(INFO) << "Problem solved in " << routing.solver()->wall_time() << "ms";
+}
+
+void VrpTimeWindows() {
+  // Instantiate the data problem.
+  DataModel data;
+
+  // Create Routing Index Manager
+  RoutingIndexManager manager(data.time_matrix.size(), data.num_vehicles,
+                              data.depot);
+
+  // Create Routing Model.
+  RoutingModel routing(manager);
+
+  // Create and register a transit callback.
+  const int transit_callback_index = routing.RegisterTransitCallback(
+      [&data, &manager](const int64_t from_index,
+                        const int64_t to_index) -> int64_t {
+        // Convert from routing variable Index to time matrix NodeIndex.
+        const int from_node = manager.IndexToNode(from_index).value();
+        const int to_node = manager.IndexToNode(to_index).value();
+        return data.time_matrix[from_node][to_node];
+      });
+
+  // Define cost of each arc.
+  routing.SetArcCostEvaluatorOfAllVehicles(transit_callback_index);
+
+  // Add Time constraint.
+  const std::string time = "Time";
+  routing.AddDimension(transit_callback_index,  // transit callback index
+                       int64_t{30},             // allow waiting time
+                       int64_t{30},             // maximum time per vehicle
+                       false,  // Don't force start cumul to zero
+                       time);
+  const RoutingDimension& time_dimension = routing.GetDimensionOrDie(time);
+  // Add time window constraints for each location except depot.
+  for (int i = 1; i < data.time_windows.size(); ++i) {
+    const int64_t index =
+        manager.NodeToIndex(RoutingIndexManager::NodeIndex(i));
+    time_dimension.CumulVar(index)->SetRange(data.time_windows[i].first,
+                                             data.time_windows[i].second);
+  }
+  // Add time window constraints for each vehicle start node.
+  for (int i = 0; i < data.num_vehicles; ++i) {
+    const int64_t index = routing.Start(i);
+    time_dimension.CumulVar(index)->SetRange(data.time_windows[0].first,
+                                             data.time_windows[0].second);
+  }
+
+  // Instantiate route start and end times to produce feasible times.
+  for (int i = 0; i < data.num_vehicles; ++i) {
+    routing.AddVariableMinimizedByFinalizer(
+        time_dimension.CumulVar(routing.Start(i)));
+    routing.AddVariableMinimizedByFinalizer(
+        time_dimension.CumulVar(routing.End(i)));
+  }
+
+  // Setting first solution heuristic.
+  RoutingSearchParameters searchParameters = DefaultRoutingSearchParameters();
+  searchParameters.set_first_solution_strategy(
+      FirstSolutionStrategy::PATH_CHEAPEST_ARC);
+
+  // Solve the problem.
+  const Assignment* solution = routing.SolveWithParameters(searchParameters);
+
+  // Print solution on console.
+  PrintSolution(data, manager, routing, *solution);
+}
+}  // namespace operations_research
+
+int main(int /*argc*/, char* /*argv*/[]) {
+  operations_research::VrpTimeWindows();
+  return EXIT_SUCCESS;
+}
+```
+
+### 维度
+
+### 资源限制
+没看明白
+
+### 惩罚
+当没有可行解时，需要添加惩罚。
+
+### 路由选项
 
 
