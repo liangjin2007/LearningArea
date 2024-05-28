@@ -22,7 +22,9 @@
 - 统计学习方法 李航
 - Physical Based Rendering
 - OpenGL https://learnopengl.com/book/book_pdf.pdf
--   
+- UnrealEngine官方程序设计范式分析
+
+
 ## An Introduction to Physics based animation
 ```
 I. A Simple Start: Particle Dynamics
