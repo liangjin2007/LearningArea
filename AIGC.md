@@ -2,6 +2,10 @@
 - 博客 https://antkillerfarm.github.io/#GAN%20&%20VAE
 - RBM DBM DBN : Restricted Boltzmann Machines etc from https://antkillerfarm.github.io/dl/2018/01/04/Deep_Learning_27.html
 
+# AI平台
+- civit AI https://civitai.com/
+- hugging face https://huggingface.co/
+
 
 # topic
 
