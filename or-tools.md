@@ -1,3 +1,7 @@
+or-tools是一个Google开发的专门解优化问题的库。
+
+要使用好这个库的难点在于需要理解要解决的问题。
+
 ## 编译
 ```
 1. 从github clone代码
@@ -148,5 +152,306 @@ std::cout << "y: " << result->variable_values().at(y) << std::endl;
 
 ```
 
+## CP-SAT
+```
+约束优化(CP) ，用于从大量候选方案中确定可行的解决方案。
+
+CP 基于可行性（找到可行的解决方案）而非优化（找出最佳解决方案），并且侧重于约束和变量，而非目标函数。事实上，CP 问题可能甚至没有目标函数 - 目标是通过为问题添加约束条件，将大量可能的解决方案缩小为更易于管理的子集。
+```
+
+- 使用CP-SAT求解器：找可行解。
+示例：
+
+我们先来看一个简单的问题示例，其中有：
+
+x、y 和 z 这三个变量，每个变量可取以下值：0、1 或 2。
+
+一项限制条件：x != y
+
+```
+返回值：
+OPTIMAL	找到了可行的最佳解决方案。
+FEASIBLE	找到了可行的解决方案，但不确定它是否是最佳解决方案。
+INFEASIBLE	事实证明，这个问题不可行。
+MODEL_INVALID	给定的 CpModelProto 未通过验证步骤。您可以通过调用 ValidateCpModel(model_proto) 获取详细错误。
+UNKNOWN	模型的状态未知，因为在某事物导致求解器停止之前（例如时间限制、内存限制或用户设置的自定义限制）之前未找到解决方案（或者问题未证明不可行）。
+
+```
+
+- 最优可行解
+```
+  CpModelBuilder cp_model;
+
+  const Domain domain(0, 2);
+  const IntVar x = cp_model.NewIntVar(domain).WithName("x");
+  const IntVar y = cp_model.NewIntVar(domain).WithName("y");
+  const IntVar z = cp_model.NewIntVar(domain).WithName("z");
+
+  cp_model.AddNotEqual(x, y);
+
+  // Solving part.
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  if (response.status() == CpSolverStatus::OPTIMAL ||
+      response.status() == CpSolverStatus::FEASIBLE) {
+    // Get the value of x in the solution.
+    LOG(INFO) << "x = " << SolutionIntegerValue(response, x);
+    LOG(INFO) << "y = " << SolutionIntegerValue(response, y);
+    LOG(INFO) << "z = " << SolutionIntegerValue(response, z);
+  } else {
+    LOG(INFO) << "No solution found.";
+  }
+```
+- 所有可行解
+```
+  CpModelBuilder cp_model;
+
+  const Domain domain(0, 2);
+  const IntVar x = cp_model.NewIntVar(domain).WithName("x");
+  const IntVar y = cp_model.NewIntVar(domain).WithName("y");
+  const IntVar z = cp_model.NewIntVar(domain).WithName("z");
+
+  cp_model.AddNotEqual(x, y);
+
+  Model model;
+
+  int num_solutions = 0;
+  model.Add(NewFeasibleSolutionObserver([&](const CpSolverResponse& r) {
+    LOG(INFO) << "Solution " << num_solutions;
+    LOG(INFO) << "  x = " << SolutionIntegerValue(r, x);
+    LOG(INFO) << "  y = " << SolutionIntegerValue(r, y);
+    LOG(INFO) << "  z = " << SolutionIntegerValue(r, z);
+    num_solutions++;
+  }));
+
+  // Tell the solver to enumerate all solutions.
+  SatParameters parameters;
+  parameters.set_enumerate_all_solutions(true);
+  model.Add(NewSatParameters(parameters));
+  const CpSolverResponse response = SolveCpModel(cp_model.Build(), &model);
+
+  LOG(INFO) << "Number of solutions found: " << num_solutions;
+```
+
+- 整数规划 https://developers.google.com/optimization/cp/cp_example?hl=zh-cn
+```
+#include <stdint.h>
+#include <stdlib.h>
+
+#include <algorithm>
+
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+#include "ortools/util/sorted_interval_list.h"
+
+namespace operations_research {
+namespace sat {
+
+void CpSatExample() {
+  CpModelBuilder cp_model;
+
+  int64_t var_upper_bound = std::max({50, 45, 37});
+  const Domain domain(0, var_upper_bound);
+  const IntVar x = cp_model.NewIntVar(domain).WithName("x");
+  const IntVar y = cp_model.NewIntVar(domain).WithName("y");
+  const IntVar z = cp_model.NewIntVar(domain).WithName("z");
+
+  cp_model.AddLessOrEqual(2 * x + 7 * y + 3 * z, 50);
+  cp_model.AddLessOrEqual(3 * x - 5 * y + 7 * z, 45);
+  cp_model.AddLessOrEqual(5 * x + 2 * y - 6 * z, 37);
+
+  cp_model.Maximize(2 * x + 2 * y + 3 * z);
+
+  // Solving part.
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  if (response.status() == CpSolverStatus::OPTIMAL ||
+      response.status() == CpSolverStatus::FEASIBLE) {
+    // Get the value of x in the solution.
+    LOG(INFO) << "Maximum of objective function: "
+              << response.objective_value();
+    LOG(INFO) << "x = " << SolutionIntegerValue(response, x);
+    LOG(INFO) << "y = " << SolutionIntegerValue(response, y);
+    LOG(INFO) << "z = " << SolutionIntegerValue(response, z);
+  } else {
+    LOG(INFO) << "No solution found.";
+  }
+
+  // Statistics.
+  LOG(INFO) << "Statistics";
+  LOG(INFO) << CpSolverResponseStats(response);
+}
+
+}  // namespace sat
+}  // namespace operations_research
+
+int main() {
+  operations_research::sat::CpSatExample();
+  return EXIT_SUCCESS;
+}
+```    
+- 员工日程安排
+- 求职招聘问题
+- N 皇后问题
+如何将 N 王后放置在 NxN 棋盘上以免它们两人互相攻击？
+任何两个王后都不在同一行、列或对角线上。
+```
+// OR-Tools solution to the N-queens problem.
+#include <stdlib.h>
+
+#include <sstream>
+#include <string>
+#include <vector>
+
+#include "absl/strings/numbers.h"
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+#include "ortools/sat/model.h"
+#include "ortools/sat/sat_parameters.pb.h"
+#include "ortools/util/sorted_interval_list.h"
+
+namespace operations_research {
+namespace sat {
+
+void NQueensSat(const int board_size) {
+  // Instantiate the solver.
+  CpModelBuilder cp_model;
+
+  // There are `board_size` number of variables, one for a queen in each column
+  // of the board. The value of each variable is the row that the queen is in.
+  std::vector<IntVar> queens;
+  queens.reserve(board_size);
+  Domain range(0, board_size - 1);
+  for (int i = 0; i < board_size; ++i) {
+    queens.push_back(
+        cp_model.NewIntVar(range).WithName("x" + std::to_string(i)));
+  }
+
+  // Define constraints.
+  // The following sets the constraint that all queens are in different rows.
+  cp_model.AddAllDifferent(queens);
+
+  // No two queens can be on the same diagonal.
+  std::vector<LinearExpr> diag_1;
+  diag_1.reserve(board_size);
+  std::vector<LinearExpr> diag_2;
+  diag_2.reserve(board_size);
+  for (int i = 0; i < board_size; ++i) {
+    diag_1.push_back(queens[i] + i);
+    diag_2.push_back(queens[i] - i);
+  }
+  cp_model.AddAllDifferent(diag_1);
+  cp_model.AddAllDifferent(diag_2);
+
+  int num_solutions = 0;
+  Model model;
+  model.Add(NewFeasibleSolutionObserver([&](const CpSolverResponse& response) {
+    LOG(INFO) << "Solution " << num_solutions;
+    for (int i = 0; i < board_size; ++i) {
+      std::stringstream ss;
+      for (int j = 0; j < board_size; ++j) {
+        if (SolutionIntegerValue(response, queens[j]) == i) {
+          // There is a queen in column j, row i.
+          ss << "Q";
+        } else {
+          ss << "_";
+        }
+        if (j != board_size - 1) ss << " ";
+      }
+      LOG(INFO) << ss.str();
+    }
+    num_solutions++;
+  }));
+
+  // Tell the solver to enumerate all solutions.
+  SatParameters parameters;
+  parameters.set_enumerate_all_solutions(true);
+  model.Add(NewSatParameters(parameters));
+
+  const CpSolverResponse response = SolveCpModel(cp_model.Build(), &model);
+  LOG(INFO) << "Number of solutions found: " << num_solutions;
+
+  // Statistics.
+  LOG(INFO) << "Statistics";
+  LOG(INFO) << CpSolverResponseStats(response);
+}
+
+}  // namespace sat
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  int board_size = 8;
+  if (argc > 1) {
+    if (!absl::SimpleAtoi(argv[1], &board_size)) {
+      LOG(INFO) << "Cannot parse '" << argv[1]
+                << "', using the default value of 8.";
+      board_size = 8;
+    }
+  }
+  operations_research::sat::NQueensSat(board_size);
+  return EXIT_SUCCESS;
+}
+```
+- 密码谜题
 
 
+## 线性优化 [Mosek建模实战宝典](https://docs.mosek.com/modeling-cookbook/index.html)
+- LP/MIP问题
+- MPSolver
+```
+#include <iostream>
+#include <memory>
+
+#include "ortools/linear_solver/linear_solver.h"
+
+std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+if (!solver) {
+  LOG(WARNING) << "SCIP solver unavailable.";
+  return;
+}
+
+const double infinity = solver->infinity();
+// x and y are non-negative variables.
+MPVariable* const x = solver->MakeNumVar(0.0, infinity, "x");
+MPVariable* const y = solver->MakeNumVar(0.0, infinity, "y");
+LOG(INFO) << "Number of variables = " << solver->NumVariables();
+
+// x + 2*y <= 14.
+MPConstraint* const c0 = solver->MakeRowConstraint(-infinity, 14.0);
+c0->SetCoefficient(x, 1);
+c0->SetCoefficient(y, 2);
+
+// 3*x - y >= 0.
+MPConstraint* const c1 = solver->MakeRowConstraint(0.0, infinity);
+c1->SetCoefficient(x, 3);
+c1->SetCoefficient(y, -1);
+
+// x - y <= 2.
+MPConstraint* const c2 = solver->MakeRowConstraint(-infinity, 2.0);
+c2->SetCoefficient(x, 1);
+c2->SetCoefficient(y, -1);
+LOG(INFO) << "Number of constraints = " << solver->NumConstraints();
+
+// Objective function: 3x + 4y.
+MPObjective* const objective = solver->MutableObjective();
+objective->SetCoefficient(x, 3);
+objective->SetCoefficient(y, 4);
+objective->SetMaximization();
+
+const MPSolver::ResultStatus result_status = solver->Solve();
+// Check that the problem has an optimal solution.
+if (result_status != MPSolver::OPTIMAL) {
+  LOG(FATAL) << "The problem does not have an optimal solution!";
+}
+
+LOG(INFO) << "Solution:";
+LOG(INFO) << "Optimal objective value = " << objective->Value();
+LOG(INFO) << x->name() << " = " << x->solution_value();
+LOG(INFO) << y->name() << " = " << y->solution_value();
+```
+
+- 老虎饮食问题
