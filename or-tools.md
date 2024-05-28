@@ -397,6 +397,35 @@ int main(int argc, char** argv) {
 }
 ```
 - 密码谜题
+- 设置求解器限制
+```
+  CpModelBuilder cp_model;
+
+  const Domain domain(0, 2);
+  const IntVar x = cp_model.NewIntVar(domain).WithName("x");
+  const IntVar y = cp_model.NewIntVar(domain).WithName("y");
+  const IntVar z = cp_model.NewIntVar(domain).WithName("z");
+
+  cp_model.AddNotEqual(x, y);
+
+  // Solving part.
+  Model model;
+
+  // Sets a time limit of 10 seconds.
+  SatParameters parameters;
+  parameters.set_max_time_in_seconds(10.0);   // 求解限制在10秒内
+  model.Add(NewSatParameters(parameters));
+
+  // Solve.
+  const CpSolverResponse response = SolveCpModel(cp_model.Build(), &model);
+  LOG(INFO) << CpSolverResponseStats(response);
+
+  if (response.status() == CpSolverStatus::OPTIMAL) {
+    LOG(INFO) << "  x = " << SolutionIntegerValue(response, x);
+    LOG(INFO) << "  y = " << SolutionIntegerValue(response, y);
+    LOG(INFO) << "  z = " << SolutionIntegerValue(response, z);
+  }
+```
 
 
 ## 线性优化 [Mosek建模实战宝典](https://docs.mosek.com/modeling-cookbook/index.html)
@@ -455,3 +484,1324 @@ LOG(INFO) << y->name() << " = " << y->solution_value();
 ```
 
 - 老虎饮食问题
+- PDLP的数学背景 https://developers.google.com/optimization/lp/pdlp_math?hl=zh-cn
+
+
+## 网络流
+图库（Graph library），及求解器
+
+### 最大流
+```
+您需要将材料从节点 0（来源）传输到节点 4（接收器）。弧线旁边的数字是它们的容量，弧形的容量是在固定的时间段内可以跨越它的最大容量。容量是问题的约束条件。
+
+流是指向每条弧形分配一个非负数（即流量），它满足以下流守恒规则：
+
+注意 ：在每个节点中，除了源节点或接收器之外，通向该节点的所有弧线的总流数等于离开该节点的所有弧线的总流数。
+最大流问题是找出整个网络的流量总和尽可能大的流。
+
+以下部分介绍的程序可用于查找从来源 (0) 到接收器 (4) 的最大流。
+```
+- 代码示例
+```
+  // Instantiate a SimpleMaxFlow solver.
+  SimpleMaxFlow max_flow;
+
+  // Define three parallel arrays: start_nodes, end_nodes, and the capacities
+  // between each pair. For instance, the arc from node 0 to node 1 has a
+  // capacity of 20.
+  std::vector<int64_t> start_nodes = {0, 0, 0, 1, 1, 2, 2, 3, 3};
+  std::vector<int64_t> end_nodes = {1, 2, 3, 2, 4, 3, 4, 2, 4};
+  std::vector<int64_t> capacities = {20, 30, 10, 40, 30, 10, 20, 5, 20};
+
+  // Add each arc.
+  for (int i = 0; i < start_nodes.size(); ++i) {
+    max_flow.AddArcWithCapacity(start_nodes[i], end_nodes[i], capacities[i]);
+  }
+
+  // Find the maximum flow between node 0 and node 4.
+  int status = max_flow.Solve(0, 4);
+
+  if (status == MaxFlow::OPTIMAL) {
+    LOG(INFO) << "Max flow: " << max_flow.OptimalFlow();
+    LOG(INFO) << "";
+    LOG(INFO) << "  Arc    Flow / Capacity";
+    for (std::size_t i = 0; i < max_flow.NumArcs(); ++i) {
+      LOG(INFO) << max_flow.Tail(i) << " -> " << max_flow.Head(i) << "  "
+                << max_flow.Flow(i) << "  / " << max_flow.Capacity(i);
+    }
+  } else {
+    LOG(INFO) << "Solving the max flow problem failed. Solver status: "
+              << status;
+  }
+```
+### 最小费用流 最低成本流
+```
+与最大流问题密切相关的是最低成本（最小成本）流问题，图中的每条弧线都有材料跨越它的单位成本。问题是找到总费用最少的数据流。
+
+最低成本流问题还具有特殊节点（称为供应节点或需求节点），它们类似于最大流问题中的来源和接收器。材料从供应节点传输到需求节点。
+
+在供应节点，向数据流添加了正量，即供应量。例如，供应可以代表该节点上的生产。
+在需求节点，从流中取出负的金额（需求）。例如，需求可表示该节点上的消耗。
+为方便起见，我们将假设除供给或需求节点之外的所有节点的供应（和需求）都为零。
+
+对于最低成本流问题，我们有以下流守恒规则，它将供应和需求考虑在内：
+注意 ：在每个节点中，从节点传出的总流量减去通向该节点的总流量便等于该节点的供给（或需求）。
+```
+每个节点都提供supply。实际有些可以指定为0.
+
+- 代码
+```
+// From Bradley, Hax and Maganti, 'Applied Mathematical Programming', figure 8.1
+#include <cstdint>
+#include <vector>
+
+#include "ortools/graph/min_cost_flow.h"
+
+namespace operations_research {
+// MinCostFlow simple interface example.
+void SimpleMinCostFlowProgram() {
+  // Instantiate a SimpleMinCostFlow solver.
+  SimpleMinCostFlow min_cost_flow;
+
+  // Define four parallel arrays: sources, destinations, capacities,
+  // and unit costs between each pair. For instance, the arc from node 0
+  // to node 1 has a capacity of 15.
+  std::vector<int64_t> start_nodes = {0, 0, 1, 1, 1, 2, 2, 3, 4};
+  std::vector<int64_t> end_nodes = {1, 2, 2, 3, 4, 3, 4, 4, 2};
+  std::vector<int64_t> capacities = {15, 8, 20, 4, 10, 15, 4, 20, 5};
+  std::vector<int64_t> unit_costs = {4, 4, 2, 2, 6, 1, 3, 2, 3};
+
+  // Define an array of supplies at each node.
+  std::vector<int64_t> supplies = {20, 0, 0, -5, -15};
+
+  // Add each arc.
+  for (int i = 0; i < start_nodes.size(); ++i) {
+    int arc = min_cost_flow.AddArcWithCapacityAndUnitCost(
+        start_nodes[i], end_nodes[i], capacities[i], unit_costs[i]);
+    if (arc != i) LOG(FATAL) << "Internal error";
+  }
+
+  // Add node supplies.
+  for (int i = 0; i < supplies.size(); ++i) {
+    min_cost_flow.SetNodeSupply(i, supplies[i]);
+  }
+
+  // Find the min cost flow.
+  int status = min_cost_flow.Solve();
+
+  if (status == MinCostFlow::OPTIMAL) {
+    LOG(INFO) << "Minimum cost flow: " << min_cost_flow.OptimalCost();
+    LOG(INFO) << "";
+    LOG(INFO) << " Arc   Flow / Capacity  Cost";
+    for (std::size_t i = 0; i < min_cost_flow.NumArcs(); ++i) {
+      int64_t cost = min_cost_flow.Flow(i) * min_cost_flow.UnitCost(i);
+      LOG(INFO) << min_cost_flow.Tail(i) << " -> " << min_cost_flow.Head(i)
+                << "  " << min_cost_flow.Flow(i) << "  / "
+                << min_cost_flow.Capacity(i) << "       " << cost;
+    }
+  } else {
+    LOG(INFO) << "Solving the min cost flow problem failed. Solver status: "
+              << status;
+  }
+```
+
+## 分配/安排问题(Assignment) https://developers.google.com/optimization/assignment?hl=zh-cn
+```
+最常见的组合优化问题之一是分配问题。举个例子：假设一组工作器需要执行一组任务，并且对于每个工作器和任务，将工作器分配给任务会产生费用。问题在于，每个工作器最多可分配给一个任务，不能有两个工作器执行相同的任务，同时最大限度地降低总费用。
+```
+**求解方法有**：MIP求解器， CP-SAT求解器， 线性和赋值求解器，最低费用流求解器
+
+- 最低费用流求解器
+```
+#include <cstdint>
+#include <vector>
+
+#include "ortools/graph/min_cost_flow.h"
+
+namespace operations_research {
+// MinCostFlow simple interface example.
+void AssignmentMinFlow() {
+  // Instantiate a SimpleMinCostFlow solver.
+  SimpleMinCostFlow min_cost_flow;
+
+  // Define four parallel arrays: sources, destinations, capacities,
+  // and unit costs between each pair. For instance, the arc from node 0
+  // to node 1 has a capacity of 15.
+  const std::vector<int64_t> start_nodes = {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
+                                            3, 3, 3, 3, 4, 4, 4, 4, 5, 6, 7, 8};
+  const std::vector<int64_t> end_nodes = {1, 2, 3, 4, 5, 6, 7, 8, 5, 6, 7, 8,
+                                          5, 6, 7, 8, 5, 6, 7, 8, 9, 9, 9, 9};
+  const std::vector<int64_t> capacities = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+                                           1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
+  const std::vector<int64_t> unit_costs = {0,  0,   0,  0,   90,  76, 75, 70,
+                                           35, 85,  55, 65,  125, 95, 90, 105,
+                                           45, 110, 95, 115, 0,   0,  0,  0};
+
+  const int64_t source = 0;
+  const int64_t sink = 9;
+  const int64_t tasks = 4;
+  // Define an array of supplies at each node.
+  const std::vector<int64_t> supplies = {tasks, 0, 0, 0, 0, 0, 0, 0, 0, -tasks};
+
+  // Add each arc.
+  for (int i = 0; i < start_nodes.size(); ++i) {
+    int arc = min_cost_flow.AddArcWithCapacityAndUnitCost(
+        start_nodes[i], end_nodes[i], capacities[i], unit_costs[i]);
+    if (arc != i) LOG(FATAL) << "Internal error";
+  }
+
+  // Add node supplies.
+  for (int i = 0; i < supplies.size(); ++i) {
+    min_cost_flow.SetNodeSupply(i, supplies[i]);
+  }
+
+  // Find the min cost flow.
+  int status = min_cost_flow.Solve();
+
+  if (status == MinCostFlow::OPTIMAL) {
+    LOG(INFO) << "Total cost: " << min_cost_flow.OptimalCost();
+    LOG(INFO) << "";
+    for (std::size_t i = 0; i < min_cost_flow.NumArcs(); ++i) {
+      // Can ignore arcs leading out of source or into sink.
+      if (min_cost_flow.Tail(i) != source && min_cost_flow.Head(i) != sink) {
+        // Arcs in the solution have a flow value of 1. Their start and end
+        // nodes give an assignment of worker to task.
+        if (min_cost_flow.Flow(i) > 0) {
+          LOG(INFO) << "Worker " << min_cost_flow.Tail(i)
+                    << " assigned to task " << min_cost_flow.Head(i)
+                    << " Cost: " << min_cost_flow.UnitCost(i);
+        }
+      }
+    }
+  } else {
+    LOG(INFO) << "Solving the min cost flow problem failed.";
+    LOG(INFO) << "Solver status: " << status;
+  }
+```
+
+- MIP 求解器
+```
+#include <memory>
+#include <vector>
+
+#include "ortools/base/logging.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+void AssignmentMip() {
+  // Data
+  const std::vector<std::vector<double>> costs{
+      {90, 80, 75, 70},   {35, 85, 55, 65},   {125, 95, 90, 95},
+      {45, 110, 95, 115}, {50, 100, 90, 100},
+  };
+  const int num_workers = costs.size();
+  const int num_tasks = costs[0].size();
+
+  // Solver
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  // Variables
+  // x[i][j] is an array of 0-1 variables, which will be 1
+  // if worker i is assigned to task j.
+  std::vector<std::vector<const MPVariable*>> x(
+      num_workers, std::vector<const MPVariable*>(num_tasks));
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      x[i][j] = solver->MakeIntVar(0, 1, "");
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int i = 0; i < num_workers; ++i) {
+    LinearExpr worker_sum;
+    for (int j = 0; j < num_tasks; ++j) {
+      worker_sum += x[i][j];
+    }
+    solver->MakeRowConstraint(worker_sum <= 1.0);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int j = 0; j < num_tasks; ++j) {
+    LinearExpr task_sum;
+    for (int i = 0; i < num_workers; ++i) {
+      task_sum += x[i][j];
+    }
+    solver->MakeRowConstraint(task_sum == 1.0);
+  }
+
+  // Objective.
+  MPObjective* const objective = solver->MutableObjective();
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      objective->SetCoefficient(x[i][j], costs[i][j]);
+    }
+  }
+  objective->SetMinimization();
+
+  // Solve
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  // Print solution.
+  // Check that the problem has a feasible solution.
+  if (result_status != MPSolver::OPTIMAL &&
+      result_status != MPSolver::FEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+
+  LOG(INFO) << "Total cost = " << objective->Value() << "\n\n";
+
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      // Test if x[i][j] is 0 or 1 (with tolerance for floating point
+      // arithmetic).
+      if (x[i][j]->solution_value() > 0.5) {
+        LOG(INFO) << "Worker " << i << " assigned to task " << j
+                  << ".  Cost = " << costs[i][j];
+      }
+    }
+  }
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::AssignmentMip();
+  return EXIT_SUCCESS;
+}
+```
+
+- CP-SAT求解器
+```
+#include <stdlib.h>
+
+#include <vector>
+
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+
+namespace operations_research {
+namespace sat {
+
+void IntegerProgrammingExample() {
+  // Data
+  const std::vector<std::vector<int>> costs{
+      {90, 80, 75, 70},   {35, 85, 55, 65},   {125, 95, 90, 95},
+      {45, 110, 95, 115}, {50, 100, 90, 100},
+  };
+  const int num_workers = static_cast<int>(costs.size());
+  const int num_tasks = static_cast<int>(costs[0].size());
+
+  // Model
+  CpModelBuilder cp_model;
+
+  // Variables
+  // x[i][j] is an array of Boolean variables. x[i][j] is true
+  // if worker i is assigned to task j.
+  std::vector<std::vector<BoolVar>> x(num_workers,
+                                      std::vector<BoolVar>(num_tasks));
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      x[i][j] = cp_model.NewBoolVar();
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int i = 0; i < num_workers; ++i) {
+    cp_model.AddAtMostOne(x[i]);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int j = 0; j < num_tasks; ++j) {
+    std::vector<BoolVar> tasks;
+    for (int i = 0; i < num_workers; ++i) {
+      tasks.push_back(x[i][j]);
+    }
+    cp_model.AddExactlyOne(tasks);
+  }
+
+  // Objective
+  LinearExpr total_cost;
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      total_cost += x[i][j] * costs[i][j];
+    }
+  }
+  cp_model.Minimize(total_cost);
+
+  // Solve
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  // Print solution.
+  if (response.status() == CpSolverStatus::INFEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+
+  LOG(INFO) << "Total cost: " << response.objective_value();
+  LOG(INFO);
+  for (int i = 0; i < num_workers; ++i) {
+    for (int j = 0; j < num_tasks; ++j) {
+      if (SolutionBooleanValue(response, x[i][j])) {
+        LOG(INFO) << "Task " << i << " assigned to worker " << j
+                  << ".  Cost: " << costs[i][j];
+      }
+    }
+  }
+}
+}  // namespace sat
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::sat::IntegerProgrammingExample();
+  return EXIT_SUCCESS;
+}
+```
+
+- Worker带有分组的分配问题
+```
+Worker如果带分组信息，然后每个分组要求不能处理两个任务
+
+// Solve a simple assignment problem.
+#include <stdlib.h>
+
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+
+namespace operations_research {
+namespace sat {
+
+void AssignmentTeamsSat() {
+  // Data
+  const std::vector<std::vector<int>> costs = {{
+      {{90, 76, 75, 70}},
+      {{35, 85, 55, 65}},
+      {{125, 95, 90, 105}},
+      {{45, 110, 95, 115}},
+      {{60, 105, 80, 75}},
+      {{45, 65, 110, 95}},
+  }};
+  const int num_workers = static_cast<int>(costs.size());
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = static_cast<int>(costs[0].size());
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  const std::vector<int> team1 = {{0, 2, 4}};
+  const std::vector<int> team2 = {{1, 3, 5}};
+  // Maximum total of tasks for any team
+  const int team_max = 2;
+
+  // Model
+  CpModelBuilder cp_model;
+
+  // Variables
+  // x[i][j] is an array of Boolean variables. x[i][j] is true
+  // if worker i is assigned to task j.
+  std::vector<std::vector<BoolVar>> x(num_workers,
+                                      std::vector<BoolVar>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] = cp_model.NewBoolVar().WithName(
+          absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    cp_model.AddAtMostOne(x[worker]);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    std::vector<BoolVar> tasks;
+    for (int worker : all_workers) {
+      tasks.push_back(x[worker][task]);
+    }
+    cp_model.AddExactlyOne(tasks);
+  }
+
+  // Each team takes at most two tasks.
+  LinearExpr team1_tasks;
+  for (int worker : team1) {
+    for (int task : all_tasks) {
+      team1_tasks += x[worker][task];
+    }
+  }
+  cp_model.AddLessOrEqual(team1_tasks, team_max);
+
+  LinearExpr team2_tasks;
+  for (int worker : team2) {
+    for (int task : all_tasks) {
+      team2_tasks += x[worker][task];
+    }
+  }
+  cp_model.AddLessOrEqual(team2_tasks, team_max);
+
+  // Objective
+  LinearExpr total_cost;
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      total_cost += x[worker][task] * costs[worker][task];
+    }
+  }
+  cp_model.Minimize(total_cost);
+
+  // Solve
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  // Print solution.
+  if (response.status() == CpSolverStatus::INFEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost: " << response.objective_value();
+  LOG(INFO);
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      if (SolutionBooleanValue(response, x[worker][task])) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace sat
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::sat::AssignmentTeamsSat();
+  return EXIT_SUCCESS;
+}
+
+
+
+
+// Solve a simple assignment problem.
+#include <cstdint>
+#include <memory>
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+void AssignmentTeamsMip() {
+  // Data
+  const std::vector<std::vector<int64_t>> costs = {{
+      {{90, 76, 75, 70}},
+      {{35, 85, 55, 65}},
+      {{125, 95, 90, 105}},
+      {{45, 110, 95, 115}},
+      {{60, 105, 80, 75}},
+      {{45, 65, 110, 95}},
+  }};
+  const int num_workers = costs.size();
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = costs[0].size();
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  const std::vector<int64_t> team1 = {{0, 2, 4}};
+  const std::vector<int64_t> team2 = {{1, 3, 5}};
+  // Maximum total of tasks for any team
+  const int team_max = 2;
+
+  // Solver
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  // Variables
+  // x[i][j] is an array of 0-1 variables, which will be 1
+  // if worker i is assigned to task j.
+  std::vector<std::vector<const MPVariable*>> x(
+      num_workers, std::vector<const MPVariable*>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] =
+          solver->MakeBoolVar(absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    LinearExpr worker_sum;
+    for (int task : all_tasks) {
+      worker_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(worker_sum <= 1.0);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    LinearExpr task_sum;
+    for (int worker : all_workers) {
+      task_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(task_sum == 1.0);
+  }
+
+  // Each team takes at most two tasks.
+  LinearExpr team1_tasks;
+  for (int worker : team1) {
+    for (int task : all_tasks) {
+      team1_tasks += x[worker][task];
+    }
+  }
+  solver->MakeRowConstraint(team1_tasks <= team_max);
+
+  LinearExpr team2_tasks;
+  for (int worker : team2) {
+    for (int task : all_tasks) {
+      team2_tasks += x[worker][task];
+    }
+  }
+  solver->MakeRowConstraint(team2_tasks <= team_max);
+
+  // Objective.
+  MPObjective* const objective = solver->MutableObjective();
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      objective->SetCoefficient(x[worker][task], costs[worker][task]);
+    }
+  }
+  objective->SetMinimization();
+
+  // Solve
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  // Print solution.
+  // Check that the problem has a feasible solution.
+  if (result_status != MPSolver::OPTIMAL &&
+      result_status != MPSolver::FEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost = " << objective->Value() << "\n\n";
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      // Test if x[i][j] is 0 or 1 (with tolerance for floating point
+      // arithmetic).
+      if (x[worker][task]->solution_value() > 0.5) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::AssignmentTeamsMip();
+  return EXIT_SUCCESS;
+}
+
+```
+
+- 任务带有大小的分配问题
+```
+本部分介绍一个分配问题，其中每个任务都有一个“大小”，表示任务需要多少时间或精力。每个工作器执行的任务的总大小具有固定边界。
+// Solve assignment problem.
+#include <stdlib.h>
+
+#include <cstdint>
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+
+namespace operations_research {
+namespace sat {
+
+void AssignmentTaskSizes() {
+  // Data
+  const std::vector<std::vector<int>> costs = {{
+      {{90, 76, 75, 70, 50, 74, 12, 68}},
+      {{35, 85, 55, 65, 48, 101, 70, 83}},
+      {{125, 95, 90, 105, 59, 120, 36, 73}},
+      {{45, 110, 95, 115, 104, 83, 37, 71}},
+      {{60, 105, 80, 75, 59, 62, 93, 88}},
+      {{45, 65, 110, 95, 47, 31, 81, 34}},
+      {{38, 51, 107, 41, 69, 99, 115, 48}},
+      {{47, 85, 57, 71, 92, 77, 109, 36}},
+      {{39, 63, 97, 49, 118, 56, 92, 61}},
+      {{47, 101, 71, 60, 88, 109, 52, 90}},
+  }};
+  const int num_workers = static_cast<int>(costs.size());
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = static_cast<int>(costs[0].size());
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  const std::vector<int64_t> task_sizes = {{10, 7, 3, 12, 15, 4, 11, 5}};
+  // Maximum total of task sizes for any worker
+  const int total_size_max = 15;
+
+  // Model
+  CpModelBuilder cp_model;
+
+  // Variables
+  // x[i][j] is an array of Boolean variables. x[i][j] is true
+  // if worker i is assigned to task j.
+  std::vector<std::vector<BoolVar>> x(num_workers,
+                                      std::vector<BoolVar>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] = cp_model.NewBoolVar().WithName(
+          absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    LinearExpr task_sum;
+    for (int task : all_tasks) {
+      task_sum += x[worker][task] * task_sizes[task];
+    }
+    cp_model.AddLessOrEqual(task_sum, total_size_max);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    std::vector<BoolVar> tasks;
+    for (int worker : all_workers) {
+      tasks.push_back(x[worker][task]);
+    }
+    cp_model.AddExactlyOne(tasks);
+  }
+
+  // Objective
+  LinearExpr total_cost;
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      total_cost += x[worker][task] * costs[worker][task];
+    }
+  }
+  cp_model.Minimize(total_cost);
+
+  // Solve
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  // Print solution.
+  if (response.status() == CpSolverStatus::INFEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost: " << response.objective_value();
+  LOG(INFO);
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      if (SolutionBooleanValue(response, x[worker][task])) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace sat
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::sat::AssignmentTaskSizes();
+  return EXIT_SUCCESS;
+}
+
+
+
+
+// Solve a simple assignment problem.
+#include <cstdint>
+#include <memory>
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+void AssignmentTeamsMip() {
+  // Data
+  const std::vector<std::vector<int64_t>> costs = {{
+      {{90, 76, 75, 70, 50, 74, 12, 68}},
+      {{35, 85, 55, 65, 48, 101, 70, 83}},
+      {{125, 95, 90, 105, 59, 120, 36, 73}},
+      {{45, 110, 95, 115, 104, 83, 37, 71}},
+      {{60, 105, 80, 75, 59, 62, 93, 88}},
+      {{45, 65, 110, 95, 47, 31, 81, 34}},
+      {{38, 51, 107, 41, 69, 99, 115, 48}},
+      {{47, 85, 57, 71, 92, 77, 109, 36}},
+      {{39, 63, 97, 49, 118, 56, 92, 61}},
+      {{47, 101, 71, 60, 88, 109, 52, 90}},
+  }};
+  const int num_workers = costs.size();
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = costs[0].size();
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  const std::vector<int64_t> task_sizes = {{10, 7, 3, 12, 15, 4, 11, 5}};
+  // Maximum total of task sizes for any worker
+  const int total_size_max = 15;
+
+  // Solver
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  // Variables
+  // x[i][j] is an array of 0-1 variables, which will be 1
+  // if worker i is assigned to task j.
+  std::vector<std::vector<const MPVariable*>> x(
+      num_workers, std::vector<const MPVariable*>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] =
+          solver->MakeBoolVar(absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    LinearExpr worker_sum;
+    for (int task : all_tasks) {
+      worker_sum += LinearExpr(x[worker][task]) * task_sizes[task];
+    }
+    solver->MakeRowConstraint(worker_sum <= total_size_max);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    LinearExpr task_sum;
+    for (int worker : all_workers) {
+      task_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(task_sum == 1.0);
+  }
+
+  // Objective.
+  MPObjective* const objective = solver->MutableObjective();
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      objective->SetCoefficient(x[worker][task], costs[worker][task]);
+    }
+  }
+  objective->SetMinimization();
+
+  // Solve
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  // Print solution.
+  // Check that the problem has a feasible solution.
+  if (result_status != MPSolver::OPTIMAL &&
+      result_status != MPSolver::FEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost = " << objective->Value() << "\n\n";
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      // Test if x[i][j] is 0 or 1 (with tolerance for floating point
+      // arithmetic).
+      if (x[worker][task]->solution_value() > 0.5) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::AssignmentTeamsMip();
+  return EXIT_SUCCESS;
+}
+```
+
+- 带有允许的群组分配
+```
+本部分介绍了一个分配问题，即只能将某些允许的工作器组分配给任务。在此示例中，有 12 个工作器，编号为 0 - 11。允许的组是以下几对工作器的组合。
+
+
+  group1 =  [[2, 3],       # Subgroups of workers 0 - 3
+             [1, 3],
+             [1, 2],
+             [0, 1],
+             [0, 2]]
+
+
+group2 =  [[6, 7],       # Subgroups of workers 4 - 7
+             [5, 7],
+             [5, 6],
+             [4, 5],
+             [4, 7]]
+
+
+
+group3 =  [[10, 11],     # Subgroups of workers 8 - 11
+             [9, 11],
+             [9, 10],
+             [8, 10],
+             [8, 11]]
+
+允许的组可以是三对工作器的任意组合，它们分别来自 group1、group2 和 group3。例如，将 [2, 3]、[6, 7] 和 [10, 11] 组合使用可生成允许的组 [2, 3, 6, 7, 10, 11]。由于这三个集合中的每个元素都包含五个元素，因此允许的组总数为 5 * 5 * 5 = 125。
+
+请注意，如果一组工作器属于任何一个允许的组，则可以解决该问题。换言之，可行集由满足任一约束条件的点组成。这是一个非凸问题的示例。 相比之下，上文所述的 MIP 示例则是一个凸形问题：要使点变得可行，必须满足所有约束条件。
+
+对于诸如此类的非凸问题，CP-SAT 求解器通常比 MIP 求解器更快。以下部分介绍了使用 CP-SAT 求解器和 MIP 求解器的求解时间，并比较了这两种求解器的求解时间。
+
+
+// Solve assignment problem for given group of workers.
+#include <stdlib.h>
+
+#include <cstdint>
+#include <numeric>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "absl/types/span.h"
+#include "ortools/base/logging.h"
+#include "ortools/sat/cp_model.h"
+#include "ortools/sat/cp_model.pb.h"
+#include "ortools/sat/cp_model_solver.h"
+
+namespace operations_research {
+namespace sat {
+
+void AssignmentGroups() {
+  // Data
+  const std::vector<std::vector<int>> costs = {{
+      {{90, 76, 75, 70, 50, 74}},
+      {{35, 85, 55, 65, 48, 101}},
+      {{125, 95, 90, 105, 59, 120}},
+      {{45, 110, 95, 115, 104, 83}},
+      {{60, 105, 80, 75, 59, 62}},
+      {{45, 65, 110, 95, 47, 31}},
+      {{38, 51, 107, 41, 69, 99}},
+      {{47, 85, 57, 71, 92, 77}},
+      {{39, 63, 97, 49, 118, 56}},
+      {{47, 101, 71, 60, 88, 109}},
+      {{17, 39, 103, 64, 61, 92}},
+      {{101, 45, 83, 59, 92, 27}},
+  }};
+  const int num_workers = static_cast<int>(costs.size());
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = static_cast<int>(costs[0].size());
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  // Allowed groups of workers:
+  const std::vector<std::vector<int64_t>> group1 = {{
+      {{0, 0, 1, 1}},  // Workers 2, 3
+      {{0, 1, 0, 1}},  // Workers 1, 3
+      {{0, 1, 1, 0}},  // Workers 1, 2
+      {{1, 1, 0, 0}},  // Workers 0, 1
+      {{1, 0, 1, 0}},  // Workers 0, 2
+  }};
+
+  const std::vector<std::vector<int64_t>> group2 = {{
+      {{0, 0, 1, 1}},  // Workers 6, 7
+      {{0, 1, 0, 1}},  // Workers 5, 7
+      {{0, 1, 1, 0}},  // Workers 5, 6
+      {{1, 1, 0, 0}},  // Workers 4, 5
+      {{1, 0, 0, 1}},  // Workers 4, 7
+  }};
+
+  const std::vector<std::vector<int64_t>> group3 = {{
+      {{0, 0, 1, 1}},  // Workers 10, 11
+      {{0, 1, 0, 1}},  // Workers 9, 11
+      {{0, 1, 1, 0}},  // Workers 9, 10
+      {{1, 0, 1, 0}},  // Workers 8, 10
+      {{1, 0, 0, 1}},  // Workers 8, 11
+  }};
+
+  // Model
+  CpModelBuilder cp_model;
+
+  // Variables
+  // x[i][j] is an array of Boolean variables. x[i][j] is true
+  // if worker i is assigned to task j.
+  std::vector<std::vector<BoolVar>> x(num_workers,
+                                      std::vector<BoolVar>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] = cp_model.NewBoolVar().WithName(
+          absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    cp_model.AddAtMostOne(x[worker]);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    std::vector<BoolVar> tasks;
+    for (int worker : all_workers) {
+      tasks.push_back(x[worker][task]);
+    }
+    cp_model.AddExactlyOne(tasks);
+  }
+
+  // Create variables for each worker, indicating whether they work on some
+  // task.
+  std::vector<IntVar> work(num_workers);
+  for (int worker : all_workers) {
+    work[worker] = IntVar(
+        cp_model.NewBoolVar().WithName(absl::StrFormat("work[%d]", worker)));
+  }
+
+  for (int worker : all_workers) {
+    LinearExpr task_sum;
+    for (int task : all_tasks) {
+      task_sum += x[worker][task];
+    }
+    cp_model.AddEquality(work[worker], task_sum);
+  }
+
+  // Define the allowed groups of worders
+  auto table1 =
+      cp_model.AddAllowedAssignments({work[0], work[1], work[2], work[3]});
+  for (const auto& t : group1) {
+    table1.AddTuple(t);
+  }
+  auto table2 =
+      cp_model.AddAllowedAssignments({work[4], work[5], work[6], work[7]});
+  for (const auto& t : group2) {
+    table2.AddTuple(t);
+  }
+  auto table3 =
+      cp_model.AddAllowedAssignments({work[8], work[9], work[10], work[11]});
+  for (const auto& t : group3) {
+    table3.AddTuple(t);
+  }
+
+  // Objective
+  LinearExpr total_cost;
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      total_cost += x[worker][task] * costs[worker][task];
+    }
+  }
+  cp_model.Minimize(total_cost);
+
+  // Solve
+  const CpSolverResponse response = Solve(cp_model.Build());
+
+  // Print solution.
+  if (response.status() == CpSolverStatus::INFEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost: " << response.objective_value();
+  LOG(INFO);
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      if (SolutionBooleanValue(response, x[worker][task])) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace sat
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::sat::AssignmentGroups();
+  return EXIT_SUCCESS;
+}
+
+
+
+// Solve a simple assignment problem.
+#include <cstdint>
+#include <memory>
+#include <numeric>
+#include <utility>
+#include <vector>
+
+#include "absl/strings/str_format.h"
+#include "ortools/base/logging.h"
+#include "ortools/linear_solver/linear_solver.h"
+
+namespace operations_research {
+void AssignmentTeamsMip() {
+  // Data
+  const std::vector<std::vector<int64_t>> costs = {{
+      {{90, 76, 75, 70, 50, 74}},
+      {{35, 85, 55, 65, 48, 101}},
+      {{125, 95, 90, 105, 59, 120}},
+      {{45, 110, 95, 115, 104, 83}},
+      {{60, 105, 80, 75, 59, 62}},
+      {{45, 65, 110, 95, 47, 31}},
+      {{38, 51, 107, 41, 69, 99}},
+      {{47, 85, 57, 71, 92, 77}},
+      {{39, 63, 97, 49, 118, 56}},
+      {{47, 101, 71, 60, 88, 109}},
+      {{17, 39, 103, 64, 61, 92}},
+      {{101, 45, 83, 59, 92, 27}},
+  }};
+  const int num_workers = costs.size();
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = costs[0].size();
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  // Allowed groups of workers:
+  using WorkerIndex = int;
+  using Binome = std::pair<WorkerIndex, WorkerIndex>;
+  using AllowedBinomes = std::vector<Binome>;
+  const AllowedBinomes group1 = {{
+      // group of worker 0-3
+      {2, 3},
+      {1, 3},
+      {1, 2},
+      {0, 1},
+      {0, 2},
+  }};
+
+  const AllowedBinomes group2 = {{
+      // group of worker 4-7
+      {6, 7},
+      {5, 7},
+      {5, 6},
+      {4, 5},
+      {4, 7},
+  }};
+
+  const AllowedBinomes group3 = {{
+      // group of worker 8-11
+      {10, 11},
+      {9, 11},
+      {9, 10},
+      {8, 10},
+      {8, 11},
+  }};
+
+  // Solver
+  // Create the mip solver with the SCIP backend.
+  std::unique_ptr<MPSolver> solver(MPSolver::CreateSolver("SCIP"));
+  if (!solver) {
+    LOG(WARNING) << "SCIP solver unavailable.";
+    return;
+  }
+
+  // Variables
+  // x[i][j] is an array of 0-1 variables, which will be 1
+  // if worker i is assigned to task j.
+  std::vector<std::vector<const MPVariable*>> x(
+      num_workers, std::vector<const MPVariable*>(num_tasks));
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      x[worker][task] =
+          solver->MakeBoolVar(absl::StrFormat("x[%d,%d]", worker, task));
+    }
+  }
+
+  // Constraints
+  // Each worker is assigned to at most one task.
+  for (int worker : all_workers) {
+    LinearExpr worker_sum;
+    for (int task : all_tasks) {
+      worker_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(worker_sum <= 1.0);
+  }
+  // Each task is assigned to exactly one worker.
+  for (int task : all_tasks) {
+    LinearExpr task_sum;
+    for (int worker : all_workers) {
+      task_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(task_sum == 1.0);
+  }
+
+  // Create variables for each worker, indicating whether they work on some
+  // task.
+  std::vector<const MPVariable*> work(num_workers);
+  for (int worker : all_workers) {
+    work[worker] = solver->MakeBoolVar(absl::StrFormat("work[%d]", worker));
+  }
+
+  for (int worker : all_workers) {
+    LinearExpr task_sum;
+    for (int task : all_tasks) {
+      task_sum += x[worker][task];
+    }
+    solver->MakeRowConstraint(work[worker] == task_sum);
+  }
+
+  // Group1
+  {
+    MPConstraint* g1 = solver->MakeRowConstraint(1, 1);
+    for (int i = 0; i < group1.size(); ++i) {
+      // a*b can be transformed into 0 <= a + b - 2*p <= 1 with p in [0,1]
+      // p is true if a AND b, false otherwise
+      MPConstraint* tmp = solver->MakeRowConstraint(0, 1);
+      tmp->SetCoefficient(work[group1[i].first], 1);
+      tmp->SetCoefficient(work[group1[i].second], 1);
+      MPVariable* p = solver->MakeBoolVar(absl::StrFormat("g1_p%d", i));
+      tmp->SetCoefficient(p, -2);
+
+      g1->SetCoefficient(p, 1);
+    }
+  }
+  // Group2
+  {
+    MPConstraint* g2 = solver->MakeRowConstraint(1, 1);
+    for (int i = 0; i < group2.size(); ++i) {
+      // a*b can be transformed into 0 <= a + b - 2*p <= 1 with p in [0,1]
+      // p is true if a AND b, false otherwise
+      MPConstraint* tmp = solver->MakeRowConstraint(0, 1);
+      tmp->SetCoefficient(work[group2[i].first], 1);
+      tmp->SetCoefficient(work[group2[i].second], 1);
+      MPVariable* p = solver->MakeBoolVar(absl::StrFormat("g2_p%d", i));
+      tmp->SetCoefficient(p, -2);
+
+      g2->SetCoefficient(p, 1);
+    }
+  }
+  // Group3
+  {
+    MPConstraint* g3 = solver->MakeRowConstraint(1, 1);
+    for (int i = 0; i < group3.size(); ++i) {
+      // a*b can be transformed into 0 <= a + b - 2*p <= 1 with p in [0,1]
+      // p is true if a AND b, false otherwise
+      MPConstraint* tmp = solver->MakeRowConstraint(0, 1);
+      tmp->SetCoefficient(work[group3[i].first], 1);
+      tmp->SetCoefficient(work[group3[i].second], 1);
+      MPVariable* p = solver->MakeBoolVar(absl::StrFormat("g3_p%d", i));
+      tmp->SetCoefficient(p, -2);
+
+      g3->SetCoefficient(p, 1);
+    }
+  }
+
+  // Objective.
+  MPObjective* const objective = solver->MutableObjective();
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      objective->SetCoefficient(x[worker][task], costs[worker][task]);
+    }
+  }
+  objective->SetMinimization();
+
+  // Solve
+  const MPSolver::ResultStatus result_status = solver->Solve();
+
+  // Print solution.
+  // Check that the problem has a feasible solution.
+  if (result_status != MPSolver::OPTIMAL &&
+      result_status != MPSolver::FEASIBLE) {
+    LOG(FATAL) << "No solution found.";
+  }
+  LOG(INFO) << "Total cost = " << objective->Value() << "\n\n";
+  for (int worker : all_workers) {
+    for (int task : all_tasks) {
+      // Test if x[i][j] is 0 or 1 (with tolerance for floating point
+      // arithmetic).
+      if (x[worker][task]->solution_value() > 0.5) {
+        LOG(INFO) << "Worker " << worker << " assigned to task " << task
+                  << ".  Cost: " << costs[worker][task];
+      }
+    }
+  }
+}
+}  // namespace operations_research
+
+int main(int argc, char** argv) {
+  operations_research::AssignmentTeamsMip();
+  return EXIT_SUCCESS;
+}
+```
+
+- 线性和分配器
+```
+#include "ortools/graph/assignment.h"
+
+#include <cstdint>
+#include <numeric>
+#include <string>
+#include <vector>
+
+namespace operations_research {
+// Simple Linear Sum Assignment Problem (LSAP).
+void AssignmentLinearSumAssignment() {
+  SimpleLinearSumAssignment assignment;
+
+  const int num_workers = 4;
+  std::vector<int> all_workers(num_workers);
+  std::iota(all_workers.begin(), all_workers.end(), 0);
+
+  const int num_tasks = 4;
+  std::vector<int> all_tasks(num_tasks);
+  std::iota(all_tasks.begin(), all_tasks.end(), 0);
+
+  const std::vector<std::vector<int>> costs = {{
+      {{90, 76, 75, 70}},    // Worker 0
+      {{35, 85, 55, 65}},    // Worker 1
+      {{125, 95, 90, 105}},  // Worker 2
+      {{45, 110, 95, 115}},  // Worker 3
+  }};
+
+  for (int w : all_workers) {
+    for (int t : all_tasks) {
+      if (costs[w][t]) {
+        assignment.AddArcWithCost(w, t, costs[w][t]);
+      }
+    }
+  }
+
+  SimpleLinearSumAssignment::Status status = assignment.Solve();
+
+  if (status == SimpleLinearSumAssignment::OPTIMAL) {
+    LOG(INFO) << "Total cost: " << assignment.OptimalCost();
+    for (int worker : all_workers) {
+      LOG(INFO) << "Worker " << std::to_string(worker) << " assigned to task "
+                << std::to_string(assignment.RightMate(worker)) << ". Cost: "
+                << std::to_string(assignment.AssignmentCost(worker)) << ".";
+    }
+  } else {
+    LOG(INFO) << "Solving the linear assignment problem failed.";
+  }
+}
+
+}  // namespace operations_research
+
+int main() {
+  operations_research::AssignmentLinearSumAssignment();
+  return EXIT_SUCCESS;
+}
+```
