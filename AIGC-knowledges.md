@@ -115,7 +115,7 @@ if __name__ == '__main__':
     run()
 ```
 
-### MNIST
+### Lesson05 MNIST
 - utils.py
 ```
 import  torch
@@ -261,7 +261,7 @@ plot_image(x, pred, 'test')
 
 ```
 
-### 基本数据类型
+### Lesson06 基本数据类型
 ![data type](https://github.com/liangjin2007/data_liangjin/blob/master/pytorch_data_type.png?raw=true)
 - Types
 ```
@@ -338,9 +338,40 @@ list(a.shape)             # output [1, 2, 3]
 // Dim 4
 a = torch.rand(2, 3, 28, 28)
 a.shape                   # output torch.Size([2, 3, 28, 28])
-
+a.numel()                 # return 2 * 3 * 28 * 28
+a.dim()                   # return 4
+a = torch.tensor(1)
+a.dim()                   # 0
 ```    
 
+### Lesson07 创建Tensor
+```
+// import from numpy
+a = np.array([2, 3.3])
+torch.from_numpy(a)      # tensor([2.000, 3.000], dtype = torch.float64)
+
+// import from list
+a = torch.tensor([2.0, 3.3])
+b = torch.FloatTensor([2.0, 3.3])   # 注意，也由一种是直接传整数参数，这种是创建Dim 1的tensor, 长度为传入的整数
+d = torch.FloatTensor(2, 3)         # 创建 2 x 3 张量
+c = torch.tensor([[2.0, 3.0], [4.0, 5.0]]) # 二维
+
+torch.tensor是传内容来创建
+torch.Tensor(2, 3)                  # 注意看torch.tensor和torch.Tensor的区别。 torch.Tensor应该是和torch.FloatTensor一样的用法，可以传内容，也可以指定维度。
+
+
+
+// 创建uninitialized张量
+torch.empty(1)                      # [0.0]
+torch.Tensor(2, 3)                  # 
+torch.FloatTensor(2, 3)
+
+
+// Set torch.tensor的默认类型
+torch.set_default_tensor_type(torch.DoubleTensor)
+
+
+```
 
 
 
