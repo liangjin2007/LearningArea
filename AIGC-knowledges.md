@@ -370,6 +370,36 @@ torch.FloatTensor(2, 3)
 // Set torch.tensor的默认类型
 torch.set_default_tensor_type(torch.DoubleTensor)
 
+//rand/rand_like, randint
+a = torch.rand(3, 3)
+b = torch.rand_like(a)
+torch.randint
+
+// randn N(0, 1)
+torch.randn(3, 3)
+
+// N(u, std)
+torch.normal(mean=torch.full([10], 0), std=torch.arange(1, 0, -0.1))
+
+// full
+torch.full([2, 3], 7.0)  # [[7.0, 7.0, 7.0], [7.0, 7.0, 7.0]]
+torch.full([], 7.0)      # tensor(7.0)
+torch.full([1], 7.0)     # tensor([7.0])
+
+// arange/range
+torch.arange(0, 10)      # tensor([0, 1, 2, ..., 9])
+torch.arange(0, 10, 2)   # tensor([0, 2, 4, 6, 8])
+torch.range(0, 10) 
+
+// linspace/logspace
+torch.linspace(0, 10, steps = 4)    # tensor([0.0000, 3.3333, 6.6666, 10.0000])
+torch.linspace(0, 10, steps = 10)   # tensor([0.0000, 1.1111, 2.2222, ..., 10.0])
+
+// ones/zeros/eye/ones_like
+
+// randperm   ... random.shuffle
+
+
 
 ```
 
