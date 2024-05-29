@@ -262,10 +262,23 @@ plot_image(x, pred, 'test')
 ```
 
 ### 基本数据类型
+![data type](https://github.com/liangjin2007/data_liangjin/blob/master/pytorch_data_type.png?raw=true)
+
+- Type Check
+```
+a = torch.randn(2, 3)
+a.type() # 'torch.FloatTensor'
+type(a) # 'torch.Tensor'
+isinstance(a, torch.FloatTensor) # True
+
+data = data.cuda()
+isinstance(data, torch.cuda.DoubleTensor) # true
 ```
 
+- Dimension / rank
 ```
-
+t
+```  
 
 ### 网络架构
 ### 网络层
