@@ -263,6 +263,30 @@ plot_image(x, pred, 'test')
 
 ### 基本数据类型
 ![data type](https://github.com/liangjin2007/data_liangjin/blob/master/pytorch_data_type.png?raw=true)
+- Types
+```
+torch.float32, torch.float,
+torch.float64, torch.double,
+torch.int, torch.int32,
+torch.int8,
+torch.uint8,
+torch.float16, torch.half,
+torch.int16, torch.short,
+torch.int64, torch.long
+```
+
+
+- cpu gpu tensors
+```
+torch.FloatTensor, torch.cuda.FloatTensor
+torch.DoubleTensor, torch.cuda.DoubleTensor
+torch.IntTensor, torch.cuda.IntTensor
+torch.CharTensor, torch.cuda.CharTensor
+torch.ByteTensor, torch.cuda.ByteTensor
+torch.HalfTensor, torch.cuda.HalfTensor
+torch.ShortTensor, torch.cuda.ShortTensor
+torch.LongTensor, torch.cuda.LongTensor
+```
 
 - Type Check
 ```
@@ -277,8 +301,50 @@ isinstance(data, torch.cuda.DoubleTensor) # true
 
 - Dimension / rank
 ```
-t
-```  
+// Dim 0 / range 0
+a = torch.tensor(1.0)
+a.shape         # output torch.Size([])
+len(a.shape)    # output 0
+a.size()        # torch.Size([])
+
+
+// Dim 1 / rank 1
+torch.tensor([1.0])
+torch.tensor([1.1, 2.2])   # tensor([1.1, 2.2])
+
+// 这个有点类似np.ones(2)
+torch.FloatTensor(1)       # parameter must be a int or a sequence.   output tensor([0.0])
+torch.FloatTensor(2)       # parameter must be a int or a sequence.   output tensor([0.0, 3.0])
+data = np.ones(2)          # output array([1., 1.])
+torch.from_numpy(data)     # convert numpy array to tensor, tensor([1., 1.], dtype=torch.float64)
+
+
+// Dim 1
+a = torch.ones(2)         #
+a.shape                   # output torch.Size([2])
+
+// Dim 2
+a = torch.randn(2, 3)
+a.shape                   # output torch.Size([2, 3])
+a.size(0)                 # output 2
+a.size(1)                 # output 3
+a.shape[1]                # output 3
+
+// Dim 3
+a = torch.rand(1, 2, 3)
+a.shape                   # output torch.Size([1, 2 ,3])
+list(a.shape)             # output [1, 2, 3]
+
+// Dim 4
+a = torch.rand(2, 3, 28, 28)
+a.shape                   # output torch.Size([2, 3, 28, 28])
+
+```    
+
+
+
+
+
 
 ### 网络架构
 ### 网络层
