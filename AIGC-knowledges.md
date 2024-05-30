@@ -436,13 +436,52 @@ torch.masked_select(x, mask).shape # torch.Size([3])
 // Select by flatten index
 src = torch.tensor([[4, 3, 5], [6, 7, 8]])
 torch.take(src, torch.tensor([0, 2, 5]))   # tensor([4, 5, 8])
-
-
-
-
 ```
 
+### Lesson09 维度变换
+```
+// View/reshape
+a = torch.rand(4, 1, 28, 28)
+a.view(4, 28*28)   # [4, 784]
+a.view(4*28, 28)   # [112, 28]
+a.view(4*1, 28, 28) # [4, 28, 28]
+b = a.view(4, 784)
+b.view(4, 28, 28, 1) # logic bug ????
 
+// Squeeze/unsqueeze
+a.unsqueeze(0).shape         # [1, 4, 1, 28, 28]
+a.unsqueeze(-1).shape        # [4, 1, 28, 28, 1]
+a.unsqueeze(-4).shape        # [4, 1, 1, 28, 28]
+a.unsqueeze(-5).shape        # [1, 4, 1, 28, 28]
+a.unsqueeze(5).shape         # RuntimeError
+Valid parameter range : [-a.dim()-1, a.dim()+1)
+
+b = torch.rand(32)
+b = b.unsqueeze(1).unsqueeze(2).unsqueeze(0)      # [1, 32, 1, 1]
+b.squeeze().shape                                 # [32]
+b.squeeze(0).shape                                # [32, 1, 1]
+b.squeeze(-1).shape                               # [1, 32, 1]
+b.squeeze(1).shape                                # [1, 32, 1, 1]
+b.squeeze(-4).shape                               # [32, 1, 1]
+
+
+// Transpose/t/permute
+a = torch.Tensor(4, 3, 32, 32)
+a1 = a.transpose(1, 3).contiguous().view(4, 3 * 32 * 32).view(4, 3, 32, 32)
+a2 = a.transpose(1, 3).contiguous().view(4, 3 * 32 * 32).view(4, 32, 32, 3).transpose(1, 3)
+torch.all(torch.eq(a, a1))    # tensor(0, dtype = torch.uint8)
+torch.all(torch.eq(a, a2))    # tensor(1, dtype = torch.uint8)
+
+b = torch.rand(4, 3, 28, 32)
+b.permute(0, 2, 3, 1)              # [4, 28, 32, 3]
+
+// Expand
+b.expand ???
+
+// Repeat
+b = torch.Tensor(1, 32, 1, 1)
+b.repeat(4, 1, 1, 1)            # [4, 32, 1, 1]
+```
 
 ### 网络架构
 ### 网络层
