@@ -1,9 +1,8 @@
-## 基础
+![image](https://github.com/liangjin2007/LearningArea/assets/4059558/1ffae0ce-e220-4277-bb40-e80547b72f96)## 基础
 Deep-Learning-with-PyTorch-Tutorials https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git
 
 ### Lesson01 PyTorch初见
 ```
-
 框架
   Google: tensorflow, keras, theano
   Amazon: mxnet, gluon
@@ -484,12 +483,12 @@ b.repeat(4, 1, 1, 1)            # [4, 32, 1, 1]
 ```
 
 ### Lesson10 Broadcasting
+![broadcasting](https://github.com/liangjin2007/data_liangjin/blob/master/broadcasting.png?raw=true)
+
+### Lesson11 拼接与拆分
 ```
 
 ```
-
-
-
 
 ### 网络架构
 ### 网络层
@@ -523,6 +522,7 @@ b.repeat(4, 1, 1, 1)            # [4, 32, 1, 1]
 安装NVIDIA_NSight_Visual_Studio_Edition
 安装CMake
 安装Python3.9
+如果Visual Studio找不到CUDA（比如打不开依赖于CUDA的project）, 拷贝 C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\vxxx\extras\visual_studio_integration\MSBuildExtensions中的四个文件 到 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\BuildCustomizations
 ```
 
 - 配置工程
@@ -534,7 +534,7 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 // Step 2.
 从pytorch官网去下载windows版libtorch 2.0.1， 解压放到external/libtorch
 下载tbb库放到external/tbb
-拷贝Python安装目录中的include, libs目录到external/pythonlib3.9
+拷贝Python安装目录中的include, libs, 和python39.dll拷贝到external/pythonlib3.9
 
 // Step 3.
 修改CMakeLists.txt：
@@ -587,6 +587,13 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 
 - 命令行执行
 ```
+Visual Studio启动方式：
+  在Visual Studio 的项目属性->调试->命令参数 中设置 -d "xxx/gaussian-splatting-cuda/data/tandt/train" -o "xxx/gaussian-splatting-cuda/output/tandt/train"
+  在Visual Studio 的项目属性->调试->环境 中添加 PATH=%PATH%;path/to/cuda/bin;path/to/pythonlib3.9; path/to/libtorch/lib
+
+```
+- 所有命令行选项
+```
 命令行选项
 Core Options
 -h, --help
@@ -613,6 +620,13 @@ Enable monitoring of the average convergence rate throughout training. If done, 
 -c, --convergence_rate [RATE]
 Set custom average onvergence rate for the training process. Requires the flag --enable-cr-monitoring to be set.
 ```
+
+- 修复crash
+```
+cuda debug
+
+```
+
 
 - 查看训练结果
 ```
