@@ -630,6 +630,10 @@ Debug发现Crash在一个linux specific 路径，并默认了CMake的输出binar
 修复完成。
 ```
 
+- 训练
+```
+7000次迭代 138s
+```  
 
 - 查看训练结果
 ```
