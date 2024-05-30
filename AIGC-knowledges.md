@@ -574,7 +574,8 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
         false
     };
 
-// Step 5. CMake GUI设置 Where is the source code 和 Where to build the binaries, 点Configure, 会报错，提示tbb找不到。设置好tbb，Configure成功。点Generate成功。打开Visual Studio 2019
+// Step 5. CMake GUI设置 Where is the source code 和 Where to build the binaries, 点Configure, 会报错，提示tbb找不到。设置好tbb，Configure成功。点Generate成功。打开Visual Studio 2019，
+设置为RelWithDbgInfo + x64。编译成功。
 ```
 
 - 下载数据
@@ -623,8 +624,10 @@ Set custom average onvergence rate for the training process. Requires the flag -
 
 - 修复crash
 ```
-cuda debug
-
+先修改项目gaussian_splatting_cuda的项目属性中的CUDA C/C++及CUDA Linker中调试相关的部分，重编译代码。
+Debug发现Crash在一个linux specific 路径，并默认了CMake的输出binaries路径在gaussian_splatting_cuda里，比如gaussian_splatting_cuda/build。 
+解决办法： 可以在Working Directory中添加gaussian_splatting_cuda的源代码根目录，然后修改原来的代码直接使用相对路径。
+修复完成。
 ```
 
 
