@@ -1,4 +1,4 @@
-![image](https://github.com/liangjin2007/LearningArea/assets/4059558/1ffae0ce-e220-4277-bb40-e80547b72f96)## 基础
+## 基础
 Deep-Learning-with-PyTorch-Tutorials https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git
 
 ### Lesson01 PyTorch初见
