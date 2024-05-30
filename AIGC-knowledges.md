@@ -398,12 +398,49 @@ torch.linspace(0, 10, steps = 10)   # tensor([0.0000, 1.1111, 2.2222, ..., 10.0]
 // ones/zeros/eye/ones_like
 
 // randperm   ... random.shuffle
+```
+
+### Lesson08 索引与切片 Index / Slicing
+```
+// Index
+a = torch.rand(4, 3, 28, 28)
+a[0].shape                     # torch.Size([3, 28, 28])
+a[0, 1].shape                  # torch.Size([28, 28])
+a[0, 0, 2, 4]                  # tensor(0.8042)
+
+// First/last n
+a[:2].shape                          # torch.Size([2, 3, 28, 28])
+a[:2, :1, :, :]                      # :2, 不包括2, torch.Size([2, 1, 28, 28])
+a[:2, 1:, :, :]                      # 1:, 包括1， torch.Size([2, 2, 28, 28])
+a[:2, -1:, :, :]                     # -1:, the last index, torch.Size([2, 1, 28, 28])
+
+// Select by steps
+a[:, :, 0:28:2, 0:28:2]              # [4, 3, 14, 14]
+a[:, :, ::2, ::2]                    # [4, 3, 14, 14]
+
+// Select by specific index
+a.index_select(2, torch.arange(8)).shape    # [4, 3, 8, 28]
+
+// ...
+a[...].shape            # [4, 3, 28, 28]
+a[0, ...].shape         # [3, 28, 28]
+a[:, 1, ...].shape      # [4, 28, 28]
+a[..., :2].shape        # [4, 3, 28, 2]
+
+// Select by mask
+x = torch.randn(3, 4)
+mask = x.ge(0.5)
+torch.masked_select(x, mask)  # tensor([0.5404, 0.6040, 1.5771])
+torch.masked_select(x, mask).shape # torch.Size([3])
+
+// Select by flatten index
+src = torch.tensor([[4, 3, 5], [6, 7, 8]])
+torch.take(src, torch.tensor([0, 2, 5]))   # tensor([4, 5, 8])
+
 
 
 
 ```
-
-
 
 
 
