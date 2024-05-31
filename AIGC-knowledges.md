@@ -1,6 +1,7 @@
 ## [awesome-visual-transformer]( https://github.com/dk-liang/Awesome-Visual-Transformer )
 ## [awesome-avatars](https://github.com/pansanity666/Awesome-Avatars?tab=readme-ov-file)
 ## [awesome-3d-AIGC](https://github.com/mdyao/Awesome-3D-AIGC)
+## [awesome-AIGC-3D](https://github.com/hitcslj/Awesome-AIGC-3D)
 ## [awesome-autonomous-vehicle](https://github.com/DeepTecher/awesome-autonomous-vehicle)
 ## [awesome-3d-generation](https://github.com/justimyhxu/awesome-3D-generation)
 ## [awesome-3d-diffusion](https://github.com/cwchenwang/awesome-3d-diffusion)
