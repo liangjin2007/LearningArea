@@ -486,9 +486,218 @@ b.repeat(4, 1, 1, 1)            # [4, 32, 1, 1]
 
 ### Lesson11 拼接与拆分
 ```
+// cat
+a = torch.rand(4, 32, 8)
+b = torch.rand(5, 32, 8)
+torch.cat([a, b], dim = 0).shape  # [9, 32, 8]
 
+// stack, create new dim
+a1 = torch.rand(4, 3, 16, 32)
+a2 = torch.rand(4, 3, 16, 32)
+torch.stack([a1, a2], dim = 2).shape    # [4, 3, 2, 16, 32]
+
+// split by len
+c = torch.rand(2, 32, 8)
+a, b = c.split([1, 1], dim = 0)
+a.shape, b.shape   # [1, 32, 8], [1, 32, 8]
+
+a, b = c.split(1, dim = 0)
+a.shape, b.shape   # [1, 32, 8], [1, 32, 8]
+
+// chunk: by num
+c = torch.rand(2, 32, 8)
+a, b = c.chunk(2, dim = 0)
+a.shape, b.shape   # [1, 32, 8], [1, 32, 8]
 ```
 
+### Lesson12 数学运算
+```
+// 1. basic
+a = torch.rand(3, 4)
+b = torch.rand(4)
+
+(a + b).shape   # [3, 4]
+torch.add(a, b).shape   # [3, 4], result is the same with a+b
+
+a - b
+torh.sub(a, b)
+
+a * b
+torch.mul(a, b)
+
+a/b
+torch.div(a, b)
+
+// 2. matmul
+a = torch.full([2, 2], 3.0)
+b = torch.full([2, 2], 1.0)  # or b = torch.ones(2, 2)
+
+a@b  # 
+torch.mm(a, b) # only for 2d matrix
+torch.matmul(a, b)
+x@w.t()
+
+// 3. power
+a.pow(2)   # a^2
+a**2
+aa= a**2
+aa.sqrt()
+aa.rsqrt()
+aa**(0.5)
+
+// 4. exp/log
+torch.exp(a)
+torch.log(a)
+
+// 5. approximation
+a.floor(), a.ceil(),
+a.trunc() # when a bigger than 0, equal to a.floor()
+a.frac()  # 小数部分
+a.round() # 四舍五入
+
+// 6. clamp
+grad = torch.rand(2, 3) * 15
+grad.max()
+grad.median()
+grad.clamp(10)  # means clamp to range[10, +inf)
+grad.clamp(0, 10) # means clamp to range [0, 10]
+```
+
+### Lesson13 统计 statistics
+![norm](https://github.com/liangjin2007/data_liangjin/blob/master/norm.png?raw=true)
+```
+// 1. norm
+vector norm vs matrix norm https://github.com/liangjin2007/data_liangjin/blob/master/norm.png?raw=true
+a = torch.full([8], 1.0)
+b = a.view(2, 4)
+c = a.view(2, 2, 2)
+a.norm(1)   # L1范数, tensor(8.)
+b.norm(1)   # L1范数, tensor(8.)   
+c.norm(1)   # L1范数, tensor(8.)
+a.norm(2)   # L2范数， Euclidean Norm, 或者Frobeneous Norm
+b.norm(2)   # L2范数a,b,c三者也是相同的
+c.norm(2)
+b.nrom(1)
+b.norm(1, dim=1)  # [4., 4.], 范围的维度信息是剩下的维度，比如[2, 4] 返回[2]; [2, 2, 2]返回[2, 2]
+b.norm(2, dim=1)  # [2., 2.]  
+
+// 2. mean, sum, min, max, prod
+a = torch.arange(0).view(2, 4).float()
+//[[0, 1, 2, 3], [4, 5, 6, 7]]
+a.min(),
+a.max()    # 
+a.mean(),
+a.prod()   # return 0*1*2*...*7 = 0
+a.sum()    # tensor(28), 返回的即使是个数也是张量形式
+a.argmax() # tensor(7)
+a.argmin() # tensor(0)
+
+
+// 3. dim and keepdim, max/argmax, min/argmin
+// a 是 [4, 10] 张量
+// 注意a.max(dim=1)返回两个张量 (tensor([xx, xx, xx, xx]), tensor([3, 8, 6, 4])), 第二个张量即a.argmax(dim=1)
+a.argmax(dim=1) #  
+a.max(dim=1, keepdim=True)  # 返回[tensor([[xx, xx, xx, xx]]), tensor([[xx, xx, xx, xx]])
+
+
+// 4. topk和kthvalue返回数据尽量跟max统一
+b, c = a.topk(3, dim=1)
+b, c = a.topk(3, dim=1, largest=False)
+a.kthvalue(8, dim=1)
+a.kthvalue(3)
+a.kthvalue(3, dim=1) #跟前一式返回结果相同
+
+
+// 5. compare
+>, >=, <, <=, !=, ==
+a > 0            # a.size()
+torch.gt(a, 0)   # a.size()
+
+a != 0           # a.size()
+torch.eq(a, b)
+torch.eq(a, a)  # a.size()
+
+torch.equal(a, a)   # True, Note vs torch.eq(a, a)
+```
+
+### Lesson14 Tensor高阶, 有点难懂
+```
+torch.where(cond, x, y)
+torch.gather(input, dim, index, out=None)
+
+out[i][j][k] = input[index[i][j][k]][j][k] # if dim == 0
+out[i][j][k] = input[i][index[i][j][k]][k] # if dim == 1
+out[i][j][k] = input[i][j][index[i][j][k]] # if dim == 2
+```
+
+### Lesson15 什么是梯度
+```
+导数，偏导，梯度，梯度的含义，如何找极小值 theta_(t+1) = theta_t - alpha_t grad f(theta_t),
+梯度下降优化细节 https://ruder.io/optimizing-gradient-descent/
+convex function
+local minima
+resnet-56
+可视化loss曲面 https://github.com/tomgoldstein/loss-landscape
+Saddle Point
+```
+
+### Lesson16 常见函数梯度
+![grad](https://github.com/liangjin2007/data_liangjin/blob/master/gradient.png?raw=true)
+
+### Lesson17 激活函数及其梯度， Loss函数及其梯度
+- 激活函数及其梯度
+```
+// 1. sigmoid
+sigmoid, 函数值在0到1一般用来表示二分类中的类别的概率 f(x) = 1/(1+e^-x)
+导数 df(x)/dx = f(x) - f(x)^2 = f(x)(1-f(x))
+
+a = torch.linspace(-100, 100, 10)
+torch.sigmoid(a)
+
+// 2. tanh,
+函数值在0到1一般用来表示二分类中的类别的概率 f(x) = (e^x - e^-x)/(e^x + e^-x) = 2 sigmoid(2x) - 1
+导数 df(x)/dx = 1 - f(x)^2
+torch.tanh(a)
+
+
+// 3 ReLU
+f(x) = { 0 for x < 0; x for x >= 0 }
+f'(x) = {0 for x < 0; 1 for x >= 0 }
+这个函数在F中
+from torch.nn import functional as F
+F.relu(a)
+```
+- Loss函数及其梯度
+```
+// 1. MSE or Mean Squared Error
+1.1. loss 梯度 d loss / d w = 2 sum[y - f_w(x)] * df(x) / dw
+
+1.2. autograd.grad
+x = torch.ones(1)
+w = torch.full([1], 2)
+mse = F.mse_loss(torch.ones(1), x*w)       # tensor(1.)
+w.requires_grad_()
+torch.autograd.grad(mse, [w])   # Runtime error, because there is no grad in w for the above mse definition.
+mse = F.mse_loss(torch.ones(1), x*w)
+torch.autograd.grad(mse, [w])   # Success
+
+1.3. loss.backward
+mse.backward()          # 得到梯度
+
+
+1.4. Gradient API
+torch.autograd.grad(loss, [w1, w2, ...])  # return [w1 grad, w2grad, ...]
+loss.backward()                           # w1.grad, w2.grad
+
+1.5. Softmax
+a = torch.rand(3)
+a.require_grad_()
+p = F.softmax(a, dim = 0)
+torch.autograd.grad(p[1], [a], retain_graph=True)
+torch.autograd.grad(p[2], [a])
+
+// 2. Cross Entropy Loss
+```
 ### 网络架构
 ### 网络层
 ### Loss
