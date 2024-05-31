@@ -630,7 +630,7 @@ out[i][j][k] = input[i][index[i][j][k]][k] # if dim == 1
 out[i][j][k] = input[i][j][index[i][j][k]] # if dim == 2
 ```
 
-### Lesson15 什么是梯度
+### Lesson16 什么是梯度
 ```
 导数，偏导，梯度，梯度的含义，如何找极小值 theta_(t+1) = theta_t - alpha_t grad f(theta_t),
 梯度下降优化细节 https://ruder.io/optimizing-gradient-descent/
@@ -641,10 +641,10 @@ resnet-56
 Saddle Point
 ```
 
-### Lesson16 常见函数梯度
+### Lesson17 常见函数梯度
 ![grad](https://github.com/liangjin2007/data_liangjin/blob/master/gradient.png?raw=true)
 
-### Lesson17 激活函数及其梯度， Loss函数及其梯度
+### Lesson18 激活函数及其梯度， Loss函数及其梯度
 - 激活函数及其梯度
 ```
 // 1. sigmoid
@@ -698,10 +698,50 @@ torch.autograd.grad(p[2], [a])
 
 // 2. Cross Entropy Loss
 ```
+
+### Lesson19 感知机的梯度推导
+### Lesson20 链式法则
+### Lesson21 MLP反向传播推导
+### Lesson22 优化小实例
+### Lesson24 Logistic Regression
+### Lesson25 交叉熵
+### Lesson26 LR多分类实战
+### Lesson27 MLP网络层
+### Lesson28 激活函数与GPU加速
+### Lesson29 MNIST测试
+### Lesson30 Visdom可视化
+### Lesson31 过拟合与欠拟合
+### Lesson32 Train-Val-Test-交叉验证
+### Lesson33 regularization正则化
+### Lesson34 动量与lr衰减
+### Lesson35 Early Stopping Dropout
+### Lesson37 什么是卷积
+### Lesson38 卷积神经网络
+### Lesson39 Pooling-Sampling
+### Lesson40 BatchNorm
+### Lesson41 经典卷积神经网络
+### Lesson42 Resnet
+### Lesson43 nn.Module
+### Lesson44 数据增强
+### Lesson45 Cifar10与Resnet18实战
+### Lesson46 时间序列表示
+### Lesson47 RNN原理
+### Lesson48 RNN-layer使用
+### Lesson49 时间序列预测
+### Lesson50 RNN训练难题
+### Lesson51 LSTM原理
+### Lesson52 LSTM-layer使用
+### Lesson53 情感分类实战
+### Lesson54 AutoEncoder自编码器
+### Lesson55 VAE实战
+### Lesson56 GAN原理
+### Lesson57 WGAN实战
+### Lesson58 图卷积网络GCN
+### Lesson63 迁移学习-自定义数据集实战
+
 ### 网络架构
 ### 网络层
 ### Loss
-
 ### 优化器
 ### 训练
 ### 预测
