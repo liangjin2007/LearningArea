@@ -1,3 +1,10 @@
+## Survey Paper:
+
+
+
+
+
+
 ## [awesome-visual-transformer]( https://github.com/dk-liang/Awesome-Visual-Transformer )
 ## [awesome-avatars](https://github.com/pansanity666/Awesome-Avatars?tab=readme-ov-file)
 ## [awesome-3d-AIGC](https://github.com/mdyao/Awesome-3D-AIGC)
@@ -41,6 +48,7 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
   添加变量
     set(PYTHONLIB_INCLUDE_DIR "${PROJ_ROOT_DIR}/external/pythonlib3.9/include")
     set(PYTHONLIB_LIBRARY "${PROJ_ROOT_DIR}/external/pythonlib3.9/libs/python39.lib")
+     
   target_include_directories(${PROJECT_NAME} xxx ${PYTHONLIB_INCLUDE_DIR})
   target_link_libraries(${PROJECT_NAME}
         PRIVATE
