@@ -22,7 +22,49 @@ structTAreTypesEqual<T, T>
 
 
 ## Runtime/Core
+```
+Cross-Platform
+Performance
+Modularity
+Fundation for Engine Modules
+Game Development use higher-level abstractions or explicitly when low-level operations are needed for optimization.
+```
 ### Public
+#### Templates
+```
+TIsSigned<T>::Value
+TIsIntegral<T>::Value
+TIsPointer<T>::Value
+
+// Get the minimal multiple of alignment that is >= value.
+Align<T>(T value, uint64 alignment)           // alignment must be power of 2 
+AlignDown<T>(T value, uint64 alignment)       // alignment must be power of 2
+AlignArbitrary<T>(T value, uint64 alignment); // arb
+TIsAligned<T>(T value, uint64 alignment)
+
+
+AndOrNot.h: 没看明白。
+
+```
+#### Containers
+```
+TArray
+TMap
+TSet
+TArrayView
+```
+#### Algo
+```
+
+```
+#### Serialization
+#### Memory Management
+#### Threading/Concurrency
+#### Math Library
+#### Reflection and Metadata
+#### Event System
+#### Internationalization and Localization
+#### Configuration System
 #### Misc
 ```
 宏
@@ -84,4 +126,8 @@ Best Practices:
 #### Engine
 Engine.h
 ### Public
+
+
+## ThirdParty
+c#写法添加include/lib
 
