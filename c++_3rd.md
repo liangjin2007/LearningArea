@@ -594,10 +594,12 @@ HairStrandsRendering中集成几十个G的体素可视化，修改render函数�
 #define XXX_API _declspec(dllimport)
 #endif
 #endif
-
-
-
 ```  
+- maya-implicit-skinning
+```
+开源代码，有助于快速接触maya动画。
+
+```
 
 
 ### 网络
