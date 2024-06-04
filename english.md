@@ -112,3 +112,9 @@ encapsulate 封装
 thematic主题的
 
 subjective主观的
+
+xxx look conceptually similar to xxx, though with potential adaptations for xxx
+
+
+
+
