@@ -143,6 +143,12 @@ template <typename T> struct TRemoveReference<T&&> { using Type = T; };
 
 
 
+- decltype(expression) c++11
+- decltype(auto) c++14
+
+
+
+
 
 ## Runtime/Core
 ```
@@ -334,6 +340,10 @@ Future.h
   	
 ```
 #### Serialization
+```
+FArchiveState
+FArchive
+```
 #### Memory Management
 #### Threading/Concurrency
 #### Math Library
@@ -402,7 +412,8 @@ DateTime.h
   
   FDataTime
 
-
+Guid.h
+	FGuid
 Paths.h
   FPaths::EngineDir()
   FPaths::IsSamePath
@@ -541,6 +552,42 @@ WindowsPlatformProcess.h
 ```
 
 
+
+
+## Runtime/CoreUObject
+CoreUObject.h
+### Public
+#### AssetRegistery
+#### Blueprint
+#### Internationalization
+#### Misc
+#### Serialization
+#### Templates
+#### UObject
+```
+Object.h    // UObject is in here
+Field.h     // Base class for reflection data object.
+	
+
+
+```
+
+
+## Runtime/Json
+是对nlohmann的封装，直接把源代码放进插件中了。
+### Public
+Json.h
+JsonGlobals.h
+```
+目录 Serialization, Dom, Policies
+EJsonXXX
+TJsonWriter
+TJsonReader
+FJsonStringReader
+TJsonReaderFactory
+FJsonSerializerWriter
+FJsonSerializer
+```
 
 
 
