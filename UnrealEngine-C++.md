@@ -88,6 +88,61 @@ int main() {
 }
 ```  
 
+- parameter pack "typename..." for variadic template function
+```
+// Base case for recursion
+void print() {
+    std::cout << "End of arguments." << std::endl;
+}
+
+// Template function accepting a variable number of arguments
+template<typename T, typename... Args>
+void print(const T& firstArg, const Args&... args) {
+    std::cout << firstArg << std::endl; // Process the first argument
+    print(args...); // Call print for the rest of the arguments, peeling off one argument at a time
+}
+
+int main() {
+    print(1, 2.5, "three", '4');
+    return 0;
+}
+```
+
+- parameter pack for variadic class template
+```
+template<typename... Values>
+class Tuple {};
+
+int main() {
+    Tuple<int, double, std::string> myTuple;
+    return 0;
+}
+```
+
+- Remove Reference
+```
+TRemoveReference is a template utility in Unreal Engine's C++ code base that is designed to strip away the reference qualifier from a given type. This means, if you have a type T& (a reference to T), applying TRemoveReference to it would result in T. Similarly, if the type is T&& (an rvalue reference), it also results in T. If the type T does not have a reference qualifier, it remains unchanged.
+
+要理解这个东西，设计template metaprogramming， type traits and referene collapsing rules.
+Metaprogramming with templates allows C++ programmers to write code that operates on other types, introspects types, and transforms types, all at compile time.
+
+Unreal Engine implementation:
+/**
+ * TRemoveReference<type> will remove any references from a type.
+ */
+template <typename T> struct TRemoveReference      { typedef T Type; };
+template <typename T> struct TRemoveReference<T& > { typedef T Type; };
+template <typename T> struct TRemoveReference<T&&> { typedef T Type; };
+
+也可以这么写
+
+template <typename T> struct TRemoveReference      { using Type = T; };
+template <typename T> struct TRemoveReference<T& > { using Type = T; };
+template <typename T> struct TRemoveReference<T&&> { using Type = T; };
+```
+
+
+
 
 ## Runtime/Core
 ```
@@ -100,6 +155,11 @@ Game Development use higher-level abstractions or explicitly when low-level oper
 ### Public
 #### Templates
 ```
+ChooseClass.h
+	TChooseClass<bool, class1, class2>::Result  // Class type determined during compiling time.
+	
+
+
 TIsSigned<T>::Value
 TIsIntegral<T>::Value
 TIsPointer<T>::Value
@@ -113,13 +173,6 @@ TIsClass::Value   // Whether is struct/class, 没看明白怎么实现的？？�
 TMoveSupportTraits<T>::Copy
 TMoveSupportTraits<T>::Move
 
-UnrealTemplate.h
-  IfAThenAElseB
-  IfPThenAElseB
-  XOR
-  Move
-
-
 // Get the minimal multiple of alignment that is >= value.
 Align<T>(T value, uint64 alignment)           // alignment must be power of 2 
 AlignDown<T>(T value, uint64 alignment)       // alignment must be power of 2
@@ -130,6 +183,84 @@ TIsAligned<T>(T value, uint64 alignment)
 AndOrNot.h: 没看明白。
 
 ARE_TYPES_EQUAL(A,B)
+
+Function.h
+	TIsTFunction<xxx>::Value
+	TIsTUniqueFunction<xxx>::Value
+	TIsTFunctionRef<xxx>::Value
+	TFunction<FuncType>
+	TUniqueFunction<FuncType>  // 例： TUniqueFunction<void()> CompletionCallback;
+	
+Identity.h
+	TIdentity<T>::Type		
+RemoveReference.h
+	TRemoveReference
+
+UnrealTemplate.h
+	template<typename T>
+	FORCEINLINE void Move(T& A,typename TMoveSupportTraits<T>::Copy B)
+	{
+		// Destruct the previous value of A.
+		A.~T();
+	
+		// Use placement new and a copy constructor so types with const members will work.
+		new(&A) T(B);
+	}
+	TKeyValuePair
+	IfAThenAElseB
+	IfPThenAElseB
+	XOR
+	Move
+	template <typename T>
+	FORCEINLINE typename TRemoveReference<T>::Type&& MoveTemp(T&& Obj)
+	{
+		typedef typename TRemoveReference<T>::Type CastType;
+	
+		// Validate that we're not being passed an rvalue or a const object - the former is redundant, the latter is almost certainly a mistake
+		static_assert(TIsLValueReferenceType<T>::Value, "MoveTemp called on an rvalue");
+		static_assert(!TAreTypesEqual<CastType&, const CastType&>::Value, "MoveTemp called on a const object");
+	
+		return (CastType&&)Obj;
+	}
+
+	template<typename T> T CopyTemp(T& Val){ return Val; }
+	template<typename T> T CopyTemp(const T& Val){ return Val; }
+	template<typename T> T&& CopyTemp(T&& Val){ return MoveTemp(Val); }
+
+	template<typename T> T&& Forward(typename TRemoveReference<T>::Type& Obj) { return (T&&)Obj; }   // 等价于std::forward, 引用转为rvalue reference，右值引用。 & -> &&
+	template<typename T> T&& Forward(typename TRemoveReference<T>::Type&& Obj) { return (T&&)Obj; }
+
+	template <typename T, typename ArgType> T StaticCast(ArgType&& Arg) { return static_cast<T>(Arg); }
+
+	TRValueToLValueReference<T>::Type
+	BitMask<uint64>( uint32 Count )
+	TForceInitAtBoot
+
+UnrealTypeTraits.h
+	TIsDerivedFrom<DerivedType, BaseType>
+	/**
+	 * TIsFunction
+	 *
+	 * Tests is a type is a function.
+	 */
+	template <typename T>
+	struct TIsFunction
+	{
+		enum { Value = false };
+	};
+	
+	template <typename RetType, typename... Params>
+	struct TIsFunction<RetType(Params...)>
+	{
+		enum { Value = true };
+	};	
+
+	template<typename T> 
+	struct TIsFundamentalType 
+	{ 
+		enum { Value = TOr<TIsArithmetic<T>, TIsVoidType<T>>::Value };
+	};
+
 
 ...
 ```
@@ -166,17 +297,41 @@ UnrealString.h
 Future.h
   FFutureState
     	bool WaitFor(const FTimespan& Duration) const
-	    {
-    		if (CompletionEvent->Wait(Duration))
-    		{
-    			return true;
-    		}
-    
-    		return false;
-	    }
+	{
+		if (CompletionEvent->Wait(Duration))
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	bool IsComplete() const
+	{
+		return Complete;
+	}
+	void SetContinuation(TUniqueFunction<void()>&& Continuation)
+	{
+		bool bShouldJustRun = IsComplete();
+		if (!bShouldJustRun)
+		{
+			FScopeLock Lock(&Mutex);
+			bShouldJustRun = IsComplete();
+			if (!bShouldJustRun)
+			{
+				CompletionCallback = MoveTemp(Continuation);
+			}
+		}
+		if (bShouldJustRun && Continuation)
+		{
+			Continuation();
+		}
+	}
 
   TFutureState<InternalResultType>
-  
+  TFuture<ResultType>
+  TSharedFuture<ResultType>
+  TPromise<ResultType>
+  	
 ```
 #### Serialization
 #### Memory Management
