@@ -2,8 +2,14 @@
 
 
 
-
-
+## 3D deep learning
+- [2019]Occupancy Networks: Learning 3D Reconstruction in Function Space
+```
+2600+引用；如何近似三维对象的occupancy函数o : R^3 -> {0, 1}； 用神经网络学习一个泛函 x(e.g. mesh point positions) -> f(p in R^3 -> R); 转变成
+学习一个Occupancy Network ： f_theta : R^3 x X -> [0, 1]。
+f_theta(p, x)
+ 
+```
 ## [实时表演系统](https://github.com/liangjin2007/data_liangjin/blob/master/%E9%80%89%E6%8B%A9%E5%AE%9E%E6%97%B6%E8%A1%A8%E6%BC%94%E6%8D%95%E6%8D%89%E7%B3%BB%E7%BB%9F.pdf)
 ## [awesome-visual-transformer]( https://github.com/dk-liang/Awesome-Visual-Transformer )
 ## [awesome-avatars](https://github.com/pansanity666/Awesome-Avatars?tab=readme-ov-file)
@@ -13,7 +19,12 @@
 ## [awesome-autonomous-vehicle](https://github.com/DeepTecher/awesome-autonomous-vehicle)
 ## [awesome-3d-generation](https://github.com/justimyhxu/awesome-3D-generation)
 ## [awesome-3d-diffusion](https://github.com/cwchenwang/awesome-3d-diffusion)
+
+
+
 ## [awesome-3d-guassiansplatting](https://github.com/MrNeRF/awesome-3D-gaussian-splatting)
+
+
 ### Seminar paper [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://github.com/graphdeco-inria/gaussian-splatting)
 - github代码没安装成功，转而切到c++版的一个实现https://github.com/MrNeRF/gaussian-splatting-cuda
 #### gaussian-splatting-cuda
