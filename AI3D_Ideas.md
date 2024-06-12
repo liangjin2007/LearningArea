@@ -21,9 +21,9 @@ $$
 
 $$
 d_{CH}(S_1, S_2) = 
-\sum_{x \in S_1}\min_{y \in S_2}||x-y||_2^2
+\left(\sum_{x \in S_1}\min_{y \in S_2}||x-y||_2^2\right)
 +
-\sum_{y \in S_2}\min_{x \in S_1}||x-y||_2^2
+\left(\sum_{y \in S_2}\min_{x \in S_1}||x-y||_2^2\right)
 $$
 
 ### Single Image 3D Reconstruction
