@@ -19,11 +19,13 @@ $$
 d_{EMD}(S_1, S_2) = \min_{\phi:S_1 \to S_2} \sum_{x \in S_1}||x - \phi(x)||_2
 $$
 
+$$
+d_{CH}(S_1, S_2) = \sum_{x \in S_1}\min_{y \in S_2}||x-y||_2^2
+$$
+
 ### Single Image 3D Reconstruction
 
-$$
-d_{CH}(S_1, S_2) = \sum_{x \in S_1}\min_{y \in S_2}||x-y||_2^2 + \sum_{y \in S_2}\min_{x \in S_1}||x-y||_2^2
-$$
+
 
 - [2019][ref2639]Occupancy Networks: Learning 3D Reconstruction in Function Space
 ```
