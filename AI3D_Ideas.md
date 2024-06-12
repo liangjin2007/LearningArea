@@ -13,7 +13,7 @@ AE
 GAN
 permutation-invariant metrics ： Earth Mover’s distance (EMD)
 ```
-$$d_EMD(S_1, S_2) = min_{\phi:S_1 \to S_2} \sum_{x \in S_1}||x - \phi(x)||_2$$
+$$d_EMD(S_1, S_2) = \min_{\phi:S_1 \to S_2} \sum_{x \in S_1}||x - \phi(x)||_2$$
 ### Single Image 3D Reconstruction
 
 
