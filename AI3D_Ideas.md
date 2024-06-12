@@ -58,6 +58,8 @@ $$\sum_{y \in S_2}\min_{x \in S_1}||x-y||_2^2$$
 
 ### Single Image 3D Reconstruction
 - [2017][cvpr][stanford]A point set generation network for 3D object reconstruction from a single image
+![xxx](https://github.com/liangjin2007/data_liangjin/blob/master/PointSetGenerationNetwork.png)
+
 ```
 conditional sampler
   ground truth数据: {图片，对应点云}
