@@ -104,6 +104,26 @@ $$L_B\left(\theta\right) = \frac{1}{|B|}\sum_{i=1}^{|B|}\sum_{j=1}^{K}L\left(f_{
   代码 https://github.com/facebookresearch/DeepSDF.git
   
   ```
+- [2024][sig]Neural Geometry Fields For Meshes 
+```
+无代码
+
+Geometry Images方法的neural network版本， 优点是不用做texture packing等。
+
+Quad Patch, bilinear interpolation
+
+使用了positional encoding in Nerf, enc(v, f) = (enc(v), f) = (sin(2^0 v), cos(2^0 v), ..., sin(2^L v), cos(2^L v), f)
+
+Jittering
+
+直接优化|sdf_pred - sdf_gt|不够稳定， 相反通过inverse rendering优化appearance更稳定。
+```
+
+
+
+
+
+
 ### Single Image 3D Reconstruction
 - [2017][cvpr][stanford]A point set generation network for 3D object reconstruction from a single image
 ![xxx](https://github.com/liangjin2007/data_liangjin/blob/master/PointSetGenerationNetwork.png)
