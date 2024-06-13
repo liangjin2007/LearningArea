@@ -491,46 +491,19 @@ python gradio_demo/app.py
 
 ```
 
-# [2019][CVPR][3200+引用]DeepSDF， facebookresearch
-- 背景
+# stable-diffusion-webui
 ```
-  1. 3D Shape learning的表示：
-    1.1. 基于点的，比如雷达数据，至少5篇以上工作
-    1.2. 基于网格的，至少8篇以上的工作
-    1.3. 基于体素的，至少6篇以上的工作
+Automatic Installation on Windows
+  Install Python 3.10.6 (Newer version of Python does not support torch), checking "Add Python to PATH".
+  Install git.
+  Download the stable-diffusion-webui repository, for example by running git clone https://github.com/AUTOMATIC1111/stable-diffusion-webui.git.
+  Run webui-user.bat from Windows Explorer as normal, non-administrator, user.
 
-  2. Representation Learning技术：
-    GAN, Auto Encoder, Auto Decoder(Optimize Latent Vectors),
-  3. Shape Completion
-    RBF拟合, Poisson reconstruction, data-driven method, 
-```
+Stable Diffusion 提示词指南书.pdf有解释几个参数的意义及给出一些具体的提示词设置方式。
 
-- DeepSDF ![](https://github.com/liangjin2007/data_liangjin/blob/master/deepsdf.png?raw=true)
-```
-网络要能够输入query point p, 返回sdf值
-
-一个target mesh对应训练一个nn，这肯定不太实用
-
-学习一系列Shapes的latent space
-
-Conditioned latent vector. (z, x) -> (sdf)
-
-代码 https://github.com/facebookresearch/DeepSDF.git
 
 ```
 
-# [2024][sig]Neural Geometry Fields For Meshes 
-```
-无代码
 
-Geometry Images方法的neural network版本， 优点是不用做texture packing等。
 
-Quad Patch, bilinear interpolation
-
-使用了positional encoding in Nerf, enc(v, f) = (enc(v), f) = (sin(2^0 v), cos(2^0 v), ..., sin(2^L v), cos(2^L v), f)
-
-Jittering
-
-直接优化|sdf_pred - sdf_gt|不够稳定， 相反通过inverse rendering优化appearance更稳定。
-```
 
