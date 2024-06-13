@@ -44,15 +44,6 @@ https://stability.ai/research/adversarial-diffusion-distillation
 
 # stable-diffusion-webui 107k Star https://github.com/AUTOMATIC1111/stable-diffusion-webui
 
-
-
-
-
-
-
-
-
-
 # 安装tensorflow/pytorch/etc
 
 ### 安装 tensorflow-gpu 2.4.1
@@ -71,8 +62,6 @@ https://stability.ai/research/adversarial-diffusion-distillation
   - tf.__version__
   - tf.test.is_gpu_avaliable() # deprecated 这个会返回True
   - tf.config.list_physical_devices('GPU') # 这个会返回GPU信息
-
-
 
 # 安装pytorch 
 - 既然已经安装了tensorflow gpu版，那么pytorch最好也安装在一起
@@ -130,11 +119,6 @@ Alpha: how transparent it is (α)
 
 
 # Learn high-frequency signal
-
-
-
-
-
 - Coordinate-MLPs
   - encode continuous signals $ f : R^n \to R^m$  as their weights
     - 比如： 输入是低维坐标(x, y) positions, 输出是采样的信号值at each coordinates e.g. pixel intensities.
@@ -260,20 +244,9 @@ assigned.
 - 比cycleGAN训练更快 https://github.com/taesungp/contrastive-unpaired-translation
 
 
-
-
-
-
-
-
 # 人像抠图
 - MODNet: Trimap-Free Portrait Matting in Real Time
 - https://github.com/ZHKKKe/MODNet
-
-
-
-
-
 
 # HairModeling
 - HairSteps最新代码已经发布了，但是并不是所有代码，比如生成strand部分的代码就没有， 另外只有linux环境+Mac环境， windows环境下试了一下，依赖包装不上去。 得看看pretrained model是否存在
@@ -299,10 +272,6 @@ git submodule update --init --recursive
 
 pip install gdown   # https://github.com/wkentaro/gdown
 ```
-
-
-
-
 
 # HairStep
 - 0. 由于开源代码是linux/mac上的，所以-f environment.yml通常失败，按照如下步骤来一步步步构建环境
@@ -459,8 +428,6 @@ cl.exe render.c /O2 /LD /MD /I %header1% /I %header2% /I %header3% /I %header4% 
 cd ../..
 ```
   - Press Ctrl-Q in notepad++ to add/remove rem for each line
-
-
 
 # PhotoMaker
 - Ref https://github.com/bmaltais/PhotoMaker/tree/v1.0.1?tab=readme-ov-file
