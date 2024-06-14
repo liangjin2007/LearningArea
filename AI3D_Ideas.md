@@ -170,4 +170,12 @@ Min-of-N loss (MoN)：
 代码地址 https://github.com/czq142857/implicit-decoder
 ```
 
-### Polygen https://www.youtube.com/watch?v=XCrjpIRkVCU&list=PLA9fKWDqz_2LZgK32sHq5q13T4O1SXubZ&index=10
+### [Polygen](https://www.youtube.com/watch?v=XCrjpIRkVCU&list=PLA9fKWDqz_2LZgK32sHq5q13T4O1SXubZ&index=10)
+
+
+### A Survey on 3D Human Avatar Modeling: From Reconstruction to Generation
+```
+
+```
+
+
