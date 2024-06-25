@@ -72,10 +72,11 @@ c++的链接过程：
   螺旋矩阵II: 循环不变量原则
 
 链表：
-  移除链表元素
-  设计链表
-
-
+  移除链表元素： dummyHead
+  设计链表: dummyHead, size
+  翻转链表： prev, cur
+  两两交换链表中的节点： dymmyHead, offset, prev, cur
+  删除链表的倒数第N个节点: 
 ```
 
 ## 00.代码随想录-最强八股文-第3版-无密版本.pdf
