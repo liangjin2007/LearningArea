@@ -1,6 +1,7 @@
 ## Survey Paper:
 
 ## [实时表演系统](https://github.com/liangjin2007/data_liangjin/blob/master/%E9%80%89%E6%8B%A9%E5%AE%9E%E6%97%B6%E8%A1%A8%E6%BC%94%E6%8D%95%E6%8D%89%E7%B3%BB%E7%BB%9F.pdf)
+## [awesome-3D-Morphable-Model](https://github.com/liangjin2007/curated-list-of-awesome-3D-Morphable-Model-software-and-data)
 ## [awesome-visual-transformer]( https://github.com/dk-liang/Awesome-Visual-Transformer )
 ## [awesome-avatars](https://github.com/pansanity666/Awesome-Avatars?tab=readme-ov-file)
 ## [awesome-3d-AIGC](https://github.com/mdyao/Awesome-3D-AIGC)
