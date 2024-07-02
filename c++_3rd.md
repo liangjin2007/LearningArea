@@ -713,9 +713,65 @@ if (result.count("help"))
 bool value = result["ixxxx"].as<bool>();
 
 ```
+#### glog
+- https://google.github.io/glog/stable/
+```
+#include <glog/logging.h>
+
+int main(int argc, char* argv[]) {
+    google::InitGoogleLogging(argv[0]); 
+    LOG(INFO) << "Found " << num_cookies << " cookies"; 
+}
+```
+
+#### gflags
+类似于CLI, cxxopts，用于command line flags.
+```
+find_package(gflags REQUIRED)
+add_executable(foo main.cc)
+target_link_libraries(foo gflags::gflags)
 
 
+#include <gflags/gflags.h>
 
+DEFINE_bool(big_menu, true, "Include 'advanced' options in the menu listing");
+DEFINE_string(languages, "english,french,german",
+	 "comma-separated list of languages to offer in the 'lang' menu");
+
+DEFINE_bool defines a boolean flag. Here are the types supported:
+DEFINE_bool: boolean
+DEFINE_int32: 32-bit integer
+DEFINE_int64: 64-bit integer
+DEFINE_uint64: unsigned 64-bit integer
+DEFINE_double: double
+DEFINE_string: C++ string
+
+// Accessing flag 
+if (FLAGS_consider_made_up_languages)
+FLAGS_languages += ",klingon";   // implied by --consider_made_up_languages
+if (FLAGS_languages.find("finnish") != string::npos)
+HandleFinnish();
+
+
+// 验证flag值
+static bool ValidatePort(const char* flagname, int32 value) {
+   if (value > 0 && value < 32768)   // value is ok
+     return true;
+   printf("Invalid value for --%s: %d\n", flagname, (int)value);
+   return false;
+}
+DEFINE_int32(port, 0, "What port to listen on");
+DEFINE_validator(port, &ValidatePort);
+
+// 在另一个文件中使用flag
+DECLARE_bool(big_menu);
+
+// How to Set Up Flags
+ gflags::ParseCommandLineFlags(&argc, &argv, true);
+
+// Special Flags
+--help
+```
 
 
 
