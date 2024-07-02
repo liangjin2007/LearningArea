@@ -113,6 +113,7 @@ libigl中有一个将mosek解二次规划的问题封装成Eigen接口。
 
 ### 几何算法
 #### libigl
+- https://cmake.org/cmake/help/latest/module/ExternalProject.html
 深入使用
 ```
 igl::path_to_executable()
