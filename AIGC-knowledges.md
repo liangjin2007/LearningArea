@@ -10,7 +10,7 @@
 ## [awesome-autonomous-vehicle](https://github.com/DeepTecher/awesome-autonomous-vehicle)
 ## [awesome-3d-generation](https://github.com/justimyhxu/awesome-3D-generation)
 ## [awesome-3d-diffusion](https://github.com/cwchenwang/awesome-3d-diffusion)
-
+## [awesome-4d-generation](https://github.com/cwchenwang/awesome-4d-generation)
 
 
 ## [awesome-3d-guassiansplatting](https://github.com/MrNeRF/awesome-3D-gaussian-splatting)
