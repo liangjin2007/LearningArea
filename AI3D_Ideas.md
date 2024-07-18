@@ -1,6 +1,7 @@
 # 目录
 - 3D deep learning
 - A Comprehensive Survey on 3D Content Generation
+
   
 ## 3D deep learning
 
@@ -197,4 +198,108 @@ Object： 训练数据集{3D对象， 对应的文本标注captions}，
 Scene
   
 ```
+```
+Human
+  [2003]3DMM
+  [2015]SMPL: 高细节几何比如头发和衣服的建模方面有局限。
+  [2019]PIFU: 从3D扫描或者multiple view images学习。从单图学习pixel-aligned implicit function.
+  [2022]HeadNeRF
+  [2021]SMPLicit
+  [2022]gDNA
+  [2023]Rodin: tri-plane 表示
+```
+- 2D prior-based 3D generative model
+```
+Object
+  [2023]DreamFusion: 用预训练的2D diffusion model指导per-text或者per-image的3D生成。multi-face Janus problem
+  [2023]Magic3D:  coarse-to-fine optimization strategy with two stages
+  [2023]Fantasia3D: disentangled geometry and appearance modeling, advancing text-to-3D quality.spatially-varying bidirectional reflectance distribution functions to learn surface materials for photorealistic rendering of generated geometry
+  [2023]ProlificDreamer: variational score distillation方法
+  [2023]DreamControl: adaptive viewpoint sampling and boundary integrity metrics.
+  [2024]DreamGaussian: DreamGaussian introduced an efficient algorithm to convert the resulting Gaussians into textured meshes
+  生成纹理
+  [2023]TEXTure
+  [2023]TexFusion: 利用预训练的depth-to-image模型？
+```
+```
+Scene
+  [2023]Text2room: 大模型+inpainting
+  [2023]LucidDreamer
+  [2023]SceneTex
+  [2023]SceneDreamer
+  [2024]CityDreamer
+```
+```
+Human Avatar
+  [2022]AvatarCLIP
+  [2023]HeadSculpt: SDS
+  [2023]DreamWaltz
+  [2023]DreamHuman
+  [2023]HumanGaussian
+```
+- Hybrid 3D Generative Method
+```
+While early 3D native generative methods were limited by scarce 3D datasets, and 2D prior methods could only distill limited 3D geometric knowledge, researchers explored injecting 3D information into pretrained 2D models. Emerging approaches included fine-tuning Stable Diffusion on multi-view object images to generate consistent perspectives, as well as 3D reconstruction and generation from multiple views.
+```
+```
+Object
+  [2023]Zero123: applies 3D data to fine-tune pre-trained 2D diffusion models
+  [2023]One-2-3-45: cross-view attention + multiple-view conditioned 3D diffusion + coarse-to-fine textured mesh prediction
+  [2024]SyncDreamer
+  [2024]MVDream
+  [2023]Wonder3D: normal modal fine-tune multiple view stable diffusion model to concurrently output RGB and normal maps.
+  [2023]UniDream: use diffusion prior to generate multiple view albedo-normal information
+  [2023]Dreamcraft3d: DMTet表示， Score distillation sampling
+  [2023]Gsgen: 3D Gaussian
+  [2023]Instant3d
+```
+```
+Scene
+  [2023]MVDiffusion
+  [2023]ControlRoom3D
+  [2023]SceneWiz3D
+```
+```
+HumanAvatar
+  DreamFace
+```
+```
+Dynamic
+  [2023]MAV3D: hex-plane
+  [2023]Animate124
+  [2023]4D-fy
+  [2023]4DGen
+  [2023]DreamGaussian4D
+```
+
+- 局限和TODO
+```
+几何上：不能建模compact mesh以及合理的布线。
+纹理上：不能产生高细节的纹理映射，也难以消除灯光和阴影。
+材质属性：不能很好地支持。
+精确控制上： text/image/sketch based 方法不能精确输出3D资产来满足条件需求。
+编辑能力： 编辑能力也不太够。
+速度上： 相比较于基于NERF的优化方法，feed-forward和基于GS的SDS方法要快一些，但是也伴随着低质量。
+
+总的来说，要生成产品级质量，scale和精度的3D内容，仍然没有解决。
+```
+
+- 数据
+```
+在收集百万级的3D对象上面临着挑战。
+这可能可以通过创建一个3D开放世界游戏平台来让用户上传自定义的模型。
+另外通过从multiple view images提取丰富的隐式3D知识。
+无监督。
+自监督。
+```
+
+- 模型
+```
+
+```
+
+
+
+
+
 
