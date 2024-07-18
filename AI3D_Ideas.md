@@ -176,21 +176,25 @@ Min-of-N loss (MoN)：
 
 ### A Survey on 3D Human Avatar Modeling: From Reconstruction to Generation
 
-## Surveys
+## [2024]A Comprehensive Survey on 3D Content Generation
+- 3D Native Generation Models。   分成Object，Scene，Human三个类别来讲
 ```
-3D Native Generation Models。   分成Object，Scene，Human三个类别来讲
-  Object： 训练数据集{3D对象， 对应的文本标注captions}，
-    [2019]Text2Shape 几万数据集
-    [2022]Text2Shape++ or ShapeCraft 几十万数据集
-    [2023]SDFusion 允许多模态输入条件
-    以上三个限制于训练数据集的大小，只能处理有限的对象类别。为了处理大的large-vocabulary 3D generation：
-    [2022]Point-E ：  image-to-point diffusion model
-    [2023]Shape-E ：   重建SDF
-    这两个是几百万数据集，但是数据集没有发布出来。
-    Objaverse数据集，相对于上面两篇的数据集更小一些
-    [2024]LRM: imageto-triplane latent space, reshape the latent feature for reconstructing the triplane-based implicit representation
-
+Object： 训练数据集{3D对象， 对应的文本标注captions}，
+  [2019]Text2Shape 几万数据集
+  [2022]Text2Shape++ or ShapeCraft 几十万数据集
+  [2023]SDFusion 允许多模态输入条件
+  以上三个限制于训练数据集的大小，只能处理有限的对象类别。为了处理大的large-vocabulary 3D generation：
+  [2022]Point-E ：  image-to-point diffusion model
+  [2023]Shape-E ：   重建SDF
+  这两个是几百万数据集，但是数据集没有发布出来。
+  Objaverse数据集，相对于上面两篇的数据集更小一些
+  [2024]LRM: imageto-triplane latent space, and triplane-based implicit representation
+  [2024]DMV3D: T-step diffusion model
+  [2023]TextField3D:
 ```
 
-
+```
+Scene
+  
+```
 
