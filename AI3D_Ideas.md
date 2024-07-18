@@ -1,7 +1,7 @@
 # 目录
 - 3D deep learning
 - A Comprehensive Survey on 3D Content Generation
-
+- Advances in 3D Generation: A Survey
   
 ## 3D deep learning
 
@@ -294,10 +294,51 @@ Dynamic
 ```
 
 - 模型
+
+## Advances in 3D Generation: A Survey
+- Neural Scene Representation
+```
+分为三类： 显示表示，隐式表示，混合表示。
+显示表示：
+  点云Point Cloud
+  网格Meshes
+  多层表示
+隐式表示
+  NERF
+  Neural Implicit Surface: NeuS,  VolSDF
+混合表示：
+  Voxel Grids
+  Tri-Plane
+  Hybrid-Surface-Representation: DMTet  
+
+```  
+
+- Generation Method
+```
+FeedForward Generation
+  GAN
+  Diffusion Model
+  Autoregression Models
+  Variational Autoencoders
+  Normalizing Flows
+
+Optimization-based Generation
+  Text-to-3D
+    DreamFusion: SDS
+  Image-to-3D
+Procedural Generation
+Generative Noval View Synthesis  
+```
+
+- Datasets for 3D Generation
 ```
 
 ```
 
+- Application
+```
+3D Human Generation, 3D Face Generation
+```
 
 
 
