@@ -2,7 +2,7 @@
 # 目录
 - Transformer
 - Vision Transformer
-- 
+- ImageGPT
 
 ## Transformer
 - sequence to sequence model
@@ -17,3 +17,17 @@ Decoder
 问题： 为啥Decoder仍然是时序依赖的？LLM是怎么训练的？
 ```
 - 代码实现解读
+
+## Vision Transformer
+```
+图像分类
+图像目标检测
+图像质量评估
+```
+## ImageGPT (OpenAI)
+
+## llama
+
+## Open-Sora
+
+
