@@ -1,3 +1,4 @@
+- https://zhuanlan.zhihu.com/p/348593638
 # 目录
 - Transformer
 - Vision Transformer
@@ -16,9 +17,3 @@ Decoder
 问题： 为啥Decoder仍然是时序依赖的？LLM是怎么训练的？
 ```
 - 代码实现解读
-## ViT or Vision Transformer
-- [2020][ECCV]DETR
-- 代码实现解读
-- [2021][ICLR]Deformable DETR
-- Transformer + Classification
-- IPT: Transformer + Image Processing 
