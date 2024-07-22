@@ -14,12 +14,54 @@
 
 # 组件
 ```
-组件 是一种特殊类型的 对象，Actor 可以将组件作为子对象附加到自身。组件适用于共享相同的行为，例如显示视觉表现、播放声音。它们还可以表示项目特有的概念，例如载具解译输入和改变其速度与方向的方式。
-举例而言，某个项目拥有用户可控制车辆、飞机和船只。可以通过更改载具Actor所使用的组件来实现载具控制和移动的差异。
+组件是一种特殊类型的 对象，Actor 可以将组件作为子对象附加到自身。
+组件适用于共享相同的行为，例如显示视觉表现、播放声音。
+它们还可以表示项目特有的概念，例如载具解译输入和改变其速度与方向的方式。
+举例而言，某个项目拥有用户可控制车辆、飞机和船只。
+可以通过更改载具Actor所使用的组件来实现载具控制和移动的差异。
 ```
 - Actor组件 ActorComponent
 ```
-UActorComponent 是所有组件的基类。由于组件是渲染网格体和图像、实现碰撞和播放音频的唯一方法，因此玩家游戏期间在场景中看到或进行交互的一切其实都是某一类组件的成果。
+UActorComponent 是所有组件的基类。
+由于组件是渲染网格体和图像、实现碰撞和播放音频的唯一方法，
+因此玩家游戏期间在场景中看到或进行交互的一切其实都是某一类组件的成果。
+Unreal Engine（虚幻引擎）中的UActorComponent类是所有组件的基类，用于附加到AActor（代表游戏世界中的实体）的基类。
+组件负责实现特定的功能，如渲染、物理交互、声音播放等。
+以下是UActorComponent的一些常用派生类，这些派生类在游戏开发中经常被使用：
+UPrimitiveComponent：
+	UStaticMeshComponent：用于渲染静态网格。
+	UDecalComponent：用于渲染贴花，比如在地面上显示血迹。
+	UCollisionShapeComponent：用于定义碰撞体，通常与物理交互相关。
+	UBoxComponent：用于创建盒形碰撞体。
+	USphereComponent：用于创建球形碰撞体。
+	UCapsuleComponent：用于创建胶囊形碰撞体。
+USkeletalMeshComponent：
+用于渲染骨骼网格，通常与动画相关。
+UStaticMeshComponent：
+用于渲染不动的物体，如环境中的建筑和道具。
+ULightComponent：
+用于表示场景中的光源。
+UCameraComponent：
+用于定义玩家或AI的视角。
+UAudioComponent：
+用于播放音效或音乐。
+USplineComponent：
+用于创建和渲染样条线，常用于路径规划和动画。
+UTextRenderComponent：
+用于渲染文本，比如游戏中的分数或提示信息。
+UWidgetComponent：
+用于将UI元素渲染到游戏世界中。
+UMaterialBillboardComponent：
+用于创建基于材质的公告牌，通常用于快速渲染粒子效果。
+UParticleSystemComponent：
+用于创建和渲染粒子系统。
+UForceFeedbackComponent：
+用于实现游戏手柄的震动效果。
+这些组件可以附加到任何AActor派生的类上，为游戏对象提供各种功能。
+在虚幻引擎中，通过组合这些不同的组件，可以创建出具有复杂行为和功能的游戏实体
+
+
+
 注册组件
 	注册事件
 取消注册组件
