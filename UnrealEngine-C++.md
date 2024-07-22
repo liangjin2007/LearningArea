@@ -103,13 +103,37 @@ UForceFeedbackComponent：
 ```
 
 ```
-注册组件
-	注册事件
-取消注册组件
-	取消注册事件
+注册组件: 自动注册与手工注册，RegisterComponent, 游戏运行期间注册可能会影响性能，谨慎使用。
+	注册事件：
+		UActorComponent::OnRegister
+		UActorComponent::CreateRenderState
+		UActorComponent::OnCreatePhysicsState
+取消注册组件: UnregisterComponent
+	取消注册事件:
+		UActorComponent::OnUnregister
+		UActorComponent::DestroyRenderState
+		UActorComponent::OnDestroyPhysicsState
 更新
+	类似于Actor的逐帧更新，组件也能逐帧更新。UActorComponent::TickComponent()。
+	例如，USkeletalMeshComponent 使用其 TickComponent 函数来更新动画和骨架控制器。
+	而UParticleSystemComponent 更新其发射器和处理粒子事件。
+	默认情况下，Actor组件不更新。为了让Actor组件逐帧更新，必须在构造函数中将 PrimaryComponentTick.bCanEverTick 设置为 true 来启用tick。
+	之后，在构造函数中或其他位置处，必须调用 PrimaryComponentTick.SetTickFunctionEnable(true) 以开启更新。
+	之后可调用 PrimaryComponentTick.SetTickFunctionEnable(false) 停用tick。
+	如果您知道组件永远不需要更新，或者打算手动调用自己的更新函数（也许从拥有的Actor类），将 PrimaryComponentTick.bCanEverTick 保留为默认值 false 即可，这样可以稍微改善性能。
 渲染状态
+	为进行渲染，Actor组件必须创建渲染状态。
+	此渲染状态还会告诉引擎，需要更新渲染数据的组件已发生变更。
+	当发生此类变更时，渲染状态会被标记为"dirty"。
+	如果编译您自己的组件，可以使用 MarkRenderStateDirty 函数将渲染数据标记为dirty。
+	在一帧结束时，所有dirty组件的渲染数据都会在引擎中更新。
+	场景组件（包括Primitive组件）默认会创建渲染状态，而Actor组件则不会。
+	如何写？
 物理状态
+	要与引擎的物理模拟系统交互，Actor组件需要物理状态。
+	物理状态会在发生变化时立即更新，防止出现"帧落后"瑕疵等问题，也不需要"dirty"标记。
+	默认情况下，Actor组件和场景组件没有物理状态，但基元组件有。
+	覆盖 ShouldCreatePhysicsState 函数以确定组件类实例是否需要物理状态。
 视觉化组件
 ```  
 - 场景组件 SceneComponent
