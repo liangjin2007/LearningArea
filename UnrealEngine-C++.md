@@ -1,11 +1,42 @@
 # [用C++编程](https://dev.epicgames.com/documentation/en-us/unreal-engine/programming-with-cplusplus-in-unreal-engine) 
 - 概述
+- Actor
+- [组件Components]()
 - 反射系统
 - 游戏性架构
 - 虚幻引擎中的容器
 - 委托
 - 代码规范
 - 其他
+
+
+# 概述
+
+# 组件
+```
+组件 是一种特殊类型的 对象，Actor 可以将组件作为子对象附加到自身。组件适用于共享相同的行为，例如显示视觉表现、播放声音。它们还可以表示项目特有的概念，例如载具解译输入和改变其速度与方向的方式。
+举例而言，某个项目拥有用户可控制车辆、飞机和船只。可以通过更改载具Actor所使用的组件来实现载具控制和移动的差异。
+```
+- Actor组件 ActorComponent
+```
+UActorComponent 是所有组件的基类。由于组件是渲染网格体和图像、实现碰撞和播放音频的唯一方法，因此玩家游戏期间在场景中看到或进行交互的一切其实都是某一类组件的成果。
+注册组件
+	注册事件
+取消注册组件
+	取消注册事件
+更新
+渲染状态
+物理状态
+视觉化组件
+```  
+- 场景组件 SceneComponent
+```
+附加
+```
+- 基元组件 PrimitiveComponent
+```
+场景代理
+```  
 
 
 
