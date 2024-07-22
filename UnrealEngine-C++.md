@@ -134,7 +134,11 @@ UForceFeedbackComponent：
 	物理状态会在发生变化时立即更新，防止出现"帧落后"瑕疵等问题，也不需要"dirty"标记。
 	默认情况下，Actor组件和场景组件没有物理状态，但基元组件有。
 	覆盖 ShouldCreatePhysicsState 函数以确定组件类实例是否需要物理状态。
+	如果类使用物理，则不建议只返回 true。
+	请参阅函数的 UPrimitiveComponent 版本，了解不应创建物理状态的情况（例如在组件破坏期间）。
+	在正常返回 true 的情况下，还可以返回 Super::ShouldCreatePhysicsState。
 视觉化组件
+	
 ```  
 - 场景组件 SceneComponent
 ```
