@@ -65,14 +65,8 @@ ViT的提出标志着计算机视觉领域的一个重要进展，它为如何�
 
 - 4.Diffusion Model DDPM ， https://zhouyifan.net/2023/07/07/20230330-diffusion-model/
 ```
-图片生成邻域里之前一般用GAN或者VAE来生成。
-
-
-
-
-
-
-
-
-
+图片生成邻域里之前一般用GAN或者VAE来
 ```
+
+- 5. https://zhuanlan.zhihu.com/p/643560888
+
