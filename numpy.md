@@ -2,6 +2,8 @@
 
 ## 基础介绍
 import numpy as np
+
+基本概念：
 ```
 数值python库
 
@@ -33,9 +35,75 @@ a.size
 a.dtype
 ```
 
-创建函数
+创建函数:
 ```
 np.ones, np.zeros
 np.arange(4)
+```
+
+添加，删除，排序:
+```
+np.sort(a)
+np.argsort
+np.
+```
+
+Reshape:
+```
+np.reshape(a, newshape=(3, 2), order='C')
+a.reshape((3, 2))
+```
+
+New axis, 1D to 2D:
+```
+np.newaxis, np.expand_dims
+a2 = a[np.newaxis, :] # (1, 6) 行向量
+a3 = a[:, np.newaxis] # (6, 1) 列向量
+
+b = np.expand_dims(a, axis= 1)  # (6, 1) 
+```
+
+Indexing and Slicing：
+```
+a[-2:]  # 从倒数第二个数开始
+```
+
+Selection：
+```
+a[a < 5] # 返回的是一个列表
+选择偶数：
+divisible_by_2 = a[a % 2 == 0]
+
+```
+
+Create array from existing data(arrays)
+```
+slicing and indexing, np.vstack(), np.hstack(), np.hsplit(), .view(), copy()
+
+```
+
+
+数组基本操作：
+```
+数学运算 + - * /
+a.sum()
+a.sum(axis= 1)
+a.max()
+a.min
+
+```
+
+Broadcasting：
+```
+
+```
+
+创建矩阵：
+```
+```
+
+创建随机数
+```
+Generator.integers
 ```
 
