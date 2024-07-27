@@ -107,3 +107,8 @@ Broadcasting：
 Generator.integers
 ```
 
+其他
+```
+转置arr.transpose
+Reverse np.flip(a)
+```
