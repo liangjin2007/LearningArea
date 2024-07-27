@@ -107,8 +107,30 @@ Broadcasting：
 Generator.integers
 ```
 
-其他
+数学：
 ```
 转置arr.transpose
 Reverse np.flip(a)
+写出数学公式
+```
+
+保存&加载numpy对象
+```
+np.save, np.savez, np.savetxt, np.load, np.loadtxt
+```
+
+导入和导出csv文件
+```
+import pandas as pd
+x = pd.read_csv('music.csv', header=0).values
+
+a = np.array(...)
+df = pd.DataFrame(a)
+df.to_csv("xxx/xxx.csv")
+```
+
+绘制
+```
+Plotting arrays with Matplotlib
+
 ```
