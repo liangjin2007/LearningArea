@@ -2,7 +2,11 @@
 - 3D deep learning
 - A Comprehensive Survey on 3D Content Generation
 - Advances in 3D Generation: A Survey
-  
+- normal map to mesh
+- poisson reconstruction
+- continuous-remeshing https://github.com/Profactor/continuous-remeshing
+- nvdiffrast https://github.com/NVlabs/nvdiffrast?tab=readme-ov-file
+- OpenLRM https://github.com/3DTopia/OpenLRM
 ## 3D deep learning
 
 ### min距离的可微化
