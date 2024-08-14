@@ -7,6 +7,22 @@
 # 场景
 https://www.bilibili.com/video/BV1mD4y1D7D6?from=search&seid=13429783873760016408&spm_id_from=333.337.0.0
 
+# 常用窗口和快捷键
+```
+默认单位： 质量kg, 距离/长度cm, 时间： min, s,  角度degree, 速度 m/s, 力 N, Torque 牛.米。
+
+内容浏览器右上角的设置：
+  可设置内容浏览器的视图类型，
+  可设置可显示的内容（开发者内容，引擎内容， 本地内容， 插件内容， C++类）
+  可设置搜索选项（是否显示资产类名， 资产路径， 集合名称）
+
+
+```
+
+
+
+
+
 # 角色系统
 https://www.bilibili.com/video/BV1WK4y1J7e1?p=22&spm_id_from=pageDriver
 ```
