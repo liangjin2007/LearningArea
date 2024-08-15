@@ -1,6 +1,5 @@
 # Unreal Engine
 参考UE4 C++进阶之路，
-
 - 入门指南视频: https://learn.unrealengine.com/course/3584597/module/6933184?moduletoken=UHxxnDLPW8TDVsMz2Aaiq0E499zOCpVZy3JR-t10g1IA4WGsvwP4wGnV-ug1GsJ7&LPId=114305
 - P1 https://www.bilibili.com/video/BV1C7411F7RF?p=1
 - P2 https://www.bilibili.com/video/BV1C7411F7RF?p=2
@@ -14,39 +13,28 @@
 - 最新添加 UnrealEngine官方程序范式分析.pdf https://max.book118.com/html/2019/0327/7053133100002015.shtm
 - 以及书中提到的《Inside UE4》https://zhuanlan.zhihu.com/p/22813908
 - UE5.4文档 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-engine-5-4-documentation
+- - awesome-ue4 https://github.com/terrehbyte/awesome-ue4
 
-## UE 5.4文档
+## 概念及使用流程Pipeline
 
-
-- 13 shading models https://www.youtube.com/watch?v=-mAcsaMDuaw
-- 9 input modifiers https://www.youtube.com/watch?v=MN-0otRNmZI
-- About Shading Models https://advances.realtimerendering.com/s2023/2023%20Siggraph%20-%20Substrate.pdf
-  
-
-
-
-
-## 概念
+### Control Rig 控制绑定
+- [参考](https://dev.epicgames.com/documentation/zh-cn/unreal-engine/how-to-create-control-rigs-in-unreal-engine)
+- 流程
 ```
-Unit : 默认是cm
-Camera Speed
-Sphere Reflection Actor
-PostProcessVolume
-SkyLight
-SkySphere
-DirectionLight
-Event
-Event Dispatcher
-UMG
-Deferred/Forward rendering
-Sound Cue
-Custom Depth/Stencil用来在实时渲染中进行合成
+基于Skeleton Mesh创建控制绑定资产， Skeletal Mesh -> 右键单击 -> Create -> Control Rig -> 双击打开控制绑定编辑器 -> 在编辑器左侧Rig Hierarchy绑定层次中选择要控制的bone -> 右键单击 -> New ->
+New Control 创建新的控制点，会显示在bone children中 -> 选择控制点 -》 将它拖动到Forwards Solver窗口中 选择Get Transform节点 -> 将对应的Bone拖动到Forwards Solver窗口中选择Set Transform节点 -> 连接Transform，及连接执行 -> 编译&保存xxx_CtrlRig -> 这样一个特定的修改某个joint来控制绑定的资产就有了。
 ```
+- 结合Sequencer的流程
+```
+将CtrlRig资产从内容浏览器拖动到关卡中 -> 自动创建了一个xxx_CtrlRig类型xxx_CtrlRig名的对象，它的类型是SkeletalMeshActor。
+
+Outliner中的对象有五列：
+   可见性 Item Label 是否是有Sequencer Spawn的， 被哪个Sequencer引用,  Type（这个似乎可以理解为CtrlRig的结果）
 
 
 
-
-
+```
+### 渲染
 -  [渲染](https://www.bilibili.com/video/BV1yb411c7in)
 ```
 Unreal 实时渲染流程：
@@ -219,7 +207,6 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 十三、如何设置引擎的语言为英文/中文
 ```
 
-- awesome-ue4 https://github.com/terrehbyte/awesome-ue4
 
 ## 界面和蓝图相关
 
@@ -227,8 +214,14 @@ UE_LOG(LogTemp, Warning, TEXT("%s"), *(FString));
 #### 交互和快捷键
 - 快捷键
 ```
+UE4和UE5的快捷键有许多不一样。
+
 Ctrl+~: 切换世界空间和对象空间： 在视口右上角。 方便沿着某个方向移动。
+
+
 Ctrl+Shift+F : 打开内容浏览器
+Ctrl+空格： 打开内容浏览器
+
 F11: switch emerce mode
 Ctrl+number: label camera
 F: focus to something
@@ -236,14 +229,22 @@ Ctrl+Shift+Save
 Alt+drag/rotate/scale in viewport: copy 
 Ctrl+G: 分组
 Ctrl+Shift+G : 取消分组
-alt+shift+r查找引用
+
+alt+shift+r： 打开引用查看器
 alt+shift+f查找变量引用
+
+
 End: 落地键
 ctrl+B跳到资源
 ctrl+w复制一份（先选中）
+ctrl+P: 打开资产
+
 E： 旋转
 D： Delay
 按住ctrl, 把variable 拖到bp event graph编辑器中
+
+
+
 材质蓝图中：
  T键： Texture Sample
  Multiply节点
