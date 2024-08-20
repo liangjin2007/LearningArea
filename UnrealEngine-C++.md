@@ -373,12 +373,49 @@ UStruct支持UProperty, 但它不由垃圾回收系统管理，不能提供UFunc
 	如果你想要蓝图能够实现此接口，则必须使用"Blueprintable"元数据说明符。蓝图类要覆盖的每个接口函数都必须是"BlueprintNativeEvent"或"BlueprintImplementableEvent"。标记为"BlueprintCallable"的函数仍然可以被调用，但不能被覆盖。你将无法从蓝图访问所有其他函数。
 ```
 
-- 元数据说明符
-- UFunction
-- 智能指针库
+- 元数据说明符 metadata specifier
 ```
 
 ```
+
+
+- UFunction
+```
+UFunction 是虚幻引擎（UE）反射系统可识别的C++函数。UObject 或蓝图函数库可将成员函数声明为UFunction，方法是将 UFUNCTION 宏放在头文件中函数声明上方的行中。宏将支持 函数说明符 更改虚幻引擎解译和使用函数的方式。
+
+UFUNCTION([specifier1=setting1, specifier2, ...], [meta(key1="value1", key2, ...)])
+[static] ReturnType FunctionName([Parameter1, Parameter2, ..., ParameterN1=DefaultValueN1, ParameterN2=DefaultValueN2]) [const];
+
+可利用函数说明符将UFunction对蓝图可视化脚本图表公开，以便开发者从蓝图资源调用或扩展UFunction，而无需更改C++代码。
+
+在类的默认属性中，UFunction可绑定到委托，从而能够执行一些操作（例如将操作与用户输入相关联）。
+
+它们还可以充当网络回调，这意味着当某个变量受网络更新影响时，用户可以将其用于接收通知并运行自定义代码。
+
+用户甚至可创建自己的控制台命令（通常也称 debug、configuration 或 cheat code 命令），并能在开发版本中从游戏控制台调用这些命令，或将拥有自定义功能的按钮添加到关卡编辑器中的游戏对象。
+
+```
+
+
+
+- 智能指针库
+```
+共享指针（TSharedPtr）	共享指针拥有其引用的对象，无限防止该对象被删除，并在无共享指针或共享引用（见下文）引用其时，最终处理其的删除。共享指针可为空白，意味其不引用任何对象。任何非空共享指针都可对其引用的对象生成共享引用。
+共享引用（TSharedRef）	共享引用的行为与共享指针类似，即其拥有自身引用的对象。对于空对象而言，其存在不同；共享引用须固定引用非空对象。共享指针无此类限制，因此共享引用可固定转换为共享指针，且该共享指针固定引用有效对象。要确认引用的对象是非空，或者要表明共享对象所有权时，请使用共享引用。
+弱指针（TWeakPtrTSharedPtr）	弱指针类与共享指针类似，但不拥有其引用的对象，因此不影响其生命周期。此属性中断引用循环，因此十分有用，但也意味弱指针可在无预警的情况下随时变为空。因此，弱指针可生成指向其引用对象的共享指针，确保程序员能对该对象进行安全临时访问。
+唯一指针（TUniquePtr）	唯一指针仅会显式拥有其引用的对象。仅有一个唯一指针指向给定资源，因此唯一指针可转移所有权，但无法共享。复制唯一指针的任何尝试都将导致编译错误。唯一指针超出范围时，其将自动删除其所引用的对象。
+
+
+类	 
+	TSharedFromThis	在添加 AsShared 或 SharedThis 函数的 TSharedFromThis 中衍生类。利用此类函数可获取对象的 TSharedRef。
+函数	 
+	MakeShared 和 MakeShareable	在常规C++指针中创建共享指针。MakeShared 会在单个内存块中分配新的对象实例和引用控制器，但要求对象提交公共构造函数。MakeShareable 的效率较低，但即使对象的构造函数为私有，其仍可运行。利用此操作可拥有非自己创建的对象，并在删除对象时支持自定义行为。
+	StaticCastSharedRef 和 StaticCastSharedPtr	静态投射效用函数，通常用于向下投射到衍生类型。
+	ConstCastSharedRef 和 ConstCastSharedPtr	将 const 智能引用或智能指针分别转换为 mutable 智能引用或智能指针。
+```
+
+
+
 # 游戏性架构
 
 # 容器
