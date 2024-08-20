@@ -179,7 +179,136 @@ UForceFeedbackComponent：
 # 游戏性架构
 
 # 容器
+- TMap TMultiMap
+```
+创建和填充Map
+	TMap<int32, FString> a;
+	a.Add(key, value); // 类似于std::map::insert
+	a.Add(key); // 值会被默认构造
+	a.Emplace(key, value);
+	
+	TMap<int32, FString> b;
+	...
+	b.Append(a);
+	// Note: a is empty now
+	
+	如果用 UPROPERTY 宏和一个可编辑的关键词（EditAnywhere、EditDefaultsOnly 或 EditInstanceOnly）标记 TMap，即可在编辑器中添加和编辑元素。
+	UPROPERTY(Category = MapsAndSets, EditAnywhere)
+	TMap<int32, FString> FruitMap;
 
+
+迭代Iterator
+	for (auto It = FruitMap.CreateConstIterator(); It; ++It)
+	{
+		It.Key()
+		It.Value()
+	};
+
+查询
+	a.Contains(k);
+	a.Num()
+	a[7] // 在使用[]operator之前，先要判断是否包含这个元素
+	FString* Ptr7 = FruitMap.Find(7);
+	FString& Ref7 = FruitMap.FindOrAdd(7);
+	FindRef: 不要被名称迷惑，FindRef 会返回与给定键关联的值副本；若映射中未找到给定键，则返回默认构建值。FindRef 不会创建新元素，因此既可用于常量映射，也可用于非常量映射。
+	FindKey 函数执行逆向查找，这意味着提供的值与键匹配，并返回指向与所提供值配对的第一个键的指针。搜索映射中不存在的值将返回空键。
+		按值查找比按键查找慢（线性时间）。这是因为映射是根据键而不是值进行哈希。此外，如果映射有多个具有相同值的键，FindKey 可返回其中任一键。
+	a.GenerateKeyArray(outKeyArray);
+	a.GenerateValueArray(outValueArray);
+
+移除
+	a.Remove(key);
+	FString Removed7 = FruitMap.FindAndRemoveChecked(7); // FindAndRemoveChecked 函数可用于从映射移除元素并返回其值。名称的"已检查"部分表示若键不存在，映射将调用 check（UE4中等同于 assert）。
+	FString Removed8 = FruitMap.FindAndRemoveChecked(8); // Assert!
+
+	FString Removed;
+	bool bFound2 = FruitMap.RemoveAndCopyValue(2, Removed); //RemoveAndCopyValue 函数的作用与 Remove 相似，不同点是会将已移除元素的值复制到引用参数。如果映射中不存在指定的键，则输出参数将保持不变，函数将返回 false。
+
+	a.Empty();
+	a.Reset();
+
+排序
+	FruitMap.KeySort([](int32 A, int32 B) {
+		return A > B; // sort keys in reverse
+	});
+
+	FruitMap.ValueSort([](const FString& A, const FString& B) {
+		return A.Len() < B.Len(); // sort strings by length
+	});
+
+运算符
+	可通过复制构造函数，赋值运算符进行复制。深层拷贝，拥有各自的元素。
+
+	支持移动语义： a.MoveTemp(b);  // b为空， a变成b。
+
+Slack
+	FruitMap.Reserve(10);
+	for (int32 i = 0; i < 10; ++i)
+	{
+		FruitMap.Add(i, FString::Printf(TEXT("Fruit%d"), i));
+	}
+
+
+	for (int32 i = 0; i < 10; i += 2)
+	{
+		FruitMap.Remove(i);
+	}
+	// FruitMap == [
+	// 	{ Key: 9, Value: "Fruit9" },
+	// 	<invalid>,
+	// 	{ Key: 7, Value: "Fruit7" },
+	// 	<invalid>,
+	// 	{ Key: 5, Value: "Fruit5" },
+	// 	<invalid>,
+	// 	{ Key: 3, Value: "Fruit3" },
+	// 	<invalid>,
+	// 	{ Key: 1, Value: "Fruit1" },
+	// 	<invalid>
+	// ]
+	FruitMap.Shrink(); 
+	// FruitMap == [
+	// 	{ Key: 9, Value: "Fruit9" },
+	// 	<invalid>,
+	// 	{ Key: 7, Value: "Fruit7" },
+	// 	<invalid>,
+	// 	{ Key: 5, Value: "Fruit5" },
+	// 	<invalid>,
+	// 	{ Key: 3, Value: "Fruit3" },
+	// 	<invalid>,
+	// 	{ Key: 1, Value: "Fruit1" }
+	// ]
+
+	Shrink 将从容器的末端移除所有slack，但这会在中间或开始处留下空白元素。
+
+	Compact和Shrink一起可以删除所有slack。
+	FruitMap.Compact();
+	// FruitMap == [
+	// 	{ Key: 9, Value: "Fruit9" },
+	// 	{ Key: 7, Value: "Fruit7" },
+	// 	{ Key: 5, Value: "Fruit5" },
+	// 	{ Key: 3, Value: "Fruit3" },
+	// 	{ Key: 1, Value: "Fruit1" },
+	// 	<invalid>,
+	// 	<invalid>,
+	// 	<invalid>,
+	// 	<invalid>
+	// ]
+	FruitMap.Shrink();
+	// FruitMap == [
+	// 	{ Key: 9, Value: "Fruit9" },
+	// 	{ Key: 7, Value: "Fruit7" },
+	// 	{ Key: 5, Value: "Fruit5" },
+	// 	{ Key: 3, Value: "Fruit3" },
+	// 	{ Key: 1, Value: "Fruit1" }
+	// ]
+
+KeyFuncs
+	用到的时候再查头上的在线文档吧。
+```
+```
+TSet
+TArray
+```
 # 委托
 
 # 代码规范
