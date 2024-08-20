@@ -296,9 +296,83 @@ UObjects 提供的功能
 Metadata 说明符(metadata specifier)
 	
 ```
+
+
+
 - 结构体
+```
+结构体（Struct） 是一种数据结构，帮助你组织和操作相关属性。在虚幻引擎中，结构体会被引擎的反射系统识别为 UStruct，但不属于 UObject生态圈,且不能在UClasses的内部使用。
+
+在相同的数据布局下， UStruct 比 UObject 能更快创建。
+
+UStruct支持UProperty, 但它不由垃圾回收系统管理，不能提供UFunction。
+
+实现USTRUCT
+
+结构体说明符
+	Atomic	表示该结构体应始终被序列化为一个单元。将不会为该类创建自动生成的代码。标头仅用于解析元数据。
+	BlueprintType	将此结构体作为一种类型公开，可用于蓝图中的变量。
+	NoExport	将不会为该类创建自动生成的代码。标头仅用于解析元数据。
+
+最佳做法与技巧
+	下面是一些使用 UStruct 时需要记住的有用提示：
+	
+	UStruct 可以使用虚幻引擎的智能指针和垃圾回收系统来防止垃圾回收删除 UObjects。
+	
+	结构体最好用于简单数据类型。对于你的项目中更复杂的交互，也许可以使用 UObject 或 AActor 子类来代替。
+	
+	UStructs 不可以 用于复制。但是 UProperty 变量 可以 用于复制。
+	
+	虚幻引擎可以自动为结构体创建Make和Break函数。
+	
+	Make函数出现在任何带有 BlueprintType 标签的 Ustruct 中。
+	如果在UStruct中至少有一个 BlueprintReadOnly 或 BlueprintReadWrite 属性，Break函数就会出现。
+	Break函数创建的纯节点为每个标记为 BlueprintReadOnly 或 BlueprintReadWrite 的资产提供一个输出引脚。
+
+
+```
 - TSubclassOf
+```
+	UClass* ClassA = UDamageType::StaticClass();
+ 
+	TSubclassOf<UDamageType> ClassB;
+ 
+	ClassB = ClassA; // Performs a runtime check
+ 
+	TSubclassOf<UDamageType_Lava> ClassC;
+ 
+	ClassB = ClassC; // Performs a compile time check
+
+```
+
+
 - 接口
+```
+接口声明
+接口说明符
+在C++中实现接口
+声明接口函数
+	仅C++的接口函数
+	蓝图可调用接口函数
+		BlueprintCallable
+		BlueprintImplementableEvent
+		BlueprintNativeEvent
+确定类是否实现了接口
+	bool bIsImplemented = OriginalObject->GetClass()->ImplementsInterface(UReactToTriggerInterface::StaticClass()); // 如果OriginalObject实现了UReactToTriggerInterface，则bisimplemated将为true。
+ 
+	bIsImplemented = OriginalObject->Implements<UReactToTriggerInterface>(); // 如果OriginalObject实现了UReactToTrigger，bIsImplemented将为true。
+ 
+	IReactToTriggerInterface* ReactingObject = Cast<IReactToTriggerInterface>(OriginalObject); // 如果OriginalObject实现了UReactToTriggerInterface，则ReactingObject将为非空。
+转换到其他虚幻类型
+	IReactToTriggerInterface* ReactingObject = Cast<IReactToTriggerInterface>(OriginalObject); // 如果接口被实现，则ReactingObject将为非空。
+ 
+	ISomeOtherInterface* DifferentInterface = Cast<ISomeOtherInterface>(ReactingObject); // 如果ReactingObject为非空而且还实现了ISomeOtherInterface，则DifferentInterface将为非空。
+ 
+	AActor* Actor = Cast<AActor>(ReactingObject); // 如果ReactingObject为非空且OriginalObject为AActor或AActor派生的类，则Actor将为非空。
+蓝图可实现类
+	如果你想要蓝图能够实现此接口，则必须使用"Blueprintable"元数据说明符。蓝图类要覆盖的每个接口函数都必须是"BlueprintNativeEvent"或"BlueprintImplementableEvent"。标记为"BlueprintCallable"的函数仍然可以被调用，但不能被覆盖。你将无法从蓝图访问所有其他函数。
+```
+
 - 元数据说明符
 - UFunction
 - 智能指针库
