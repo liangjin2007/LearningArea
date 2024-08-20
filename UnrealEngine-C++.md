@@ -173,6 +173,135 @@ UForceFeedbackComponent：
 
 
 # 反射系统
+章节
+- 对象
+```
+UCLASS宏
+属性和函数
+UObject创建
+	UObjects 不支持构造器参数。所有的C++ UObject都会在引擎启动的时候初始化，然后引擎会调用其默认构造器。如果没有默认的构造器，那么 UObject 将不会编译。
+	
+	UObject 构造器应该轻量化，仅用于设置默认的数值和子对象，构造时不应该调用其它功能和函数。对于 Actor和Actor组件，初始化功能应该输入 BeginPlay() 方法。
+	
+	UObject 应该仅在运行时使用 NewObject 构建，或者将 CreateDefaultSubobject 用于构造器。
+
+	UObjects 永远都不应使用 new 运算符。所有的 UObjects 都由虚幻引擎管理内存和垃圾回收。如果通过 new 或者 delete 手动管理内存，可能会导致内存出错。
+
+UObjects 提供的功能
+	此系统的使用不为强制要求，甚至有时不适合使用，但却存在以下益处：
+
+		垃圾回收
+		引用更新
+		反射
+		序列化
+		默认属性变化自动更新
+		自动属性初始化
+		自动编辑器整合
+		运行时类型信息可用
+		网络复制
+
+	大部分这些益处适用于 UStruct，它有着和 UObject 一样的反射和序列化能力。UStruct 被当作数值类型处理并且不会垃圾回收。
+
+虚幻头文件工具
+	为利用 UObject 派生类型所提供的功能，需要在头文件上为这些类型执行一个预处理步骤，以核对需要的信息。 该预处理步骤由 UnrealHeaderTool（简称 UHT）执行。UObject 派生的类型需要遵守特定的结构。
+
+头文件格式
+	UObject 在源（.cpp）文件中的实现与其他 C++ 类相似，其在头（.h）文件中的定义必须遵守特定的基础结构，以便在虚幻引擎 4 中正常使用。使用编辑器的"New C++ Class"命令是设置格式正确头文件的最简单方法。UObject 派生类的基础头文件可能看起来与此相似，假定 UObject 派生物被称为 UMyObject，其创建时所在的项目被称为 MyProject：
+
+	#pragma once
+ 
+	#include 'Object.h'
+	#include 'MyObject.generated.h'
+ 
+	UCLASS()
+	class MYPROJECT_API UMyObject : public UObject
+	{
+		GENERATED_BODY()
+ 
+	};
+
+	如 MyProject 希望将 UMyObject 类公开到其他模块，则需要指定 MYPROJECT_API。这对游戏项目将包括的模块或插件十分实用。这些模块和插件将故意使类公开，在多个项目间提供可携的自含式功能。
+
+更新对象
+	Ticking 代表虚幻引擎中对象的更新方式。所有Actors均可在每帧被 tick，便于您执行必要的更新计算或操作。
+
+	Actor 和 Actor组件在注册时会自动调用它们的 Tick 函数，然而，UObjects 不具有嵌入的更新能力。在必须的时候，可以使用 inherits 类说明符从 FTickableGameObject 继承即可添加此能力。 这样即可实现 Tick() 函数，引擎每帧都将调用此函数。
+
+销毁对象
+	对象不被引用后，垃圾回收系统将自动进行对象销毁。这意味着没有任何 UPROPERTY 指针、引擎容器、TStrongObjectPtr 或类实例会拥有任何对它的强引用。
+
+	注意，无论对象是否被垃圾回收，弱指针对其都没有影响。
+	
+	垃圾回收器运行时，寻找到的未引用对象将被从内存中移除。此外，函数MarkPendingKill() 可在对象上直接调用。此函数将把指向对象的所有指针设为 NULL，并从全局搜索中移除对象。对象将在下一次垃圾回收过程中被完全删除。
+	
+	智能指针不适用于 UObject。
+	
+	Object->MarkPendingKill() 被 Obj->MarkAsGarbage() 所替代。这个新的函数现在仅用于追踪旧对象。如果 gc.PendingKillEnabled=true ，那么所有标记为 PendingKill 的对象会被垃圾回收器自动清空并销毁。
+	
+	强引用会将 UObject 保留。如果你不想让这些引用保留 UObject，那么这些引用应该转换来使用弱指针，或者变为一个普通指针由程序员手动清除（如果对性能有较高要求的话）。
+	
+	你可以用弱指针替换强指针，并且在游戏运作时作为垃圾回收取消引用，因为垃圾回收仅在帧之间运行。
+	
+	IsValid() 用于检查它是 null 还是垃圾，但是大部分情况下 IsValid 可以被更正规的编程规则替换，比如在调用 OnDestroy 事件时将指针清除至 Actor。
+	
+	如果禁用了 PendingKill()， MarkGarbage() 将会提醒对象的所有者该对象将要被销毁，但是对象本身直到所有对它的引用都解除之后才会被垃圾回收。
+	
+	对于 Actor，即使 Actor 被调用了 Destroy()，并且被从关卡中移除，它还是会等到所有对它的引用都解除之后才会被垃圾回收。
+	
+	对于证书持有者的主要区别在于，对花费较大的对象进行垃圾回收的函数 MarkPendingKill() 不再起效。
+	
+	已有的用于 nullptr 的检查应该被 IsValid() 调用所替代，除非你进行手动清除，因为指针不再会被垃圾回收器通过 MarkPendingKill() 自动清除。
+
+```
+
+- 属性
+```
+属性声明：
+	UPROPERTY([specifier, specifier, ...], [meta(key=value, key=value, ...)])
+	Type VariableName;
+核心整数类型：
+	整数
+		int8, uint8, int16, uint16, int32, uint32, int64, uint64
+	作为掩码 : https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-engine-uproperties
+		1.添加元标记即可 UPROPERTY(EditAnywhere, Meta = (Bitmask)) int32 BasicBits;
+		添加此元标记将使整数作为下拉列表形式可供编辑，它们使用笼统命名标记（"Flag 1"、"Flag 2"、"Flag 3"等等），可以 单独打开或关闭。
+		2.UFUNCTION(BlueprintCallable) void MyFunction(UPARAM(meta=(Bitmask)) int32 BasicBitsParam);
+		3.为了让Flag 1这种名称转为自定义名称： 为了自定义位标记名称，首先必须使用"bitflags"元标记来创建UENUM：
+			UENUM(Meta = (Bitflags))
+			enum class EColorBits
+			{
+				ECB_Red,
+				ECB_Green,
+				ECB_Blue
+			};
+			比特掩码枚举类型的范围是0到31，包括0和31。其对应于32位整型变量的位数（从第0位开始）。在上面的例子中，第0位是 ECB_Red，第1位是 ECB_Green，第2位是 ECB_Blue。
+			...
+
+浮点数：
+	float, double
+
+布尔类型：
+	bool bIsThirsty;
+	int32 bIsHungry: 1;
+
+字符串
+	三种核心类型： FString, FName, FText
+	FString是典型的"动态字符数组"字符串类型。
+	FName是对全局字符串表中不可变且不区分大小写的字符串的引用。相较于FString，它的大小更小，更能高效的传递，但更难以操控。
+	FText是指定用于处理本地化的更可靠的字符串表示。
+	大多数情况下，虚幻依靠TCHAR类型来表示字符， TEXT()宏可用于表示TCHAR文字。 MyDogPtr->DogName = FName(TEXT("Samson Aloysius"));
+	
+属性说明符（specifier）
+
+Metadata 说明符(metadata specifier)
+	
+```
+- 结构体
+- TSubclassOf
+- 接口
+- 元数据说明符
+- UFunction
+- 智能指针库
 ```
 
 ```
