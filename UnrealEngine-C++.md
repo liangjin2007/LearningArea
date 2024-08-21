@@ -1,6 +1,5 @@
 # [用C++编程](https://dev.epicgames.com/documentation/en-us/unreal-engine/programming-with-cplusplus-in-unreal-engine) 
-- [概述](#1概述)
-- Actor
+- [Actor](#1AActor)
 - 组件Components
 - 反射系统
 - 游戏性架构
@@ -11,8 +10,7 @@
 - 其他
 
 
-## 1.概述
-# AActor
+## 1.AActor
 ```
 在Unreal Engine中，AActor 类是所有游戏世界中的实体的基类。
 它提供了基本的属性和行为，如位置、旋转和缩放。
@@ -54,7 +52,7 @@ ABP_BasePawn：
 
 
 
-# 组件
+## 2.组件
 ```
 组件是一种特殊类型的对象，Actor 可以将组件作为子对象附加到自身。
 组件适用于共享相同的行为，例如显示视觉表现、播放声音。
