@@ -38,6 +38,9 @@ https://github.com/yzhq97/transmomo.pytorch
 
 https://stability.ai/research/adversarial-diffusion-distillation
 
+# ComfyUI
+- 3D pack https://github.com/MrForExample/ComfyUI-3D-Pack
+  
 # yolov8 
 - https://github.com/liangjin2007/ultralytics
 - 需要独立再创建一个environment
