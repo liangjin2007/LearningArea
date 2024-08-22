@@ -1,13 +1,12 @@
 # [用C++编程](https://dev.epicgames.com/documentation/en-us/unreal-engine/programming-with-cplusplus-in-unreal-engine) 
-- [Actor](#1AActor)
-- [组件Components](#2组件)
-- [反射系统](#3反射系统)
-- 游戏性架构
-- 虚幻引擎中的容器
-- 委托
-- 布料模拟
-- 代码规范
-- 其他
+- [1.Actor](#1AActor)
+- [2.组件Components](#2组件)
+- [3.反射系统](#3反射系统)
+- [4.游戏性架构](#5游戏性架构)
+- [5.容器](#5容器)
+- [6.委托](#6委托)
+- [7.代码规范](#7代码规范)
+- [8.其他](#8其他)
 
 
 ## 1.AActor
@@ -174,6 +173,10 @@ UForceFeedbackComponent：
 章节
 - [1.对象](#1对象)
 - [2.属性](#2属性)
+- [3.结构体](#3结构体)
+- [4.接口](#4接口)
+- [5.UFunction](#5UFunction)
+- [6.智能指针库](#6智能指针库)  
 ### 1.对象
 ```
 UCLASS宏
@@ -299,7 +302,7 @@ Metadata 说明符(metadata specifier)
 
 
 
-- 结构体
+### 3.结构体
 ```
 结构体（Struct） 是一种数据结构，帮助你组织和操作相关属性。在虚幻引擎中，结构体会被引擎的反射系统识别为 UStruct，但不属于 UObject生态圈,且不能在UClasses的内部使用。
 
@@ -346,7 +349,7 @@ UStruct支持UProperty, 但它不由垃圾回收系统管理，不能提供UFunc
 ```
 
 
-- 接口
+### 4.接口
 ```
 接口声明
 接口说明符
@@ -379,7 +382,7 @@ UStruct支持UProperty, 但它不由垃圾回收系统管理，不能提供UFunc
 ```
 
 
-- UFunction
+### 5.UFunction
 ```
 UFunction 是虚幻引擎（UE）反射系统可识别的C++函数。UObject 或蓝图函数库可将成员函数声明为UFunction，方法是将 UFUNCTION 宏放在头文件中函数声明上方的行中。宏将支持 函数说明符 更改虚幻引擎解译和使用函数的方式。
 
@@ -398,7 +401,7 @@ UFUNCTION([specifier1=setting1, specifier2, ...], [meta(key1="value1", key2, ...
 
 
 
-- 智能指针库
+### 6.智能指针库
 ```
 共享指针（TSharedPtr）	共享指针拥有其引用的对象，无限防止该对象被删除，并在无共享指针或共享引用（见下文）引用其时，最终处理其的删除。共享指针可为空白，意味其不引用任何对象。任何非空共享指针都可对其引用的对象生成共享引用。
 共享引用（TSharedRef）	共享引用的行为与共享指针类似，即其拥有自身引用的对象。对于空对象而言，其存在不同；共享引用须固定引用非空对象。共享指针无此类限制，因此共享引用可固定转换为共享指针，且该共享指针固定引用有效对象。要确认引用的对象是非空，或者要表明共享对象所有权时，请使用共享引用。
@@ -416,9 +419,15 @@ UFUNCTION([specifier1=setting1, specifier2, ...], [meta(key1="value1", key2, ...
 
 
 
-# 游戏性架构
+## 4.游戏性架构
 
-# 容器
+
+
+
+
+
+
+## 5.容器
 - TMap TMultiMap
 ```
 创建和填充Map
@@ -549,9 +558,7 @@ KeyFuncs
 TSet
 TArray
 ```
-# 委托
-
-# 代码规范
+## 6.委托
 
 
 # 其他
