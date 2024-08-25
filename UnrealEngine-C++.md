@@ -560,6 +560,135 @@ TSet
 TArray
 ```
 ## 6.委托
+参考知乎链接 https://zhuanlan.zhihu.com/p/415867431
+
+委托Delegate又叫代理、委托函数或者代理函数，在UE中是用宏定义的C++类对象。
+
+委托是一种观察者模式，也被称为代理，用于降低不同对象之间的耦合度，两个有关联的对象不对彼此的行为进行监听，而是通过委托来间接的建立联系，监听者将需要响应的函数绑定到委托对象上，使得委托在触发时调用所绑定的函数。
+
+在虚幻引擎的实现中，委托本质上是通过宏定义实现的一个自定义的类，它是一个特殊的类，内部可以存储函数指针，用以实现委托的执行，委托执行类似函数指针，但是更安全，因为支持编译期的类型检查，且委托更易于使用。
+
+虚幻引擎中的委托按照绑定委托函数的个数分为单播和多播委托，又按照是否可暴漏给蓝图分为静态和动态委托，故可分为4种类型，在头文件 DelegateCombinations.h 中提供了多种宏用于宏定义不同的委托，在该头文件中委托的参数数量最多支持到9个参数，但不意味着虚幻引擎的委托只能是9个参数，用于定义委托的宏，最终会进入到头文件 Delegate.h 中处理，查看该头文件源码可知委托定义时函数参数为可变类型，并没有限制为9个，不过9个参数也足够使用了。
+
+四种委托类型：
+
+
+- 宏
+```
+void Function()	DECLARE_DELEGATE(DelegateName)
+void Function(Param1)	DECLARE_DELEGATE_OneParam(DelegateName, Param1Type)
+void Function(Param1, Param2)	DECLARE_DELEGATE_TwoParams(DelegateName, Param1Type, Param2Type)
+void Function(Param1, Param2, ...)	DECLARE_DELEGATE_<Num>Params(DelegateName, Param1Type, Param2Type, ...)
+<RetValType> Function()	DECLARE_DELEGATE_RetVal(RetValType, DelegateName)
+<RetValType> Function(Param1)	DECLARE_DELEGATE_RetVal_OneParam(RetValType, DelegateName, Param1Type)
+<RetValType> Function(Param1, Param2)	DECLARE_DELEGATE_RetVal_TwoParams(RetValType, DelegateName, Param1Type, Param2Type)
+<RetValType> Function(Param1, Param2, ...)	DECLARE_DELEGATE_RetVal_<Num>Params(RetValType, DelegateName, Param1Type, Param2Type, ...)
+```
+
+- 静态单播
+ 静态单播：最常用的委托，只能绑定一个委托函数，绑定的委托函数可以有返回值，可接受不同数量的参数，委托实例必须绑定在其声明时所定义的同返回类型和参数列表的函数，静态委托执行前最好检查是否绑定，否则会导致程序崩溃，如果重复进行绑定，会覆盖上一次的绑定：
+```
+// 单播委托：无参数，无返回值 
+DECLARE_DELEGATE(DelegateName_1);
+DelegateName_1 DelegateInst_1; 
+
+// 单播委托：无参数，有返回值
+DECLARE_DELEGATE_RetVal(int, DelegateName_2);
+DelegateName_2 DelegateInst_2;
+    
+// 单播委托：有俩参数，无返回值
+DECLARE_DELEGATE_TwoParams(DelegateName_3, int, int);
+DelegateName_3 DelegateInst_3;
+
+// 单播委托：有一个参数，有返回值
+DECLARE_DELEGATE_RetVal_OneParam(int, DelegateName_4, int);
+DelegateName_4 DelegateInst_4;
+    
+// 绑定委托函数，这里以绑定lambda函数为例 
+DelegateInst_1.BindLambda([]{ "Lambda 1"; }); 
+// 重复绑定时，会覆盖上一次的绑定，执行新绑定的函数 
+DelegateInst_1.BindLambda([]{ "Lambda 2"; }); 
+
+// 执行委托函数，如果定义的委托函数有参数或返回值，在此时传入和获取 
+DelegateInst_1.Execute();
+// 直接执行未绑定的单播会导致奔溃，执行前最好检查一下 
+if (DelegateInst_1.IsBound()) DelegateInst_1.Execute();
+// 也可以直接使用虚幻引擎提供的接口一步到位 
+// 特别注意的是：有返回值的委托函数，不能用这个接口！
+// 这个接口需要返回bool类型标识是否成功执行，可能这个原因使得在语法上不支持用于有返回的委托函数 
+DelegateInst_1.ExecuteIfBound(); 
+
+// 解除绑定 
+DelegateInst_1.Unbind();
+```
+
+- 静态多播
+可以绑定多个委托函数，但委托函数不能有返回值，委托函数参数和静态单播类似，多播委托在广播执行时不一定是按照绑定顺序来的，在广播执行时，不需要判断是否绑定了委托函数，直接广播执行即可：
+```
+DECLARE_MULTICAST_DELEGATE(DelegateName);
+DelegateName DelegateInst;
+    
+// 逐一添加委托函数 
+DelegateInst.AddLambda([]{ "Lambda 1"; }); // 绑定1
+DelegateInst.AddLambda([]{ "Lambda 2"; }); // 绑定2
+// 额外保存委托handle对象 
+FDelegateHandle handleOb = DelegateInst.AddLambda([]{ "Lambda 3"; }); // 绑定3
+// 绑定UFUNCTION时需要this指针
+DelegateInst.AddUFunction(this, TEXT("FunctionName")); // 绑定4
+
+// 通过广播执行，不需要判断是否绑定了委托函数 
+DelegateInst.Broadcast();
+
+// 解除绑定单个绑定，需要保存绑定时的 handle 对象
+DelegateInst.Remove(FDelegateHandle);
+// 如果想解除所有绑定，可能会想到使用RemoveAll()，但该函数只会解绑指定指针所绑定的委托，
+// 如下调用会清除当前类所绑定的委托，当前类绑定委托指的是绑定的时候用到了 this 指针，
+// 所以执行后只会清除上述的绑定4，因为用到了this指针，其余3个绑定仍然可以被广播执行
+DelegateInst.RemoveAll(this);
+
+// 可以使用Clear接口清除所有绑定，其底层实现利用的是Unbind() 
+DelegateInst.Clear();
+```
+
+- 动态单播：
+动态即支持蓝图序列化，可以用宏 UPROPERTY 标记动态单播实例，在添加元数据 BlueprintReadWrite 后即可在蓝图获取到其实例引用，动态委托的类型名称必须以 “F” 开头，虽然可以暴漏给蓝图使用，但动态委托只能绑定UFUNCTION宏标记的函数，还有一点就是动态委托的委托函数参数，需要同时写出参数类型名称和参数变量名称：
+```
+// 动态委托需要同时写出函数参数类型名称和参数变量名称，且自定义委托名称以‘F’开头 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FDelegateName, int, num);
+
+// 动态委托可以使用宏标记暴露给蓝图，但动态单播不能在蓝图定义委托实例和绑定委托函数 
+UPROPERTY(BlueprintReadWrite)
+    FDelegateName DelegateInst;
+
+// 类似静态单播的绑定，但只能绑定被UFUNCTION标记的函数 
+DelegateInst.BindUFunction(this, TEXT("UFunctionName"));
+// 官方文档建议用下面的宏来绑定，建议按官方文档的方式来 
+DelegateInst.BindDynamic(this, &MyClassName::UFunctionName);
+
+// 执行委托 
+if (DelegateInst_1.IsBound()) DelegateInst_1.Execute(666);
+
+// 解除委托 
+DelegateInst.Unbind();
+```
+
+- 注意事项
+需要特别注意的是：
+
+① 委托的声明，书写格式遵循：DECLARE_[DYNAMIC]_[MULTICAST]_DELEGATE_[RetVal]_[XXXParam(s)]，单词是有顺序的；
+
+② 单播委托在执行前务必判断是否有绑定委托函数，建议使用 ExecuteIfBound，多播委托的广播执行是安全的，不论是否绑定了委托函数；
+
+③ 多播委托所绑定的委托函数不能有返回值；
+
+④ 动态委托性能比静态委托更低，运行更慢，这是动态委托支持蓝图序列化的代价；
+
+⑤ 动态委托的宏辅助声明，委托函数参数类型名称和参数变量名称都要写出来，静态委托只需要写参数类型名称即可；
+
+⑥ 动态委托的宏声明之后必须有分号，否则有编译错误，而静态委托不需要，为了使得编码统一，用宏来声明委托时，都在后面加分号处理；
+
+⑦ 在 DelegateCombinations.h 头文件中也有一种对事件的宏定义：DECLARE_EVENT_[XXXParam(s)]，按照源码中的注释，本质上就是一个多播委托，但事件在定义的时候需要传入一个拥有者对象，事件只有在该拥有者内部绑定委托才生效，源码注释中建议不要使用此类事件，建议就用普通的多播委托即可。
+
 
 ## 7.代码规范
 
