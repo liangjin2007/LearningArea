@@ -672,6 +672,35 @@ if (DelegateInst_1.IsBound()) DelegateInst_1.Execute(666);
 DelegateInst.Unbind();
 ```
 
+- 动态多播：
+动态即支持蓝图序列化，即可在蓝图中绑定事件，但蓝图获取不到在C++中定义的动态多播的实例引用，即使用元数据 BlueprintReadWrite 标记也不行，但可以通过 【Assign 实例名称】 的蓝图节点为在C++中定义的动态多播对象绑定新的委托函数：
+```
+// 动态委托需要同时写出函数参数类型名称和参数变量名称，且自定义委托名称以‘F’开头 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDelegateName, int, num);
+
+// 动态多播委托通过红标记中 BlueprintAssignable 元数据使其可在蓝图中定义委托实例和绑定委托函数 
+UPROPERTY(BlueprintAssignable)
+    FDelegateName DelegateInst;
+
+// 绑定多个动态委托，委托函数必须是被UFUNCTION标记的函数 
+DelegateInst.AddDynamic(this, &MyClassName::UFunctionName_1);
+DelegateInst.AddDynamic(this, &MyClassName::UFunctionName_2);
+DelegateInst.AddDynamic(this, &MyClassName::UFunctionName_3);
+
+// 广播执行动态多播委托 
+DelegateInst.Broadcast();
+
+// 解除单个委托，动态单播解绑就不需要保存FDelegateHandle对象了，和绑定时参数一致 
+DelegateInst.RemoveDynamic(this, &MyClassName::UFunctionName_3);
+// 解除所有绑定的委托 
+DelegateInst.Clear();
+
+// 动态多播要配合蓝图的Assign Event来配合使用。
+在C++代码中定义好动态多播实例 DelegateInst 后，可以在蓝图中通过 Assign 实例名称 (即 Assign DelegateInst) 节点来绑定委托函数，新建了一个事件调度器（EventDispatcher）为指定的动态多播对象绑定（Bind Event to Delegate Inst）指定的委托函数（Print String）：
+```
+
+
+
 - 注意事项
 需要特别注意的是：
 
