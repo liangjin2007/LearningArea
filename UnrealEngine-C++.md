@@ -613,6 +613,34 @@ checkSlowf(!MyLinkedList.HasCycle(), TEXT("Found a cycle in the list!"));
 			通常没有必要对属于父类的组件进行修改。然而，在任何 `USceneComponent`（包括根组件）上调用 `GetAttachParent`、`GetParentComponents`、`GetNumChildrenComponents`、`GetChildrenComponents` 和 `GetChildComponent` 即可获得当前所有附着组件（包括父类创建的组件）的列表。
 ```
 
+### 3.游戏模块
+```
+游戏模块至少要包含一个头文件 (.h)、一个 C++ 文件 (.cpp) 和一个编译文件 (*.Build.cs)。
+头文件必须位于模块目录的 Public 文件夹中，也就是 [GameName] \Source\ [ModuleName]\Public 目录。
+C++ 文件必须位于模块目录的 Private 文件夹中，也就是 [GameName]\Source[ModuleName]\Private 目录，用于注册及实现模块。
+在您的游戏中，至少要使用 IMPLEMENT_PRIMARY_GAME_MODULE 注册一个模块。其他模块可以使用另一个可选的 IMPLEMENT_GAME_MODULE 方法进行注册。请参照 多个游戏性模块 部分获得在一个游戏项目中使用多个游戏性模块的更多细节。
+	// 包括游戏的头文件
+	#include "<ModuleName>.h"
+ 
+	// 将模块指定为主模块
+	IMPLEMENT_PRIMARY_GAME_MODULE( <ModuleName>, "<GameName>" );
+编译文件位于游戏性模块的根目录中，也就是目录 [GameName]\Source[ModuleName]，它定义了 UnrealBuildTool 编译该模块时要使用的一些信息。
+	using UnrealBuildTool;
+ 
+	public class <ModuleName> : ModuleRules
+	{
+		public <ModuleName>( TargetInfo Target )
+		{
+			PublicDependencyModuleNames.AddRange( new string[] { "Core", "Engine" } );
+			PrivateDependencyModuleNames.AddRange( new string[] { "RenderCore" } );
+		}
+	}
+INI 文件设置
+	需要在 DefaultEngine.ini 文件中的几个地方添加该模块：
+```
+
+
+
 ## 5.容器
 - TMap TMultiMap
 ```
