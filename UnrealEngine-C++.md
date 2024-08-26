@@ -2,7 +2,7 @@
 - [1.Actor](#1AActor)
 - [2.组件Components](#2组件)
 - [3.反射系统](#3反射系统)
-- [4.游戏性架构](#5游戏性架构)
+- [4.游戏性架构](#4游戏性架构)
 - [5.容器](#5容器)
 - [6.委托](#6委托)
 - [7.代码规范](#7代码规范)
@@ -520,19 +520,98 @@ checkSlowf(!MyLinkedList.HasCycle(), TEXT("Found a cycle in the list!"));
 
 ```
 ### 2. 游戏性类
+```
 添加类
 类头
 	类声明
+		UCLASS([specifier, specifier, ...], [meta(key=value, key=value, ...)])
+		class ClassName : public ParentName
+		{
+			GENERATED_BODY()
+		}
 	类说明符
 元数据说明符
 类实现
 	类构造函数
 	构造函数格式
+		UMyObject::UMyObject(const FObjectInitializer& ObjectInitializer)
+		:Super(ObjectInitializer)
+		{
+			// 在此处初始化 CDO 属性。
+		}
 	构建函数静态属性和助手
 		资源引用
+			理想状态下，类中的资源引用并不存在。硬编码资源引用很脆弱，优选方法是使用蓝图配置资源属性。然而，仍然完全支持硬编码引用。不需要在每次构造对象时搜索资源，因此这些搜索只执行一次。一个静态结构体可确保只执行一次资源搜索：
+			
+			ConstructorHelpers::FObjectFinder 通过 StaticLoadObject 为特定的 UObject 寻找引用。它常用于引用存储在内容包中的资源。如未找到对象， 则报告失败。
+			ATimelineTestActor::ATimelineTestActor()
+			{
+				// 进行一次性初始化的结构
+				struct FConstructorStatics
+				{
+					ConstructorHelpers::FObjectFinder<UStaticMesh> Object0;
+					FConstructorStatics()
+					:Object0(TEXT("StaticMesh'/Game/UT3/Pickups/Pickups/Health_Large/Mesh/S_Pickups_Base_Health_Large.S_Pickups_Base_Health_Large'"))
+					{
+					}
+				};
+				static FConstructorStatics ConstructorStatics;
+		 
+				// 属性初始化
+		 
+				StaticMesh = ConstructorStatics.Object0.Object;
+			}
 		类引用
-		组件和子对象
 
+			ConstructorHelpers::FClassFinder 为特定的 UClass 寻找引用。如类未找到，则报告失败。
+			APylon::APylon(const class FObjectInitializer& ObjectInitializer)
+			:Super(ObjectInitializer)
+			{
+				// 进行一次性初始化的结构
+				static FClassFinder<UNavigationMeshBase> ClassFinder(TEXT("class'Engine.NavigationMeshBase'"));
+				if (ClassFinder.Succeeded())
+				{
+					NavMeshClass = ClassFinder.Class;
+				}
+				else
+				{
+					NavMeshClass = nullptr;
+				}
+			}
+			在许多情况下，可只使用 USomeClass::StaticClass()，绕开复杂的全部 ClassFinder。例如，在多数情况下均可使用以下方法：
+		组件和子对象
+			在构造函数中还可创建组件子对象并将其附着到 actor 的层级。生成一个 actor 时，将从 CDO 复制其组件。为确保组件固定被创建、被销毁和被正确地垃圾回收，构建函数中创建的每个组件的指针应被存储在拥有类的一个 UPROPERTY 中。
+			AWindPointSource::AWindPointSource()
+			{
+				// 创建一个新组件并对其命名。
+				WindPointSource = CreateDefaultSubobject<UWindPointSourceComponent>(TEXT("WindPointSourceComponent0"));
+		 
+				// 将新组件设为该 actor 的根组件，如已存在一个根组件，则将其附着到根上。
+				if (RootComponent == nullptr)
+				{
+					RootComponent = WindPointSource;
+				}
+				else
+				{
+					WindPointSource->AttachTo(RootComponent);
+				}
+		 
+				// 再创建一个组件。将其附着到刚才创建的第一个组件上。
+				DisplaySphere = CreateDefaultSubobject<UDrawSphereComponent>(TEXT("DrawSphereComponent0"));
+				DisplaySphere->AttachTo(RootComponent);
+		 
+				// 在新组件上设置一些属性。
+				DisplaySphere->ShapeColor.R = 173;
+				DisplaySphere->ShapeColor.G = 239;
+				DisplaySphere->ShapeColor.B = 231;
+				DisplaySphere->ShapeColor.A = 255;
+				DisplaySphere->AlwaysLoadOnClient = false;
+				DisplaySphere->AlwaysLoadOnServer = false;
+				DisplaySphere->bAbsoluteScale = true;
+			}
+ 
+			通常没有必要对属于父类的组件进行修改。然而，在任何 `USceneComponent`（包括根组件）上调用 `GetAttachParent`、`GetParentComponents`、`GetNumChildrenComponents`、`GetChildrenComponents` 和 `GetChildComponent` 即可获得当前所有附着组件（包括父类创建的组件）的列表。
+```
 
 ## 5.容器
 - TMap TMultiMap
