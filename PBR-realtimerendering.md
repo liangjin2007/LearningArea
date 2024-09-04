@@ -23,7 +23,7 @@ Flexible 灵活的
   - Diffuse BRDF 
     - Lambertian Diffuse Model $f(\vec{l}, \vec{v}) = \frac {\vec{c}_{diff}}{\pi}$
     - Microfacet Specular BRDF $f(\vec{l}, \vec{v}) = D\left(\vec{h}\right) F\left(\vec{v}, \vec{h}\right) G\left(\vec{l}, \vec{v}, \vec{h}\right)$ /
-      $4(\vec{n} \dot \vec{l})$
+      $\vec{n}$
       
 ```
 
