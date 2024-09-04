@@ -21,7 +21,7 @@ Flexible 灵活的
 
 - 着色模型Shading Model
   - Diffuse BRDF 
-    - Lambertian Diffuse Model $f(\vec{l}, \vec{v}) = \div {\vec{c}_diff}{\pi}$
+    - Lambertian Diffuse Model $f(\vec{l}, \vec{v}) = \frac {\vec{c}_{diff}}{\pi}$
 
 
 ```
