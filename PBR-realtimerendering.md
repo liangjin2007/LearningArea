@@ -22,8 +22,8 @@ Flexible 灵活的
 - 着色模型Shading Model
   - Diffuse BRDF 
     - Lambertian Diffuse Model $f(\vec{l}, \vec{v}) = \frac {\vec{c}_{diff}}{\pi}$
-
-
+    - Microfacet Specular BRDF $f(\vec{l}, \vec{v}) = \frac {D(\vec{h}) F(\vec{v}, \vec{h}) G(\vec{l}, \vec{v}, \vec{h})}{4(\vec{n} \dot \vec{l})(\vec{n} \dot \vec{v})}$
+      
 ```
 
 ## 关键词
