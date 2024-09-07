@@ -8,7 +8,11 @@ Outline
 - [3.TriangleClusterCulling](#3TriangleClusterCulling)
 - [4.DecoupleVisibilityFromMaterial](#4DecoupleVisibilityFromMaterial)
 - [5.ClusteringLOD](#5ClusteringLOD)
-
+- [6.MeshSimplify](#6MeshSimplify)
+- [7.PrefilteringForFuture](#7PrefilteringForFuture)
+- [8.RuntimeViewDependentLOD](#8RuntimeViewDependentLOD)
+- [9.Rasterization](#9Rasterization)
+- [10.SoftwareRasterization](#10SoftwareRasterization)
 ## 1.VirtualGeometryInvestigation
 
 ```
@@ -135,10 +139,67 @@ Locked boundaries
 
 LOD cracks solution
 
+```
+
+## 6.MeshSimplify
+```
+● Edge collapsing
+● Picks smallest error edge first
+● Error calculated using Quadric Error Metric (QEM)
+● Optimizes position of new vertex for minimal error
+● Highly refined
+● Returns estimate of error introduced
+● Later projected on screen to number of pixels error
+● The hardest part!
+
+Error metric
+● Scale independence
+● Need to know size on screen to know weights
+  ● Chicken and egg problem
+● Assume most clusters draw at constant screen size
+● Surface area normalized
+● Edge length limits
+● Lots of tuning
+● Great care with floating point precision
+  ● Many places in quadrics with inherent catastrophic cancellation
+```
 
 
+## 7.PrefilteringForFuture
+TODO
+
+## 8.RuntimeViewDependentLOD
+```
+LOD selection
+
+LOD selection in parallel
+
+Seamless LOD
+
+Surface angle based LOD
+
+Hierarchical LOD selection
+
+Hierarchical culling
+
+Persistent threads
+  ● Ideally
+    ● Start on child as soon as parent finished
+    ● Spawn child threads directly from compute
+  ● Persistent threads model instead
+    ● Can’t spawn new threads. Reuse them instead!
+    ● Manage our own job queue
+    ● Single dispatch with enough worker threads to fill GPU
+    ● Use simple multi-producer multi-consumer (MPMC) job-queue to communicate between threads
+
+Two-Pass Occlusion Culling
 
 ```
+
+## 9.Rasterization
+
+## 10.SoftwareRasterization
+
 
 ## Keywords
 ```
