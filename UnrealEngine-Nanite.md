@@ -4,10 +4,10 @@ Ref: https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances
 Outline
 
 - [1.VirtualGeometryInvestigation](#1VirtualGeometryInvestigation)
-- [2.GPU Driven Pipeline](#2GPU Driven Pipeline（背景知识1）)
-- [3.Triangle Cluster Culling](#3Triangle Cluster Culling)
-- [4.Decouple visibility from material](#4Decouple visibility from material)
-- [5.Sub-linear scaling](#5Sub-linear scaling)
+- [2.GPUDrivenPipeline](#2GPUDrivenPipeline)
+- [3.TriangleClusterCulling](#3TriangleClusterCulling)
+- [4.DecoupleVisibilityFromMaterial](#4DecoupleVisibilityFromMaterial)
+- [5.ClusteringLOD](#5ClusteringLOD)
 
 ## 1.VirtualGeometryInvestigation
 
@@ -36,7 +36,7 @@ Triangles?
   对某种艺术风格也许能找到一种表示方法，但是Unreal 不能强加一种艺术风格。
 ```
 
-## 2.GPU Driven Pipeline（背景知识1）
+## 2.GPUDrivenPipeline
 ```
 UE's Renderer is retained mode design
 
@@ -49,7 +49,7 @@ UE's Renderer is retained mode design
 
 ```
 
-## 3.Triangle Cluster Culling
+## 3.TriangleClusterCulling
 ```
 即使有GPU Driven Pipeline，仍然要处理不大不小的工作（三角形还是太多）， triangle cluster culling是用来修剪掉不必要的工作。
 
@@ -70,7 +70,7 @@ UE's Renderer is retained mode design
     ● Draw what is visible now but wasn't in the last frame : Test the HZB to determine what is visible now but wasn’t in the last frame and draw anything that’s new
 ```
 
-## 4. Decouple visibility from material
+## 4. DecoupleVisibilityFromMaterial
 ??
 ```
 需要解决的问题：
@@ -97,7 +97,7 @@ Visibility Buffer：
   ● Load and lerp attributes
 ```
 
-## 5.Sub-linear scaling
+## 5.ClusteringLOD
 ```
 cost 应该要跟屏幕分辨率成正比，而不是跟三角形数成正比。
 
