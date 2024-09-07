@@ -1,6 +1,6 @@
 # Nanite 虚拟几何系统 virtual geometry
 Ref: https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances_2021_final.pdf
-
+Ref: https://vccvisualization.org/CS380_GPU_and_GPGPU_Programming/
 Outline
 
 - [1.VirtualGeometryInvestigation](#1VirtualGeometryInvestigation)
