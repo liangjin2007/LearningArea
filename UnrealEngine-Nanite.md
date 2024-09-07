@@ -3,13 +3,13 @@ Ref: https://advances.realtimerendering.com/s2021/Karis_Nanite_SIGGRAPH_Advances
 
 Outline
 
-- [1.Virtual Geometry Investigation](#1Virtual Geometry Investigation)
+- [1.VirtualGeometryInvestigation](#1VirtualGeometryInvestigation)
 - [2.GPU Driven Pipeline](#2GPU Driven Pipeline（背景知识1）)
 - [3.Triangle Cluster Culling](#3Triangle Cluster Culling)
 - [4.Decouple visibility from material](#4Decouple visibility from material)
 - [5.Sub-linear scaling](#5Sub-linear scaling)
 
-## 1.Virtual Geometry Investigation
+## 1.VirtualGeometryInvestigation
 
 ```
 比Virtual texturing要难得多，因为它不单单是一个memory management问题；Geometry detail直接影响rendering cost；几何的filtering没那么简单。
