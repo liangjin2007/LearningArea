@@ -5,6 +5,9 @@ About: Physics based realtime rendering.
 Reference: github PBR source code https://github.com/Nadrin/PBR/tree/master
 
 参考的PPT：https://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
+参考的PPT2： [2022]Real-Time Global Illumination in Unreal Engine 5, A Master's Thesis
+
+
 
 ## Lambert模型
 ```
@@ -47,12 +50,6 @@ void main() {
     outColor = vec4(inTexCoord.x, 0.0, 0.0, 1.0); // 只使用R通道，其他通道为0或1
 }
 ```
-
-## UE4 PBR渲染
-```
-
-```
-
 
 ## 源代码解读
 ```
@@ -264,4 +261,7 @@ void main()
 	4.spbrdf_cs.glsl： Pre-integrates Cook-Torrance specular BRDF for varying roughness and viewing directions.
 
 ```
+
+
+
 
