@@ -13,7 +13,7 @@
 ## [awesome-3d-diffusion](https://github.com/cwchenwang/awesome-3d-diffusion)
 ## [awesome-4d-generation](https://github.com/cwchenwang/awesome-4d-generation)
 ## [awesome-text-to-video](https://github.com/jianzhnie/awesome-text-to-video)
-
+## [Awesome-Talking-Head-Synthesis](https://github.com/Kedreamix/Awesome-Talking-Head-Synthesis)
 ## [awesome-3d-guassiansplatting](https://github.com/MrNeRF/awesome-3D-gaussian-splatting)
 
 
