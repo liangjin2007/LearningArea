@@ -513,14 +513,14 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 // Step 3.
 修改CMakeLists.txt：
   添加变量
-    set(PYTHONLIB_INCLUDE_DIR "${PROJ_ROOT_DIR}/external/pythonlib3.9/include")
-    set(PYTHONLIB_LIBRARY "${PROJ_ROOT_DIR}/external/pythonlib3.9/libs/python39.lib")
+    set(PYTHONLIB_INCLUDE_DIRS "${PROJ_ROOT_DIR}/external/pythonlib3.9/include")
+    set(PYTHONLIB_LIBRARIES "${PROJ_ROOT_DIR}/external/pythonlib3.9/libs/python39.lib")
      
-  target_include_directories(${PROJECT_NAME} xxx ${PYTHONLIB_INCLUDE_DIR})
+  target_include_directories(${PROJECT_NAME} xxx ${PYTHONLIB_INCLUDE_DIRS})
   target_link_libraries(${PROJECT_NAME}
         PRIVATE
         xxx 
-        ${PYTHONLIB_LIBRARY}
+        ${PYTHONLIB_LIBRARIES}
 
 // Step 4. 修改一处编译不过的地方
     // Set up rasterization configuration
