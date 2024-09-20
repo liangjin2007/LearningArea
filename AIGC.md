@@ -250,6 +250,7 @@ assigned.
 # 人像抠图
 - MODNet: Trimap-Free Portrait Matting in Real Time
 - https://github.com/ZHKKKe/MODNet
+- RobustVideoMatting
 
 # HairModeling
 - HairSteps最新代码已经发布了，但是并不是所有代码，比如生成strand部分的代码就没有， 另外只有linux环境+Mac环境， windows环境下试了一下，依赖包装不上去。 得看看pretrained model是否存在
