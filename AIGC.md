@@ -479,6 +479,11 @@ Stable Diffusion 提示词指南书.pdf有解释几个参数的意义及给出�
 Seminar paper [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://github.com/graphdeco-inria/gaussian-splatting)
 github代码没安装成功，转而切到c++版的一个实现https://github.com/MrNeRF/gaussian-splatting-cuda
 
+数据集1 https://jonbarron.info/mipnerf360/
+数据集2 https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/input/tandt_db.zip
+数据集3 https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/datasets/pretrained/models.zip
+
+
 ```
 官方只配过linux系统， windows系统需要趟个坑。
 ```
