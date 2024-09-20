@@ -473,7 +473,24 @@ Automatic Installation on Windows
 Stable Diffusion 提示词指南书.pdf有解释几个参数的意义及给出一些具体的提示词设置方式。
 ```
 
+
 # 图像生成 ComfyUI_windows_portable_nvidia_cu118_or_cpu
+## ComfyUI-Manager
+```
+To install ComfyUI-Manager in addition to an existing installation of ComfyUI, you can follow the following steps:
+goto ComfyUI/custom_nodes dir in terminal(cmd)
+git clone https://github.com/ltdrdata/ComfyUI-Manager.git
+Restart ComfyUI
+```
+## flux1-schnell
+质量比较高的文生图模型。 已测试。
+
+## ComfyUI-3D-Pack
+This is an extensive node suite that enables ComfyUI to process 3D inputs (Mesh & UV Texture, etc.) using cutting edge algorithms (3DGS, NeRF, etc.) and models (InstantMesh, CRM, TripoSR, etc.)
+
+可以直接从ComfyUI-Manager安装。
+
+
 
 # 3dGS 代码1 gaussian-splatting-cuda
 Seminar paper [3D Gaussian Splatting for Real-Time Radiance Field Rendering](https://github.com/graphdeco-inria/gaussian-splatting)
@@ -512,10 +529,11 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 
 // Step 3.
 修改CMakeLists.txt：
-  添加变量
-    set(PYTHONLIB_INCLUDE_DIRS "${PROJ_ROOT_DIR}/external/pythonlib3.9/include")
-    set(PYTHONLIB_LIBRARIES "${PROJ_ROOT_DIR}/external/pythonlib3.9/libs/python39.lib")
-     
+  添加变量：
+  set(PYTHONLIB_INCLUDE_DIRS "${PROJ_ROOT_DIR}/external/pythonlib3.9/include")
+  set(PYTHONLIB_LIBRARIES "${PROJ_ROOT_DIR}/external/pythonlib3.9/libs/python39.lib")
+  comment #find_package(PythonLibs REQUIRED)
+  添加：   
   target_include_directories(${PROJECT_NAME} xxx ${PYTHONLIB_INCLUDE_DIRS})
   target_link_libraries(${PROJECT_NAME}
         PRIVATE
@@ -550,7 +568,30 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
     };
 
 // Step 5. CMake GUI设置 Where is the source code 和 Where to build the binaries, 点Configure, 会报错，提示tbb找不到。设置好tbb，Configure成功。点Generate成功。打开Visual Studio 2019，
-设置为RelWithDbgInfo + x64。编译成功。
+设置为RelWithDbgInfo + x64。
+
+
+编译出错：找不到Python.h
+
+  给external/simple-knn/CMakelists.txt添加
+    target_include_directories(simple-knn 
+        PUBLIC 
+        ${CMAKE_CURRENT_SOURCE_DIR}/simple-knn # we need this public to easily include the spatical.h header in our main program
+        PRIVATE 
+        ${TORCH_INCLUDE_DIRS}
+        ${PYTHONLIB_INCLUDE_DIRS}      # 此次添加
+    )
+    
+    target_link_libraries(simple-knn
+        PUBLIC
+        ${PYTHONLIB_LIBRARIES})        # 此次添加
+
+
+编译出错(torch2.4.0)
+libtorch 文档https://awsdocs-neuron.readthedocs-hosted.com/en/latest/frameworks/torch/torch-neuron/tutorials/tutorial-libtorch.html
+
+
+编译成功。
 ```
 
 - 下载数据
@@ -560,6 +601,8 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
   data/db
   data/tandt
 ```
+
+
 
 - 命令行执行
 ```
