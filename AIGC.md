@@ -570,7 +570,7 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 // Step 5. CMake GUI设置 Where is the source code 和 Where to build the binaries, 点Configure, 会报错，提示tbb找不到。设置好tbb，Configure成功。点Generate成功。打开Visual Studio 2019，
 设置为RelWithDbgInfo + x64。
 
-
+// Step 6. 其他编译问题
 编译出错：找不到Python.h
 
   给external/simple-knn/CMakelists.txt添加
@@ -590,11 +590,39 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 由于我这边下的是libtorch2.4, 还碰到编译错误 c10::guts::to_string这个函数不存在，查了libtorch API, optimizer->states() 返回的是一个void * 到 xxxState的映射， 将c10::guts::to_string删除即可。
 （libtorch 文档 https://awsdocs-neuron.readthedocs-hosted.com/en/latest/frameworks/torch/torch-neuron/tutorials/tutorial-libtorch.html)
 
-还抱一个库找不到的问题 C:\Program Files\NVIDIA Corporation\NvToolsExt\lib\x64\nvToolsExt64_1.lib， 可以直接把这个库依赖删掉。
+还有一个库找不到的问题 C:\Program Files\NVIDIA Corporation\NvToolsExt\lib\x64\nvToolsExt64_1.lib， 可以直接把这个库依赖删掉。
 
+
+// Step 7. 读取optimization_params.json的问题
+首先在parameters.cu/cuh给read_optim_params_from_json添加一个参数，用来直接传递json 文件路径。
+        OptimizationParameters read_optim_params_from_json(std::string json_path) {
+            // 删除掉这个地方
+            // Check if the file exists before trying to open it
+            if (!std::filesystem::exists(json_path)) {
+                throw std::runtime_error("Error: " + json_path + " does not exist!");
+            }
+            ...
+        }
+main函數中修改：
+    auto modelParams = gs::param::ModelParameters();
+    auto optimParams = gs::param::OptimizationParameters();
+    if (parse_cmd_line_args(args, modelParams, optimParams) < 0) {
+        return -1;
+    };
+
+parse_cmd_line_args函數中添加：
+    args::ValueFlag<std::string> parameter_path(parser, "parameter_path", "Path to the optimization parameter json", {'p', "parameter-path"});
+    if (!parameter_path) {
+        std::cerr << "No parameter path provided!" << std::endl;
+        return -1;
+    }
+    optimParams = gs::param::read_optim_params_from_json(args::get(parameter_path));
 
 编译成功。
 ```
+
+
+
 
 - 下载数据
 ```  
@@ -609,7 +637,7 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
 - 命令行执行
 ```
 Visual Studio启动方式：
-  在Visual Studio 的项目属性->调试->命令参数 中设置 -d "xxx/gaussian-splatting-cuda/data/tandt/train" -o "xxx/gaussian-splatting-cuda/output/tandt/train"
+  在Visual Studio 的项目属性->调试->命令参数 中设置 -d "xxx/gaussian-splatting-cuda/data/tandt/train" -p "path/to/optimization_params.json" -o "xxx/gaussian-splatting-cuda/output/tandt/train"
   在Visual Studio 的项目属性->调试->环境 中添加 PATH=%PATH%;path/to/cuda/bin;path/to/pythonlib3.9; path/to/libtorch/lib
 
 ```
@@ -642,18 +670,11 @@ Enable monitoring of the average convergence rate throughout training. If done, 
 Set custom average onvergence rate for the training process. Requires the flag --enable-cr-monitoring to be set.
 ```
 
-- 修复crash
-```
-先修改项目gaussian_splatting_cuda的项目属性中的CUDA C/C++及CUDA Linker中调试相关的部分，重编译代码。
-Debug发现Crash在一个linux specific 路径，并默认了CMake的输出binaries路径在gaussian_splatting_cuda里，比如gaussian_splatting_cuda/build。 
-解决办法： 可以在Working Directory中添加gaussian_splatting_cuda的源代码根目录，然后修改原来的代码直接使用相对路径。
-修复完成。
-```
 
 - 训练
 ```
 7000次迭代 138s
-```  
+```
 
 - 查看训练结果
 ```
