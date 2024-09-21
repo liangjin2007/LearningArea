@@ -587,8 +587,10 @@ git clone --recursive https://github.com/MrNeRF/gaussian-splatting-cuda
         ${PYTHONLIB_LIBRARIES})        # 此次添加
 
 
-编译出错(torch2.4.0)
-libtorch 文档https://awsdocs-neuron.readthedocs-hosted.com/en/latest/frameworks/torch/torch-neuron/tutorials/tutorial-libtorch.html
+由于我这边下的是libtorch2.4, 还碰到编译错误 c10::guts::to_string这个函数不存在，查了libtorch API, optimizer->states() 返回的是一个void * 到 xxxState的映射， 将c10::guts::to_string删除即可。
+（libtorch 文档 https://awsdocs-neuron.readthedocs-hosted.com/en/latest/frameworks/torch/torch-neuron/tutorials/tutorial-libtorch.html)
+
+还抱一个库找不到的问题 C:\Program Files\NVIDIA Corporation\NvToolsExt\lib\x64\nvToolsExt64_1.lib， 可以直接把这个库依赖删掉。
 
 
 编译成功。
