@@ -758,6 +758,12 @@ gaussian_splatting_cuda代码中的camera_info->_R是cameras.bin中拿到的矩�
     _nerf_norm_radius       // 包围所有相机的包围球的的半径 * 1.1
     _nerf_norm_translation  相机中心的中心 
 
+训练：
+  对每次迭代（30000）
+    随即从n=301个相机中取出一个相机
+
+
+
 
 4. torch & cub & thrust
 4.1 torch
@@ -813,7 +819,10 @@ torch::ones()
 5. C++特性
 5.1
 // 如何用一行生成[0, 1, ..., n]
+std::vector<int> keys(n);
 std::generate(keys.begin(), keys.end(), [n = 0]() mutable { return n++; }); // 外部都不需要定义int n
+or
+std::iota(keys.begin(), keys.end(), 0);
 
 5.2
 [[nodiscard]] c++17
@@ -941,7 +950,16 @@ if (file.is_open())
 }
 
 
+5.8 clock
+auto start_time = std::chrono::steady_clock::now();
 
+
+5.9. accumulate / sum
+std::accumulate(_rate_of_change_buffer.begin(), _rate_of_change_buffer.end(), 0.f);
+
+5.10. random indices permutation
+std::shuffle(indices.begin(), indices.end(), std::default_random_engine());
+std::reverse(indices.begin(), indices.end());
 
 ```
 
