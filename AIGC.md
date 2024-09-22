@@ -689,7 +689,7 @@ CMake GUI可直接配置成功。
 ```
 1. 3D Gaussians场景表示及光栅化
 2. 优化 3D positions, opacity alpha, anisotropic covariance and spherical harmonic coefficients。 优化时通过添加和删除3D Gaussians来自适应地控制密度。问题： 结合batch sgd, 是否还能保证一定收敛？
-3. realtime rendering solution.
+3. realtime rendering solution fast GPU sorting algorithms and tile-based rasterization.
 ```
 
 
@@ -735,14 +735,14 @@ gaussian_splatting_cuda代码中的camera_info->_R是cameras.bin中拿到的矩�
     float _percent_dense = 0.f;
 
     Expon_lr_func _xyz_scheduler_args;
-    torch::Tensor _denom;
-    torch::Tensor _xyz;               // _xyz = torch::from_blob(pcd._points.data(), {static_cast<long>(pcd._points.size()), 3}, pointType).to(torch::kCUDA).set_requires_grad(true);          
-    torch::Tensor _features_dc;
-    torch::Tensor _features_rest;
-    torch::Tensor _scaling;           
-    torch::Tensor _rotation;
-    torch::Tensor _xyz_gradient_accum;
-    torch::Tensor _opacity;
+    torch::Tensor _denom;             // n x 1
+    torch::Tensor _xyz;               // n x 3, _xyz = torch::from_blob(pcd._points.data(), {static_cast<long>(pcd._points.size()), 3}, pointType).to(torch::kCUDA).set_requires_grad(true);          
+    torch::Tensor _features_dc;       // ? 
+    torch::Tensor _features_rest;     // ?
+    torch::Tensor _scaling;           // n x 3
+    torch::Tensor _rotation;          // n x 4
+    torch::Tensor _xyz_gradient_accum; // why only xyz has gradient accum
+    torch::Tensor _opacity;           // n x 1
 
     
 
@@ -780,10 +780,26 @@ tensor.unsqueeze(-1)
 tensor.repeat({1, 3})
 tensor.set_requires_grad(true)
 tensor.size(0);
+tensor.index_put_(start, )
+    torch::Tensor A = torch::zeros({3, 3});
+    torch::Tensor B = torch::ones({2, 2});
+    // 将 B 的内容赋值到 A 的左上角
+    A.index_put_({torch::indexing::Slice(), torch::indexing::Slice(0, 2)}, B);
+    // A 现在看起来像：
+    // 1 1 0
+    // 1 1 0
+    // 0 0 0
+    return 0;
+tensor.index
+
 
 
 torch::full
 torch::log(x)
+torch::zeros()
+torch::ones()
+
+
 
 
 4.2 cub
