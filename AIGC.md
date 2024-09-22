@@ -685,3 +685,131 @@ CMake GUI可直接配置成功。
 ./SIBR_viewers/install/bin/SIBR_gaussianViewer_app.exe -m /path/to/output
 ```
 
+- 源代码解读
+```
+1.Dataset Parser   read_colmap_scene_info function:
+  auto cameras = read_cameras_binary(file_path / "sparse/0/cameras.bin");
+  auto images = read_images_binary(file_path / "sparse/0/images.bin");
+  sceneInfos->_point_cloud = read_ply_file(file_path / "sparse/0/points3D.ply");
+  sceneInfos->_ply_path = file_path / "sparse/0/points3D.ply";
+  sceneInfos->_cameras = read_colmap_cameras(file_path / "images", cameras, images, resolution);
+
+输入数据是colmap数据，目录结构如下： 对train数据是301个图片
+images
+  00001.jpg
+  ...
+sparse
+  0
+    cameras.bin
+    images.bin
+    points3D.ply  ply格式点云
+    points3D.bin  二进制点云
+
+
+
+
+
+
+
+2. C++特性
+2.1
+// 如何用一行生成[0, 1, ..., n]
+std::generate(keys.begin(), keys.end(), [n = 0]() mutable { return n++; }); // 外部都不需要定义int n
+
+2.2
+[[nodiscard]] c++17
+        [[nodiscard]]是一个属性，用于指示函数的返回值应该被使用而不是被忽略。如果开发者忽略了这样的返回值，编译器可能会发出警告。
+        当一个函数被标记为[[nodiscard]]时，它意味着这个函数的返回值是有意义的，并且程序员在使用这个函数时应该处理这个返回值。这通常用于那些返回错误代码、计算结果或其他有用信息的函数。
+        下面是一个简单的例子：
+        [[nodiscard]] int calculateSum(int a, int b) {
+            return a + b;
+        }
+        void doSomething() {
+            calculateSum(1, 2); // 这里编译器可能会发出警告，因为忽略了返回值
+        }
+        int main() {
+            int result = calculateSum(1, 2); // 这是正确的使用方式，因为返回值被赋值给了一个变量
+            return 0;
+        }
+
+2.3
+tinyply:
+        std::ifstream f(file_path, std::ios::binary);
+        std::unique_ptr<std::istream> file_stream;
+        if (f.fail()) {
+            throw std::runtime_error("Failed to open file: " + file_path.string());
+        }
+        // preload
+        std::vector<uint8_t> buffer(std::istreambuf_iterator<char>(f), {});
+        file_stream = std::make_unique<std::stringstream>(std::string(buffer.begin(), buffer.end()));
+        //
+        tinyply::PlyFile file;
+        std::shared_ptr<tinyply::PlyData> vertices, normals, colors;
+        file.parse_header(*file_stream);
+        try {
+            vertices = file.request_properties_from_element("vertex", {"x", "y", "z"});
+        } catch (const std::exception& e) { std::cerr << "tinyply exception: " << e.what() << std::endl; }
+        try {
+            normals = file.request_properties_from_element("vertex", {"nx", "ny", "nz"});
+        } catch (const std::exception& e) { std::cerr << "tinyply exception: " << e.what() << std::endl; }
+    
+        try {
+            colors = file.request_properties_from_element("vertex", {"red", "green", "blue"});
+        } catch (const std::exception& e) { std::cerr << "tinyply exception: " << e.what() << std::endl; }
+    
+        file.read(*ply_stream_buffer);
+    
+        PointCloud point_cloud;
+        if (vertices) {
+            std::cout << "\tRead " << vertices->count << " total vertices " << std::endl;
+            try {
+                point_cloud._points.resize(vertices->count);
+                std::memcpy(point_cloud._points.data(), vertices->buffer.get(), vertices->buffer.size_bytes());
+            } catch (const std::exception& e) {
+                std::cerr << "tinyply exception: " << e.what() << std::endl;
+            }
+        } else {
+            std::cerr << "Error: vertices not found" << std::endl;
+            exit(0);
+        }
+
+2.4 std::future<void>
+但是我们想要从线程中返回异步任务结果，一般需要依靠全局变量；从安全角度看，有些不妥；为此C++11提供了std::future类模板，future对象提供访问异步操作结果的机制，很轻松解决从异步任务中返回结果。
+            futures.push_back(std::async(
+            std::launch::async, [resolution](const std::filesystem::path& file_path, const Image* image, CameraInfo* camera_info) {
+                // Make a copy of the image object to avoid accessing the shared resource
+
+                auto [img_data, width, height, channels] = read_image(file_path / image->_name, resolution);
+                camera_info->_img_w = width;
+                camera_info->_img_h = height;
+                camera_info->_channels = channels;
+                camera_info->_img_data = img_data;
+
+                camera_info->_R = qvec2rotmat(image->_qvec).transpose();
+                camera_info->_T = image->_tvec;
+
+                camera_info->_image_name = image->_name;
+                camera_info->_image_path = file_path / image->_name;
+
+                ...
+            },
+            file_path, image, camera_infos.data() + image_ID));
+            for (auto& f : futures) {
+               f.get(); // Wait for this task to complete
+            }
+
+
+2.5 多个返回值 std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution)
+          std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution) {
+              int width, height, channels;
+              unsigned char* img = stbi_load(image_path.string().c_str(), &width, &height, &channels, 0);
+              ...
+              return {img, width, height, channels};
+          }
+          auto [img_data, width, height, channels] = read_image(file_path / image->_name, resolution);
+
+2.6 浮点数中使用单引号
+const float image_mpixels = cam0._img_w * cam0._img_h / 1'000'000.0f;
+
+```
+
