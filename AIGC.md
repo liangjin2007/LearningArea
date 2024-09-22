@@ -685,6 +685,14 @@ CMake GUI可直接配置成功。
 ./SIBR_viewers/install/bin/SIBR_gaussianViewer_app.exe -m /path/to/output
 ```
 
+- 原理
+```
+1. 3D Gaussians场景表示及光栅化
+2. 优化 3D positions, opacity alpha, anisotropic covariance and spherical harmonic coefficients。 优化时通过添加和删除3D Gaussians来自适应地控制密度。问题： 结合batch sgd, 是否还能保证一定收敛？
+3. realtime rendering solution.
+```
+
+
 - 源代码解读
 ```
 1.Dataset Parser   read_colmap_scene_info function:
@@ -731,7 +739,7 @@ gaussian_splatting_cuda代码中的camera_info->_R是cameras.bin中拿到的矩�
     torch::Tensor _xyz;               // _xyz = torch::from_blob(pcd._points.data(), {static_cast<long>(pcd._points.size()), 3}, pointType).to(torch::kCUDA).set_requires_grad(true);          
     torch::Tensor _features_dc;
     torch::Tensor _features_rest;
-    torch::Tensor _scaling;
+    torch::Tensor _scaling;           
     torch::Tensor _rotation;
     torch::Tensor _xyz_gradient_accum;
     torch::Tensor _opacity;
@@ -751,12 +759,14 @@ gaussian_splatting_cuda代码中的camera_info->_R是cameras.bin中拿到的矩�
     _nerf_norm_translation  相机中心的中心 
 
 
-4. torch
-
+4. torch & cub & thrust
+4.1 torch
 Function torch::from_blob(void *, at::IntArrayRef, at::IntArrayRef, const Deleter&, const at::TensorOptions&)
 
 torch::TensorOptions:
   torch::kUInt8
+  points.options().dtype(torch::kFloat32);
+
 
 image 如何定义tensor
 auto tensor = torch::from_blob((void*)data,
@@ -766,10 +776,23 @@ auto tensor = torch::from_blob((void*)data,
 
 数据类型转化
 tensor.to(torch::kFloat32).permute({2, 0, 1}).clone() / 255.f;
+tensor.unsqueeze(-1)
+tensor.repeat({1, 3})
+tensor.set_requires_grad(true)
+tensor.size(0);
 
-points.size(0);
-points.options().dtype(torch::kFloat32);
-torch
+
+torch::full
+torch::log(x)
+
+
+4.2 cub
+
+
+4.3 thrust
+
+
+
 
 5. C++特性
 5.1
@@ -792,8 +815,7 @@ std::generate(keys.begin(), keys.end(), [n = 0]() mutable { return n++; }); // �
             return 0;
         }
 
-5.3
-tinyply:
+5.3 tinyply:
         std::ifstream f(file_path, std::ios::binary);
         std::unique_ptr<std::istream> file_stream;
         if (f.fail()) {
@@ -833,6 +855,8 @@ tinyply:
             exit(0);
         }
 
+
+
 5.4 std::future<void>
 但是我们想要从线程中返回异步任务结果，一般需要依靠全局变量；从安全角度看，有些不妥；为此C++11提供了std::future类模板，future对象提供访问异步操作结果的机制，很轻松解决从异步任务中返回结果。
             futures.push_back(std::async(
@@ -859,6 +883,8 @@ tinyply:
             }
 
 
+
+
 5.5 多个返回值 std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution)
           std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution) {
               int width, height, channels;
@@ -867,6 +893,8 @@ tinyply:
               return {img, width, height, channels};
           }
           auto [img_data, width, height, channels] = read_image(file_path / image->_name, resolution);
+
+
 
 5.6 浮点数中使用单引号
 const float image_mpixels = cam0._img_w * cam0._img_h / 1'000'000.0f;
