@@ -694,6 +694,7 @@ CMake GUI可直接配置成功。
   sceneInfos->_ply_path = file_path / "sparse/0/points3D.ply";
   sceneInfos->_cameras = read_colmap_cameras(file_path / "images", cameras, images, resolution);
 
+2. colmap数据：
 输入数据是colmap数据，目录结构如下： 对train数据是301个图片
 images
   00001.jpg
@@ -706,17 +707,76 @@ sparse
     points3D.bin  二进制点云
 
 
+// 已知camera.R, camera.T， 获取camera在世界空间中的位置， 这部分代码比较奇怪。 
+问题：为什么world To view matrix 是
+  ( camera.R camera.T )
+  (     0        1    ) ？
+  说明colmap中存的数据是world to view matrix中的R和T。
+
+gaussian_splatting_cuda代码中的camera_info->_R是cameras.bin中拿到的矩阵的transpose()
+
+已知world to view matrix， 求逆得到 CTW矩阵 则 CTW*(0, 0, 0, 1) = CTW的第三列的数据是相机的位置。
 
 
+3. Scene
+  _gaussians          // GaussianModel对象，用torch实现。将ply格式转成torch对象
+    Create_from_pcd(_scene_infos->_point_cloud, _scene_infos->_nerf_norm_radius)
+    int _active_sh_degree = 0;
+    int _max_sh_degree = 0;
+    float _spatial_lr_scale = 0.f; // 初始化为_scene_infos->_nerf_norm_radius
+    float _percent_dense = 0.f;
+
+    Expon_lr_func _xyz_scheduler_args;
+    torch::Tensor _denom;
+    torch::Tensor _xyz;               // _xyz = torch::from_blob(pcd._points.data(), {static_cast<long>(pcd._points.size()), 3}, pointType).to(torch::kCUDA).set_requires_grad(true);          
+    torch::Tensor _features_dc;
+    torch::Tensor _features_rest;
+    torch::Tensor _scaling;
+    torch::Tensor _rotation;
+    torch::Tensor _xyz_gradient_accum;
+    torch::Tensor _opacity;
+
+    
+
+  _params             // 优化相关的参数 来自optimization_params.json和命令行
+  _cameras            // Camera数组
+    Camera
+      camera_id, R, T, fovx, fovy, torch::Tensor image, image_name, uid, scale
+
+  _scene_infos
+    _point_cloud      // points3D.ply解析后放到了这里
+    _ply_path
+    _cameras          // CameraInfo数组, cameras.bin和images.bin数据解析后放到了这个而数组
+    _nerf_norm_radius       // 包围所有相机的包围球的的半径 * 1.1
+    _nerf_norm_translation  相机中心的中心 
 
 
+4. torch
 
-2. C++特性
-2.1
+Function torch::from_blob(void *, at::IntArrayRef, at::IntArrayRef, const Deleter&, const at::TensorOptions&)
+
+torch::TensorOptions:
+  torch::kUInt8
+
+image 如何定义tensor
+auto tensor = torch::from_blob((void*)data,
+  {h, w, channels}, // img size
+  {w * channels, channels, 1}, // stride
+  torch::kUInt8);
+
+数据类型转化
+tensor.to(torch::kFloat32).permute({2, 0, 1}).clone() / 255.f;
+
+points.size(0);
+points.options().dtype(torch::kFloat32);
+torch
+
+5. C++特性
+5.1
 // 如何用一行生成[0, 1, ..., n]
 std::generate(keys.begin(), keys.end(), [n = 0]() mutable { return n++; }); // 外部都不需要定义int n
 
-2.2
+5.2
 [[nodiscard]] c++17
         [[nodiscard]]是一个属性，用于指示函数的返回值应该被使用而不是被忽略。如果开发者忽略了这样的返回值，编译器可能会发出警告。
         当一个函数被标记为[[nodiscard]]时，它意味着这个函数的返回值是有意义的，并且程序员在使用这个函数时应该处理这个返回值。这通常用于那些返回错误代码、计算结果或其他有用信息的函数。
@@ -732,7 +792,7 @@ std::generate(keys.begin(), keys.end(), [n = 0]() mutable { return n++; }); // �
             return 0;
         }
 
-2.3
+5.3
 tinyply:
         std::ifstream f(file_path, std::ios::binary);
         std::unique_ptr<std::istream> file_stream;
@@ -773,7 +833,7 @@ tinyply:
             exit(0);
         }
 
-2.4 std::future<void>
+5.4 std::future<void>
 但是我们想要从线程中返回异步任务结果，一般需要依靠全局变量；从安全角度看，有些不妥；为此C++11提供了std::future类模板，future对象提供访问异步操作结果的机制，很轻松解决从异步任务中返回结果。
             futures.push_back(std::async(
             std::launch::async, [resolution](const std::filesystem::path& file_path, const Image* image, CameraInfo* camera_info) {
@@ -799,7 +859,7 @@ tinyply:
             }
 
 
-2.5 多个返回值 std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution)
+5.5 多个返回值 std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution)
           std::tuple<unsigned char*, int, int, int> read_image(std::filesystem::path image_path, int resolution) {
               int width, height, channels;
               unsigned char* img = stbi_load(image_path.string().c_str(), &width, &height, &channels, 0);
@@ -808,8 +868,36 @@ tinyply:
           }
           auto [img_data, width, height, channels] = read_image(file_path / image->_name, resolution);
 
-2.6 浮点数中使用单引号
+5.6 浮点数中使用单引号
 const float image_mpixels = cam0._img_w * cam0._img_h / 1'000'000.0f;
+
+
+5.7 json
+std::vector<nlohmann::json> json_data;
+...
+nlohmann::json camera_entry = {
+        {"id", id},
+        {"img_name", cam._image_name},
+        {"width", cam._width},
+        {"height", cam._height},
+        {"position", std::vector<float>(pos.data(), pos.data() + pos.size())},
+        {"rotation", serializable_array_2d},
+        {"fy", fov2focal(cam._fov_y, cam._height)},
+        {"fx", fov2focal(cam._fov_x, cam._width)}};
+
+json_data.erase(std::remove_if(json_data.begin(), json_data.end(),
+                               [](const nlohmann::json& entry) { return entry.is_null(); }),
+                json_data.end());
+nlohmann::json json = json_data;
+std::ofstream file(file_path.string());
+if (file.is_open())
+{
+    file << json.dump(4); // Write the JSON data with indentation of 4 spaces
+    file.close();
+}
+
+
+
 
 ```
 
