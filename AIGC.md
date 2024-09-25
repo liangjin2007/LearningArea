@@ -786,6 +786,7 @@ tensor.unsqueeze(-1)
 tensor.repeat({1, 3})
 tensor.set_requires_grad(true)
 tensor.size(0);
+torch.full({P}, false, torch::kBool);
 tensor.index_put_(start, )
     torch::Tensor A = torch::zeros({3, 3});
     torch::Tensor B = torch::ones({2, 2});
@@ -797,8 +798,15 @@ tensor.index_put_(start, )
     // 0 0 0
     return 0;
 tensor.index
+   torch::Tensor first_row = tensor.index({0}); // 第一行
+   torch::Tensor first_column = tensor.index({torch::indexing::Slice(), 0}); // 第一列
+   torch::Tensor diagonal = tensor.index({torch::indexing::Slice(), torch::indexing::Slice()}); //?
+tensor.contiguous().data_ptr<float>() // 获取cuda device pointer
 
-
+{
+  torch::Tensor tensor = torch::full(...); // 不用指针。
+  return tensor;
+}
 
 torch::full
 torch::log(x)
