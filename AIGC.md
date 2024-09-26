@@ -714,7 +714,6 @@ sparse
     points3D.ply  ply格式点云
     points3D.bin  二进制点云
 
-
 // 已知camera.R, camera.T， 获取camera在世界空间中的位置， 这部分代码比较奇怪。 
 问题：为什么world To view matrix 是
   ( camera.R camera.T )
