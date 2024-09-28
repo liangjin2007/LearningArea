@@ -1,3 +1,4 @@
+```
 4. torch & cub & thrust
 4.1 torch
 Function torch::from_blob(void *, at::IntArrayRef, at::IntArrayRef, const Deleter&, const at::TensorOptions&)
@@ -20,7 +21,9 @@ tensor.repeat({1, 3})
 tensor.set_requires_grad(true)
 tensor.size(0);
 tensor.device()
-
+torch::Tensor tensor = torch::ones({2, 2});
+// 在第一个维度上重复2次，在第二个维度上重复3次
+torch::Tensor repeated = tensor.repeat({2, 3});
 
 tensor.index_put_(start, )
     torch::Tensor A = torch::zeros({3, 3});
@@ -41,13 +44,25 @@ tensor.index
    torch::Tensor center = torch::mean(origins, 0); // 沿着第0个维度求平均， 得到center为3 x 1
    float f = 1.0f / torch::max(torch::abs(origins)).item<float>(); // torch::abs(origins)每个元素求绝对值， torch::max() 获取所有元素里最大值， item<float>
 
-   
+tensor.sum()
+tensor.detach() // 拷贝一份，require_grads_是false， 也就是不会参与梯度计算。   
 tensor.contiguous().data_ptr<float>() // 获取cuda device pointer
+
+tensor.print()
+// 计算最后一个维度的L2范数，并保持维度大小不变
+torch::Tensor l2_norm = tensor.norm(2, {torch::Dim(-1)}, true);
+
+tensor.ndimension()
+
+
 
 {
   torch::Tensor tensor = torch::full(...); // 不用指针。
   return tensor;
 }
+
+
+
 
 // optimization framework
 {
@@ -68,6 +83,7 @@ torch::full({P}, false, torch::kBool);
 torch::log(x)
 torch::zeros()
 torch::ones()
+torch::ones_like()
 torch::max
 torch:abs
 torch::mean(a, 0/*axis*/)
@@ -82,9 +98,27 @@ torch::cuda::synchronize();
 torch::Device device = torch::kCUDA;
 auto scale_modifier = torch::tensor(raster_settings.scale_modifier, device);
 
+// The Function<> class is an abstract base class for all the functions that can be differentiated in PyTorch's autograd system. When you create a custom C++ operation that you want to be differentiable, you need to derive from this class and implement the forward and backward methods.
+class SphericalHarmonics : public Function<SphericalHarmonics>{
+public:
+    static torch::Tensor forward(AutogradContext *ctx, 
+            int degreesToUse, 
+            torch::Tensor viewDirs, 
+            torch::Tensor coeffs);
+    static tensor_list backward(AutogradContext *ctx, tensor_list grad_outputs);
+};
+
 torch::autograd::Function<ProjectGaussians>::apply
+
+torch::AutogradContext::saved_data["degreesToUse"] = degreesToUse;
+torch::AutogradContext::save_for_backward // This method allows you to save tensors within the autograd context so that they can be accessed during the backward pass.
+
+
 
 4.2 cub
 
 
 4.3 thrust
+```
+
+
