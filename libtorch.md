@@ -49,39 +49,21 @@ tensor.detach() // 拷贝一份，require_grads_是false， 也就是不会参�
 tensor.contiguous().data_ptr<float>() // 获取cuda device pointer
 
 tensor.print()
+
 // 计算最后一个维度的L2范数，并保持维度大小不变
 torch::Tensor l2_norm = tensor.norm(2, {torch::Dim(-1)}, true);
 
 tensor.ndimension()
 
+// 使用 numel 获取张量中的元素总数
+int64_t numel = tensor.numel();
 
-
-{
-  torch::Tensor tensor = torch::full(...); // 不用指针。
-  return tensor;
-}
-
-
-
-
-// optimization framework
-{
-  // define tensors and setup require_grad_()
-  // define Optimizer e.g. torch::optim::Adam({tensor}, torch::optim::AdamOptions(lr));
-  
-  optimizer->zero_grad();
-
-  forward()
-  
-  
-  optimizer->step();
-}
-
-
-
-torch::full({P}, false, torch::kBool);
+torch::print(tensor) // 打印内容。 tensor.print()打印shape
+torch::empty() // 不初始化值
+torch::full({P}, false, torch::kBool); // torch::full: 与 torch::empty 不同，torch::full 创建一个指定形状和数据类型的新张量，并将张量中的所有元素初始化为指定的值。
 torch::log(x)
 torch::zeros()
+
 torch::ones()
 torch::ones_like()
 torch::max
@@ -92,6 +74,8 @@ torch::exp
 torch::logit
 torch::matmul
 torch::diag(a)
+torch::clamp_min(tensor, min_value); //如果tensor值小于min_value, 值设为min_value
+torch::Tensor cumTilesHit = torch::cumsum(numTilesHit, 0, torch::kInt32); // prefix sum
 torch::diag(torch::tensor({ 1.0f, -1.0f, -1.0f }, R.device())); // 生成一个3x3的对角矩阵, 对角线元素为1, -1, --1
 torch::nn::functional::normalize
 torch::cuda::synchronize();
