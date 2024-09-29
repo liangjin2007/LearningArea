@@ -43,7 +43,7 @@ $rgb(\theta, \phi) = sum_{l=0}{+inf}sum_{m=-l}{m=l}C_{l}{m}Y_{l}{m}(\theta, \phi
 
 - Q: 球谐函数的系数为什么是degree = 3时，为啥是16个系数？
 ```
-
+看上面的公式l即degree。
 ```
   
 
