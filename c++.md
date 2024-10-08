@@ -12,6 +12,29 @@
 ## c++ 20
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP20.md
 
+## c++ 知识
+- 重载new
+```
+class C
+{
+public:
+        void* operator new(size_t){ return ::malloc(size_t); }
+        // 第一个参数必须是size_t, 额外加一些参数
+        void* operator new(size_t, const char*handle, const char* file, const char* line) { }
+        void* operator new[](size_t, const char*handle, const char* file, const char* line){ }
+};
+```
+
+- Allocator
+```
+
+```
+
+- 线程锁  
+```
+
+```
+
 ## c++ 新知识
 ```
 5. C++特性
