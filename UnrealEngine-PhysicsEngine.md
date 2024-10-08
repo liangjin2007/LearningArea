@@ -6,7 +6,29 @@
 ## 1.Physx
 - 名字空间namespace physx
 
-- PhysXFoundation
+### PhysX
+
+PxPhysicsAPI.h: the main include header for the Physics SDK
+- 有如下子集:
+```
+1 Foundation SDK/PhysXFoundation： foundation/PxXXX.h
+2 Physics specific utilities and common code/PhysXCommon: common/PxXXX.h
+3 Task Manager/PhysXTask: task/PxTask.h
+4 CUDA Manager/PhysX: gpu/PxGpu.h
+5 Geometry Library/PhysXCommon: geometry/PxXXX.h, Box, Capsule, HeightField, Plane, Sphere, Triangle, TriangleMesh, Geometry, TriangleMeshGeometry, ConvexMeshGeometry, BVH
+6 Core SDK/PhysX: 无目录前缀
+7 Character Controller/PhysXCharacterKinematic: characterkinematic/PxXXX.h
+8 Cooking(data preprocessing)/PhysXCooking: cooking/PxXXX.h
+9 Extensions to the SDK/PhysXExtensions: extensions/PxXXX.h
+10 Serialization/PhysXExtensions: extensions/PxXXX.h
+11 Vehicle Simulation/PhysXVehicle: vehicle/PxXXX.h
+12 Converting the SDK to Visual Debugger/PhysXPvdSDK: pvd/PxXXX.h
+
+看其中包含的头文件foundation/PsXXX.h是不对外暴露的。同理还有其他子集中的PsXXX头文件也不暴露。
+```
+
+
+### PhysXFoundation
 ```
 foundation/PxSimpleTypes.h
   基础类型
@@ -56,7 +78,7 @@ Bit Mask相关
 
 UnionCast
   template <class A, class B>
-  PX_FORCE_INLINE A PxUnionCast(B b)
+  PX_FORCE_INLINE A PxUnionCast(B b) 
   {
   	union AB
   	{
@@ -69,6 +91,14 @@ UnionCast
   	return u._a;
   }
 ```
+
+### PhysXCommon
+```
+common/PxXXX.h
+geometry/PxXXX.h
+```
+
+
 
 ## 2.PhysicsCore
 
