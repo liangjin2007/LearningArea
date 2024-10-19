@@ -6,7 +6,7 @@
 - [5.容器](#5容器)
 - [6.委托](#6委托)
 - [7.代码规范](#7代码规范)
-
+- [8.Editor启动](#8Editor启动)
 
 ## 1.AActor
 ```
@@ -934,4 +934,213 @@ DelegateInst.Clear();
 
 ## 7.代码规范
 
+## 8.Editor启动
 
+WinMain -> LaunchWindowsStartup -> GuardedMain
+
+- GuardedMain
+```
+FCoreDelegates::GetPreMainInitDelegate().Broadcast();
+
+EnginePreInit(CmdLine);  // 引擎初始化
+
+EditorInit(GEngineLoop); // 编辑器初始化，如果是启动游戏， EngineInit();
+
+while( !IsEngineExitRequested() )
+{
+	EngineTick();
+}
+
+EditorExit();
+```
+
+- EnginePreInit(CmdLine);
+```
+调用PreInitPreStartupScreen(CmdLine);
+调用PreInitPostStartupScreen();
+
+前者有1700行，后者有800多行。 略略略
+
+有对命令行的特殊处理，比如
+	if (FParse::Param(CmdLine, TEXT("statnamedevents")))
+	{
+		// Do something
+	}
+
+涉及
+宏：
+ON_SCOPE_EXIT { GEnginePreInitPreStartupScreenEndTime = FPlatformTime::Seconds(); };
+SCOPED_BOOT_TIMING("FEngineLoop::PreInitPreStartupScreen");
+DECLARE_SCOPE_CYCLE_COUNTER(TEXT("BeginPreInitTextLocalization"), STAT_BeginPreInitTextLocalization, STATGROUP_LoadTime);
+类：
+FDelayedAutoRegisterHelper::RunAndClearDelayedAutoRegisterDelegates(EDelayedRegisterRunPhase::StartOfEnginePreInit);
+if(FParse::Param(CmdLine, TEXT("statnamedevents")))
+{
+}
+//if (FParse::Value(CmdLine, TEXT("-MultiprocessId="), MultiprocessId))
+//{
+//	UE::Private::SetMultiprocessId(MultiprocessId);
+//}
+FWindowsPlatformMisc::SetGracefulTerminationHandler();
+FMemory::SetupTLSCachesOnCurrentThread();
+FPlatformProcess::SetCurrentWorkingDirectoryToBaseDir();
+FCommandLine::Set(CmdLine);
+FPlatformMisc::GetEnvironmentVariable(TEXT("UE-CmdLineArgs"));
+
+FTraceAuxiliary::Initialize(CmdLine);
+FTraceAuxiliary::TryAutoConnect();
+
+// 加载dll
+FPlatformProcess::GetDllHandle(*PreInitModule);
+
+FPlatformProcess::ExecutableName()
+FPlatformProcess::GetModuleExtension()
+FPlatformProcess::GetBinariesSubdirectory()
+FApp::GetProjectName()
+FApp::GetName()
+FApp::GetBuildConfiguration()
+
+FPaths::Combine()
+FString::Join
+FPaths::FileExists(PreInitModule)
+FPaths::ProjectDir()
+
+
+GError = FPlatformApplicationMisc::GetErrorOutputDevice();
+GWarn = FPlatformApplicationMisc::GetFeedbackContext();
+
+FCoreDelegates::OnOutputDevicesInit.Broadcast();
+FConfigFile CommandLineAliasesConfigFile;
+FConfigCacheIni::LoadExternalIniFile
+
+// 这个写法可以少好几行
+if (FIoStatus Status = FIoDispatcher::Initialize(); !Status.IsOk())
+{
+	UE_LOG(LogInit, Error, TEXT("Failed to initialize I/O dispatcher: '%s'"), *Status.ToString());
+	return 1;
+}
+
+// BeginPreInitTextLocalization
+
+FCoreDelegates::GetOnPakFileMounted2().AddRaw(&FTextLocalizationManager::Get(), &FTextLocalizationManager::OnPakFileMounted);
+
+FShaderCodeLibrary::PreInit();
+	UE::ShaderLibrary::Private::OnPakFileMountedDelegateHandle = FCoreDelegates::GetOnPakFileMounted2().AddStatic(&FShaderLibraryPakFileMountedCallback);
+
+// 操作系统相关的文件操作对象
+LaunchCheckForFileOverride(CmdLine, bFileOverrideFound);
+	IPlatformFile* CurrentPlatformFile = &FPlatformFileManager::Get().GetPlatformFile();
+	//FPlatformFileManager::Get().SetPlatformFile(*CurrentPlatformFile);
+	FMessageDialog::Open( EAppMsgType::YesNoCancel, FText::FromString( Error ) );
+
+FModuleManager::Get().AddExtraBinarySearchPaths();
+
+// Initialize file manager
+IFileManager::Get().ProcessCommandLineOptions();
+
+FPlatformFileManager::Get().InitializeNewAsyncIO();
+FDelayedAutoRegisterHelper::RunAndClearDelayedAutoRegisterDelegates(EDelayedRegisterRunPhase::FileSystemReady);
+
+// remember thread id of the main thread
+GGameThreadId = FPlatformTLS::GetCurrentThreadId();
+
+FPlatformProcess::SetThreadAffinityMask(FPlatformAffinity::GetMainGameMask());
+FPlatformProcess::SetupGameThread();
+
+FStats::EnabledForCommandlet()
+	FThreadStats::PrimaryDisableForever();
+
+TArray<FString> NonSwitchTokens;
+TArray<FString> Switches;
+UCommandlet::ParseCommandLine(CmdLine, NonSwitchTokens, Switches);
+
+FApp::SetBenchmarking(FParse::Param(FCommandLine::Get(), TEXT("BENCHMARK")));
+
+FApp::SetUseFixedTimeStep(bDeterministic || FParse::Param(FCommandLine::Get(), TEXT("UseFixedTimeStep")));
+
+Seed1 = FPlatformTime::Cycles();
+Seed2 = FPlatformTime::Cycles();
+
+FMath::RandInit(Seed1);
+FMath::SRandInit(Seed2);
+
+const FString ProjectFilePath = FPaths::Combine(*FPaths::ProjectDir(), *FString::Printf(TEXT("%s.%s"), FApp::GetProjectName(),*FProjectDescriptor::GetExtension()));
+
+FPaths::SetProjectFilePath(ProjectFilePath);
+
+FPlatformProcess::AddDllDirectory(*ProjectBinariesDirectory);
+FModuleManager::Get().SetGameBinariesDirectory(*ProjectBinariesDirectory);
+
+AddShaderSourceDirectoryMapping(TEXT("/Engine"), FPlatformProcess::ShaderDir());
+AddShaderSourceDirectoryMapping(TEXT("/ShaderAutogen"), AutogenAbsolutePath);
+
+// initialize task graph sub-system with potential multiple threads
+SCOPED_BOOT_TIMING("FTaskGraphInterface::Startup");
+FTaskGraphInterface::Startup(FPlatformMisc::NumberOfWorkerThreadsToSpawn());
+FTaskGraphInterface::Get().AttachToThread(ENamedThreads::GameThread);
+```
+
+
+### TLS Cache (Thread Local Storage Cache)
+```
+在UE（虚幻引擎）C++代码中，TLS（Thread Local Storage）缓存指的是一种编程技术，用于存储每个线程特有的数据。TLS允许每个线程拥有自己的数据副本，而不必担心其他线程的干扰。这对于优化多线程应用程序中的数据访问非常重要。
+TLS缓存通常用于以下场景：
+	减少锁竞争：通过为每个线程分配其自己的数据副本，可以减少对共享资源的访问和因此可能发生的锁竞争。
+	提高性能：频繁访问的数据可以被缓存在每个线程的TLS中，从而减少了对主内存的访问次数，这可以显著提高性能。
+在虚幻引擎中，TLS缓存可能用于以下情况：
+	渲染资源：每个渲染线程可能需要快速访问特定的渲染资源，如材质、纹理等。
+	物理模拟：物理模拟线程可能需要存储临时计算结果，这些结果不需要与其他线程共享。
+	异步任务：执行异步任务的线程可能需要访问特定的数据，而不会影响主线程或其他异步任务。
+
+
+以下是TLS缓存的一个简单示例：
+#include "CoreMinimal.h"
+#include "HAL/PlatformTLS.h"
+// 定义一个TLS索引
+static FPlatformTLS<int32> TLSIndex;
+// 初始化TLS数据
+void InitializeTLS()
+{
+    TLSIndex.Set(0);
+}
+// 获取当前线程的TLS数据
+int32 GetTLSData()
+{
+    return TLSIndex.Get();
+}
+// 设置当前线程的TLS数据
+void SetTLSData(int32 NewValue)
+{
+    TLSIndex.Set(NewValue);
+}
+在上面的代码中，FPlatformTLS<int32> 是一个模板类，用于创建TLS存储。Set 和 Get 方法用于设置和获取当前线程的TLS数据。
+使用TLS缓存时需要注意：
+	内存管理：由于每个线程都有自己的数据副本，因此需要确保正确地初始化和清理TLS数据，以避免内存泄漏。
+	数据一致性：虽然TLS允许每个线程拥有自己的数据，但仍然需要确保所有线程上的数据最终是一致的，特别是在需要跨线程共享结果时。
+
+TLS缓存是提高多线程应用程序性能的有效方法，但需要谨慎使用，以确保不会引入新的问题。
+```
+### DECLARE_SCOPE_CYCLE_COUNTER
+```
+
+```
+### SCOPED_BOOT_TIMING
+```
+COPED_BOOT_TIMING 是虚幻引擎（Unreal Engine）中的一个宏，用于在游戏或应用程序的启动过程中测量特定代码块的执行时间。这个宏是虚幻引擎性能分析工具的一部分，它可以帮助开发者识别和优化游戏启动时的性能瓶颈。
+使用 SCOPED_BOOT_TIMING 的基本方式如下：
+SCOPED_BOOT_TIMING("YourTimingCategory");
+// ... code to measure ...
+这个宏的作用是：
+在进入代码块时开始计时。
+在离开代码块时结束计时。
+将测量的时间记录在虚幻引擎的启动时间报告（Boot Time Report）中。
+"YourTimingCategory" 是你为这个代码块指定的类别名称，它会在启动时间报告中显示，帮助你识别是哪个部分的代码在启动时花费了较多时间。
+SCOPED_BOOT_TIMING 宏特别适用于以下场景：
+游戏或应用程序的初始化代码。
+资源加载和预加载。
+游戏世界或关卡加载。
+任何在游戏启动时执行且可能影响启动时间的代码。
+通过使用 SCOPED_BOOT_TIMING，开发者可以在游戏启动时收集详细的性能数据，从而找到并优化那些可能导致启动延迟的代码部分。
+为了查看和分析这些数据，你需要使用虚幻引擎内置的性能分析工具，如 Boot Time Report。这个报告通常可以在虚幻引擎的输出日志中找到，或者通过特定的性能分析UI来查看。
+请注意，SCOPED_BOOT_TIMING 宏仅在开发环境中有效，并且在发布构建中通常会被优化掉，以避免对最终用户的影响。
+```
