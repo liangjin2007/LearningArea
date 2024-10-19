@@ -1078,6 +1078,102 @@ AddShaderSourceDirectoryMapping(TEXT("/ShaderAutogen"), AutogenAbsolutePath);
 SCOPED_BOOT_TIMING("FTaskGraphInterface::Startup");
 FTaskGraphInterface::Startup(FPlatformMisc::NumberOfWorkerThreadsToSpawn());
 FTaskGraphInterface::Get().AttachToThread(ENamedThreads::GameThread);
+
+FWindowsPlatformPerfCounters::Init();
+
+// Thread pools
+GLargeThreadPool = new FQueuedLowLevelThreadPool();
+verify(GLargeThreadPool->Create(NumThreadsInLargeThreadPool, StackSize, TPri_BelowNormal, TEXT("LargeThreadPool")));
+GThreadPool = new FQueuedThreadPoolWrapper(GLargeThreadPool, NumThreadsInThreadPool);
+GBackgroundPriorityThreadPool = FQueuedThreadPool::Allocate();
+int32 NumThreadsInThreadPool = 2;
+verify(GBackgroundPriorityThreadPool->Create(NumThreadsInThreadPool, StackSize, TPri_Lowest, TEXT("BackgroundThreadPool")));
+
+FDelayedAutoRegisterHelper::RunAndClearDelayedAutoRegisterDelegates(EDelayedRegisterRunPhase::TaskGraphSystemReady);
+
+
+#if STATS
+FThreadStats::StartThread();
+#endif
+
+// 
+LoadCoreModules();
+	FModuleManager::Get().LoadModule(TEXT("CoreUObject"))
+
+InitializeRenderingCVarsCaching(); // ini文件中的一些Console右边的变量
+
+// Get log output device
+GLogConsole = GScopedLogConsole.Get();
+
+
+LoadPreInitModules();
+	FModuleManager::Get().LoadModule(TEXT("Engine"));
+	FModuleManager::Get().LoadModule(TEXT("Renderer"));
+	FModuleManager::Get().LoadModule(TEXT("AnimGraphRuntime"));
+	FModuleManager::Get().LoadModuleChecked<ISlateRHIRendererModule>("SlateRHIRenderer");
+	FModuleManager::Get().LoadModule(TEXT("Landscape"));
+	FModuleManager::Get().LoadModule(TEXT("RenderCore"));
+	FModuleManager::Get().LoadModule(TEXT("TextureCompressor"));
+	FModuleManager::Get().LoadModule(TEXT("Virtualization"));		// 不要求cooked data时需要加载这个模块。
+	FModuleManager::Get().LoadModule(TEXT("AudioEditor"));
+	FModuleManager::Get().LoadModule(TEXT("AnimationModifiers"));		// Shipping不需要这个模块
+
+FCsvProfiler::Get()->Init();
+
+AppLifetimeEventCapture::Init();
+
+AppInit();
+
+GLog->TryStartDedicatedPrimaryThread();
+
+GIOThreadPool = FQueuedThreadPool::Allocate();
+verify(GIOThreadPool->Create(NumThreadsInThreadPool, 96 * 1024, TPri_AboveNormal, TEXT("IOThreadPool")));
+
+FEmbeddedCommunication::ForceTick(1);
+UGameUserSettings::PreloadResolutionSettings();
+
+Scalability::InitScalabilitySystem();
+
+UDeviceProfileManager::InitializeCVarsForActiveDeviceProfile();
+
+FConfigCacheIni::LoadConsoleVariablesFromINI();
+
+FPlatformMisc::PlatformInit();
+FPlatformApplicationMisc::Init();
+FPlatformMemory::Init();
+
+UE::DerivedData::IoStore::InitializeIoDispatcher();
+
+
+IPlatformFeaturesModule::Get();
+
+InitGamePhys();
+	InitGamePhysCore();
+		FModuleManager::Get().LoadModule("Chaos");
+		FModuleManager::Get().LoadModule("ChaosSolverEngine");
+
+	GPostInitHandle = FCoreDelegates::OnPostEngineInit.AddLambda([]()
+	{
+		PostEngineInitialize();
+	});
+	GPhysCommandHandler = new FPhysCommandHandler();
+	GPreGarbageCollectDelegateHandle = FCoreUObjectDelegates::GetPreGarbageCollectDelegate().AddRaw(GPhysCommandHandler, &FPhysCommandHandler::Flush);
+	static FDelegateHandle Clear = FCoreDelegates::GetMemoryTrimDelegate().AddLambda([]()
+	{
+		DeferredPhysResourceCleanup();
+	});
+
+
+FPlatformProcess::CleanShaderWorkingDir();
+
+
+InitEngineTextLocalization();
+
+InitEngineTextLocalization();
+
+FSlateApplication::InitHighDPI(bForceEnableHighDPI);
+
+
 ```
 
 
