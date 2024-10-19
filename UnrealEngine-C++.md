@@ -959,7 +959,7 @@ EditorExit();
 调用PreInitPreStartupScreen(CmdLine);
 调用PreInitPostStartupScreen();
 
-前者有1700行，后者有800多行。 略略略
+前者有1700行，后者有800多行。
 
 有对命令行的特殊处理，比如
 	if (FParse::Param(CmdLine, TEXT("statnamedevents")))
@@ -1173,8 +1173,80 @@ InitEngineTextLocalization();
 
 FSlateApplication::InitHighDPI(bForceEnableHighDPI);
 
+UStringTable::InitializeEngineBridge();
 
+FAudioThread::SetUseThreadedAudio(bUseThreadedAudio);
+
+FTextLocalizationManager::Get().WaitForAsyncTasks();
+
+// Splash
+FPlatformSplash::Show();
+
+FSlateApplication::Create();
+
+FInternationalization::Get().LoadAllCultureData();
+
+FPackageLocalizationManager::Get().InitializeFromLazyCallback([](FPackageLocalizationManager& InPackageLocalizationManager)
+{
+	InPackageLocalizationManager.InitializeFromCache(MakeShareable(new FEnginePackageLocalizationCache()));
+});
+
+
+FShaderParametersMetadataRegistration::CommitAll();
+FShaderTypeRegistration::CommitAll();
+FShaderParametersMetadata::InitializeAllUniformBufferStructs();
+PreInitHMDDevice();
+RHIInit(bHasEditorToken);
+RenderUtilsInit();
+
+
+GDistanceFieldAsyncQueue = new FDistanceFieldAsyncQueue();
+GCardRepresentationAsyncQueue = new FCardRepresentationAsyncQueue();
+
+// Shader compiling
+check(!GShaderCompilerStats);
+GShaderCompilerStats = new FShaderCompilerStats();
+
+check(!GShaderCompilingManager);
+GShaderCompilingManager = new FShaderCompilingManager();
+
+// Shader hash cache is required only for shader compilation.
+InitializeShaderHashCache();
+
+FShaderCompileUtilities::GenerateBrdfHeaders(GMaxRHIShaderPlatform);
+
+InitializeShaderTypes();
+	BuildShaderFileToUniformBufferMap(ShaderFileToUniformBufferVariables);
+
+	FShaderType::Initialize(ShaderFileToUniformBufferVariables);
+	FVertexFactoryType::Initialize(ShaderFileToUniformBufferVariables);
+
+	FShaderPipelineType::Initialize();
+
+CompileGlobalShaderMap(false);
+
+CreateMoviePlayer();
+
+FPreLoadScreenManager::Create();
+
+TSharedPtr<FSlateRenderer> SlateRenderer = FModuleManager::Get().GetModuleChecked<ISlateRHIRendererModule>("SlateRHIRenderer").CreateSlateRHIRenderer();
+TSharedRef<FSlateRenderer> SlateRendererSharedRef = SlateRenderer.ToSharedRef();
+FSlateApplication& CurrentSlateApp = FSlateApplication::Get();
+CurrentSlateApp.InitializeRenderer(SlateRendererSharedRef);
+
+
+FEngineFontServices::Create();
+IProjectManager::Get().LoadModulesForProject(ELoadingPhase::PostSplashScreen);
+IPluginManager::Get().LoadModulesForEnabledPlugins(ELoadingPhase::PostSplashScreen);
+
+// Splash related init
 ```
+
+
+
+
+
+
 
 
 ### TLS Cache (Thread Local Storage Cache)
