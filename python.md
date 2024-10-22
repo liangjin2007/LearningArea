@@ -66,8 +66,63 @@ setup(
 )
 ```
 
+## importlib
+```
+importlib 是 Python 的一个标准库，它提供了用于导入模块的函数。通过使用 importlib，你可以以编程方式导入模块，而不是使用 Python 的内置 import 语句。这在以下场景中特别有用：
+在运行时动态导入模块。
+想要导入的模块名称只有在程序运行后才能确定。
+需要重新导入模块，因为 importlib.reload() 函数可以重新加载已经导入的模块。
+以下是 importlib 的一些常用功能：
+    importlib.import_module(): 动态导入模块。
+    importlib.reload(): 重新加载模块。
+
+
+importlib.util.spec_from_file_location的方式加载一个文件模块
+from importlib.util import spec_from_file_location, module_from_spec
+import importlib
+# 假设我们有一个名为 'mymodule' 的模块在 '/path/to/mymodule.py'
+module_name = 'mymodule'
+module_path = '/path/to/mymodule.py'
+# 创建模块规范
+spec = spec_from_file_location(module_name, module_path)
+# 使用 spec 创建模块对象
+module = module_from_spec(spec)
+spec.loader.exec_module(module)
+# 现在可以像使用普通模块一样使用 module
+```
+
 ## tqdm进度条
-https://www.cnblogs.com/hsluoyang/p/17456462.html
+```
+from tqdm import tqdm
+import time
+for i in tqdm(range(100)):
+    # 假设我们正在进行一些耗时的操作，比如训练深度学习模型
+    time.sleep(0.01)
+
+更多例子可以看https://www.cnblogs.com/hsluoyang/p/17456462.html
+```
+
+## f-string
+```
+在Python中，字符串前的 f 或者 F 表示这是一个格式化字符串（formatted string literals），也被称为 f-string。这是Python 3.6版本引入的一种新的字符串格式化方法，提供了一种非常简洁和直观的方式来在字符串中嵌入表达式。
+使用 f-string，你可以在字符串中直接包含表达式，表达式会被自动求值，并将结果嵌入到字符串中。下面是一个简单的例子：
+    name = "Alice"
+    age = 25
+    greeting = f"Hello, {name}. You are {age} years old."
+    print(greeting)
+输出将会是：
+    Hello, Alice. You are 25 years old.
+在这个例子中，{name} 和 {age} 是占位符，它们会被变量 name 和 age 的值所替换。
+f-string还支持更复杂的表达式，例如：
+    price = 49.99
+    taxed_price = price * 1.08
+    formatted_price = f"The price with tax is: ${taxed_price:.2f}"
+    print(formatted_price)
+输出将会是：
+    The price with tax is: $53.99
+```
+
+## 
 
 ## safetensors
 https://blog.csdn.net/wzk4869/article/details/130668642
