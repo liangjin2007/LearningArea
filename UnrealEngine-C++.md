@@ -7,6 +7,7 @@
 - [6.委托](#6委托)
 - [7.代码规范](#7代码规范)
 - [8.Editor启动](#8Editor启动)
+- [9.Tick](#9Tick)
 
 ## 1.AActor
 ```
@@ -1312,3 +1313,84 @@ SCOPED_BOOT_TIMING 宏特别适用于以下场景：
 为了查看和分析这些数据，你需要使用虚幻引擎内置的性能分析工具，如 Boot Time Report。这个报告通常可以在虚幻引擎的输出日志中找到，或者通过特定的性能分析UI来查看。
 请注意，SCOPED_BOOT_TIMING 宏仅在开发环境中有效，并且在发布构建中通常会被优化掉，以避免对最终用户的影响。
 ```
+
+## 9.Tick
+Launch.cpp	     -> Launch.cpp   ->  LaunchEngineLoop.cpp
+
+GuardedMain(CmdLine) -> EngineTick() ->   FEngineLoop::Tick() 
+
+### ETaskTag
+
+EStaticInit, # 静态变量初始化
+EGameThread,
+ESlateThread,  # GUI ?
+ERenderingThread,
+ERhiThread,
+```
+在Unreal Engine中，ERhiThread 和 ERenderingThread 是两个不同的 ETaskTag 枚举值，它们用于标识不同类型的渲染相关任务。以下是它们之间的主要区别：
+ERhiThread:
+ERhiThread 通常指的是与渲染硬件接口（RHI）直接相关的任务。
+这些任务可能包括与GPU通信的低级别操作，如提交渲染命令、管理渲染资源（如纹理和缓冲区）等。
+ERhiThread 任务可能涉及到需要在GPU上执行的具体工作，例如GPU端的数据处理。
+这些任务通常由Unreal Engine的RHI层自动调度，开发者很少直接与它们交互。
+ERenderingThread:
+ERenderingThread 指的是与渲染流程更高级别的任务，这些任务通常与渲染场景、渲染物体、光照、材质处理等渲染逻辑相关。
+这些任务可能包括场景遍历、渲染通道（Render Pass）的设置、渲染目标的配置等。
+ERenderingThread 任务是在渲染线程上执行的，这个线程负责整个渲染流程的协调和执行。
+开发者可能会在编写自定义渲染代码时直接或间接地与渲染线程任务交互。
+简而言之，ERhiThread 更偏向于底层的GPU操作和资源管理，而 ERenderingThread 更关注于渲染流程的更高层次逻辑。两者都是渲染流程中不可或缺的部分，但它们关注的层面和职责有所不同。
+在实际使用中，正确地标识和调度这些任务对于确保渲染性能和避免线程冲突至关重要。通常，Unreal Engine会自动处理这些细节，但在进行高级渲染开发时，了解这些区别有助于优化和调试渲染相关的代码。
+```
+EAsyncLoadingThread,
+ENamedThreadBits,
+EParallelThread,
+EWorkerThread,
+EParallelRenderingThread,
+EParallelGameThread,
+EParallelRhiThread
+
+FTaskTagScope::IsCurrentTag(ETaskTag::EParallelGameThread)
+FTaskTagScope::IsRunningDuringStaticInit()
+
+
+LowLevelTasks::FSchedulerTls::IsBusyWaiting()
+CoroTask_Detail::FCoroLocalState::IsCoroLaunchedTask()
+UE::Tasks::Private::IsThreadRetractingTask()
+
+const uint32 CurrentThreadId = FPlatformTLS::GetCurrentThreadId()
+bool oldValue = CurrentThreadId == GGameThreadId;
+GSlateLoadingThreadId
+
+### FScopedSampleMallocChurn 
+```
+FScopedSampleMallocChurn是 Unreal Engine 中的一个类，它是用来帮助开发者分析和优化内存使用情况的工具。这个类属于 SampleMalloc 内存分配器的一部分，这是一个可选的、基于采样（sampling）的内存分配器，它可以用来追踪游戏或应用程序中的内存分配和释放活动。
+FScopedSampleMallocChurn 的主要目的是为了记录在特定代码块执行期间的内存分配和释放（也称为“内存翻动”）情况。它通过以下方式帮助开发者：
+性能分析：它可以帮助开发者识别代码中可能导致性能问题的频繁内存分配和释放操作。
+内存泄漏检测：通过记录内存分配和释放，它可以帮助检测潜在的内存泄漏。
+范围限制：FScopedSampleMallocChurn 是一个作用域有限的类（通过RAII技术），这意味着它只在定义它的作用域内有效。当离开这个作用域时，它会自动停止记录。
+```
+### FEngineLoop::Tick
+```
+
+1.Profile相关代码：
+	FScopedSampleMallocChurn ChurnTracker;
+
+2.检查是否要退出
+
+3.FThreadHeartBeat::Get().HeartBeat(true);
+
+4.FGameThreadHitchHeartBeat::Get().FrameStart();
+
+5.FPlatformMisc::TickHotfixables();
+
+6.
+
+
+```
+
+
+
+
+
+
+
