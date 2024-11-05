@@ -1,6 +1,7 @@
 ## Survey Paper:
 
 ## [实时表演系统](https://github.com/liangjin2007/data_liangjin/blob/master/%E9%80%89%E6%8B%A9%E5%AE%9E%E6%97%B6%E8%A1%A8%E6%BC%94%E6%8D%95%E6%8D%89%E7%B3%BB%E7%BB%9F.pdf)
+## [VAST 3D AIGC算法趋势及产业落地](https://app6ca5octe2206.pc.xiaoe-tech.com/p/t_pc/course_pc_detail/video/v_65810adbe4b04c10093fdacc)
 ## [awesome-3D-Morphable-Model](https://github.com/liangjin2007/curated-list-of-awesome-3D-Morphable-Model-software-and-data)
 ## [awesome-visual-transformer]( https://github.com/dk-liang/Awesome-Visual-Transformer )
 ## [技术博客](https://zhuanlan.zhihu.com/p/348593638)
