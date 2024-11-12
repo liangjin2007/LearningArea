@@ -100,6 +100,31 @@ UForceFeedbackComponent：
 在虚幻引擎中，通过组合这些不同的组件，可以创建出具有复杂行为和功能的游戏实体。
 ```
 
+渲染相关的Component
+```
+在Unreal Engine中，负责渲染的组件主要是Mesh Component。这是因为它与场景中的网格体（Mesh）相关联，并且控制如何以及何时渲染该网格体。以下是几个与渲染直接相关的组件或类：
+Mesh Component：
+它是渲染物体到场景中的主要方式。它包含了物体的几何数据（网格）和材质信息。
+Static Mesh Component：
+用于渲染静态物体，如环境、建筑物等，这些物体在游戏运行时不会动态改变。
+Skeletal Mesh Component：
+用于渲染具有骨骼动画的物体，如角色、动物等。
+Particle System Component：
+负责渲染粒子效果，如火焰、爆炸、雨、雪等。
+Sprite Component：
+用于渲染2D图像，通常用于UI或者简单的2D游戏元素。
+Camera Component：
+虽然不直接渲染物体，但定义了视锥体（frustum），决定了哪些物体应该被渲染。
+Light Component：
+照明组件影响场景中物体的渲染方式，定义了光源的位置、颜色和强度等。
+Post Process Volume：
+控制场景的后处理效果，如景深、光晕、色调映射等，影响最终渲染图像的外观。
+Decal Component：
+用于在物体表面上渲染贴花，可以在不增加额外几何复杂性的情况下为物体添加细节。
+这些组件和类共同工作，通过Unreal Engine的渲染管线（render pipeline）生成最终的画面。渲染过程是复杂的，涉及多个阶段，如前向渲染（forward rendering）或延迟渲染（deferred rendering），材质和光照的交互，以及后处理效果的应用。
+```
+
+相关函数：
 ```
 注册组件: 自动注册与手工注册，RegisterComponent, 游戏运行期间注册可能会影响性能，谨慎使用。
 	注册事件：
