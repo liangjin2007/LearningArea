@@ -1408,6 +1408,16 @@ FScopedSampleMallocChurn 的主要目的是为了记录在特定代码块执行�
 ### 渲染相关的代码
 - FSceneRenderer
 ![FSceneRenderer](https://pic4.zhimg.com/v2-27dba780cef313deb410e979fbfe6a21_1440w.jpg)
-
-
+- FPrimitiveSceneProxy
+![FPrimitiveSceneProxy](https://pic1.zhimg.com/v2-3a1c2705783772a8418080b02bdcccb4_1440w.jpg)
+- FPrimitiveSceneInfo
+![FPrimitiveSceneInfo](https://pic1.zhimg.com/v2-53c7608b24b4729da4b89051580e1c84_1440w.jpg)
+- FStaticMeshBatch -> FMeshBatch
+![FStaticMeshBatch](https://pic3.zhimg.com/v2-99b172becdbf3621c45ad392f6956d74_1440w.jpg)
+- FMeshBatch
+![FMeshBatch](https://pic1.zhimg.com/v2-5a68c9c79595316edf867c251a491b54_1440w.jpg)  
+- FMeshPassProcessor
+![FMeshPassProcessor](https://picx.zhimg.com/v2-d8551ed435ceac1a104e21c6b0db7c29_1440w.jpg)
+- FRenderResource
+- UStaticMesh
 
