@@ -8,6 +8,7 @@
 - [7.代码规范](#7代码规范)
 - [8.Editor启动](#8Editor启动)
 - [9.Tick](#9Tick)
+- [10.Rendering](#10Rendering)
 
 ## 1.AActor
 ```
@@ -1397,25 +1398,16 @@ FScopedSampleMallocChurn 的主要目的是为了记录在特定代码块执行�
 ### FEngineLoop::Tick
 ```
 
-1.Profile相关代码：
-	FScopedSampleMallocChurn ChurnTracker;
-
-2.检查是否要退出
-
-3.FThreadHeartBeat::Get().HeartBeat(true);
-
-4.FGameThreadHitchHeartBeat::Get().FrameStart();
-
-5.FPlatformMisc::TickHotfixables();
-
-6.
-
-
 ```
 
-
-
-
+## 10.Rendering
+[设计视觉、渲染和图形效果](https://dev.epicgames.com/documentation/zh-cn/unreal-engine/designing-visuals-rendering-and-graphics-with-unreal-engine?application_version=5.3)
+- 搜索引擎中搜索源码剖析
+  - [虚幻引擎渲染流程原理机制源码剖析](https://zhuanlan.zhihu.com/p/657669302)
+  
+### 渲染相关的代码
+- FSceneRenderer
+![FSceneRenderer](https://pic4.zhimg.com/v2-27dba780cef313deb410e979fbfe6a21_1440w.jpg)
 
 
 
