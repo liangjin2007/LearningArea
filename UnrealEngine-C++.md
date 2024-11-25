@@ -1418,6 +1418,96 @@ FScopedSampleMallocChurn 的主要目的是为了记录在特定代码块执行�
 ![FMeshBatch](https://pic1.zhimg.com/v2-5a68c9c79595316edf867c251a491b54_1440w.jpg)  
 - FMeshPassProcessor
 ![FMeshPassProcessor](https://picx.zhimg.com/v2-d8551ed435ceac1a104e21c6b0db7c29_1440w.jpg)
+将FMeshBatch转成RHI
+
+#### FRenderResource  （Runtime/RenderCore）
+- FRenderResourceList
 - FRenderResource
+  -  virtual void InitRHI(FRHICommandListBase& RHICmdList);  // Called by rendering thread
+  -  virtual void ReleaseRHI() {}                                // Called by rendering thread
+  -  virtual void ReleaseResource()				 // Called by rendering thread
+  -  virtual void InitResource(FRHICommandListBase& RHICmdList); // Called by rendering thread, 看FRenderResource::InitResource的实现，里面调用了InitRHI
+  -  template<typename T>
+	FBufferRHIRef CreateRHIBuffer(FRHICommandListBase& RHICmdList, T& InOutResourceObject, uint32 ResourceCount, EBufferUsageFlags InBufferUsageFlags, const TCHAR* InDebugName)
+  -  void SetFeatureLevel(const FStaticFeatureLevel InFeatureLevel)
+  - int32 ListIndex;
+  - EInitPhase InitPhase;
+  - TEnumAsByte<ERHIFeatureLevel::Type> FeatureLevel;
+  - ERenderResourceState ResourceState;
+- 全局函数
+  - void BeginInitResource(FRenderResource* Resource, FRenderCommandPipe* RenderCommandPipe = nullptr);
+  - void BeginUpdateResourceRHI(FRenderResource* Resource, FRenderCommandPipe* RenderCommandPipe = nullptr);
+  - void BeginReleaseResource(FRenderResource* Resource, FRenderCommandPipe* RenderCommandPipe = nullptr);
+  - void StartBatchedRelease();
+  - void EndBatchedRelease();
+- 有哪些FRenderResource       (in  RenderResource.h)
+  - FTexture
+    - 子类FTextureWithSRV
+      - 使用FShaderResourceViewRHIRef 
+    - 使用FTextureRHIRef
+    - 使用FSamplerStateRHIRef
+    - 使用FMipBiasFade
+    - 只重载了virtual void ReleaseRHI()和virtual FString GetFrientlyName() const;
+  - FTextureReference
+    -  FTextureReferenceRHIRef	TextureReferenceRHI; 
+    -  virtual void InitRHI(FRHICommandListBase& RHICmdList) 重载这个函数用来创建前面的RHI对象。TextureReferenceRHI = RHICreateTextureReference()
+  - FVertexBuffer
+    - FBufferRHIRef VertexBufferRHI; // 这个貌似不需要类似RHICreateBufferXXX这样的调用
+    - 子类 FVertexBufferWithSRV
+      - FShaderResourceViewRHIRef ShaderResourceViewRHI; // SRV view
+      - FUnorderedAccessViewRHIRef UnorderedAccessViewRHI; // UAV view
+    - FColorVertexBuffer
+    - FPositionVertexBuffer
+  - FStaticMeshVertexBuffer // Vertex buffer for a static mesh LOD 
+  - FIndexBuffer
+    - FBufferRHIRef IndexBufferRHI;
+    - 子类FDynamicMeshIndexBuffer32 和 FDynamicMeshIndexBuffer16
+    - 子类FPooledDynamicMeshIndexBuffer
+  - FBufferWithRDG
+    - TRefCountPtr<FRDGPooledBuffer> Buffer;
+#### 
 - UStaticMesh
+- IRHICommandContext
+  - 子类FD3D12CommandContextBase 
+- FDynamicRHI
+  - 子类ID3D11DynamicRHI
+- FStaticMeshLODResources 
+- FMeshDrawCommand
+#### UCustomMeshComponent (Plugins\Runtime\CustomMeshComponent)
+```
+UCustomMeshComponent继承自UMeshComponent
+创建了FCustomMeshSceneProxy
+	UMaterialInterface* Material;
+	FStaticMeshVertexBuffers VertexBuffers;
+	FDynamicMeshIndexBuffer32 IndexBuffer;
+	FLocalVertexFactory VertexFactory;
+	FMaterialRelevance MaterialRelevance;
+
+
+
+主要是重载了以下几个函数：
+virtual FPrimitiveSceneProxy* CreateSceneProxy() override;
+	FPrimitiveSceneProxy* Proxy = new FCustomMeshSceneProxy(this);
+virtual int32 GetNumMaterials() const override;
+virtual FBoxSphereBounds CalcBounds(const FTransform& LocalToWorld) const override;
+
+动态改三角形时需要：
+	MarkRenderStateDirty();
+	UpdateBounds();
+
+FPrimitiveViewRelevance表示这种MeshComponent有哪些Viewport选项可以设。
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
