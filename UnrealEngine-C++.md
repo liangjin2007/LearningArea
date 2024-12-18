@@ -9,6 +9,7 @@
 - [8.Editor启动](#8Editor启动)
 - [9.Tick](#9Tick)
 - [10.Rendering](#10Rendering)
+- [11.LoggingSystem](#11LoggingSystem)
 
 ## 1.AActor
 ```
@@ -1528,8 +1529,24 @@ FPrimitiveViewRelevance表示这种MeshComponent有哪些Viewport选项可以设
 
 
 
+## 11.LoggingSystem
+```
+#include <Logging/LogMacros.h>
+DECLARE_LOG_CATEGORY_EXTERN(LogTemp, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogMyOwn, Display, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogAzSpeech_Internal, NoLogging, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogAzSpeech_Debugging, NoLogging, All);
 
+In cpp file:
+#include "header file"
+DEFINE_LOG_CATEGORY(LogTemp);
+DEFINE_LOG_CATEGORY(LogMyOwn);
+DEFINE_LOG_CATEGORY(LogAzSpeech_Internal);
+DEFINE_LOG_CATEGORY(LogAzSpeech_Debugging);
 
+UE_LOG(LogTemp, Warning, TEXT("Response: %s"), *ResponseContent);
+
+```
 
 
 
