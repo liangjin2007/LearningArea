@@ -959,6 +959,28 @@ DelegateInst.Clear();
 ⑦ 在 DelegateCombinations.h 头文件中也有一种对事件的宏定义：DECLARE_EVENT_[XXXParam(s)]，按照源码中的注释，本质上就是一个多播委托，但事件在定义的时候需要传入一个拥有者对象，事件只有在该拥有者内部绑定委托才生效，源码注释中建议不要使用此类事件，建议就用普通的多播委托即可。
 
 
+- C++写委托与蓝图中如何使用委托
+```
+当你在Unreal Engine中定义了一个C++类中的Delegate属性，你可能希望在蓝图中使用这些Delegate来实现更高级的逻辑。让我为你详细解释一下如何在蓝图中使用C++中定义的Delegate属性：
+
+定义C++中的Delegate属性：
+首先，你需要在你的C++类中定义一个Delegate属性。Delegate是一种特殊的事件类型，它允许你绑定多个函数指针，并在某个事件发生时触发这些函数。
+你可以使用DECLARE_DELEGATE宏来声明一个Delegate类型，然后在你的类中创建一个Delegate属性。
+在蓝图中使用Delegate属性：
+打开你的蓝图类（继承自你的C++类）。
+在蓝图中，你可以直接使用Delegate属性，就像使用其他属性一样。拖拽Delegate属性到蓝图中，然后连接它到其他节点。
+绑定函数到Delegate：
+在蓝图中，你可以绑定一个或多个函数到Delegate属性。这些函数可以是蓝图中的自定义事件、函数库中的函数，或者其他类的成员函数。
+使用“Bind Event to [YourDelegate]”节点，然后选择要绑定的函数。
+触发Delegate：
+当某个事件发生时，你可以调用Delegate属性来触发绑定的函数。
+使用“Execute [YourDelegate]”节点来触发Delegate。
+注意事项：
+Delegate属性的类型决定了你可以绑定的函数的参数和返回值。确保绑定的函数与Delegate的签名匹配。
+如果你的Delegate属性是多播（Multicast）类型，你可以使用“Broadcast [YourDelegate]”节点来触发所有绑定的函数。
+总之，通过在C++中定义Delegate属性，然后在蓝图中使用它们，你可以实现更灵活和复杂的逻辑。如果你需要更具体的示例或有其他问题，欢迎继续提问！😊 Learn more)
+```
+
 ## 7.代码规范
 
 ## 8.Editor启动
