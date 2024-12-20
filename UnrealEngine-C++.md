@@ -10,7 +10,8 @@
 - [9.Tick](#9Tick)
 - [10.Rendering](#10Rendering)
 - [11.LoggingSystem](#11LoggingSystem)
-
+- [12.UnrealInsights](#12UnrealInsights)
+- [13.Material](#13Material)
 ## 1.AActor
 ```
 在Unreal Engine中，AActor 类是所有游戏世界中的实体的基类。
@@ -1548,5 +1549,11 @@ UE_LOG(LogTemp, Warning, TEXT("Response: %s"), *ResponseContent);
 
 ```
 
+## 12.UnrealInsights
+Unreal Insights https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-insights-in-unreal-engine?application_version=5.4
+
+Trace工作流 https://dev.epicgames.com/documentation/en-us/unreal-engine/trace-quick-start-guide-in-unreal-engine?application_version=5.3
 
 
+## 13.Material
+https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-engine-materials
