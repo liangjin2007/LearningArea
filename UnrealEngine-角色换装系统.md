@@ -39,5 +39,6 @@ UE5元宇宙捏脸角色编辑脸系统【含6种人物基础骨骼】 http://ww
 希望这些方法能帮助你实现你想要的效果！如果你有更多问题或需要进一步的帮助，请随时告诉我。
 ```
 
-Retarget https://www.bilibili.com/video/BV1do4y1572A/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
-
+Retarget 
+https://www.bilibili.com/video/BV1do4y1572A/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
+https://www.bilibili.com/video/BV1ha411E7E7/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
