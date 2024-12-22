@@ -20,3 +20,5 @@ UE5元宇宙捏脸角色编辑脸系统【含6种人物基础骨骼】 http://ww
 
 
 城市示例：人群
+
+皮肤材质设置：https://www.bilibili.com/video/BV1Q54y127Qp/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
