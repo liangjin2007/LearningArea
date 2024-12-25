@@ -1,5 +1,15 @@
 ## 资源
 
+Unreal Engine 文档 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/motion-matching-in-unreal-engine?application_version=5.5
+```
+运动轨迹组件
+
+
+Debug: https://dev.epicgames.com/documentation/zh-cn/unreal-engine/motion-matching-debugging-in-unreal-engine
+```
+
+
+
 GDC2016 https://ubm-twvideo01.s3.amazonaws.com/o1/vault/gdc2016/Presentations/Clavet_Simon_MotionMatching.pdf
 
 
@@ -21,6 +31,16 @@ https://www.bilibili.com/video/BV1RM4y1u7Fu/?spm_id_from=333.337.search-card.all
 
 
 
+```
+1.Graphs are a commonly used structure for controlling and generating animation
+  缺点： 图的构造过程难以控制和维护
 
+2.Statistical methods for managing animation data instead
+  PCA, localPCA
+  Kernel based method
+  Auto-regression uses the current frame anduser controls to predict the next frame
+
+
+```
 
 
