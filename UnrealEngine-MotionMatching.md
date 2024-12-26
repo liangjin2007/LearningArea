@@ -10,6 +10,9 @@ Debug: https://dev.epicgames.com/documentation/zh-cn/unreal-engine/motion-matchi
 
 
 
+
+
+
 GDC2016 https://ubm-twvideo01.s3.amazonaws.com/o1/vault/gdc2016/Presentations/Clavet_Simon_MotionMatching.pdf
 
 
@@ -39,8 +42,22 @@ https://www.bilibili.com/video/BV1RM4y1u7Fu/?spm_id_from=333.337.search-card.all
   PCA, localPCA
   Kernel based method
   Auto-regression uses the current frame anduser controls to predict the next frame
-
-
 ```
+
+
+Image Related:
+```
+github Projects:
+  UAnimatedTexture5
+  UnrealImageCapture
+  EasySynth
+  RuntimeImageLoader
+  PsRemoteImage
+  ue4-texturefromdisk-plugin
+  unreal-rtsp-display
+  UEDownloadImages
+  UE4-AsyncImageLoader
+```
+
 
 
