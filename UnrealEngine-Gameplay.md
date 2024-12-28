@@ -1,5 +1,8 @@
 学习一下ActionRoguelike-UE5.3游戏代码
 
+TODO: 明天继续看UAnimInstance::UpdateAnimation，可以对动画系统加深理解。
+
+
 ## C++
 
 - USaveGame和USSaveGameSubsystem
@@ -220,7 +223,17 @@ private:
 
 
 
+- 关于UAnimInstance：
+```
+void UAnimInstance::UpdateAnimation(float DeltaSeconds, bool bNeedsValidRootMotion, EUpdateAnimationFlag UpdateFlag)
+{
 
+
+
+}
+
+
+```
 
 
 
