@@ -7,10 +7,14 @@ copy the content of .ssh/xxx.pub to add ssh key
 git clone xxx
 git submodule update --init --recursive
 cd xxx
-git checkout xxx
+git checkout xxx 放弃修改，
 git branch xxx 创建本地branch
 git push origin xxx 上传本地的branch
 git push origin -d xxx 删除服务器上的branch
+
+git add . 添加所有本地修改
+git reset . revert 'git add'
+
 
 git checkout -- file
 git checkout . #放弃所有
