@@ -12,8 +12,24 @@ git branch xxx 创建本地branch
 git push origin xxx 上传本地的branch
 git push origin -d xxx 删除服务器上的branch
 
-git add . 添加所有本地修改
+git add . 暂存所有本地修改
 git reset . revert 'git add'
+
+放弃本地的git add
+如果你已经使用git add暂存了更改，但尚未提交，你可以使用git reset命令来取消暂存：
+git reset HEAD <file>
+例如，要取消暂存特定文件：
+git reset HEAD myfile.txt
+
+要取消暂存所有文件：
+git reset HEAD .
+
+如果你已经提交了更改，但希望撤销本次提交并保留文件的修改，可以使用git reset命令：
+git reset --soft HEAD~1
+
+如果你想撤销最近的提交并丢弃更改，可以使用git reset --hard：
+git reset --hard HEAD~1
+
 
 
 git checkout -- file
