@@ -30,6 +30,7 @@ git reset --soft HEAD~1
 如果你想撤销最近的提交并丢弃更改，可以使用git reset --hard：
 git reset --hard HEAD~1
 
+回退到某个版本 git reset --hard <sha>
 
 
 git checkout -- file
