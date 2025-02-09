@@ -35,12 +35,45 @@ Targeting System  Beta
 
 ## 4. 输入
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/input-overview-in-unreal-engine
+- PlayerInput
+- PlayerInputComponent
 - ActionMapping 将离散按钮或按键映射到一个"友好的名称"，该名称稍后将与事件驱动型行为绑定
 - AxisMapping for 连续行为，会做轮询
 - 项目设置 -> 输入 -> Action Mapping
 - 项目设置 -> 输入 -> Axis Mapping
 - InputComponent这个跟C++中Component的概念不同，指的是Actor, PlayerController, Level Blueprint, Pawn都可以处理Input, 所以有优先级顺序。
 ![InputComponent](https://d1iv7db44yhgxn.cloudfront.net/documentation/images/f5592819-a96b-4384-b9fe-b38fe5494942/inputflow.png)
+```
+void AFirstPersonBaseCodeCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
+{
+   // set up gameplay key bindings
+   check(InputComponent);
+   ...
+   InputComponent->BindAxis("MoveForward", this, &AFirstPersonBaseCodeCharacter::MoveForward);
+   ...
+}
+void AFirstPersonBaseCodeCharacter::MoveForward(float Value)
+{
+    if ( (Controller != NULL) && (Value != 0.0f) )
+    {
+        // find out which way is forward
+        FRotator Rotation = Controller->GetControlRotation();
+        // Limit pitch when walking or falling
+        if ( CharacterMovement->IsMovingOnGround() || CharacterMovement->IsFalling() )
+        {
+            Rotation.Pitch = 0.0f;
+        }
+        // add movement in that direction
+        const FVector Direction = FRotationMatrix(Rotation).GetScaledAxis(EAxis::X);
+        AddMovementInput(Direction, Value);
+    }
+}
+```
+- 触摸界面
+  - DefaultVirtualJoysticks
+  - LeftVirtualJoystickOnly
+
+- 增强输入插件 Enhanced Input
 
 
 Gameplay框架 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-framework-in-unreal-engine?application_version=5.4
