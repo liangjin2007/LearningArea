@@ -17,6 +17,8 @@ git push origin -d xxx 删除服务器上的branch
 git add . 暂存所有本地修改
 git reset . revert 'git add'
 
+放弃本地新添加的目录和文件 git clean -fd
+
 放弃本地的git add
 如果你已经使用git add暂存了更改，但尚未提交，你可以使用git reset命令来取消暂存：
 git reset HEAD <file>
