@@ -46,5 +46,11 @@ git clean -xdf  #删除未被跟踪untracked的文件，这个测试了，确实
 git stash #把所有没有提交的修改暂存到stash里面。可用git stash pop回复。
 
 git lfs track *.fbx大文件使用lfs文件系统
+
+git log xxxfile  显示提交记录
+
+撤销单个文件的更改到某个sha
+git checkout <sha> xxxfile
+
 ```
 
