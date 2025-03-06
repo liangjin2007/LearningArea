@@ -219,7 +219,44 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-framework-i
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-system-for-unreal-engine?application_version=5.4
 
 ## 8.物理 
-https://dev.epicgames.com/documentation/zh-cn/unreal-engine/physics-in-unreal-engine?application_version=5.4
+### 8.1.网络物理 https://dev.epicgames.com/documentation/en-us/unreal-engine/networked-physics-overview
+
+### 8.2.物理材质 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/tutorials-about-physical-materials-in-unreal-engine
+```
+创建/编辑物理材质
+在项目设置->Physics->添加表面类型
+在材质编辑器中将物理材质设上之前创建的物理材质
+将物理材质指定给物理资产
+```
+
+
+
 
 ## 9.碰撞 
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/collision-in-unreal-engine?application_version=5.4
+
+### 9.1. Collision
+https://dev.epicgames.com/documentation/zh-cn/unreal-engine/physics-in-unreal-engine?application_version=5.4
+
+- show collision 查看Block（红色）和Overlap（绿色）区域
+- p.PhysicsDebugEnable 1 查看物理资产中的胶囊体
+
+- Block/Overlap
+```
+特性	   Block	                        Overlap
+物理行为	阻止物体穿透，触发物理碰撞响应	    允许物体穿透，仅触发重叠检测事件
+事件类型	生成Hit事件（如OnHit回调）	      生成BeginOverlap/EndOverlap事件
+物理模拟	参与物理引擎的刚体碰撞计算	      不触发物理运动约束
+适用场景	墙壁、地形等需要物理阻挡的物体	    触发器、拾取物等需要检测但无需阻挡的物体
+```
+
+- Collision Presets
+https://dev.epicgames.com/documentation/zh-cn/unreal-engine/collision-response-reference-in-unreal-engine
+
+### 9.2. 简单碰撞VS复杂碰撞
+https://dev.epicgames.com/documentation/zh-cn/unreal-engine/simple-versus-complex-collision-in-unreal-engine
+
+
+
+
+
