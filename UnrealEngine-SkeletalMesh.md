@@ -118,7 +118,13 @@ void FSkeletalMeshObjectGPUSkin::CreateVertexFactory(
 FVector4f TangentZ = VertexBuffers.StaticVertexBuffers->StaticMeshVertexBuffer.VertexTangentZ(1093);
 
 
+- 看看Serialize是否有问题
+```
 
+	FSkeletalMeshLODRenderData::Serialize(FArchive& Ar, UObject* Owner, int32 Idx)
+		FSkeletalMeshLODRenderData::SerializeStreamedData
+
+```
 
 
 
