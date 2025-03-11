@@ -128,3 +128,31 @@ FVector4f TangentZ = VertexBuffers.StaticVertexBuffers->StaticMeshVertexBuffer.V
 
 
 
+- 导入skeletal mesh型fbx
+```  
+先进入此函数
+UInterchangeSkeletalMeshFactory::ImportAsset_Async
+
+后面异步会执行到这个ExecuteBuildInternal函数，在CacheDerivedData中会保存
+void USkeletalMesh::ExecuteBuildInternal(FSkinnedAssetBuildContext& Context)
+{
+	TRACE_CPUPROFILER_EVENT_SCOPE(USkeletalMesh::ExecuteBuildInternal);
+
+	// This scope allows us to use any locked properties without causing stalls
+	FSkinnedAssetAsyncBuildScope AsyncBuildScope(this);
+
+	// rebuild render data from imported model
+	CacheDerivedData(&Context);
+}
+```
+
+
+
+
+
+
+
+
+
+
+
