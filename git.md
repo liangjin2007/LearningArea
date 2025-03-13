@@ -52,7 +52,22 @@ git log xxxfile  显示提交记录
 撤销单个文件的更改到某个sha
 git checkout <sha> xxxfile
 
-碰到有文件是 "LF will be replaced by CRLF the next time Git touches it", 如何让git 不要修改该为CRLF？
-git config --global core.autocrlf  false
+切换仓库到某个tag
+git checkout tags/1.1.4
+
+autocrlf相关
+UE本身的代码换行为LF
+在Windows上设置
+  // 提交时转换为LF，检出时转换为CRLF
+  git config --global core.autocrlf true  
+在Mac上设置
+  // 提交时转换为LF，检出时不转换
+  git config --global core.autocrlf input
+
+换行的安全检查
+git config --global core.safecrlf true
+
+
+
 ```
 
