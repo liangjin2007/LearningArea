@@ -258,6 +258,40 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/collision-response-r
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/simple-versus-complex-collision-in-unreal-engine
 
 
+### 9.3. 角色蓝图
+```
+1. 创建物理资产
+2. 打开对应的SkeletalMesh资产，为它设置1中创建的物理资产
+3. 打开角色蓝图
+4. 选择要做物理碰撞的Skeletal Mesh Component
+5. 细节面板 Physics, Events, Collision
+5.1. Physics中不要开启物理模拟，否则会摔到地上
+5.2. Collision需要设置Collision Presets为Pawn或者Custom
+
+```
+### 9.4. C++
+```
+- Search source code "Simulation Generates Hit Events" to see which code is related to Hit Events
+
+
+FComponentHitSignature UPrimitiveComponent::OnComponentHit; // 大概5个参数
+
+FActorHitSignature AActor::OnActorHit; // 大概4个参数, GASDocumentation中没有用
+
+// 可重载此函数来处理事件. GASDocumentation中没有用
+virtual void AActor::NotifyHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit)
+
+// 蓝图里面可以写ReceiveHit
+UFUNCTION(BlueprintImplementableEvent, meta=(DisplayName = "Hit"), Category="Collision")
+ENGINE_API void ReceiveHit(class UPrimitiveComponent* MyComp, AActor* Other, class UPrimitiveComponent* OtherComp, bool bSelfMoved, FVector HitLocation, FVector HitNormal, FVector NormalImpulse, const FHitResult& Hit);
+
+
+
+
+```
+
+
+
 ## 10.受击动画
 
 
