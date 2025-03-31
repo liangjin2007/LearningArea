@@ -67,7 +67,10 @@ UE本身的代码换行为LF
 换行的安全检查
 git config --global core.safecrlf true
 
-
+创建仓库
+git checkout -b backup-2025-03-31
+更新到服务器
+git push -u origin backup-2025-03-31
 
 ```
 
