@@ -20,3 +20,25 @@
 
 - 强化学习目标
 ![强化学习目标](https://github.com/liangjin2007/data_liangjin/blob/master/rl.jpg?raw=true)
+
+- 基于价值 (Value-Based)和基于策略(Policy-Based)的区别
+- 贝尔曼公式
+
+## UE5 Learning Agents https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
+```
+Step 1. 创建一个带LearningAgentsManager Componenet的Actor Named with BP_SportsCarManager
+Click Class Default to show Detail, add Component Tag "LearningAgentsManager"
+
+Step 2. For each of the Car Pawn, in the Begin Play event, Find the LearningAgentsManager Actor, get the component, call AddAgent to add the pawn object.
+There is Logging informatin for AddAgent function.
+
+Step 3. Manager Listeners : LearningAgentsManagerListener
+三个派生类：
+  LearningAgentsInteractor： 定义Agents如何与世界交互（通过Observation和Action）
+    需要重载以下四个函数：
+      SpecifyAgentObservation
+      SpecifyAgentAction
+      GatherAgentObservation
+
+
+```
