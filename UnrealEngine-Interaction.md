@@ -289,8 +289,9 @@ Rotational Velocities表示：
 Runtime构造x^然后去X查询
 
 Matching Database and Animation Database
-
 ```
+
+
 - Motion Matching and The Road to Next-Gen Animation. In Proc. of GDC 2016.
 - Real Player Motion Tech in ’EA Sports UFC 3’. In Proc. of GDC 2018.
 - Character Control with Neural Networks and Machine Learning. In Proc. of GDC 2018.
@@ -304,9 +305,6 @@ Matching Database and Animation Database
 - Inertialization Blending
   - Inertialization: High-Performance Animation Transitions in ’Gears of War’. In Proc. of GDC 2018
   - High Performance Animation in Gears of War 4. In ACM SIGGRAPH 2017 Talks
-```
-
-```
 - PFNN Phase-Functioned Neural Networks
 - MANN Mode-Adaptive Neural Networks
 - Learned Motion Matching [代码](https://github.com/orangeduck/Motion-Matching?tab=readme-ov-file)
@@ -320,6 +318,13 @@ Algorithm:
     Blend is inserted to remove any discontinuity
 ```
 
+- Proximal Policy Optimization Reinforcement Learning (RL) problems
+```
+https://zhuanlan.zhihu.com/p/676940299
+
+
+
+```
 ## 9.碰撞 
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/collision-in-unreal-engine?application_version=5.4
 
