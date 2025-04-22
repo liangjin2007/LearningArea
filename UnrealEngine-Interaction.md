@@ -230,8 +230,45 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-sys
 将物理材质指定给物理资产
 ```
 
+### 8.3 物理相关的各种类
+- FAnimNode_AnimDynamics
+```
+单骨骼模拟
+如马尾辫的摆动，需设置单个骨骼的物理参数1。
+骨骼链模拟
+例如锁链或围巾的多关节联动效果，需配置骨骼链层级116。
+碰撞约束
+通过球体或平面限制骨骼活动范围，避免穿模
+```
+- FAnimNode_RigidBody
+- 
+- FPBIKSolver
+- FAnimNode_RigidBodyWithControl
+- UPhysicalAnimationComponent
+- PhysicsControl Plugin
 
+### 8.4 物理运动相关的Papers
+- Motion Matching [2015] Motion Matching - The Road to Next Gen Animation.
+```
+```
+![motion matching features](https://github.com/liangjin2007/data_liangjin/blob/master/motionmatching_locomotion_features.jpg?raw=true)
 
+- Motion Matching and The Road to Next-Gen Animation. In Proc. of GDC 2016.
+- Real Player Motion Tech in ’EA Sports UFC 3’. In Proc. of GDC 2018.
+- Character Control with Neural Networks and Machine Learning. In Proc. of GDC 2018.
+- Machine Learning for Motion Synthesis and Character Control in Games. In Proc. of i3D 2019
+- ML Tutorial Day: From Motion Matching to Motion Synthesis, and All the Hurdles In Between. In Proc. of GDC 2019.
+- DReCon:Data-driven Responsive Control of Physics-based Characters. TOG 2019
+- Physics-based Full-body Soccer Motion Control for Dribbling and Shooting. TOG 2019
+```
+
+```
+- PFNN Phase-Functioned Neural Networks
+- MANN Mode-Adaptive Neural Networks
+- Learned Motion Matching
+```
+
+```
 
 ## 9.碰撞 
 https://dev.epicgames.com/documentation/zh-cn/unreal-engine/collision-in-unreal-engine?application_version=5.4
