@@ -241,7 +241,15 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-sys
 通过球体或平面限制骨骼活动范围，避免穿模
 ```
 - FAnimNode_RigidBody
-- 
+```
+布娃娃系统（Ragdoll）
+  角色死亡时切换为物理驱动，需配置全身骨骼的刚体约束7。
+  优化建议：启用 bStartSimulationOnBecomeRelevant 按需触发模拟8。
+动态物体交互
+  模拟可破坏物体的碎片物理（需结合Destructible Mesh）7。
+特殊动画效果
+  长袍/披风的物理摆动（替代传统AnimDynamics节点的高精度需求场景）。
+```
 - FPBIKSolver
 - FAnimNode_RigidBodyWithControl
 - UPhysicalAnimationComponent
@@ -252,7 +260,37 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-sys
 ```
 ```
 ![motion matching features](https://github.com/liangjin2007/data_liangjin/blob/master/motionmatching_locomotion_features.jpg?raw=true)
+![motion matching features2](https://github.com/liangjin2007/data_liangjin/blob/master/motionmatching_locomotion_features2.jpg?raw=true)
+```
+Feature x:
+  belongs to R^27,
+  R^6: 2d future trajectory positions at the 20th, 40th, and 60th frame
+  R^6: 2d future trajectory facing directions at the 20th, 40th, and 60th frame
+  R^6: The two foot joint positions
+  R^6: The two foot joint velocities
+  R^3: the hip joint velocity
 
+Feature Normalization: The above elements need Normalization by Scale each feature by standard deviation in the dataset.
+Feature User Weighting
+
+Pose Vector y of a single frame:
+  包含所有pose信息
+  1.joint local translations and rotations
+  2.joint local translation velocities and rotation velocities.
+  3.root translational and rotational velocities local to the character forward facing direction.
+  4.additional task specific outputs： e.g. foot contact information, 其他角色的位置或者轨迹信息，或者其他骨骼的future positions.
+
+Rotational Velocities表示：
+  axis angle表示
+  joint rotation: 用四元数表示，但是会转化成2-axis旋转矩阵表示（Zhang et al. [2018], 四足动画那篇）。
+
+以上x和y分别组成两个数据库 Feature Database X和Animation Database Y
+
+Runtime构造x^然后去X查询
+
+Matching Database and Animation Database
+
+```
 - Motion Matching and The Road to Next-Gen Animation. In Proc. of GDC 2016.
 - Real Player Motion Tech in ’EA Sports UFC 3’. In Proc. of GDC 2018.
 - Character Control with Neural Networks and Machine Learning. In Proc. of GDC 2018.
@@ -260,14 +298,26 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-sys
 - ML Tutorial Day: From Motion Matching to Motion Synthesis, and All the Hurdles In Between. In Proc. of GDC 2019.
 - DReCon:Data-driven Responsive Control of Physics-based Characters. TOG 2019
 - Physics-based Full-body Soccer Motion Control for Dribbling and Shooting. TOG 2019
+- Neural State Machine for Character-scene Interactions. TOG 2019
+- Efficient convolutional hierarchical autoencoder for human motion prediction. 2019
+- Mode-adaptive Neural Networks for Quadruped Motion Control[2018]
+- Inertialization Blending
+  - Inertialization: High-Performance Animation Transitions in ’Gears of War’. In Proc. of GDC 2018
+  - High Performance Animation in Gears of War 4. In ACM SIGGRAPH 2017 Talks
 ```
 
 ```
 - PFNN Phase-Functioned Neural Networks
 - MANN Mode-Adaptive Neural Networks
-- Learned Motion Matching
+- Learned Motion Matching [代码](https://github.com/orangeduck/Motion-Matching?tab=readme-ov-file)
 ```
-
+Algorithm:
+  For Every N frames:
+    Build query vector x:
+    Project x to Matching Database: 对应于KNN to get x^
+    Stepping: Advance forward the index in Matching Database
+    Decompression: 对应于从X中查询到最近特征向量后从Y中去找Pose向量
+    Blend is inserted to remove any discontinuity
 ```
 
 ## 9.碰撞 
