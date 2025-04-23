@@ -254,6 +254,9 @@ https://dev.epicgames.com/documentation/zh-cn/unreal-engine/gameplay-ability-sys
 - FAnimNode_RigidBodyWithControl
 - UPhysicalAnimationComponent
 - PhysicsControl Plugin
+https://www.youtube.com/watch?v=kL1GOPlraag
+
+
 
 ### 8.4 物理运动相关的Papers
 - Motion Matching [2015] Motion Matching - The Road to Next Gen Animation.
