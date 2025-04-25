@@ -14,3 +14,4 @@
 - https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/1w7V/unreal-engine-improving-observations-debugging-5-5
 - https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master
 - https://github.com/orangeduck/Motion-Matching/blob/main/resources/train_decompressor.py
+- https://github.com/facebookresearch/metamotivo/edit/main/tutorial.ipynb
