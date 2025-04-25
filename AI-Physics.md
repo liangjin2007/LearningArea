@@ -9,3 +9,4 @@
 ```
 - [2025]GausSim: Foreseeing Reality by Gaussian Simulator for Elastic Objects
 - How to model skeleton as XPBD simulation 
+- https://github.com/emirsahin1/VRPhysicsCharacter/blob/main/VirtualCombatSim/Public/PhysicsHand.h
