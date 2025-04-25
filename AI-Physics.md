@@ -11,3 +11,4 @@
 - How to model skeleton as XPBD simulation 
 - https://github.com/emirsahin1/VRPhysicsCharacter/blob/main/VirtualCombatSim/Public/PhysicsHand.h
 - PreintegratedSkinBRDF
+- https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/1w7V/unreal-engine-improving-observations-debugging-5-5
