@@ -15,3 +15,7 @@
 - https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master
 - https://github.com/orangeduck/Motion-Matching/blob/main/resources/train_decompressor.py
 - https://github.com/facebookresearch/metamotivo/edit/main/tutorial.ipynb
+- Physics Control1 https://dev.epicgames.com/community/learning/tutorials/vrWZ/unreal-engine-physics-control-component-let-s-build-a-character-interactive-raft-in-the-water-subtitle
+- Physics Control2 https://www.youtube.com/watch?v=iWjbPB25XUg
+- https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/PhysicsControl/UPhysicsControlComponent
+- https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
