@@ -19,3 +19,8 @@
 - Physics Control2 https://www.youtube.com/watch?v=iWjbPB25XUg
 - https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/PhysicsControl/UPhysicsControlComponent
 - https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
+- lyra-sample-game-interaction-system https://dev.epicgames.com/documentation/en-us/unreal-engine/lyra-sample-game-interaction-system-in-unreal-engine?application_version=5.0
+- https://www.youtube.com/watch?v=TnLhP81r45Q
+- AI Controller + Behavior Tree + BlackBoard + MotionMatching. https://www.youtube.com/watch?v=sEKfLgWKdTg
+- Lyra Interaction System https://dev.epicgames.com/documentation/en-us/unreal-engine/lyra-sample-game-interaction-system-in-unreal-engine?application_version=5.0
+- Combat UEFN https://www.youtube.com/watch?app=desktop&v=HC3xa-laFTI  
