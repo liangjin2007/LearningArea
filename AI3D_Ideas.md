@@ -7,6 +7,7 @@
 - continuous-remeshing https://github.com/Profactor/continuous-remeshing
 - nvdiffrast https://github.com/NVlabs/nvdiffrast?tab=readme-ov-file
 - OpenLRM https://github.com/3DTopia/OpenLRM
+- 3D generation Structured 3D Latents for Scalable and Versatile 3D Generation https://arxiv.org/pdf/2412.01506
 ## 3D deep learning
 
 ### min距离的可微化
