@@ -1,5 +1,10 @@
 - [2025]Generative Physical AI in Vision: A Survey [Pdf Link](https://arxiv.org/pdf/2501.10928v2)
 - [2022][ECCV]Transformer with Implicit Edges for Particle-based Physics Simulation
+- [2024][sig asia]https://la.disneyresearch.com/wp-content/uploads/RobotMDM_red.pdf
+```
+kinematic motion generation
+physics based character control
+```
 ```
 模拟了流体
 ```
