@@ -5,6 +5,8 @@
 kinematic motion generation
 physics based character control
 ```
+- 强化学习[2020] GDC https://www.youtube.com/watch?v=lN9pXZzR3Ys
+- 
 ```
 模拟了流体
 ```
