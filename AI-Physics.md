@@ -1,3 +1,36 @@
+## UE5 NNE
+- UE5 Experimental Plugin NNERuntimeRDG
+- UE5 Experimental Plugin NNERuntimeIREE
+- UE5 Experimental Plugin NeuralRendering
+- UE5 plugin Animation MLDeformer
+- UE5 plugin AI MLAdapter
+- UE5 plugin NNERuntimeORT
+- UE5 plugin NNEDenoiser
+- UE5 NNEEditor
+- UE5 Engine Runtime NNE
+```
+UNNEModelData .onnx file is loaded into this object
+given a UNNEModelData asset, the following interface is used to create a model
+
+INNERuntime
+INNERuntimeCPU
+INNERuntimeGPU
+INNERuntimeRDG
+
+```
+
+
+- [UE物理引擎B站教程](https://www.bilibili.com/video/BV1ym421372T?spm_id_from=333.788.videopod.sections&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2)
+```
+物理约束组件
+
+```
+
+
+
+
+
+ 
 - [2025]Generative Physical AI in Vision: A Survey [Pdf Link](https://arxiv.org/pdf/2501.10928v2)
 - [2022][ECCV]Transformer with Implicit Edges for Particle-based Physics Simulation
 - [2024][sig asia]https://la.disneyresearch.com/wp-content/uploads/RobotMDM_red.pdf
