@@ -1,5 +1,8 @@
 ## MuJoCo https://github.com/google-deepmind/mujoco?tab=readme-ov-file
 ## opensim https://simtk.org/projects/opensim
+## https://openaccess.thecvf.com/content/CVPR2024/papers/Ugrinovic_MultiPhys_Multi-Person_Physics-aware_3D_Motion_Estimation_CVPR_2024_paper.pdf
+## https://openaccess.thecvf.com/content/CVPR2024/papers/Muller_Generative_Proxemics_A_Prior_for_3D_Social_Interaction_from_Images_CVPR_2024_paper.pdf
+## https://www.bilibili.com/video/BV1JT4y127z7/?spm_id_from=333.1387.search.video_card.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
 ## UE5 NNE
 - UE5 Experimental Plugin NNERuntimeRDG
 - UE5 Experimental Plugin NNERuntimeIREE
