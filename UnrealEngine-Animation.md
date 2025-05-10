@@ -1,17 +1,24 @@
-# Animation
-- []
-
-
-## 1.资源
-DetourxxxController 50个 https://www.bilibili.com/video/BV1aeryYXEP9/?spm_id_from=333.1007.tianma.2-1-4.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
-
-
-
-## 2.AnimGraph中的动画节点
-
-```
-Copy Pose From Mesh -> 细节 -> 使用附加的父项
-```
-
-
-
+# 
+- Animation Blueprint
+  - State Machine
+  - Behavior Tree
+  - Blackboard
+  - Anim Nodes
+    - Copy pose from mesh
+    - Retarget
+    - Modify Curve
+    - Modify Bones
+    - IK Rig
+    - Control Rig
+    - Blend Poses per bone
+    - Layered Blend poses
+    - State pose cache
+    - Slot
+- Animation Sequence
+- Animation Montage
+- Todo
+  - Animation Modifier
+  - Animation Layer
+  - Animation Layer Interface
+  - Motion Warp
+  - Animation Warp
