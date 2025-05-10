@@ -16,6 +16,9 @@
     - Slot
 - Animation Sequence
 - Animation Montage
+- Animation ChooserTable
+  - 创建 Animation -> 选择器表 -> 设置动画选择器和Anim Instance类型 
+  - 设置到动画蓝图的Sequence Player中的细节Update时使用Evaluate Chooser和Set Sequence With Inertial Blending从选择器表获取动画资源并设置到Sequence Player中。
 - Todo
   - Animation Modifier
   - Animation Layer
