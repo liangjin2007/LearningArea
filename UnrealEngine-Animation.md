@@ -48,3 +48,9 @@
 - 可添加Animation
 - 可添加Control Rig
 - 添加关键帧，按Enter键。  选择一条曲线，比如Transform -> Location -> X, 修改值（可以在关卡中查看变化）
+
+
+## How to modify animation in UE
+如果当前animation不是Mannequin, 先Retarget到Mannequin，然后使用Control Rig Sharing示例的方式做一个Level Sequence, 做Control Rig Sharing。 然后在关卡中通过拖动控制器修改动画，修改完了以后再右键Bake Anim Sequence导出动画。
+
+
