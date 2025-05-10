@@ -43,7 +43,7 @@
 
 
 ## Sequencer
-- 可添加骨骼网格体、Actor、LevelSequencer等(可从内容浏览器中拖入到Sequencer)
+- 可添加关卡中的骨骼网格体、Actor、LevelSequencer等
 - 可添加当前关卡中的物体
 - 可添加Animation
 - 可添加Control Rig
