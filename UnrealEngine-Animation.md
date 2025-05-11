@@ -27,12 +27,24 @@
   - Animation Warp
 
 ## Level Sequence Asset
-双击该资产会出现Sequencer、Anim Outliner、Sequencer Curves、Animation窗口
+- 双击该资产会出现Sequencer、Anim Outliner、Sequencer Curves、Animation窗口。
+- Sequencer Curves窗口如果没出现，可以在Sequencer的工具栏按钮中找到。
+
 
 ## Control Rig
 - 选择骨架层次中某个或某些骨骼后，可创建Bone, Control, Control Null。
 - Control翻译为控制点。
 - 控制点用颜色区分左边（绿色）、中间（黄色）、右边（红色）
+- C++类
+```
+UControlRigComponent
+UControlRig
+UControlRigBlueprint: Control Rig资产继承自这个类。
+
+
+
+```
+
 
 
 
