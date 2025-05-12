@@ -7,6 +7,8 @@
 ## Full-Body Articulated Human-Object Interaction https://arxiv.org/pdf/2212.10621
 ## Idea: Predict/Construct Pose from 3d target Object and prompt
 ## Predict Human pose from 3d scene data [2024]Diverse 3D Human Pose Generation in Scenes based on Decoupled Structure
+## Physics Animation https://www.youtube.com/watch?v=46NfgXlnCzM
+
 - 需要3D数据作为预测
 
 
