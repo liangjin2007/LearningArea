@@ -6,6 +6,9 @@
 ## Starting From Chair https://www.ai.pku.edu.cn/en/info/1191/1948.htm
 ## Full-Body Articulated Human-Object Interaction https://arxiv.org/pdf/2212.10621
 ## Idea: Predict/Construct Pose from 3d target Object and prompt
+## Predict Human pose from 3d scene data [2024]Diverse 3D Human Pose Generation in Scenes based on Decoupled Structure
+- 需要3D数据作为预测
+
 
 ## UE5 NNE
 - UE5 Experimental Plugin NNERuntimeRDG
