@@ -105,4 +105,50 @@ PhysicsControlData结构体
 ## How to modify animation in UE
 如果当前animation不是Mannequin, 先Retarget到Mannequin，然后使用Control Rig Sharing示例的方式做一个Level Sequence, 做Control Rig Sharing。 然后在关卡中通过拖动控制器修改动画，修改完了以后再右键Bake Anim Sequence导出动画。
 
+## Physics Animation
+- Below bone physics
+```
+Event Tick
+  SkeletalMeshComponent->SetAllBodiesBelowSimulatePhysics(boneName, bool NewSimulate, bool IncludeSelf)
+  SkeletalMeshComponent->SetAllBodiesBelowSimulateBlendWeight(boneName, PhysicsBlendWeight, SkipCustomPhysicsType, bool IncludeSelf)
+```
+- HitReaction
+```
+Event Tick
+  SkeletalMeshComponent->SetAllBodiesBelowSimulatePhysics(boneName, bool NewSimulate, bool IncludeSelf)
+  SkeletalMeshComponent->SetAllBodiesBelowSimulateBlendWeight(boneName, PhysicsBlendWeight, SkipCustomPhysicsType, bool IncludeSelf)
+
+EventHitReaction
+  1. if(!isHit) { isHit = true ->TimeLine_0(PlayfromStart) -> Update( Set BlendWeight to NewTrack0) -> Finished(SkeletalMeshComponent->SetAllBodiesPhysicsBlendWeight(PhysicsBlendWeight = 0)->SetAllBodiesSimulatePhysics(false)) -> isHit = false
+  2. Delay(0.048) -> Completed( SkeletalMeshComponent->AddImpulse(Impulse, boneName, VelChange = true))
+注意isHit的逻辑。
+
+```
+- Constraint Profiles
+```
+Event BeginPlay
+  SkeletalMeshComponent->SetAllBodiesBelowSimulatePhysics('spine_01', true, true)
+
+Event CallTriggerActor
+  SkeletalMeshComponent->WakeAllRigidBodies()  -> SkeletalMeshComponent->SetConstraintProfileForAll(ProfileName = 'Locked', DefaultIfNotFound = true)
+
+Event CallTriggerActorEndOverlap
+  SkeletalMeshComponent->WakeAllRigidBodies()  -> SkeletalMeshComponent->SetConstraintProfileForAll(ProfileName = None, DefaultIfNotFound = true)
+
+```
+- Physics Animation Component
+```
+Event BeginPlay
+  PhysicsAnimationComponent->SetSkeletalMeshComponent(component)
+  PhysicsAnimationComponent->ApplyPhysicalAnimationSettingsBelow(boneName, Make Physical Animation Data(xxxStrength, xxxStrength, ...), includeSelf = true)
+  SkeletalMeshComponent->SetAllBodiesBelowSimulatePhysics(boneName, true, true)
+  SkeletalMeshComponent->SetAllBodiesBelowSimulateBlendWeight(boneName, 1, SkipCustomPhysicsType = false, bool IncludeSelf = true)
+Event Tick
+  PhysicsAnimationComponent->SetStrengthMultiplyer(InStrengthMultiplyer)
+```
+
+- SkeletalMeshComponent->Stop() // Stop playing animation
+- SkeletalMeshComponent->Play() // Play animation.
+
+## 其他
 
