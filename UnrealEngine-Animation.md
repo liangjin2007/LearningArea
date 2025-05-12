@@ -56,10 +56,20 @@ Actor:
     Cube： root component
       PhysicsControl:  Physics Control Component
 
-事件图表
-   PhysicsCoontrol -> CreateBodyModifier(TargetComponent, BoneName, Set, BodyModifierDataCollisionType::Kinematic, BodyModifyDataCollisionType, BodyModifyDataGravityMultiplier， blend weight, use skeletal animation, update kinematic from simulation)
-  PhysicsCoontrol -> SetBodyModifierMovementType
+Event BeginPlay
+   PhysicsCoontrol -> CreateBodyModifier(TargetComponent, BoneName, Set, BodyModifierDataMovementType::Kinematic, BodyModifyDataCollisionType, BodyModifyDataGravityMultiplier， blend weight, use skeletal animation, update kinematic from simulation)
+
+Event CallTriggerActor
+  PhysicsCoontrol -> SetBodyModifierMovementType(Name=Body, MovementType=Simulation)
+
+Event CallTriggerActorEndOverlap
+  PhysicsCoontrol -> SetBodyModifierMovementType(Name=Body, MovementType=Kinematic)
+
+// 产生一个oscillating kinematic target
+Event Tick
   PhysicsCoontrol -> SetBodyModifierKinematicTarget
+
+
 ```
 
 - World-space Control
@@ -89,11 +99,66 @@ PhysicsControlData结构体
 
 
 事件图表
-   PhysicsCoontrol -> CreateControl(ParentComponent, ParentBoneName, ChildComponent, ChildBoneName, ControlData, ControlTarget, Set, NamePrefix)
-  PhysicsCoontrol -> SetControlTargetPositionAndOrientation
+Event BeginPlay
+  PhysicsCoontrol -> CreateControl(ParentComponent, ParentBoneName, ChildComponent, ChildBoneName, ControlData, ControlTarget, Set, NamePrefix)
+
+Event Tick
+  Update Target Position
+  PhysicsCoontrol -> SetControlTargetPositionAndOrientation(ControlName, TargetPosition, TargetOrientation, VelocityDeltaTime = 0, EnableControl=true, ApplyControlPointToTarget=false)
   PhysicsCoontrol -> SetControlData(ControlName, ControlData)
+  DrawTarget
+
+Event CallTriggerActor
+  PhysicsControl->SetControlData(ControlName, ContaDataStrong)
+
+Event CallTriggerActorEndOverlap
+    PhysicsControl->SetControlData(ControlName, ContaDataWeak)
+
 ```
 
+- Parent-Space Control
+```
+Event BeginPlay
+  PhysicsControl->CreateNamedControl(HeadMiddle, ParentComponent=Head, ChildComponent=Middle, ControlData=ParentSpaceControlData)
+  PhysicsControl->CreateNamedControl(MiddleTail, ParentComponent=Middle, ChildComponent=Tail, ControlData=ParentSpaceControlData)
+Event Tick
+  TargetOrientation1 = CalculateOrientationForHeadMiddle()
+  PhysicsControl->SetControlTargetOrientation(HeadMiddle, TargetOrientation1)
+  TargetOrientation2 = CalculateOrientationForMiddleTail()
+  PhysicsControl->SetControlTargetOrientation(MiddleTail, TargetOrientation2)
+Event CallTriggerActor
+  PhysicsControl->SetControlEnabled(HeadMiddle, true)
+  PhysicsControl->SetControlEnabled(MiddleTail, true)
+Event CallTriggerActorEndOverlap
+  PhysicsControl->SetControlEnabled(HeadMiddle, false)
+  PhysicsControl->SetControlEnabled(MiddleTail, false)
+
+
+Actor's Components
+  PhysicsControl
+    Head : Simulate Physics = true
+      Weight: Simulate Physics = false, Mass = 30
+      EyeLeft
+      EyeRight
+      Mouth
+    PhysicsConstraint_MiddleTail
+    PhysicsConstraint_HeadMiddle
+    Tail: Simulate Physics = true
+      Weight2: Simulate Physics = false, Mass = 30
+    Middle: Simulate Physics = true
+      Weight1: Simulate Physics = false, Mass = 30
+
+PhysicsConstraint_MiddleTail
+  Detail -> Constraint: Need setup Component Name1, Component Name2
+  Detail -> Constraint Behavior: Disable Collision = true, Enable Projection = true, Enable Mass Conditioning=true
+  Detail -> Linear Limits: All setup to Locked
+  Detail -> Angular Limits: All setup to Free
+
+PhysicsConstraint_HeadMiddle
+  跟PhysicsConstraint_MiddleTail的设置一样
+
+
+```
 ## Sequencer
 - 可添加关卡中的骨骼网格体、Actor、LevelSequencer等
 - 可添加当前关卡中的物体
