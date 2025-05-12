@@ -48,8 +48,51 @@ https://dev.epicgames.com/documentation/en-us/unreal-engine/control-rig-inversio
 ## Anim Outliner
 列出的是多个Control Rig
 
+## PhysicsControl
+- Body Modifier
+```
+Actor:
+  BP_PhysicsBox
+    Cube： root component
+      PhysicsControl:  Physics Control Component
+
+事件图表
+   PhysicsCoontrol -> CreateBodyModifier(TargetComponent, BoneName, Set, BodyModifierDataCollisionType::Kinematic, BodyModifyDataCollisionType, BodyModifyDataGravityMultiplier， blend weight, use skeletal animation, update kinematic from simulation)
+  PhysicsCoontrol -> SetBodyModifierMovementType
+  PhysicsCoontrol -> SetBodyModifierKinematicTarget
+```
+
+- World-space Control
+```
+Actor:
+  BP_PhysicsControlBox
+    Cube： root component
+      PhysicsControl:  Physics Control Component
+
+PhysicsControlData结构体
+  Linear Strength
+  Linear Damping Ratio
+  Linear Extra Damping
+  Max Force
+  Angular Strength
+  Angular Damping Ratio
+  Angular Extra Damping
+  Max Torque
+  Enabled
+  Disable Collision
+  Use Custom Control Point
+  Use Skeltal Animation
+  Only Control Child Object
+  Linear Target  Velocity Multiplier
+  Skeletal Animation Velocity Multiplier
+  Angular Target Velocity Multiplier
 
 
+事件图表
+   PhysicsCoontrol -> CreateControl(ParentComponent, ParentBoneName, ChildComponent, ChildBoneName, ControlData, ControlTarget, Set, NamePrefix)
+  PhysicsCoontrol -> SetControlTargetPositionAndOrientation
+  PhysicsCoontrol -> SetControlData(ControlName, ControlData)
+```
 
 ## Sequencer
 - 可添加关卡中的骨骼网格体、Actor、LevelSequencer等
