@@ -43,7 +43,7 @@ UControlRigBlueprint: Control Rig资产继承自这个类。
 ```
 - Rig Inversion: Rig inversion enables users to remap existing animation onto animation rigs
 https://dev.epicgames.com/documentation/en-us/unreal-engine/control-rig-inversion?application_version=4.27
-
+- Documentation https://dev.epicgames.com/documentation/en-us/unreal-engine/modular-control-rigs-in-unreal-engine
 
 ## Anim Outliner
 列出的是多个Control Rig
