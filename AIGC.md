@@ -516,19 +516,49 @@ cd DART-main
 run the following command to see what packages are not installed:
   python -m mld.rollout_demo --denoiser_checkpoint "./mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --respacing "" --use_predicted_joints 1
 
-// 安装git+xxx需要执行下面这行。
-git config --global http.sslverify false
+    // 安装git+xxx需要执行下面这行。
+    git config --global http.sslverify false
+    
+    pip:
+      pip install tyro
+      pip install pyyaml
+      pip install tensorboard
+      pip install tornado
+      pip install tqdm
+      pip install pyrender
+      pip install git+https://github.com/openai/CLIP.git
+      pip install loralib
+      pip install smplx
+      pip install spacy==2.3.4
+      pip install omegaconf==2.3.0
+    
+    about pytorch3d:
+      download pytorch3d-0.7.8  from https://github.com/facebookresearch/pytorch3d/tree/V0.7.8
+      unzip
+      follow https://github.com/facebookresearch/pytorch3d/blob/V0.7.8/INSTALL.md to install pytorch3d
+        download the CUB library from https://github.com/NVIDIA/cub/releases and unpack it to a folder of your choice.
+        Define the environment variable CUB_HOME before building and point it to the directory that contains CMakeLists.txt for CUB. Dont Need to compile cub before building pytorch3d.
+        conda install -c iopath iopath
+      cd pytorch3d-0.7.8
+      pip install -e .
 
-pip:
-  pip install tyro
-  pip install pyyaml
-  pip install tensorboard
-  pip install tornado
-  pip install tqdm
-  pip install pyrender
-  pip install git+https://github.com/openai/CLIP.git
-  pip install loralib
-  pip install smplx
-  pip install spacy==2.3.4
-  pip install omegaconf==2.3.0
+Succeeded, but the python code has errors related to smplx, numpy version.
+
+about smplx:
+    download SMPL-X from https://smpl-x.is.tue.mpg.de/download.php, my registered account is jl5400@163.com.
+    unzip it
+    put it to data directory.
+    modify ./config_files/data_paths.py, change to body_model_dir = dataset_root_dir / 'smplx-models', where 'smplx-models' contain a sub-dir called smplx.
+
+
+run again
+
+
+
+
+
+
+
+
+
 ```
