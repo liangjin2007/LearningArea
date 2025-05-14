@@ -491,16 +491,25 @@ This is an extensive node suite that enables ComfyUI to process 3D inputs (Mesh 
 可以直接从ComfyUI-Manager安装。
 
 
+## DART
+```
+download github code
+cd DART-main
+conda create -n dart python=3.8.8
+conda activate dart
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+onda config --set show_channel_urls yes
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64
+
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 
 
+download data, model, etc.
+unzip 3 of them and put into DART-main
 
-
-
-
-
-
-
-
-
-
+cd DART-main
+run the following command to see what packages are not installed:
+  python -m mld.rollout_demo --denoiser_checkpoint "./mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --respacing "" --use_predicted_joints 1
 ```
