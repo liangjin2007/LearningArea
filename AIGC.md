@@ -514,14 +514,13 @@ unzip 3 of them and put into DART-main
 
 cd DART-main
 run the following command to see what packages are not installed:
-  python -m mld.rollout_demo --denoiser_checkpoint "./mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --respacing "" --use_predicted_joints 1
-
+    python -m mld.rollout_demo --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --use_predicted_joints 1
     // 安装git+xxx需要执行下面这行。
     git config --global http.sslverify false
     
     pip:
       pip install tyro
-      pip install pyyaml
+      pip install pyyaml==6.0.1
       pip install tensorboard
       pip install tornado
       pip install tqdm
@@ -531,7 +530,10 @@ run the following command to see what packages are not installed:
       pip install smplx
       pip install spacy==2.3.4
       pip install omegaconf==2.3.0
-    
+      pip install torch_dct
+      pip install matplotlib==3.3.4
+
+
     about pytorch3d:
       download pytorch3d-0.7.8  from https://github.com/facebookresearch/pytorch3d/tree/V0.7.8
       unzip
@@ -551,7 +553,24 @@ about smplx:
     modify ./config_files/data_paths.py, change to body_model_dir = dataset_root_dir / 'smplx-models', where 'smplx-models' contain a sub-dir called smplx.
 
 
-run again
+修改\DART-main\data_loaders\humanml\common\quaternion.py line 13 from np.float to float
+
+修改rollout_demo.py line 91 function load_mld
+  def load_mld(denoiser_checkpoint, device):
+      # load denoiser
+      denoiser_dir = Path(denoiser_checkpoint).parent
+  
+      import pathlib
+      temp = pathlib.PosixPath
+      pathlib.PosixPath = pathlib.WindowsPath
+  
+      with open(denoiser_dir / "args.yaml", "r") as f:
+          print(denoiser_dir)
+          denoiser_args = tyro.extras.from_yaml(MLDArgs, yaml.safe_load(f)).denoiser_args
+  
+      pathlib.PosixPath = temp
+
+Succeeded.
 
 
 
