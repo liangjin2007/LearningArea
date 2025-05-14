@@ -514,7 +514,10 @@ unzip 3 of them and put into DART-main
 
 cd DART-main
 run the following command to see what packages are not installed:
-    python -m mld.rollout_demo --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --use_predicted_joints 1
+    python -m mld.rollout_demo --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --batch_size 1 --guidance_param 5 --use_predicted_joints 1 --device cuda
+    Note: use absolute path for the checkpoint
+
+
     // 安装git+xxx需要执行下面这行。
     git config --global http.sslverify false
     
@@ -570,9 +573,10 @@ about smplx:
   
       pathlib.PosixPath = temp
 
-Succeeded.
+Succeeded to resolve all the problems.
 
-
+Now: its downloading ViT-B-32.pt which is used by clip package.
+  D:\Anaconda3\envs\dart\lib\site-packages\clip\clip.py:57: UserWarning: C:\Users\liangjin/.cache/clip\ViT-B-32.pt exists, but the SHA256 checksum does not match; re-downloading the file
 
 
 
