@@ -558,29 +558,22 @@ about smplx:
 
 修改\DART-main\data_loaders\humanml\common\quaternion.py line 13 from np.float to float
 
-修改rollout_demo.py line 91 function load_mld
-  def load_mld(denoiser_checkpoint, device):
-      # load denoiser
-      denoiser_dir = Path(denoiser_checkpoint).parent
-  
-      import pathlib
-      temp = pathlib.PosixPath
-      pathlib.PosixPath = pathlib.WindowsPath
-  
-      with open(denoiser_dir / "args.yaml", "r") as f:
-          print(denoiser_dir)
-          denoiser_args = tyro.extras.from_yaml(MLDArgs, yaml.safe_load(f)).denoiser_args
-  
-      pathlib.PosixPath = temp
+修改rollout_demo.py line 321
+     import pathlib
+    temp = pathlib.PosixPath
+    pathlib.PosixPath = pathlib.WindowsPath
+
+    denoiser_args, denoiser_model, vae_args, vae_model = load_mld(rollout_args.denoiser_checkpoint, device)
+   
+    pathlib.PosixPath = temp
 
 Succeeded to resolve all the problems.
 
 Now: its downloading ViT-B-32.pt which is used by clip package.
   D:\Anaconda3\envs\dart\lib\site-packages\clip\clip.py:57: UserWarning: C:\Users\liangjin/.cache/clip\ViT-B-32.pt exists, but the SHA256 checksum does not match; re-downloading the file
 
-
-
-
+After downling clip's ViT model.
+Opened the viewer.
 
 
 
