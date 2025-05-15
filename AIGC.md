@@ -47,6 +47,19 @@ https://stability.ai/research/adversarial-diffusion-distillation
 
 # stable-diffusion-webui 107k Star https://github.com/AUTOMATIC1111/stable-diffusion-webui
 
+# 安装CUDA 11.8
+```
+download CUDA 11.8 toolkit from https://developer.nvidia.com/cuda-11-8-0-download-archive?target_os=Windows&target_arch=x86_64
+install
+```
+
+# 下载CUDNN8.6.0
+```
+download a version from https://developer.nvidia.cn/rdp/cudnn-archive
+unzip
+copy to CUDA 11.8 
+```
+
 # 安装tensorflow/pytorch/etc
 
 ### 安装 tensorflow-gpu 2.4.1
@@ -493,20 +506,21 @@ This is an extensive node suite that enables ComfyUI to process 3D inputs (Mesh 
 
 ## DART
 ```
-download github code
-cd DART-main
+如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
+
+打开Anaconda Powershell
+
 conda create -n dart python=3.8.8
 conda activate dart
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --add channels https://pypi.tuna.tsinghua.edu.cn/simple
-onda config --set show_channel_urls yes
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64
-检查已安装的CUDA版本C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA， 如果没安装，先安装CUDA。
 
-pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-or
+可选
+  conda config --add channels https://pypi.tuna.tsinghua.edu.cn/simple
+  conda config --set show_channel_urls yes
+
+安装cuda
+使用CUDA 11.8， 如果没安装，先安装CUDA，可以看顶部如何安装CUDA 11.8
+
+安装pytorch
 pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
 
 
@@ -523,22 +537,22 @@ run the following command to see what packages are not installed:
     git config --global http.sslverify false
     pip install xxx -i https://pypi.tuna.tsinghua.edu.cn/simple
 
+pip install git+https://github.com/openai/CLIP.git
+新建requirements.txt
+  tyro
+  pyyaml==6.0.1
+  tensorboard
+  tornado
+  tqdm
+  pyrender==0.1.45
+  loralib
+  smplx
+  omegaconf==2.3.0
+  torch_dct
 
-    pip:
-      pip install tyro
-      pip install pyyaml==6.0.1
-      pip install tensorboard
-      pip install tornado
-      pip install tqdm
-      pip install pyrender==0.1.45
-      pip install git+https://github.com/openai/CLIP.git
-      pip install loralib
-      pip install smplx
-      pip install spacy==2.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
-      pip install omegaconf==2.3.0
-      pip install torch_dct
-      pip install matplotlib==3.3.4
-
+pip install -r requirements.txt
+pip install spacy==2.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
+pip install matplotlib==3.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
     about pytorch3d:
       download pytorch3d-0.7.8  from https://github.com/facebookresearch/pytorch3d/tree/V0.7.8
