@@ -499,6 +499,7 @@ conda create -n dart python=3.8.8
 conda activate dart
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://pypi.tuna.tsinghua.edu.cn/simple
 onda config --set show_channel_urls yes
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64
@@ -520,18 +521,20 @@ run the following command to see what packages are not installed:
 
     // 安装git+xxx需要执行下面这行。
     git config --global http.sslverify false
-    
+    pip install xxx -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+
     pip:
       pip install tyro
       pip install pyyaml==6.0.1
       pip install tensorboard
       pip install tornado
       pip install tqdm
-      pip install pyrender
+      pip install pyrender==0.1.45
       pip install git+https://github.com/openai/CLIP.git
       pip install loralib
       pip install smplx
-      pip install spacy==2.3.4
+      pip install spacy==2.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
       pip install omegaconf==2.3.0
       pip install torch_dct
       pip install matplotlib==3.3.4
@@ -543,9 +546,8 @@ run the following command to see what packages are not installed:
       follow https://github.com/facebookresearch/pytorch3d/blob/V0.7.8/INSTALL.md to install pytorch3d
         download the CUB library from https://github.com/NVIDIA/cub/releases and unpack it to a folder of your choice.
         Define the environment variable CUB_HOME before building and point it to the directory that contains CMakeLists.txt for CUB. Dont Need to compile cub before building pytorch3d.
-        conda install -c iopath iopath
       cd pytorch3d-0.7.8
-      pip install -e .
+      pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
 
 Succeeded, but the python code has errors related to smplx, numpy version.
 
