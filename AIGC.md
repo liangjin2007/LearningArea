@@ -554,14 +554,23 @@ pip install -r requirements.txt
 pip install spacy==2.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
 pip install matplotlib==3.3.4 -i https://pypi.tuna.tsinghua.edu.cn/simple
 
-    about pytorch3d:
+    about pytorch3d, it's hard to install if following the steps below:
       download pytorch3d-0.7.8  from https://github.com/facebookresearch/pytorch3d/tree/V0.7.8
       unzip
       follow https://github.com/facebookresearch/pytorch3d/blob/V0.7.8/INSTALL.md to install pytorch3d
         download the CUB library from https://github.com/NVIDIA/cub/releases and unpack it to a folder of your choice.
         Define the environment variable CUB_HOME before building and point it to the directory that contains CMakeLists.txt for CUB. Dont Need to compile cub before building pytorch3d.
+      Setup CUDA_HOME and CUDA_PATH to the path of CUDA 11.8
+      conda install -c iopath iopath
+      添加C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.36.32532\bin\Hostx64\x64到环境变量PATH
       cd pytorch3d-0.7.8
       pip install -e . -i https://pypi.tuna.tsinghua.edu.cn/simple
+
+See https://github.com/facebookresearch/pytorch3d/discussions/1752
+  pip install --extra-index-url https://miropsota.github.io/torch_packages_builder pytorch3d==0.7.8+pt2.4.1cu118
+  or
+    download pytorch3d-0.7.8+pt2.4.1cu118-cp38-cp38-win_amd64.whl from https://miropsota.github.io/torch_packages_builder
+    pip install .\pytorch3d-0.7.8+pt2.4.1cu118-cp38-cp38-win_amd64.whl
 
 Succeeded, but the python code has errors related to smplx, numpy version.
 
