@@ -72,5 +72,7 @@ git checkout -b backup-2025-03-31
 更新到服务器
 git push -u origin backup-2025-03-31
 
+放弃 merge：如果你确定要放弃当前的 merge，可以使用 `git merge –abort` 命令
+
 ```
 
