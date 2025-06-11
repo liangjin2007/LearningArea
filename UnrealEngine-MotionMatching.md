@@ -59,5 +59,16 @@ github Projects:
   UE4-AsyncImageLoader
 ```
 
+simpler-runtime animation control development
+```
+https://ribosome-rbx.github.io/files/motion_matching.pdf
+https://github.com/Digital-Humans-23/motion-matching           c++
 
+https://theorangeduck.com/media/uploads/other_stuff/Learned_Motion_Matching.pdf
+https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master         python
+https://github.com/orangeduck/Motion-Matching  c++
+
+https://github.com/UPC-ViRVIG/MMVR
+https://upc-virvig.github.io/MMVR/
+```
 
