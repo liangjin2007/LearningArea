@@ -74,5 +74,12 @@ git push -u origin backup-2025-03-31
 
 放弃 merge：如果你确定要放弃当前的 merge，可以使用 `git merge –abort` 命令
 
+
+放弃一个已经Push的提交，并保留历史
+  git log查看hash
+  git revert <hash>
+  git push
+
+
 ```
 
