@@ -1,4 +1,5 @@
 ## Basics 
+- IK Retargeter 如何修滑步 https://dev.epicgames.com/documentation/en-us/unreal-engine/fix-foot-sliding-with-ik-retargeter-in-unreal-engine
 - Animation Blueprint
   - State Machine
   - Behavior Tree
