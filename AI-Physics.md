@@ -85,4 +85,12 @@ physics based character control
 - Lyra Interaction System https://dev.epicgames.com/documentation/en-us/unreal-engine/lyra-sample-game-interaction-system-in-unreal-engine?application_version=5.0
 - Combat UEFN https://www.youtube.com/watch?app=desktop&v=HC3xa-laFTI
 - https://github.com/sebastianstarke/AI4Animation
-- 
+
+
+## Physics Papers
+- Awesome-neural-physics https://hhuiwangg.github.io/projects/awesome-neural-physics/
+
+
+
+
+
