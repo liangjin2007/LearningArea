@@ -504,7 +504,8 @@ This is an extensive node suite that enables ComfyUI to process 3D inputs (Mesh 
 可以直接从ComfyUI-Manager安装。
 
 
-## DART
+# DART
+## 编译
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
 
@@ -599,7 +600,65 @@ Now: its downloading ViT-B-32.pt which is used by clip package.
 
 After downling clip's ViT model.
 Opened the viewer.
-
-
-
 ```
+
+## 集成进UE
+### 任务拆解
+```
+1. 将DART模型用到的几个模型导出onnx-ort模型。
+2. 将onnx-ort模型集成到UE的一个运行时节点中。
+3. 预测输出，生成单帧的bvh数据，用bvh数据通过retarget去驱动我们的角色
+4. 学习相关paper
+```
+### 具体实施
+1.将DART模型用到的几个模型导出onnx-ort模型
+- 1.1. VSCode配置Python调试环境，并使得Powershell terminal能识别conda环境
+```
+1.1.1. 选择Python时能看到列表中有dart环境的Python.exe，选择它。
+1.1.2. Run And Debugger中可能需要创建一个launch.json如下。
+  {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "python",
+            "request": "launch",
+            "program": "",
+            "console": "integratedTerminal",
+            "args": [
+                "-m", "mld.rollout_demo",
+                "--denoiser_checkpoint", "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt",
+                "--batch_size", "1",
+                "--guidance_param", "5",
+                "--use_predicted_joints", "1",
+                "--device", "cuda"
+            ]
+        }
+    ]
+  }
+1.1.3. 在VS code底下的terminal中执行conda init powershell
+```
+
+- 1.2. 调试得到有几个模型，输入的维度等信息
+```
+
+```  
+- 1.3. 添加代码来写出onnx-ort模型
+- 1.4. 学习相关paper
+```
+[2022]两万+引 High-Resolution Image Synthesis with Latent Diffusion Models https://arxiv.org/pdf/2112.10752
+有关工作：
+  GAN： 质量高，但是难于训练
+  基于似然的方法：
+    VAE, Flow based model： 高效，但是质量没GAN高，
+    自回归模型autoregressive model（ARM）： 图像分辨率不高，计算量太大，顺序采样过程。
+
+
+
+
+```  
+
