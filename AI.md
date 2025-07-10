@@ -7,6 +7,21 @@
 - [Deep-Learning-With-Pytorch-Tutorials](https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git)
 - [NVIDA DeepLearningExamples](https://github.com/NVIDIA/DeepLearningExamples/tree/master) 进阶学习
 
+### 1.1. Basics
+- Tensor
+```
+张量数据类型 torch.float, torch.double, torch.int, torch.int32, torch.int8, torch.int16, torch.int64, torch.float16;    torch.FloatTensor, torch.ByteTensor, torch.cuda.FloatTensor, a.type(), type(a), isinstance(a, torch.FloatTensor)
+cpu-gpu tensors conversion 数据转化 a = a.cuda()
+类型检查: isinstance(a, torch.cuda.FloatTensor)
+维度Dimensions/Rank: a.size()等价于a.shape，都返回torch.Size对象
+
+张量创建：torch.tensor(1.f); 从list创建张量 torch.tensor([1.1, 2.0]) # torch.Size([2]); 
+
+
+```
+
+
+
 ## 2.Linear-Probe-Fine-Tuning
 ```
 在深度学习中，Linear Probe（线性探测） 是一种用于评估预训练模型表征质量的评估方法，尤其在自监督学习（Self-Supervised Learning, SSL）领域广泛应用。其核心是通过冻结预训练模型参数，仅训练一个简单的线性分类器来测试模型学习特征的泛化能力。以下是详细解析：
