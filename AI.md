@@ -1,6 +1,13 @@
 # 目录
-- [1.Linear-Probe-Fine-Tuning](##1.Linear-Probe-Fine-Tuning)
-## 1.Linear-Probe-Fine-Tuning
+- [1.pytorch](##1.pytorch)
+- [2.Linear-Probe-Fine-Tuning](##2.Linear-Probe-Fine-Tuning)
+
+## 1.pytorch
+- [API文档](https://docs.pytorch.org/docs/stable/index.html)
+- [Deep-Learning-With-Pytorch-Tutorials](https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git)
+- [NVIDA DeepLearningExamples](https://github.com/NVIDIA/DeepLearningExamples/tree/master) 进阶学习
+
+## 2.Linear-Probe-Fine-Tuning
 ```
 在深度学习中，Linear Probe（线性探测） 是一种用于评估预训练模型表征质量的评估方法，尤其在自监督学习（Self-Supervised Learning, SSL）领域广泛应用。其核心是通过冻结预训练模型参数，仅训练一个简单的线性分类器来测试模型学习特征的泛化能力。以下是详细解析：
 
