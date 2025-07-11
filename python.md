@@ -1,7 +1,11 @@
 ## vscode hotkey
 Ctrl + Shift + X : open extention window
 Ctrl + Shift + D : open Run And Debug window, gear icon可设置launch.json
-Ctrl + Shift+ P: 可设置python interpreter
+Ctrl + Shift+ P: 
+    可设置python interpreter
+        输入Python
+        选择Python: Select Interpreter
+        选择dart对应的python
 
 ## directly debug python code in
 
