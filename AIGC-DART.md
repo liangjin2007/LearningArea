@@ -102,7 +102,6 @@ Opened the viewer.
 ```
 
 ## 2.集成进UE
-### 2.1.任务拆解
 ```
 1. 导入smpl-x模型到UE
 2. 将DART模型用到的几个模型导出onnx-ort模型。
@@ -110,34 +109,40 @@ Opened the viewer.
 4. 预测输出，生成单帧的bvh数据，用bvh数据通过retarget去驱动我们的角色
 ```
 
-### 2.2.导入smpl-x模型到UE
+### 2.1.导入smpl-x模型到UE
 ```
-从参考https://github.com/vchoutas/smplx/issues/5中找到了以下的某位大佬的github https://github.com/mrhaiyiwang/Smplx2FBX/tree/main?tab=readme-ov-file
-按照它的说明分两步：先安装fbx python sdk, 再执行它的ExportShape.py
-从https://aps.autodesk.com/developer/overview/fbx-sdk下载fbx-sdk，安装exe, 得到一个whl文件，使用$ python -m pip install %name_of_the_wheel_file%.whl安装fbx python sdk
+smpl-x官方网站：
+  https://smpl-x.is.tue.mpg.de/download.php
+  https://agora.is.tuebingen.mpg.de/login.php
 
+1. 从smpl-x官网下载smpl-x blender Add on带数据那个zip， 大概600多M，不要下载Code那个链接里的。
+
+2. 参考Code中的README.md https://gitlab.tuebingen.mpg.de/jtesch/smplx_blender_addon/-/blob/master/README.md?ref_type=heads的Installation部分。
+
+	Register at https://smpl-x.is.tue.mpg.de and download the SMPL-X for Blender add-on. The ZIP release file will include the required SMPL-X model which is not included in the code repository.
+	Blender>Edit>Preferences>Add-ons>Install
+	Select downloaded SMPL-X for Blender add-on ZIP file (smplx_blender_addon-YYYYMMDD.zip) and install
+	Enable SMPL-X for Blender add-on
+	Enable sidebar in 3D Viewport>View>Sidebar
+	SMPL-X tool will show up in sidebar
+
+3.选择version, 选择性别，点Add
+
+4.点Export Fbx   (选择Unreal)
+
+5.导入到UE
 ```
 
 
-### 2.2.具体实施
+### 2.2.将DART模型用到的几个模型导出onnx-ort模型
 
 #### 2.2.1.模型可视化
 DART有三个模型: vae_model, diffusion, 和denoiser_model。
-
 可使用torchvis包做可视化。
-
-
-
-
-
 - 可视化vae_model:
 ```
 DART中在预测的代码vae_model.decode(...)附近添加代码：
-
 vae_model的输入的维度为[1, B, D]
-
-
-
 ```
 
 ### 2.2.2.导出onnx模型
