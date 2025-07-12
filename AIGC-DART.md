@@ -2,6 +2,8 @@
 - [1.编译](#1编译)
 - [2.集成进UE](#2集成进UE)
   - [2.1.任务拆解](#21任务拆解)
+  - [2.2.具体实施](#22具体实施)
+- [3.相关知识] 
 ## 1.编译
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
@@ -102,12 +104,43 @@ Opened the viewer.
 ## 2.集成进UE
 ### 2.1.任务拆解
 ```
-1. 将DART模型用到的几个模型导出onnx-ort模型。
-2. 将onnx-ort模型集成到UE的一个运行时节点中。
-3. 预测输出，生成单帧的bvh数据，用bvh数据通过retarget去驱动我们的角色
-4. 学习相关paper
+1. 导入smpl-x模型到UE
+2. 将DART模型用到的几个模型导出onnx-ort模型。
+3. 将onnx-ort模型集成到UE的一个运行时节点中。
+4. 预测输出，生成单帧的bvh数据，用bvh数据通过retarget去驱动我们的角色
 ```
-### 具体实施
+
+### 2.2.导入smpl-x模型到UE
+```
+从参考https://github.com/vchoutas/smplx/issues/5中找到了以下的某位大佬的github https://github.com/mrhaiyiwang/Smplx2FBX/tree/main?tab=readme-ov-file
+按照它的说明分两步：先安装fbx python sdk, 再执行它的ExportShape.py
+从https://aps.autodesk.com/developer/overview/fbx-sdk下载fbx-sdk，安装exe, 得到一个whl文件，使用$ python -m pip install %name_of_the_wheel_file%.whl安装fbx python sdk
+
+```
+
+
+### 2.2.具体实施
+
+#### 2.2.1.模型可视化
+DART有三个模型: vae_model, diffusion, 和denoiser_model。
+
+可使用torchvis包做可视化。
+
+
+
+
+
+- 可视化vae_model:
+```
+DART中在预测的代码vae_model.decode(...)附近添加代码：
+
+vae_model的输入的维度为[1, B, D]
+
+
+
+```
+
+### 2.2.2.导出onnx模型
 1.将DART模型用到的几个模型导出onnx-ort模型
 - 1.1. VSCode配置Python调试环境，并使得Powershell terminal能识别conda环境
 ```
@@ -150,19 +183,40 @@ Opened the viewer.
 Install ONNX Runtime CPU
   pip install onnxruntime # first try
 
-pytorch api https://docs.pytorch.org/docs/stable/index.html
+通过https://onnxruntime.ai/docs/tutorials/mobile/helpers/#pytorch-export-helpers在适当位置添加导出代码
+
+
+
+
+
+
 
 ```
+- pytorch api https://docs.pytorch.org/docs/stable/index.html
 
 
 
+### 2.2.3.模型优化 
+- https://github.com/ShusenTang/Dive-into-DL-PyTorch
+- https://github.com/TingsongYu/PyTorch_Tutorial
+- https://github.com/microsoft/MMdnn
 
-- 1.4. 学习相关paper
-```
-[2022]两万+引 High-Resolution Image Synthesis with Latent Diffusion Models https://arxiv.org/pdf/2112.10752
-有关工作：
-  GAN： 质量高，但是难于训练
-  基于似然的方法：
-    VAE, Flow based model： 高效，但是质量没GAN高，
-    自回归模型autoregressive model（ARM）： 图像分辨率不高，计算量太大，顺序采样过程。
 ```  
+graph LR 
+A[原始模型] --> B(知识蒸馏) 
+B --> C{评估精度}
+C -->|达标| D[结构化剪枝]
+C -->|未达标| B 
+D --> E[量化训练]
+E --> F[部署至移动端]
+ 四、附加资源
+视频教程：B站搜索《PyTorch最全实用教程》第5章（模型压缩实战）4
+论文精读：
+《Distilling the Knowledge in a Neural Network》 (Hinton, 2015)
+《Learning Efficient Convolutional Networks through Network Slimming》 (ICCV 2017)
+模型分析工具：
+Netron：可视化压缩后模型结构（支持ONNX）
+TensorBoard：监控蒸馏/剪枝过程中的损失变化 3
+提示：优先运行GitHub项目的示例代码（如Optimum的蒸馏Pipeline），再结合PDF教程理解理论细节。工业部署建议导出ONNX后使用MNN/TNN等移动端引擎加速
+
+```
