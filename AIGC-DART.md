@@ -1,5 +1,8 @@
 # DART
-## 编译
+- [1.编译](##1.编译)
+- [2.集成进UE](##2.集成进UE)
+  - [2.1.任务拆解](###2.1.任务拆解)
+## 1.编译
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
 
@@ -96,8 +99,8 @@ After downling clip's ViT model.
 Opened the viewer.
 ```
 
-## 集成进UE
-### 任务拆解
+## 2.集成进UE
+### 2.1.任务拆解
 ```
 1. 将DART模型用到的几个模型导出onnx-ort模型。
 2. 将onnx-ort模型集成到UE的一个运行时节点中。
@@ -146,6 +149,8 @@ Opened the viewer.
 安装 https://onnxruntime.ai/docs/install/#install-on-web-and-mobile
 Install ONNX Runtime CPU
   pip install onnxruntime # first try
+
+pytorch api https://docs.pytorch.org/docs/stable/index.html
 
 ```
 
