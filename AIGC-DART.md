@@ -1,9 +1,11 @@
 # DART
 - [1.编译](#1编译)
 - [2.集成进UE](#2集成进UE)
-  - [2.1.任务拆解](#21任务拆解)
-  - [2.2.具体实施](#22具体实施)
-- [3.相关知识] 
+  - [2.1.导入smpl-x模型到UE](#21导入smpl-x模型到UE)
+  - [2.2.将DART模型用到的几个模型导出onnx-ort模型](#22将DART模型用到的几个模型导出onnx-ort模型)
+    
+
+
 ## 1.编译
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
@@ -131,7 +133,16 @@ smpl-x官方网站：
 4.点Export Fbx   (选择Unreal)
 
 5.导入到UE
+
+6.导入的骨骼网格体有200多M。 需要考虑把不必要的数据删除，这一步可能能在UE编辑器中操作。
+可在MorphTarget中删除Shape，Exp, Pose等。
+
 ```
+
+
+
+
+
 
 
 ### 2.2.将DART模型用到的几个模型导出onnx-ort模型
