@@ -499,6 +499,8 @@ Restart ComfyUI
 质量比较高的文生图模型。 已测试。
 
 ## ComfyUI-3D-Pack
+
+## Retarget https://www.bilibili.com/video/BV1yG4y187y6/?vd_source=5da8548280c1817d91d4838e6d525873
 This is an extensive node suite that enables ComfyUI to process 3D inputs (Mesh & UV Texture, etc.) using cutting edge algorithms (3DGS, NeRF, etc.) and models (InstantMesh, CRM, TripoSR, etc.)
 
 可以直接从ComfyUI-Manager安装。
