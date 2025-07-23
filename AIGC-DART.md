@@ -1,6 +1,6 @@
 # DART
 - [1.编译和执行mld.rollout_demo](#1编译和执行mld.rollout_demo)
-- [2.执行强化学习demo](#2执行强化学习demo)
+- [2.执行Inbetween_demo](#2执行Inbetween_demo)
 - [3.集成进UE](#3集成进UE)
   - [3.1.导入smpl-x模型到UE](#21导入smpl-x模型到UE)
   - [3.2.将DART模型用到的几个模型导出onnx-ort模型](#22将DART模型用到的几个模型导出onnx-ort模型)
@@ -106,9 +106,78 @@ After downling clip's ViT model.
 Opened the viewer.
 ```
 
+- VSCode launch.json
+```
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
 
-## 2.执行强化学习demo
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "python",
+            "request": "launch",
+            "program": "",
+            "console": "integratedTerminal",
+            "args": [
+                "-m", "mld.rollout_demo",
+                "--denoiser_checkpoint", "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt",
+                "--batch_size", "1",
+                "--guidance_param", "5",
+                "--use_predicted_joints", "1",
+                "--device", "cuda"
+            ]
+        }
+    ]
+}
+```
 
+## 2.执行Inbetween_demo
+Python命令：
+```
+python -m mld.optim_mld --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --optim_input "D:/T2M_Runtime/DART-main/data/inbetween/pace_in_circles/babel_2f.pkl" --text_prompt "pace in circles" --optim_lr 0.05 --optim_steps 100 --batch_size 4 --guidance_param 5 --respacing "ddim10" --export_smpl 0  --use_predicted_joints 1  --optim_unit_grad 1  --optim_anneal_lr 1  --weight_jerk 0.0  --weight_floor 0.0 --seed_type 'history'  --init_noise_scale 0.1 --device cuda
+```
+VSCode launch.json
+```
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "python",
+            "request": "launch",
+            "program": "",
+            "console": "integratedTerminal",
+            "args": [
+                "-m", "mld.optim_mld",
+                "--denoiser_checkpoint", "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt",
+                "--optim_input","D:/T2M_Runtime/DART-main/data/inbetween/pace_in_circles/babel_2f.pkl",
+                "--text_prompt","pace in circles",
+                "--optim_lr","0.05",
+                "--optim_steps","100",
+                "--batch_size", "4",
+                "--guidance_param", "5",
+                "--respacing","ddim10",
+                "--export_smpl","0",
+                "--use_predicted_joints", "1",
+                "--optim_unit_grad","1",
+                "--optim_anneal_lr","1",
+                "--weight_jerk","0.0",
+                "--weight_floor","0.0",
+                "--seed_type","history",
+                "--init_noise_scale","0.1",
+                "--device", "cuda"
+            ]
+        }
+    ]
+  }
+```
 
 
 ## 3.集成进UE
