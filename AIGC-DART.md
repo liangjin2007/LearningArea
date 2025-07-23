@@ -8,6 +8,8 @@
 
 
 ## 1.编译和执行mld.rollout_demo
+原始链接 https://github.com/zkf1997/DART
+
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
 
