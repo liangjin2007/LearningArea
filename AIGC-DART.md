@@ -1,12 +1,13 @@
 # DART
-- [1.编译](#1编译)
-- [2.集成进UE](#2集成进UE)
-  - [2.1.导入smpl-x模型到UE](#21导入smpl-x模型到UE)
-  - [2.2.将DART模型用到的几个模型导出onnx-ort模型](#22将DART模型用到的几个模型导出onnx-ort模型)
+- [1.编译和执行mld.rollout_demo](#1编译和执行mld.rollout_demo)
+- [2.执行强化学习demo](#2执行强化学习demo)
+- [3.集成进UE](#3集成进UE)
+  - [3.1.导入smpl-x模型到UE](#21导入smpl-x模型到UE)
+  - [3.2.将DART模型用到的几个模型导出onnx-ort模型](#22将DART模型用到的几个模型导出onnx-ort模型)
     
 
 
-## 1.编译
+## 1.编译和执行mld.rollout_demo
 ```
 如果发现conda装东西特别慢， 删除C:/Users/xxx/.condarc, 删除C:/Users/xxx/.conda, 卸载Anaconda3， 重装Anaconda3
 
@@ -103,7 +104,12 @@ After downling clip's ViT model.
 Opened the viewer.
 ```
 
-## 2.集成进UE
+
+## 2.执行强化学习demo
+
+
+
+## 3.集成进UE
 ```
 1. 导入smpl-x模型到UE
 2. 将DART模型用到的几个模型导出onnx-ort模型。
@@ -111,7 +117,7 @@ Opened the viewer.
 4. 预测输出，生成单帧的bvh数据，用bvh数据通过retarget去驱动我们的角色
 ```
 
-### 2.1.导入smpl-x模型到UE
+### 3.1.导入smpl-x模型到UE
 ```
 smpl-x官方网站：
   https://smpl-x.is.tue.mpg.de/download.php
@@ -145,9 +151,9 @@ smpl-x官方网站：
 
 
 
-### 2.2.将DART模型用到的几个模型导出onnx-ort模型
+### 3.2.将DART模型用到的几个模型导出onnx-ort模型
 
-#### 2.2.1.模型可视化
+#### 3.2.1.模型可视化
 DART有三个模型: vae_model, diffusion, 和denoiser_model。
 可使用torchvis包做可视化。
 - 可视化vae_model:
@@ -156,7 +162,7 @@ DART中在预测的代码vae_model.decode(...)附近添加代码：
 vae_model的输入的维度为[1, B, D]
 ```
 
-### 2.2.2.导出onnx模型
+### 3.2.2.导出onnx模型
 1.将DART模型用到的几个模型导出onnx-ort模型
 - 1.1. VSCode配置Python调试环境，并使得Powershell terminal能识别conda环境
 ```
@@ -212,7 +218,7 @@ Install ONNX Runtime CPU
 
 
 
-### 2.2.3.模型优化 
+### 3.2.3.模型优化 
 - https://github.com/ShusenTang/Dive-into-DL-PyTorch
 - https://github.com/TingsongYu/PyTorch_Tutorial
 - https://github.com/microsoft/MMdnn
