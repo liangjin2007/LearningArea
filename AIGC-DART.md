@@ -138,8 +138,8 @@ python -m mld.rollout_demo --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_d
 }
 ```
 
-## 2.执行Inbetween_demo
-- Python命令
+## 2.执行Inbetween_demo -- 非常慢
+- Python命令1
 ```
 python -m mld.optim_mld --denoiser_checkpoint "D:/T2M_Runtime/DART-main/mld_denoiser/mld_fps_clip_repeat_euler/checkpoint_300000.pt" --optim_input "D:/T2M_Runtime/DART-main/data/inbetween/pace_in_circles/babel_2f.pkl" --text_prompt "pace in circles" --optim_lr 0.05 --optim_steps 100 --batch_size 4 --guidance_param 5 --respacing "ddim10" --export_smpl 0  --use_predicted_joints 1  --optim_unit_grad 1  --optim_anneal_lr 1  --weight_jerk 0.0  --weight_floor 0.0 --seed_type 'history'  --init_noise_scale 0.1 --device cuda
 ```
@@ -182,6 +182,37 @@ VSCode launch.json
     ]
   }
 ```
+
+- 碰到的问题
+```
+1.问题1：args.yaml加载不了
+	NotImplementedError: cannot instantiate 'PosixPath' on your system
+解决办法：
+	#https://stackoverflow.com/questions/57286486/i-cant-load-my-model-because-i-cant-put-a-posixpath
+	import pathlib
+	temp = pathlib.PosixPath
+	pathlib.PosixPath=pathlib.WindowsPath
+
+2.问题2：FileNotFoundError: [WinError 3] 系统找不到指定的路径。: 'D:\\T2M_Runtime\\DART-main\\mld_denoiser\\mld_fps_clip_repeat_euler\\checkpoint_300000\\optim\\inbetween\\historyseed\\scale0.1_floor0.0_jerk0.0_use_pred_joints_ddim10_pace_in_circles*15_guidance5.0_seed0'
+
+原因：
+	Windows上文件夹名不能带*
+
+解决办法：optim_mld.py line 116附近，在修改文件名的地方添加.replace('*','_')
+	out_path = optim_args.save_dir
+    	filename = f'guidance{optim_args.guidance_param}_seed{optim_args.seed}'
+    	if text_prompt != '':
+        	filename = text_prompt[:40].replace('*','_').replace(' ', '_').replace('.', '') + '_' + filename
+
+至此，这个脚本就跑起来了。
+```
+
+- history-Inbetween非常慢，脚本中设置了100次迭代，基本上需要10分钟。
+
+- Python命令2
+```
+
+```    
 
 
 ## 3.集成进UE
