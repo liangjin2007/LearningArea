@@ -4,7 +4,7 @@
 - dataset https://github.com/ubisoft/ubisoft-laforge-animation-dataset
 - https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master
 - https://github.com/orangeduck/Motion-Matching/blob/main/resources/train_decompressor.py
-- Robust Motion Inbetween LSTM based
+- Robust Motion Inbetween (LSTM based) Robust motion in-betweening
 - SIG 2024 https://github.com/setarehc/diffusion-motion-inbetweening
 
 ## 目标
