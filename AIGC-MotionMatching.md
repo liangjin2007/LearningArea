@@ -1,3 +1,5 @@
 # About how to encoding Motion Matching Into Networks and how to apply into UE.
 
-
+## Reference
+https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master
+https://github.com/orangeduck/Motion-Matching/blob/main/resources/train_decompressor.py
