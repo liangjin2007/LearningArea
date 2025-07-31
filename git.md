@@ -80,6 +80,43 @@ git push -u origin backup-2025-03-31
   git revert <hash>
   git push
 
-
 ```
 
+
+- tag相关
+```
+1 给指定commit打tag
+git tag tagName commitId
+
+2 提交tag
+git push origin tagName
+
+3 给当前分支加tag
+tag会加在当前分支的最后一次提交上（截止打tag的最后一次提交哈）。
+git tag tagName
+
+4 给tag加注释
+git tag -a tagName -m "注释"
+git tag -a tagName commitId -m "注释"
+没有注释，别加-a，会报错，即打tag失败
+git tag tagName -m "注释"
+git tag tagName commitId -m "注释"
+git tag tagName -m "注释" commitId
+
+5 删除本地tag
+tag还没提交，只需删除本地tag
+git tag -d tagName
+git tag --delete tagName
+
+6 删除远程仓库的tag
+tag已经提交到远端
+git push origin -d tagName
+git push -d origin tagName
+git push origin --delete tagName
+git push --delete origin tagName
+git push origin :refs/tags/tagName
+
+7 tag列表
+git tag git tag -l git tag --list 本地所有tag
+git tag -l "v1.1.*"匹配v1.1.x的tag
+```
