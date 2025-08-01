@@ -12,8 +12,10 @@
 - Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices
 - Robust Motion Inbetween (LSTM based) Robust motion in-betweening
 - SIG 2024 https://github.com/setarehc/diffusion-motion-inbetweening
-- c++ human simulator https://github.com/google-deepmind/mujoco?tab=readme-ov-file
-
+- simulator
+  - c++ human simulator https://github.com/google-deepmind/mujoco?tab=readme-ov-file
+  - https://github.com/HoangGiang93/URoboViz?tab=readme-ov-file
+  - MuJoCo-Unreal-Engine-Plugin https://lab.uwa4d.com/lab/67e6900f333affa84f3e3bac
 ## 目标
 - 避免滑步：Runtime节点中只要脚是着地的必须不移动。整个运动的移动应该交给RootMotion来控制。
   - 其他参考链接： https://dev.epicgames.com/documentation/en-us/unreal-engine/fix-foot-sliding-with-ik-retargeter-in-unreal-engine
