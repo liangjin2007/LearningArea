@@ -9,6 +9,7 @@
   - https://github.com/IDEA-Research/Motion-X
 - https://github.com/pau1o-hs/Learned-Motion-Matching/tree/master
 - https://github.com/orangeduck/Motion-Matching/blob/main/resources/train_decompressor.py
+- Combining Motion Matching and Orientation Prediction to Animate Avatars for Consumer-Grade VR Devices
 - Robust Motion Inbetween (LSTM based) Robust motion in-betweening
 - SIG 2024 https://github.com/setarehc/diffusion-motion-inbetweening
 
