@@ -16,6 +16,7 @@
   - c++ human simulator https://github.com/google-deepmind/mujoco?tab=readme-ov-file
   - https://github.com/HoangGiang93/URoboViz?tab=readme-ov-file
   - MuJoCo-Unreal-Engine-Plugin https://lab.uwa4d.com/lab/67e6900f333affa84f3e3bac
+  - XCCQuinn
 ## 目标
 - 避免滑步：Runtime节点中只要脚是着地的必须不移动。整个运动的移动应该交给RootMotion来控制。
   - 其他参考链接： https://dev.epicgames.com/documentation/en-us/unreal-engine/fix-foot-sliding-with-ik-retargeter-in-unreal-engine
