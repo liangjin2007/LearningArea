@@ -17,6 +17,9 @@
   - https://github.com/HoangGiang93/URoboViz?tab=readme-ov-file
   - MuJoCo-Unreal-Engine-Plugin https://lab.uwa4d.com/lab/67e6900f333affa84f3e3bac
   - XCCQuinn
+  - mujoco_mpc real-time behaviour synthesis with MuJoCo, using Predictive Control https://github.com/google-deepmind/mujoco_mpc
+  - A collection of high-quality models for the MuJoCo physics engine, curated by Google DeepMind. https://github.com/google-deepmind/mujoco_menagerie
+  - Imitation learning benchmark focusing on complex locomotion tasks using MuJoCo  https://github.com/robfiras/loco-mujoco
 ## 目标
 - 避免滑步：Runtime节点中只要脚是着地的必须不移动。整个运动的移动应该交给RootMotion来控制。
   - 其他参考链接： https://dev.epicgames.com/documentation/en-us/unreal-engine/fix-foot-sliding-with-ik-retargeter-in-unreal-engine
