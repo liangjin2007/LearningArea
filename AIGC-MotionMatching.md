@@ -88,6 +88,7 @@ create a directory called data
 
 create the following code as a download_buffers.py
     from huggingface_hub import hf_hub_download
+    from metamotivo.buffers.buffers import DictBuffer
     import h5py
     
     local_dir = "metamotivo-S-1-datasets"
@@ -107,9 +108,16 @@ create the following code as a download_buffers.py
     buffer = DictBuffer(capacity=data["qpos"].shape[0], device="cpu")
     buffer.extend(data)
 
+python download_buffers.py download the hdf5 buffer.
 
 ```
 
 - awass
 https://amass.is.tue.mpg.de/download.php
 
+- Metahuman
+```
+https://dev.epicgames.com/community/learning/tutorials/GDMx/metahuman-animation-tutorial-series
+https://www.bilibili.com/video/BV1E4MNzUEat?spm_id_from=333.788.player.switch&vd_source=38a71595005700b6ff304d0a48055f82
+https://dev.epicgames.com/community/learning/tutorials/B3Yy/metahuman-living-notebook-ue5-6?locale=zh-cn
+```
