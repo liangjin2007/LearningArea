@@ -177,4 +177,5 @@ https://amass.is.tue.mpg.de/download.php
 https://dev.epicgames.com/community/learning/tutorials/GDMx/metahuman-animation-tutorial-series
 https://www.bilibili.com/video/BV1E4MNzUEat?spm_id_from=333.788.player.switch&vd_source=38a71595005700b6ff304d0a48055f82
 https://dev.epicgames.com/community/learning/tutorials/B3Yy/metahuman-living-notebook-ue5-6?locale=zh-cn
+https://dev.epicgames.com/documentation/zh-cn/metahuman/metahuman-5-6-release-notes
 ```
