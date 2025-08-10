@@ -348,3 +348,10 @@ TensorBoard：监控蒸馏/剪枝过程中的损失变化 3
 提示：优先运行GitHub项目的示例代码（如Optimum的蒸馏Pipeline），再结合PDF教程理解理论细节。工业部署建议导出ONNX后使用MNN/TNN等移动端引擎加速
 
 ```
+
+## 3.3. 将onnx模型接入Unreal Engine
+- 参考 https://github.com/microsoft/OnnxRuntime-UnrealEngine
+
+
+
+
