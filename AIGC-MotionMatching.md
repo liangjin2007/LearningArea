@@ -78,6 +78,12 @@ pip install -e .
 cd xxx/humenv
 pip install -e .
 
+
+pip install mediapy
+
+pip install torchsummary
+
+
 python
 
 from metamotivo.fb_cpr.huggingface import FBcprModel
@@ -111,6 +117,57 @@ create the following code as a download_buffers.py
 python download_buffers.py download the hdf5 buffer.
 
 ```
+
+- 可视化模型
+```
+pip install torchsummary
+summary(model._backward_map, input_size=input_goal.shape)
+
+# 输出以下内容
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Linear-1               [-1, 1, 256]          91,904
+         LayerNorm-2               [-1, 1, 256]             512
+              Tanh-3               [-1, 1, 256]               0
+            Linear-4               [-1, 1, 256]          65,792
+              Norm-5               [-1, 1, 256]               0
+================================================================
+Total params: 158,208
+Trainable params: 0
+Non-trainable params: 158,208
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.01
+Params size (MB): 0.60
+Estimated Total Size (MB): 0.61
+```
+
+
+```
+Windows：下载 Graphviz 并添加路径到环境变量。 https://graphviz.org/download/
+pip install torchviz
+
+import torch 
+from torchviz import make_dot 
+from torch.autograd  import Variable 
+ 
+# 使用上面定义的 SimpleCNN 模型 
+model = SimpleCNN() 
+ 
+# 创建输入张量（需带梯度，否则无法追踪计算图） 
+x = Variable(torch.randn(1,  3, 32, 32))  # batch_size=1, channels=3, height=32, width=32 
+y = model(x)  # 前向传播 
+ 
+# 生成计算图（保存为 PDF 或 PNG） 
+dot = make_dot(y, params=dict(model.named_parameters()))  
+dot.render("cnn_model",  format="png")  # 保存为 cnn_model.png  
+dot.view()   # 直接显示 
+
+
+
+```
+
 
 - awass
 https://amass.is.tue.mpg.de/download.php
