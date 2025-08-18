@@ -49,9 +49,14 @@ Step 3. Manager Listeners : LearningAgentsManagerListener
 ```
 
 ### 示例代码
+```
 代码1 https://github.com/automathan/ue-la-example?tab=readme-ov-file
-代码2 https://github.com/XanderBert/Unreal-Engine-Learning-Agents-Learning-Environment
+及其中的文档
+文档1 https://medium.com/@gensen/early-explorations-of-learning-agents-in-unreal-engine-ef74b058161e
+文档2 https://medium.com/@gensen/killers-and-explorers-training-rl-agents-in-unreal-engine-7976a83b01d7
 
+代码2 https://github.com/XanderBert/Unreal-Engine-Learning-Agents-Learning-Environment
+```
 
 
 
