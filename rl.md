@@ -25,6 +25,13 @@
 - 贝尔曼公式
 
 ## UE5 Learning Agents https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
+
+### 概述
+Learning Agents comes with both a C++ library (with Blueprint support) and Python scripts. The C++ library is an ordinary UE plugin split into a handful of modules. It exposes functionality for defining observations/actions and your neural network structure, as well as the flow-control for the training and inference procedures. During training, the UE process will collaborate with an external Python process running PyTorch. We included a working PyTorch algorithm for PPO and BC.
+
+
+
+
 ```
 Step 1. 创建一个带LearningAgentsManager Componenet的Actor Named with BP_SportsCarManager
 Click Class Default to show Detail, add Component Tag "LearningAgentsManager"
@@ -39,6 +46,13 @@ Step 3. Manager Listeners : LearningAgentsManagerListener
       SpecifyAgentObservation
       SpecifyAgentAction
       GatherAgentObservation
-
-
 ```
+
+### 示例代码
+代码1 https://github.com/automathan/ue-la-example?tab=readme-ov-file
+代码2 https://github.com/XanderBert/Unreal-Engine-Learning-Agents-Learning-Environment
+
+
+
+
+
