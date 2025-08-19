@@ -28,11 +28,16 @@
 部分可观测的（Partially observed）——> 用POMDP建模。
 动作空间（Action Space）: 离散动作空间，连续动作空间
 
-智能体(Agent)三个组成部分：
-  策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
-  价值函数：
-  模型：
-  强化学习智能体的类型： 基于价值与基于策略
+智能体(Agent)三个组成部分和类型：
+  a.策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
+  b.价值函数：
+  c.模型：
+  d.强化学习智能体的类型： 1. 基于价值与基于策略 ；2. 有模型与免模型。可以先思考在智能体执行动作前，是否能对下一步的状态和奖励进行预测，如果能，就能够对环境进行建模，从而采用有模型学习。（即模型用来模拟真实环境，可预测下一步状态和奖励）
+     目前，大部分深度强化学习方法都采用了免模型强化学习
+
+学习与规划
+
+
 
 ```
 - Policy Function和Value Function
@@ -48,13 +53,15 @@
 ## UE5 Learning Agents https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
 
 ### 概述
+- Learning Agents is a plugin that allows game developers to train and deploy bots in Unreal Engine using Reinforcement Learning and Imitation Learning.
 ```
 Learning Agents comes with both a C++ library (with Blueprint support) and Python scripts. The C++ library is an ordinary UE plugin split into a handful of modules. It exposes functionality for defining observations/actions and your neural network structure, as well as the flow-control for the training and inference procedures. During training, the UE process will collaborate with an external Python process running PyTorch. We included a working PyTorch algorithm for PPO and BC.
 ```
-- 蓝图API https://dev.epicgames.com/documentation/en-us/unreal-engine/BlueprintAPI/LearningAgents
 
-Learning Agents is a plugin that allows game developers to train and deploy bots in Unreal Engine using Reinforcement Learning and Imitation Learning.
+- 最新 蓝图 API https://dev.epicgames.com/documentation/en-us/unreal-engine/BlueprintAPI/LearningAgents
+- 最新 C++ API https://dev.epicgames.com/documentation/en-us/unreal-engine/API/Plugins/LearningAgents
 
+- Notes: 中间有重构，所以需要考虑使用哪个版本，否则代码差异解决不了。
 ```
 Changes from 5.4 to 5.5
 
@@ -83,22 +90,87 @@ Mac and Linux Training Added
 ```
 
 
+- 一个强化学习的基本模块  
+```
+An Interactor (Observe Data and Apply Actions)
+A Trainer (Give rewards And Execute Completions)
+A Policy (Decides What the agent does with the given Observations)
+Previously, these three are all ULearningAgentsManagerComponent type components, so would be added to an actor
+```
 
 ```
-Step 1. 创建一个带LearningAgentsManager Componenet的Actor Named with BP_SportsCarManager
-Click Class Default to show Detail, add Component Tag "LearningAgentsManager"
+1. ULearningAgentsManager now is a UActorComponent, so need to add to an actor
+2. Previous ULearningAgentsManagerComponent type object all becomes ULearningAgentsManagerListener object which is a UObject
+	ULearningAgentsImitationTrainer
+	ULearningAgentsPPOTrainer
+	ULearningAgentsRecorder
+	ULearningAgentsTrainingEnvironment
+	ULearningAgentsController
+	ULearningAgentsCritic
+	ULearningAgentsInteractor
+	ULearningAgentsPolicy
+3. All the input/output is now flatted to a vector.
+4. ULearningAgentsPolicy now has the following three objects.
+	EncoderObject  // TSharedPtr<UE::Learning::FNeuralNetworkFunction>
+	DecoderObject  // TSharedPtr<UE::Learning::FNeuralNetworkFunction>
+	PolicyObject   // TSharedPtr<UE::Learning::FNeuralNetworkPolicy>
+	EncoderNetwork // TObjectPtr<ULearningAgentsNeuralNetwork>
+	PolicyNetwork  // TObjectPtr<ULearningAgentsNeuralNetwork>
+	DecoderNetwork // TObjectPtr<ULearningAgentsNeuralNetwork>
 
-Step 2. For each of the Car Pawn, in the Begin Play event, Find the LearningAgentsManager Actor, get the component, call AddAgent to add the pawn object.
-There is Logging informatin for AddAgent function.
+void ULearningAgentsPolicy::RunInference(const float ActionNoiseScale)
+{
+	Interactor->GatherObservations();
+	Interactor->MakeActionModifiers();
+	EncodeObservations();
+	EvaluatePolicy();
+	DecodeAndSampleActions(ActionNoiseScale);
+	Interactor->PerformActions();
+}
 
-Step 3. Manager Listeners : LearningAgentsManagerListener
-三个派生类：
-  LearningAgentsInteractor： 定义Agents如何与世界交互（通过Observation和Action）
-    需要重载以下四个函数：
-      SpecifyAgentObservation
-      SpecifyAgentAction
-      GatherAgentObservation
+ULearningAgentsPolicy::EvaluatePolicy()
+		PolicyObject->Evaluate(
+		ActionVectorsEncoded,
+		MemoryState,
+		ObservationVectorsEncoded,
+		PreEvaluationMemoryState,
+		ValidAgentSet);
+
+
+ULearningNeuralNetworkData: UObject
+	private:
+		// Uploads the FileData to NNE and updates the internal in-memory representation of the network used for inference.
+		void UpdateNetwork(); // Update ModelData and Network by FileData.
+
+		UPROPERTY()
+		TArray<uint8> FileData;
+		
+		// Model data used by NNE
+		UPROPERTY()
+		TObjectPtr<UNNEModelData> ModelData;
+
+		// Internal in-memory network representation
+		TSharedPtr<UE::Learning::FNeuralNetwork> Network;
+
+
+ModleData -> UE::NNE::IModelCPU对象 -> Network's UE::Learning::FNeuralNetworkInference typed array TArray<TWeakPtr<FNeuralNetworkInference>, TInlineAllocator<64>> InferenceObjects
+	TWeakInterfacePtr<INNERuntimeCPU> RuntimeCPU = UE::NNE::GetRuntime<INNERuntimeCPU>(TEXT("NNERuntimeBasicCpu"));
+	
+	TSharedPtr<UE::NNE::IModelCPU> UpdatedModel = nullptr;
+	
+	if (ensureMsgf(RuntimeCPU.IsValid(), TEXT("Could not find requested NNE Runtime")))
+	{
+		UpdatedModel = RuntimeCPU->CreateModelCPU(ModelData);
+	}
+	Network->UpdateModel(UpdatedModel, InputSize, OutputSize); // 
+
+UE::Learning::FNeuralNetworkInference::Evaluate(TLearningArrayView<2, float> Output, const TLearningArrayView<2, const float> Input)
+
 ```
+
+
+
+
 
 - UE5.3 推理部分请搜索::RunInference(
 ```
@@ -133,6 +205,10 @@ ISPC相关代码已经移除，增加了对NNE的依赖
 #include "NNE.h"
 #include "NNEModelData.h"
 #include "NNERuntimeCPU.h"
+
+
+
+
 ```
 
 - 用UE5.6 API写个推理的例子。 正好用Metamotivo作为示例。
