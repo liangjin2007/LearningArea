@@ -32,7 +32,7 @@
   策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
   价值函数：
   模型：
-
+  强化学习智能体的类型： 基于价值与基于策略
 
 ```
 - Policy Function和Value Function
@@ -81,7 +81,7 @@ Make necessary changes to the C++ side so that users can select their python tra
 
 Mac and Linux Training Added
 ```
-  
+
 
 
 ```
@@ -99,6 +99,45 @@ Step 3. Manager Listeners : LearningAgentsManagerListener
       SpecifyAgentAction
       GatherAgentObservation
 ```
+
+- UE5.3 推理部分请搜索::RunInference(
+```
+ULearningAgentsPolicy::RunInference()
+	Interactor->EncodeObservations();
+	EvaluatePolicy();
+	Interactor->DecodeActions();
+
+具体地：
+ULearningAgentsInteractor::EncodeObservations(const UE::Learning::FIndexSet AgentSet)
+  ...
+  Observations->Encode(ValidAgentSet); // jump to FConcatenateFeature::Encode(const FIndexSet Instances)
+  ...
+
+  ISPC代码优化性能，通常比普通c++代码有数倍的性能提升。目前使用宏UE_LEARNING_ISPC默认开启。
+
+ULearningAgentsPolicy::EvaluatePolicy()
+  ...
+  PolicyObject->Evaluate(ValidAgentSet); // TSharedPtr<UE::Learning::FNeuralNetworkPolicyFunction> PolicyObject;
+  ...
+
+->
+FNeuralNetworkPolicyFunction::Evaluate(const FIndexSet Instances)
+  // 第一步、先从InstanceData获取Inputs（二维数组）, Outputs（二维数组）, OutputMeans（二维数组）,  OutputStds（二维数组），Seed（一维数组）, ActionNoiseScale（一维数组）。所以InstanceData应该是个非常重要的数据对象。
+  // NeuralNetwork->GetInputNum() == Inputs.Num<1>()          // TSharedRef<FNeuralNetwork> NeuralNetwork; 
+  // NeuralNetwork->GetOutputNum() == 2 * Outputs.Num<1>()     
+```
+
+- UE5.6 推理部分
+```
+ISPC相关代码已经移除，增加了对NNE的依赖
+#include "NNE.h"
+#include "NNEModelData.h"
+#include "NNERuntimeCPU.h"
+```
+
+- 用UE5.6 API写个推理的例子。 正好用Metamotivo作为示例。
+
+
 
 
 ### 示例代码
