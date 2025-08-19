@@ -40,9 +40,40 @@
 ## UE5 Learning Agents https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
 
 ### 概述
+```
 Learning Agents comes with both a C++ library (with Blueprint support) and Python scripts. The C++ library is an ordinary UE plugin split into a handful of modules. It exposes functionality for defining observations/actions and your neural network structure, as well as the flow-control for the training and inference procedures. During training, the UE process will collaborate with an external Python process running PyTorch. We included a working PyTorch algorithm for PPO and BC.
+```
+- 蓝图API https://dev.epicgames.com/documentation/en-us/unreal-engine/BlueprintAPI/LearningAgents
+
+Learning Agents is a plugin that allows game developers to train and deploy bots in Unreal Engine using Reinforcement Learning and Imitation Learning.
+
+```
+Changes from 5.4 to 5.5
+
+Re-Architect ML Training Code
+
+Rewrite the ML training code such that networking protocols and ML training algorithms are able to be independently developed
+
+Protocols need to accept a variable number of networks & data buffers
+
+Support Additional Networking Protocols
+
+TCP Sockets
+
+Shared Memory
+
+Bring Your Own Training Algorithm
+
+Rewrite the python side of Learning Agents so that it is much easier for users to integrate off the shelf ML training algorithms or custom python training code
+
+Make sure these changes are easy to make without users needed to hack up code which will be touched by us, i.e. no merge conflicts
+
+Make necessary changes to the C++ side so that users can select their python training code and pass additional training algorithm arguments
 
 
+Mac and Linux Training Added
+```
+  
 
 
 ```
@@ -61,6 +92,7 @@ Step 3. Manager Listeners : LearningAgentsManagerListener
       GatherAgentObservation
 ```
 
+
 ### 示例代码
 ```
 代码1 https://github.com/automathan/ue-la-example?tab=readme-ov-file
@@ -68,9 +100,21 @@ Step 3. Manager Listeners : LearningAgentsManagerListener
 文档1 https://medium.com/@gensen/early-explorations-of-learning-agents-in-unreal-engine-ef74b058161e
 文档2 https://medium.com/@gensen/killers-and-explorers-training-rl-agents-in-unreal-engine-7976a83b01d7
 
-代码2 https://github.com/XanderBert/Unreal-Engine-Learning-Agents-Learning-Environment
+安装UE5.3.2
+
+ue-la-example 为UE5.3版本示例。为第三方作者写的程序，缺少一个Config文件，暂时跑不起来。
+LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面5.4升到5.5，Epic对该插件做了重构）过程中API发生了较大变化，最新的API官方并无发布任何示例程序。
+
+调试技巧： 拷贝UE源码中的LearningAgents插件源代码到ue-la-example，将LearningAgents.uplugin重命名为LearningAgentsV2.uplugin, 修改.uproject中的插件名为LearningAgentsV2。这样可以把LearningAgents的源码加到游戏项目中，方便设断点调试。
+
 ```
 
+- **看这个**
+```
+代码2 https://github.com/XanderBert/Unreal-Engine-Learning-Agents-Learning-Environment
+拷贝ue-la-example中的LearningAgents目录到此项目，将引擎依赖为UE5.3。
+此github链接中有文档
+```
 
 
 
