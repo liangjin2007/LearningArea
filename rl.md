@@ -29,14 +29,23 @@
 动作空间（Action Space）: 离散动作空间，连续动作空间
 
 智能体(Agent)组成部分：
-  策略
+  策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
+  价值函数：  
+  
 ```
+- Policy Function和Value Function
+![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
+
 
 - 强化学习目标
 ![强化学习目标](https://github.com/liangjin2007/data_liangjin/blob/master/rl.jpg?raw=true)
-
 - 基于价值 (Value-Based)和基于策略(Policy-Based)的区别
-- 贝尔曼公式
+
+
+
+
+
+
 
 ## UE5 Learning Agents https://dev.epicgames.com/community/learning/courses/GAR/unreal-engine-learning-agents-5-5/7dmy/unreal-engine-learning-to-drive-5-5
 
