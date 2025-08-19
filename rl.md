@@ -123,8 +123,13 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 拷贝ue-la-example中的LearningAgents目录到此项目，将引擎依赖为UE5.3。
 此github链接中有文档
 ```
-
+- 如何将神经网络输出注入到行为树去控制行为树
+- 
 
 ## UE行为树
 - 开源代码 https://github.com/EugenyN/UE5_Demo1?tab=readme-ov-file
 
+## 如何利用UE的物理引擎自己写个专门的物理模拟功能。
+- 参考UNetworkPhysicsComponent
+- 在引擎代码中搜xxxPhysicsComponent： 实现一个功能基本上会用Component
+  
