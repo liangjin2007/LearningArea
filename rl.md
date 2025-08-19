@@ -2,7 +2,7 @@
 - https://zhuanlan.zhihu.com/p/676940299
 - EasyRL_v1.0.6.pdf
 
-## 概念
+## 强化学习概念
 ```
 强化学习（Reinforcement Learning, RL）是机器学习的一个重要分支，主要研究智能体（Agent）如何在一个环境中通过与环境交互来学习策略，以最大化某种累积奖励。
 强化学习的核心思想是通过试错（Trial and Error）来学习，智能体通过执行动作（Action）来影响环境，并从环境中获得反馈（Reward），进而调整其策略（Policy）以优化长期奖励。
@@ -28,18 +28,16 @@
 部分可观测的（Partially observed）——> 用POMDP建模。
 动作空间（Action Space）: 离散动作空间，连续动作空间
 
-智能体(Agent)组成部分：
+智能体(Agent)三个组成部分：
   策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
-  价值函数：  
-  
+  价值函数：
+  模型：
+
+
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
 
-
-- 强化学习目标
-![强化学习目标](https://github.com/liangjin2007/data_liangjin/blob/master/rl.jpg?raw=true)
-- 基于价值 (Value-Based)和基于策略(Policy-Based)的区别
 
 
 
@@ -127,4 +125,6 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 ```
 
 
+## UE行为树
+- 开源代码 https://github.com/EugenyN/UE5_Demo1?tab=readme-ov-file
 
