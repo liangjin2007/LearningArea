@@ -12,10 +12,23 @@
 智能体（Agent）：学习和决策的主体。
 环境（Environment）：智能体交互的外部世界。
 状态（State）：环境在某一时刻的描述。
-动作（Action）：智能体在某一状态下可以执行的操作。
+动作（Action/Decision）：智能体在某一状态下可以执行的操作。
 奖励（Reward）：智能体执行动作后从环境中获得的反馈。
 策略（Policy）：智能体在给定状态下选择动作的规则。(策略分为确定性策略(deterministic policy)和不确定性策略(stochastic policy),确定性策略只每种状态下选择的action是确定的即百分之百选择一种策略，而不确定性策略指某种状态下选择的action是不确定的，策略只是确定action的分布，然后在分布中进行采样来确定策略)
 价值函数（Value Function）：评估在某一状态下长期累积奖励的期望值。
+预演（Rollout）及最终奖励（Eventual Reward）：预演是指我们从当前帧对动作进行采样，生成很多局游戏。
+轨迹（Trajectory）：(s0, a0, s1, a1, ...)
+回合Episode/试验Trial
+期望累计奖励（Expected Cummulative reward）
+序列决策（sequential decision making）
+历史（Ht）: Ht = o1，a1, r1, o2, a2, r2, ..., ot, at, rt
+观测（Obervation）与状态（State）的关系： 状态是对世界的完整描述，不会隐藏世界的信息，观测是对状态的部分描述。
+完全可观测的（fully observed） ——>  用马尔可夫决策过程MDP建模。
+部分可观测的（Partially observed）——> 用POMDP建模。
+动作空间（Action Space）: 离散动作空间，连续动作空间
+
+智能体(Agent)组成部分：
+  策略
 ```
 
 - 强化学习目标
