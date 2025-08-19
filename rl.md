@@ -1,5 +1,6 @@
 # 参考链接 
 - https://zhuanlan.zhihu.com/p/676940299
+- EasyRL_v1.0.6.pdf
 
 ## 概念
 ```
