@@ -118,6 +118,15 @@ python download_buffers.py download the hdf5 buffer.
 
 ```
 
+- 导出pytorch模型为onnx 
+```
+https://zhuanlan.zhihu.com/p/498425043
+https://docs.pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+```  
+
+
+
+
 - 可视化模型
 ```
 pip install torchsummary
