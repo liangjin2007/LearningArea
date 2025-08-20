@@ -122,6 +122,23 @@ python download_buffers.py download the hdf5 buffer.
 ```
 https://zhuanlan.zhihu.com/p/498425043
 https://docs.pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+
+导出代码
+input_observation = torch.zeros((358,), dtype=torch.float32, device=device)
+input_z = torch.zeros((256,), dtype=torch.float32, device=device)
+input_std = torch.zeros((1,), dtype=torch.float32, device=device)
+#调试添加dynamo=true,  torch.onnx.export(model._actor,(input_observation, input_z, input_std,),"D:/T2M_Runtime/onnx_models/fbcpr_actor.onnx", input_names=("observation", "z", "std",), output_names=("action",), dynamo=True)
+torch.onnx.export(model._actor,(input_observation, input_z, input_std,),"D:/T2M_Runtime/onnx_models/fbcpr_actor.onnx", input_names=("observation", "z", "std",), output_names=("action",))
+
+有时需要安装pip install onnxscript
+
+onnx只支持输入输出是Tensor，如果不是Tensor需要修改网络的forward函数。
+
+
+
+
+
+
 ```  
 
 
@@ -150,31 +167,6 @@ Input size (MB): 0.00
 Forward/backward pass size (MB): 0.01
 Params size (MB): 0.60
 Estimated Total Size (MB): 0.61
-```
-
-
-```
-Windows：下载 Graphviz 并添加路径到环境变量。 https://graphviz.org/download/
-pip install torchviz
-
-import torch 
-from torchviz import make_dot 
-from torch.autograd  import Variable 
- 
-# 使用上面定义的 SimpleCNN 模型 
-model = SimpleCNN() 
- 
-# 创建输入张量（需带梯度，否则无法追踪计算图） 
-x = Variable(torch.randn(1,  3, 32, 32))  # batch_size=1, channels=3, height=32, width=32 
-y = model(x)  # 前向传播 
- 
-# 生成计算图（保存为 PDF 或 PNG） 
-dot = make_dot(y, params=dict(model.named_parameters()))  
-dot.render("cnn_model",  format="png")  # 保存为 cnn_model.png  
-dot.view()   # 直接显示 
-
-
-
 ```
 
 
