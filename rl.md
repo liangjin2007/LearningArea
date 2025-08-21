@@ -264,5 +264,8 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - AMASS https://amass.is.tue.mpg.de/download.php
 - SMPL https://smpl.is.tue.mpg.de/download.php
 
+## humenv
+- https://github.com/facebookresearch/humenv/tree/main/data_preparation
+
 ## Boss 战 https://www.bilibili.com/video/BV1BD421H7xt/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
   
