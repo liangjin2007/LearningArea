@@ -39,7 +39,14 @@
 探索和利用：略略略
 强化学习实验: Gym（OpenAI）
 
-
+马尔可夫决策过程
+	马尔可夫过程(MP)：是指一个随机过程在给定现在状态及所有过去状态情况下，其未来状态的条件概率分布仅依赖于当前状态；离散时间的马尔可夫过程称为马尔可夫链；状态转移矩阵。
+	马尔可夫奖励过程(MRP)：马尔可夫链+奖励函数。奖励函数是个期望。
+		范围horizon：指每个回合最大的时间步数，又称一个回合的长度。
+		回报return: Gt = r_(t+1) + gamma * r_(t+2) + gamma^2 * r_(t+3) + ... + gamma^(T-t-1) * r_(T)， 又称为折扣回报。每条轨迹（一个回合的状态序列？）对应一个回报。
+		状态价值函数(state-value function): V^t(s) = E(Gt|st=s)， 算期望的通用方法： 蒙特卡洛采样。
+		贝尔曼方程计算状态价值函数方法：V(s) = R（s） +  gamma Sum（ p(s'|s) V(s')）。
+		
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
@@ -250,5 +257,10 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - 在引擎代码中搜xxxPhysicsComponent： 实现一个功能基本上会用Component
 
 ## MJCF https://mujoco.readthedocs.io/en/stable/XMLreference.html
+
+## npy to bvh 
+- https://github.com/KosukeFukazawa/CharacterAnimationTools#13-load-animation-from-amass
+- https://github.com/KosukeFukazawa/smpl2bvh?tab=readme-ov-file
+
 
   
