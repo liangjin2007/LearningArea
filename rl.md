@@ -273,6 +273,7 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - https://github.com/KosukeFukazawa/smpl2bvh?tab=readme-ov-file
 - AMASS https://amass.is.tue.mpg.de/download.php
 - SMPL https://smpl.is.tue.mpg.de/download.php
+- SMPL-H https://mano.is.tue.mpg.de/
 
 ## humenv
 - https://github.com/facebookresearch/humenv/tree/main/data_preparation
