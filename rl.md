@@ -264,7 +264,9 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - 参考UNetworkPhysicsComponent
 - 在引擎代码中搜xxxPhysicsComponent： 实现一个功能基本上会用Component
 
-## MJCF https://mujoco.readthedocs.io/en/stable/XMLreference.html
+## MuJoCo Documentation 
+- MJCF https://mujoco.readthedocs.io/en/stable/XMLreference.html
+- Documentation https://mujoco.readthedocs.io/en/stable/overview.html
 
 ## npy to bvh 
 - https://github.com/KosukeFukazawa/CharacterAnimationTools#13-load-animation-from-amass
