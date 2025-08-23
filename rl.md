@@ -44,9 +44,17 @@
 	马尔可夫奖励过程(MRP)：马尔可夫链+奖励函数。奖励函数是个期望。
 		范围horizon：指每个回合最大的时间步数，又称一个回合的长度。
 		回报return: Gt = r_(t+1) + gamma * r_(t+2) + gamma^2 * r_(t+3) + ... + gamma^(T-t-1) * r_(T)， 又称为折扣回报。每条轨迹（一个回合的状态序列？）对应一个回报。
-		状态价值函数(state-value function): V^t(s) = E(Gt|st=s)， 算期望的通用方法： 蒙特卡洛采样。
+		状态价值函数(state-value function): V_t(s) = E(Gt|st=s)， 算期望的通用方法： 蒙特卡洛采样。
 		贝尔曼方程计算状态价值函数方法：V(s) = R（s） +  gamma Sum（ p(s'|s) V(s')）。
-		
+
+	计算马尔可夫奖励过程价值的迭代算法（large MRP）：计算状态价值函数V_t(s)
+		动态规划法(DP)
+		蒙特卡洛方法（MC）： 书中有图，仔细看能看懂，可以理解为有两个维度，时间维度离散化 t {t, t+1，..., H-1}, 状态维度离散化为一个轨迹 {s_t, s_(t+1), ...s_(H-1)}
+		时序差分学习（TD Learning）：前两种方法的结合
+
+
+
+	
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
