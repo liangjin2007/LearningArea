@@ -10,36 +10,37 @@
 
 - 强化学习的基本要素
 ```
-智能体（Agent）：学习和决策的主体。
-环境（Environment）：智能体交互的外部世界。
-状态（State）：环境在某一时刻的描述。
-动作（Action/Decision）：智能体在某一状态下可以执行的操作。
-奖励（Reward）：智能体执行动作后从环境中获得的反馈。
-策略（Policy）：智能体在给定状态下选择动作的规则。(策略分为确定性策略(deterministic policy)和不确定性策略(stochastic policy),确定性策略只每种状态下选择的action是确定的即百分之百选择一种策略，而不确定性策略指某种状态下选择的action是不确定的，策略只是确定action的分布，然后在分布中进行采样来确定策略)
-价值函数（Value Function）：评估在某一状态下长期累积奖励的期望值。
-预演（Rollout）及最终奖励（Eventual Reward）：预演是指我们从当前帧对动作进行采样，生成很多局游戏。
-轨迹（Trajectory）：(s0, a0, s1, a1, ...)
-回合Episode/试验Trial
-期望累计奖励（Expected Cummulative reward）
-序列决策（sequential decision making）
-历史（Ht）: Ht = o1，a1, r1, o2, a2, r2, ..., ot, at, rt
-观测（Obervation）与状态（State）的关系： 状态是对世界的完整描述，不会隐藏世界的信息，观测是对状态的部分描述。
-完全可观测的（fully observed） ——>  用马尔可夫决策过程MDP建模。
-部分可观测的（Partially observed）——> 用POMDP建模。
-动作空间（Action Space）: 离散动作空间，连续动作空间
+绪论：
+	智能体（Agent）：学习和决策的主体。
+	环境（Environment）：智能体交互的外部世界。
+	状态（State）：环境在某一时刻的描述。
+	动作（Action/Decision）：智能体在某一状态下可以执行的操作。
+	奖励（Reward）：智能体执行动作后从环境中获得的反馈。
+	策略（Policy）：智能体在给定状态下选择动作的规则。(策略分为确定性策略(deterministic policy)和不确定性策略(stochastic policy),确定性策略只每种状态下选择的action是确定的即百分之百选择一种策略，而不确定性策略指某种状态下选择的action是不确定的，策略只是确定action的分布，          然后在分布中进行采样来确定策略)
+	价值函数（Value Function）：评估在某一状态下长期累积奖励的期望值。
+	预演（Rollout）及最终奖励（Eventual Reward）：预演是指我们从当前帧对动作进行采样，生成很多局游戏。
+	轨迹（Trajectory）：(s0, a0, s1, a1, ...)
+	回合Episode/试验Trial
+	期望累计奖励（Expected Cummulative reward）
+	序列决策（sequential decision making）
+	历史（Ht）: Ht = o1，a1, r1, o2, a2, r2, ..., ot, at, rt
+	观测（Obervation）与状态（State）的关系： 状态是对世界的完整描述，不会隐藏世界的信息，观测是对状态的部分描述。
+	完全可观测的（fully observed） ——>  用马尔可夫决策过程MDP建模。
+	部分可观测的（Partially observed）——> 用POMDP建模。
+	动作空间（Action Space）: 离散动作空间，连续动作空间
+	
+	智能体(Agent)三个组成部分和类型：
+	  a.策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
+	  b.价值函数：
+	  c.模型：
+	  d.强化学习智能体的类型： 1. 基于价值与基于策略 ；2. 有模型与免模型。可以先思考在智能体执行动作前，是否能对下一步的状态和奖励进行预测，如果能，就能够对环境进行建模，从而采用有模型学习。（即模型用来模拟真实环境，可预测下一步状态和奖励）
+	     目前，大部分深度强化学习方法都采用了免模型强化学习
+	
+	学习与规划:略略略
+	探索和利用：略略略
+	强化学习实验: Gym（OpenAI）
 
-智能体(Agent)三个组成部分和类型：
-  a.策略Policy: 策略是个函数。确定性策略，随机性策略。 神经网络预测action概率或者直接输出action。
-  b.价值函数：
-  c.模型：
-  d.强化学习智能体的类型： 1. 基于价值与基于策略 ；2. 有模型与免模型。可以先思考在智能体执行动作前，是否能对下一步的状态和奖励进行预测，如果能，就能够对环境进行建模，从而采用有模型学习。（即模型用来模拟真实环境，可预测下一步状态和奖励）
-     目前，大部分深度强化学习方法都采用了免模型强化学习
-
-学习与规划:略略略
-探索和利用：略略略
-强化学习实验: Gym（OpenAI）
-
-马尔可夫决策过程
+第一章、马尔可夫决策过程
 	马尔可夫过程(MP)：
 		是指一个随机过程在给定现在状态及所有过去状态情况下，其未来状态的条件概率分布仅依赖于当前状态；离散时间的马尔可夫过程称为马尔可夫链；状态转移矩阵。
 		p(s_(t+1)|st=s)
@@ -91,9 +92,56 @@
 			方法： 把贝尔曼期望备份转换成动态规划的迭代   当得到上一时刻的V^t的时候，去得到下一时刻的V^(t+1)(s)
 			V^(t+1)(s) = sum_a pi(a|s) (R(s, a) + gamma sum_s' p(s'|s, a) V^t(s'))
 			把上式的贝尔曼期望备份反复迭代，然后得到一个收敛的价值函数的值。因外pi(a|s)已知，所以上式可简化成一个马尔可夫奖励过程的表达形式 V_(t+1)(s) = r_pi(s) + gamma P_pi(s'|s) V_t(s')
+
 		马尔可夫决策过程控制
 			Step 1. V*(s) = max_pi V_pi(s)， 即优化一个策略网络pi(s)，使得每个状态的价值最大。最佳策略 pi*(s) = arg max_pi V_pi(s), 此网络输入只有s。此时每个V(s)都是最大值。
-			Step 2. 
+			Step 2. pi*(a|s) = {1, a = arg max_a Q*(s, a), 对Q函数最大化; 0, 其他
+			Q:怎么进行策略搜索? A: 1.群举； 2.其他方法
+
+		策略迭代：
+			由两个步骤组成：策略评估和策略改进。策略是个函数，就可以做优化。
+			for i in 迭代次数
+				固定策略，算状态价值函数，进一步可以算出Q函数（状态动作价值函数）, 对Q函数进行最大化（在Q函数做贪心搜索来改进策略（函数））
+				重复。
+			Q表格（Q-table）
+			贝尔曼最优方程： 上述迭代停止后，得到V_pi(s) = max_a Q_pi(s, a)
+
+		价值迭代：
+			最优星原理定理（principle of optimality theorem）：一个策略pi(a|s)在状态s达到了最优价值，也就是V_pi(s) = V*(s)成立，当且仅当对于任何从s到达s',都已经达到了最有价值，也就是对于所有的s', V_pi(s') = V*(s')。
+			确认行价值迭代
+			价值迭代算法：
+				(1)初始化： 令k = 1, 对于所有状态s， V0(s) = 0
+				(2)对于k = 1:H（H是让V(s)收敛所需的迭代次数）
+					(a) 对于所有状态s
+						Q_(k+1)(s, a) = R(s, a) + gamma sum_s' p(s'|s, a) V_k(s')
+						V_(k+1)(s) = max_a Q_(k+1)(s, a)
+					(b) k <—— k+1
+				(3)在迭代后提取最优策略：
+					pi(s) = arg max_a [R(s, a) + gamma sum_s' p(s'|s, a) V_(H+1)(s')]
+
+		策略迭代与价值迭代的区别
+
+第二章、表格型方法
+	略
+
+第三章、策略梯度
+	智能体、一个策略和一个演员
+ 	略
+    ∇ ¯R_θ = E_(τ∼p_θ(τ)) [R(τ )∇ log p_θ(τ )]
+
+第四章、PPO 近端策略优化
+	重要性采样
+		同策略与异策略
+		integrate(f(x) p(x))dx = integrate(f(x) p(x)/q(x) q(x)dx = E_(x~q)[f(x) p(x)/q(x)]
+		重要性权重 importance weight p(x)/q(x)
+		Var[X] = E [X^2] − (E[X])^2
+	KL散度
+	
+第五章、深度Q网络
+
+
+
+
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
