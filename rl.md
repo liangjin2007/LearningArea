@@ -40,21 +40,37 @@
 强化学习实验: Gym（OpenAI）
 
 马尔可夫决策过程
-	马尔可夫过程(MP)：是指一个随机过程在给定现在状态及所有过去状态情况下，其未来状态的条件概率分布仅依赖于当前状态；离散时间的马尔可夫过程称为马尔可夫链；状态转移矩阵。
-	马尔可夫奖励过程(MRP)：马尔可夫链+奖励函数。奖励函数是个期望。
+	马尔可夫过程(MP)：
+		是指一个随机过程在给定现在状态及所有过去状态情况下，其未来状态的条件概率分布仅依赖于当前状态；离散时间的马尔可夫过程称为马尔可夫链；状态转移矩阵。
+		p(s_(t+1)|st=s)
+
+	马尔可夫奖励过程(MRP)：马尔可夫链+奖励函数。奖励函数是个期望
 		范围horizon：指每个回合最大的时间步数，又称一个回合的长度。
+        奖励序列: r_(t+1), r_(t+2), ...
 		回报return: Gt = r_(t+1) + gamma * r_(t+2) + gamma^2 * r_(t+3) + ... + gamma^(T-t-1) * r_(T)， 又称为折扣回报。每条轨迹（一个回合的状态序列？）对应一个回报。
 		状态价值函数(state-value function): V_t(s) = E(Gt|st=s)， 算期望的通用方法： 蒙特卡洛采样。
 		贝尔曼方程计算状态价值函数方法：V(s) = R（s） +  gamma Sum（ p(s'|s) V(s')）。
+        奖励函数R(st=s) = E[r_(t+1)|st=s]
 
 	计算马尔可夫奖励过程价值的迭代算法（large MRP）：计算状态价值函数V_t(s)
-		动态规划法(DP)
+		动态规划法(DP): bootstrapping的方法不停地迭代贝尔曼方程，书中有图
 		蒙特卡洛方法（MC）： 书中有图，仔细看能看懂，可以理解为有两个维度，时间维度离散化 t {t, t+1，..., H-1}, 状态维度离散化为一个轨迹 {s_t, s_(t+1), ...s_(H-1)}
 		时序差分学习（TD Learning）：前两种方法的结合
 
-
-
-	
+	马尔可夫决策过程：指多了决策（action）
+		状态转移: p(s_(t+1)|st = s, at = a)
+		奖励序列：rt(st=s, at=a)
+        奖励函数: 变成R(st=s, at = a) = E[rt|st=s, at=a]
+        策略Policy: pi(a|s) = p(at=a|st=s)
+        已知马尔可夫决策过程和策略pi， 可以将马尔可夫决策过程转换成马尔可夫奖励过程。 p(s'|s) = sum pi(a|s)p(s'|s, a)
+		马尔可夫决策过程的状态转移对比： 书上有图比较形象
+		状态价值函数：V_pi(s) = E_pi(Gt|st=s),也就是期望基于采取的策略
+		Q函数(Q-function)或者叫动作价值函数。只的是在某一个状态采取某一个动作，它有可能得到的回报的期望  Q_pi(s, a) = E_pi[G_t|st=s, at=a] = R(s, a) + gamma sum_s' p(s'|s, a) V_pi(s'), 这里的期望其实也是基于策略的。
+        状态价值函数：前面的V_pi(s) = E_pi[Gt|st=s] = sum pi(a|s) Q_pi(s, a)
+		奖励函数R_pi(st=s, at=a) = E[r_(t+1)|st=s, at=a]
+		备份图(backup)：
+		策略评估/价值预测：已知马尔可夫决策过程以及要采取的策略pi，计算（状态）价值函数V_pi(s)的过程就是策略评估。
+		预测(prediction)与控制(control)：输入<S, A, P, R, gamma>
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
@@ -272,9 +288,9 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - AMASS https://github.com/facebookresearch/humenv/tree/main/data_preparation
 - https://github.com/KosukeFukazawa/CharacterAnimationTools#13-load-animation-from-amass
 - https://github.com/KosukeFukazawa/smpl2bvh?tab=readme-ov-file
-- AMASS https://amass.is.tue.mpg.de/download.php
-- SMPL https://smpl.is.tue.mpg.de/download.php
-- SMPL-H https://mano.is.tue.mpg.de/, to process AMASS, download Extended SMPL+H model
+- AMASS https://amass.is.tue.mpg.de/download.php    用户名liangjin2007@gmail.com
+- SMPL https://smpl.is.tue.mpg.de/download.php      用户名jl5400@163.com
+- SMPL-H https://mano.is.tue.mpg.de/, to process AMASS, download Extended SMPL+H model   用户名jl5400@163.com
 - SMPL-X https://github.com/vchoutas/smplx
 
 ## humenv
