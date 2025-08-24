@@ -68,9 +68,27 @@
 		Q函数(Q-function)或者叫动作价值函数。只的是在某一个状态采取某一个动作，它有可能得到的回报的期望  Q_pi(s, a) = E_pi[G_t|st=s, at=a] = R(s, a) + gamma sum_s' p(s'|s, a) V_pi(s'), 这里的期望其实也是基于策略的。
         状态价值函数：前面的V_pi(s) = E_pi[Gt|st=s] = sum pi(a|s) Q_pi(s, a)
 		奖励函数R_pi(st=s, at=a) = E[r_(t+1)|st=s, at=a]
-		备份图(backup)：
-		策略评估/价值预测：已知马尔可夫决策过程以及要采取的策略pi，计算（状态）价值函数V_pi(s)的过程就是策略评估。
-		预测(prediction)与控制(control)：输入<S, A, P, R, gamma>
+
+		备份图(backup)：跟如何做策略评估等有关，建议好好读一读。
+			书上有图： 图2.10画错了。
+			状态价值函数分解计算，分解为两步：先将未来状态上价值，先算出 状态-动作对 上的价值Q_pi(s, a)， 再算状态s上的价值V_pi(s), 也就是下面：
+				先算 Q_pi(s, a) = R(s, a) + gamma sum_s' p(s'|s, a) V_pi(s')
+				再算 V_pi(s) = sum_a pi(a|s) Q_pi(s, a)
+			动作价值函数分解计算，同理也分为两步：
+				先算 V_pi(s') = sum_a' pi(a'|s') Q_pi(s', a')
+				再算 Q_pi(s, a) = R(s, a) + gamma sum_s' p(s'|s, a) V_pi(s')
+
+
+		策略评估/价值预测：已知马尔可夫决策过程以及要采取的策略pi，计算（状态）价值函数V_pi(s)的过程就是策略评估。即下面的预测。
+
+		预测(prediction)：输入<S, A, P, R, gamma>和策略pi， 输出是价值函数V_pi(s), 也就是计算每个状态的价值。
+		控制(control)： 搜索最佳策略。 输入<S, A, P, R, gamma>， 输出最佳价值函数V*和最佳策略pi*。 也就是去找一个最佳的策略，同时输出它的最佳价值函数。
+			这两者是递进关系，在强化学习中，通过解决预测问题，进而解决控制问题。
+
+		马尔可夫决策过程中的策略评估：
+			方法： 把贝尔曼期望备份
+		马尔可夫决策过程控制
+
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
