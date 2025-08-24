@@ -85,10 +85,15 @@
 		控制(control)： 搜索最佳策略。 输入<S, A, P, R, gamma>， 输出最佳价值函数V*和最佳策略pi*。 也就是去找一个最佳的策略，同时输出它的最佳价值函数。
 			这两者是递进关系，在强化学习中，通过解决预测问题，进而解决控制问题。
 
-		马尔可夫决策过程中的策略评估：
-			方法： 把贝尔曼期望备份
-		马尔可夫决策过程控制
+		动态规划
 
+		马尔可夫决策过程中的策略评估：
+			方法： 把贝尔曼期望备份转换成动态规划的迭代   当得到上一时刻的V^t的时候，去得到下一时刻的V^(t+1)(s)
+			V^(t+1)(s) = sum_a pi(a|s) (R(s, a) + gamma sum_s' p(s'|s, a) V^t(s'))
+			把上式的贝尔曼期望备份反复迭代，然后得到一个收敛的价值函数的值。因外pi(a|s)已知，所以上式可简化成一个马尔可夫奖励过程的表达形式 V_(t+1)(s) = r_pi(s) + gamma P_pi(s'|s) V_t(s')
+		马尔可夫决策过程控制
+			Step 1. V*(s) = max_pi V_pi(s)， 即优化一个策略网络pi(s)，使得每个状态的价值最大。最佳策略 pi*(s) = arg max_pi V_pi(s), 此网络输入只有s。此时每个V(s)都是最大值。
+			Step 2. 
 ```
 - Policy Function和Value Function
 ![PolicyAndValue](https://github.com/liangjin2007/data_liangjin/blob/master/PolicyFunctionAndValueFunction.jpg?raw=true)
@@ -304,7 +309,7 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 
 ## npy to bvh 
 - AMASS https://github.com/facebookresearch/humenv/tree/main/data_preparation
-- https://github.com/KosukeFukazawa/CharacterAnimationTools#13-load-animation-from-amass
+- AMASS npy to bvh https://github.com/KosukeFukazawa/CharacterAnimationTools#13-load-animation-from-amass
 - https://github.com/KosukeFukazawa/smpl2bvh?tab=readme-ov-file
 - AMASS https://amass.is.tue.mpg.de/download.php    用户名liangjin2007@gmail.com
 - SMPL https://smpl.is.tue.mpg.de/download.php      用户名jl5400@163.com
