@@ -3,6 +3,7 @@
 - [1.Introduction](#1Introduction)
 - [2.KeyFeatures](#2KeyFeatures)
 - [3.ModelInstances](#3ModelInstances)
+- [4.ModelElements](#4ModelElements)
 
 ## 1.Introduction
 ## 2.KeyFeatures
@@ -81,5 +82,22 @@ joint和geom都有可视化，两者貌似并不是谁代表谁的关系。
 tendon用来实现弹簧效果
 ```
 
-### 
-
+## 4.ModelElements
+### 4.1 Options
+- mjOption影响物理模拟
+- mjVisual可视化选项： 我们不用管
+- mjStatistic：关于mjModel的统计信息，比如平均body质量，spatial extent
+### 4.2 Assets
+what? Assets不是Model elements，但是model elements可以引用它们。
+- Mesh: 三角网格，obj文件/stl文件。
+- Skin: 存粹可视化对象，不影响物理。没说支持的文件格式类型。
+- Height Field: png文件
+- Texture
+- Material
+### 4.3 Kinematic tree
+```
+MuJoCo simulates the dynamics of a collection of rigid bodies whose motion is usually constrained. The system state is represented in joint coordinates and the bodies are explicitly organized into kinematic trees。
+Each body except for the top-level “world” body has a unique parent. Kinematic loops are not allowed; if loop joints are needed they should be modeled with equality constraints. Thus the backbone of a MuJoCo model is one or several kinematic trees formed by nested body definitions; an isolated floating body counts as a tree. Several other elements listed below are defined within a body and belong to that body. This is in contrast with the stand-alone elements listed later which cannot be associated with a single body.
+```
+- Body
+- 
