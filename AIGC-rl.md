@@ -370,5 +370,9 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 ## Genesis
 - 中文文档 https://genesis-world.readthedocs.io/zh-cn/latest/user_guide/overview/what_is_genesis.html
 
+## PHC and SMPLSim
+- Perpetual Humanoid Control for Real-time Simulated Avatars https://github.com/ZhengyiLuo/PHC
+- SMPLSim: Simulating SMPL/SMPLX Humanoids in MUJOCO and Isaac Gym https://github.com/ZhengyiLuo/SMPLSim
+
 ## Boss 战 https://www.bilibili.com/video/BV1BD421H7xt/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
   
