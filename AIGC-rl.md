@@ -363,8 +363,8 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - SMPL https://smpl.is.tue.mpg.de/download.php      用户名jl5400@163.com
 - SMPL-H https://mano.is.tue.mpg.de/, to process AMASS, download Extended SMPL+H model   用户名jl5400@163.com
 - SMPL-X https://github.com/vchoutas/smplx
-- SMPL-X, SMPL-H, etc blender add on https://github.com/Meshcapade/SMPL_blender_addon   缺data目录，用不了。最后使用smplx网站上提供的smpl_blender_addon插件，导出smplx neutral mesh，导出时去掉poses correctives，及导出前线snap to ground。
-- Textured SMPL https://github.com/Meshcapade/SMPL_texture_samples
+- SMPL-X, SMPL-H, etc blender add on https://github.com/Meshcapade/SMPL_blender_addon   缺data目录，用不了。最后使用smplx网站上提供的smpl_blender_addon插件，导出smplx neutral mesh，导出时去掉poses correctives，及导出前先snap to ground和设置texture为female。
+- Textured SMPL https://github.com/Meshcapade/SMPL_texture_samples   没用这个，因为前面的导出smplx neutral mesh已经可以导出texture到fbx里面。
 - SMPL-x https://smpl-x.is.tue.mpg.de/  用户名jl5400@163.com
 
 - 
