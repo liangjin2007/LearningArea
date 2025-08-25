@@ -100,4 +100,47 @@ MuJoCo simulates the dynamics of a collection of rigid bodies whose motion is us
 Each body except for the top-level “world” body has a unique parent. Kinematic loops are not allowed; if loop joints are needed they should be modeled with equality constraints. Thus the backbone of a MuJoCo model is one or several kinematic trees formed by nested body definitions; an isolated floating body counts as a tree. Several other elements listed below are defined within a body and belong to that body. This is in contrast with the stand-alone elements listed later which cannot be associated with a single body.
 ```
 - Body
-- 
+```
+Bodies have mass and inertial properties but do not have any geometric properties.
+Instead geometric shapes (or geoms) are attached to the bodies.
+Each body has two coordinate frames: the frame used to define it as well as to position other elements relative to it, and an inertial frame centered at the body’s center of mass and aligned with its principal axes of inertia.
+The body inertia matrix is therefore diagonal in this frame.
+At each time step MuJoCo computes the forward kinematics recursively, yielding all body positions and orientations in global Cartesian coordinates.
+This provides the basis for all subsequent computations.
+```
+- Joint
+```
+Joints are defined within bodies. They create motion degrees of freedom (DOFs) between the body and its parent. In the absence of joints the body is welded to its parent. This is the opposite of gaming engines which use over-complete Cartesian coordinates, where joints remove DOFs instead of adding them. There are four types of joints: ball, slide, hinge, and a “free joint” which creates floating bodies. A single body can have multiple joints. In this way composite joints are created automatically, without having to define dummy bodies. The orientation components of ball and free joints are represented as unit quaternions, and all computations in MuJoCo respect the properties of quaternions.
+```
+  - Joint reference
+```
+The reference pose is a vector of joint positions stored in mjModel.qpos0.
+It corresponds to the numeric values of the joints when the model is in its initial configuration.
+In our earlier example the elbow was created in a bent configuration at 90° angle.
+But MuJoCo does not know what an elbow is, and so by default it treats this joint configuration as having numeric value of 0.
+We can override the default behavior and specify that the initial configuration corresponds to 90°, using the ref attribute of joint.
+The reference values of all joints are assembled into the vector mjModel.qpos0.
+Whenever the simulation is reset, the joint configuration mjData.qpos is set to mjModel.qpos0.
+At runtime the joint position vector is interpreted relative to the reference pose.
+In particular, the amount of spatial transformation applied by the joints is mjData.qpos - mjModel.qpos0.
+This transformation is in addition to the parent-child translation and rotation offsets stored in the body elements of mjModel.
+The ref attribute only applies to scalar joints (slide and hinge).
+For ball joints, the quaternion saved in mjModel.qpos0 is always (1,0,0,0) which corresponds to the null rotation. For free joints, the global 3D position and quaternion of the floating body are saved in mjModel.qpos0.
+```
+  - Spring reference
+```
+This is the pose in which all joint and tendon springs achieve their resting length.
+Spring forces are generated when the joint configuration deviates from the spring reference pose, and are linear in the amount of deviation.
+The spring reference pose is saved in mjModel.qpos_spring.
+For slide and hinge joints, the spring reference is specified with the attribute springref.
+For ball and free joints, the spring reference corresponds to the initial model configuration.
+```
+- DOF
+```
+Degrees of freedom are closely related to joints, but are not in one-to-one correspondence because ball and free joints have multiple DOFs.
+Think of joints as specifying positional information, and of DOFs as specifying velocity and force information.
+More formally, the joint positions are coordinates over the configuration manifold of the system, while the joint velocities are coordinates over the tangent space to this manifold at the current position.
+DOFs have velocity-related properties such as friction loss, damping, armature inertia. All generalized forces acting on the system are expressed in the space of DOFs.
+In contrast, joints have position-related properties such as limits and spring stiffness.
+DOFs are not specified directly by the user. Instead they are created by the compiler given the joints.
+```
