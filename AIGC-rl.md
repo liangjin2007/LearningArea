@@ -363,6 +363,7 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - SMPL https://smpl.is.tue.mpg.de/download.php      用户名jl5400@163.com
 - SMPL-H https://mano.is.tue.mpg.de/, to process AMASS, download Extended SMPL+H model   用户名jl5400@163.com
 - SMPL-X https://github.com/vchoutas/smplx
+- SMPL-X, SMPL-H, etc blender add on https://github.com/Meshcapade/SMPL_blender_addon
 
 ## humenv
 - https://github.com/facebookresearch/humenv/tree/main/data_preparation
