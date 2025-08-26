@@ -1,21 +1,21 @@
 # MuJoCo文档
 - https://mujoco.readthedocs.io/en/stable/overview.html
 - [1.Introduction](#1Introduction) 
-  - [1.1.KeyFeatures](#11KeyFeatures)
-  - [1.2.ModelInstances](#12ModelInstances)
+  - [1.1KeyFeatures](#11KeyFeatures)
+  - [1.2ModelInstances](#12ModelInstances)
+  - [1.3Examples](#13Examples)
 - [2.ModelElements](#2ModelElements)
 - [3.Clarifications](#3Clarifications)
 ## 1.Introduction
-### 1.1 KeyFeatures
-### 1.2 ModelInstances 
+### 1.1KeyFeatures
+### 1.2ModelInstances 
 - 如何得到mjModel
 ```
 (text editor) → MJCF/URDF file → (MuJoCo parser → mjSpec → compiler) → mjModel
 (user code) → mjSpec → (MuJoCo compiler) → mjModel
 MJB file → (model loader) → mjModel
-
-### 1.3 Examples
 ```
+### 1.3Examples
 - MJCF例子1
 ```
 <mujoco>
