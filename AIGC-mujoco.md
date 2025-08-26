@@ -1,10 +1,10 @@
 # MuJoCo文档
 - https://mujoco.readthedocs.io/en/stable/overview.html
-- [1.Introduction](#1Introduction)
-- [2.KeyFeatures](#2KeyFeatures)
-- [3.ModelInstances](#3ModelInstances)
-- [4.ModelElements](#4ModelElements)
-
+- [1.Introduction](#1Introduction) 
+  - [1.1.KeyFeatures](#11KeyFeatures)
+  - [1.2.ModelInstances](#12ModelInstances)
+- [2.ModelElements](#2ModelElements)
+- [3.Clarifications](#3Clarifications)
 ## 1.Introduction
 ### 1.1 KeyFeatures
 ### 1.2 ModelInstances 
@@ -170,6 +170,6 @@ Here we describe the model elements which do not belong to an individual body, a
 - Custom tuple
 - Keyframe
 
-## 3. Clarifications
+## 3.Clarifications
 
   
