@@ -366,8 +366,7 @@ LearningAgents的API在5.3到5.6（具体是5.4.4到5.5.0, 具体可以看前面
 - SMPL-X, SMPL-H, etc blender add on https://github.com/Meshcapade/SMPL_blender_addon   缺data目录，用不了。最后使用smplx网站上提供的smpl_blender_addon插件，导出smplx neutral mesh，导出时去掉poses correctives，及导出前先snap to ground和设置texture为female。
 - Textured SMPL https://github.com/Meshcapade/SMPL_texture_samples   没用这个，因为前面的导出smplx neutral mesh已经可以导出texture到fbx里面。
 - SMPL-x https://smpl-x.is.tue.mpg.de/  用户名jl5400@163.com
-
-- 
+  
 ## humenv
 - https://github.com/facebookresearch/humenv/tree/main/data_preparation
 - 尝试转化amass数据集以使得能生成部分调试数据
@@ -404,16 +403,10 @@ Ctrl+Shift+P，点击Python Interpretor, 选择humenv那个python。
 安装rich
 pip install rich h5py
 
-
-
-
-
-
-
 ```
 
-
-
+## SMPL
+- build qpos https://github.com/ZhengyiLuo/SMPLSim/blob/master/examples/motion_test.py
 
 
 ## Genesis
