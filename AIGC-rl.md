@@ -126,7 +126,7 @@
 
 第三章、策略梯度
 	智能体、一个策略和一个演员
- 	略
+ 	给定轨迹T, 及给定演员的参数theta, 此轨迹T发生的概率 p_theta(T) = p(s1)
     ∇ ¯R_θ = E_(τ∼p_θ(τ)) [R(τ )∇ log p_θ(τ )]
 
 第四章、PPO 近端策略优化
@@ -418,3 +418,5 @@ pip install rich h5py
 
 ## Boss 战 https://www.bilibili.com/video/BV1BD421H7xt/?spm_id_from=333.337.search-card.all.click&vd_source=8cfcd5a041c19f2f5777e1a8d78359f2
   
+## B站搜 UE5 粒子系统实现特效
+有EasySnow实现雪场景的视频
