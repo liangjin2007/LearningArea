@@ -450,3 +450,7 @@ std::atomic
 抽象类与接口的实现
     
 ```
+
+## 难搞的右值引用 https://blog.csdn.net/qq_43331089/article/details/126486313
+
+
