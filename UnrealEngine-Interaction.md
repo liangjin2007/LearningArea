@@ -388,6 +388,10 @@ ENGINE_API void ReceiveHit(class UPrimitiveComponent* MyComp, AActor* Other, cla
 
 
 ## 10.受击动画
-
+```
+Project ContentExamples 
+Level: Physics
+Concrete Implementation: /All/Game/Global/Blueprints/PlayerCharacter.
+```
 
 
