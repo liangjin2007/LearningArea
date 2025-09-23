@@ -420,3 +420,26 @@ pip install rich h5py
   
 ## B站搜 UE5 粒子系统实现特效
 有EasySnow实现雪场景的视频
+
+
+## UE Physics System to be environment
+```
+FVector UPrimitiveComponent::GetPhysicsLinearVelocity(BoneName)
+FVector UPrimitiveComponent::SetPhysicsLinearVelocity(BoneName)
+
+FBodyInstance::GetUnrealWorldAngularVelocityInRadians()
+FBodyInstance::GetUnrealWorldVelocity()
+FVector GetUnrealWorldVelocityAtPoint(const FVector& Point)
+
+```
+
+
+
+## Mujoco based work
+
+```
+H-GAP
+
+```
+
+
