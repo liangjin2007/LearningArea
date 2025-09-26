@@ -89,7 +89,23 @@ wsl --set-default-version 2
 
 - 完成以上会进入Enter new UNIX username, passward等。
 
+- Windows上打开VSCode,在Extensions中搜索Remove-WSL出来WSL，安装。
+VSCode可直接操作linux目录了
 
+```
+New Terminal -> wsl
+cd ~
+mkdir Motion
+cd Motion
+
+下载
+wget https://developer.nvidia.com/isaac-gym-preview-4
+wget wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
+git clone https://github.com/Winston-Gu/CooHOI.git
+
+tar -xvzf isaac-gym-preview-4
+
+```
 
 
 
