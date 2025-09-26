@@ -167,12 +167,57 @@ cd ~/Motion
 mv isaacgym CooHOI/isaacgym
 
 
+创建环境coohoi
+conda create -n coohoi python=3.8
+conda activate coohoi
 
+安装isaacgym
+拷贝isaacgym目录到桌面/Motion/CooHOI/中。
+pip install -e isaacgym/python 
 
+安装其他依赖
+pip install -r requirements.txt 
+提示找不到torch版本1.8.1, 注释掉requirements.txt中第一行 #torch==1.8.1，因为装isaacgym时已经装了pytorch
+提示安装成功。
 
+设置VSCode可跑SingleAgent
+VSCode安装Extensions Python (否则Command + Shift + P中没有Python: Select Interpreter)
+Command + Shift + P选择Python: Select Interpreter, 选择python(coohoi)
+Create a launch.json Python Debugger: Current File with Arguments如下：
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
 
-cd CooHOI
-pip install -e isaacgym/python
+        {
+            "name": "Python Debugger: Current File with Arguments",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "--test","",
+                "--task","HumanoidAMPCarryObject",
+                "--num_envs","16",
+                "--cfg_env","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/cfg/humanoid_carrybox.yaml",
+                "--cfg_train","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/cfg/train/amp_humanoid_task.yaml",
+                "--motion_file","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/motions/coohoi_data/coohoi_data.yaml",
+                "--checkpoint","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/models/SingleAgent.pth"
+            ],
+            "envs": [
+                "CUDA_VISIBLE_DEVICES","0"
+            ],
+            "justMyCode":false,
+            "stopOnEntry": true
+        }
+    ]
+}
+
+VSCode中找到coohoi/run.py使它为当前active file
+设置断点
+按Fn + F5开启调试
 ```
 
 
