@@ -74,4 +74,9 @@ VSCode中找到coohoi/run.py使它为当前active file
 
 ```
 
+### Windows 11安装Ubuntu linux操作系统
+- https://blog.csdn.net/bule_shake/article/details/135992375
+
+
+
 
