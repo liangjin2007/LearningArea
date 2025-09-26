@@ -76,6 +76,19 @@ VSCode中找到coohoi/run.py使它为当前active file
 
 ### Windows 11安装Ubuntu linux操作系统
 - https://blog.csdn.net/bule_shake/article/details/135992375
+```
+以管理员身份打开PowerShell或CMD，依次执行：
+
+# 启用适用于Linux的Windows子系统
+dism.exe  /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+# 启用虚拟机平台
+dism.exe  /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+# 设置WSL2为默认版本
+wsl --set-default-version 2
+```
+
+- 完成以上会进入Enter new UNIX username, passward等。
+
 
 
 
