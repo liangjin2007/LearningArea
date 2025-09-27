@@ -24,6 +24,17 @@ VSCode打开CooHOI-main
 conda create -n coohoi python=3.8
 conda activate coohoi
 
+配置pip源为国内源
+    检查配置目录
+    终端执行：ll ~/.pip，若不存在则创建：mkdir -p ~/.pip13
+    编辑配置文件
+    创建/修改~/.pip/pip.conf 文件：
+    vim ~/.pip/pip.conf  
+    写入内容与Windows配置类似，以清华源为例：
+    [global] 
+    index-url = https://pypi.tuna.tsinghua.edu.cn/simple  
+    trusted-host = pypi.tuna.tsinghua.edu.cn
+
 安装isaacgym
 拷贝isaacgym目录到桌面/Motion/CooHOI-main/中。
 pip install -e isaacgym/python 
@@ -59,9 +70,9 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
                 "--motion_file","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/motions/coohoi_data/coohoi_data.yaml",
                 "--checkpoint","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/models/SingleAgent.pth"
             ],
-            "envs": [
-                "CUDA_VISIBLE_DEVICES","0"
-            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES":"0"
+            },
             "justMyCode":false,
             "stopOnEntry": true
         }
@@ -184,12 +195,14 @@ conda activate coohoi
 
 安装isaacgym
 拷贝isaacgym目录到桌面/Motion/CooHOI/中。
-pip install -e isaacgym/python 
+pip install -e isaacgym/python --use-pep517
 
 安装其他依赖
 pip install -r requirements.txt 
 提示找不到torch版本1.8.1, 注释掉requirements.txt中第一行 #torch==1.8.1，因为装isaacgym时已经装了pytorch
 提示安装成功。
+
+
 
 设置VSCode可跑SingleAgent
 VSCode安装Extensions Python (否则Command + Shift + P中没有Python: Select Interpreter)
@@ -227,8 +240,14 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
 }
 
 VSCode中找到coohoi/run.py使它为当前active file
-设置断点
-按Fn + F5开启调试
+F5调试
+
+报错ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory
+解决办法：
+    echo $CONDA_PREFIX # 看看CONDA_PREFIX宏是否存在
+    
+
+
 ```
 
 
