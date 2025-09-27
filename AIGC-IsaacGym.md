@@ -81,6 +81,14 @@ linux桌面黑屏的问题：
 要在wsl2上跑isaacgym，还不够
 https://www.cnblogs.com/erbws/p/18888083#fn1
 
+安装cuda https://developer.nvidia.com/cuda-12-1-1-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=deb_local
+    wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+    sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+    wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda-repo-wsl-ubuntu-12-1-local_12.1.1-1_amd64.deb
+    sudo dpkg -i cuda-repo-wsl-ubuntu-12-1-local_12.1.1-1_amd64.deb
+    sudo cp /var/cuda-repo-wsl-ubuntu-12-1-local/cuda-*-keyring.gpg /usr/share/keyrings/
+    sudo apt-get update
+    sudo apt-get -y install cuda
 
 
 
@@ -128,14 +136,6 @@ pip install -e isaacgym/python --use-pep517
 pip install -r requirements.txt 
 提示找不到torch版本1.8.1, 注释掉requirements.txt中第一行 #torch==1.8.1，因为装isaacgym时已经装了pytorch
 提示安装成功。
-
-安装gcc https://blog.csdn.net/qq_36892712/article/details/146286071
-    安装gcc依赖
-        sudo apt install -y build-essential \
-        gcc-multilib g++-multilib \
-        libgmp-dev libmpfr-dev libmpc-dev \
-        flex bison texinfo
-    wget https://ftp.gnu.org/gnu/gcc/gcc-7.1.0/gcc-7.1.0.tar.gz
     
 sudo sh cuda_12.1.1_530.30.02_linux.run
 
@@ -160,17 +160,18 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
-                "--test","",
+                "--test",
                 "--task","HumanoidAMPCarryObject",
                 "--num_envs","16",
-                "--cfg_env","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/cfg/humanoid_carrybox.yaml",
-                "--cfg_train","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/cfg/train/amp_humanoid_task.yaml",
-                "--motion_file","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/motions/coohoi_data/coohoi_data.yaml",
-                "--checkpoint","/Users/liangjin/Desktop/Motion/CooHOI-main/coohoi/data/models/SingleAgent.pth"
+                "--cfg_env","/home/liangjin/Desktop/Motion/CooHOI/coohoi/data/cfg/humanoid_carrybox.yaml",
+                "--cfg_train","/home/liangjin/Desktop/Motion/CooHOI/coohoi/data/cfg/train/amp_humanoid_task.yaml",
+                "--motion_file","/home/liangjin/Desktop/Motion/CooHOI/coohoi/data/motions/coohoi_data/coohoi_data.yaml",
+                "--checkpoint","/home/liangjin/Desktop/Motion/CooHOI/coohoi/data/models/SingleAgent.pth"
             ],
-            "envs": [
-                "CUDA_VISIBLE_DEVICES","0"
-            ],
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "LD_LIBRARY_PATH": "\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
+            },
             "justMyCode":false,
             "stopOnEntry": true
         }
@@ -182,8 +183,32 @@ F5调试
 
 报错ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory
 解决办法：
-    echo $CONDA_PREFIX # 看看CONDA_PREFIX宏是否存在
+    sudo cp /home/liangjin/anaconda3/envs/coohoi/lib/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu
     
+执行 再报错 GLIbCXX_xxx找不到
+
+cd /home/liangjin/anaconda3/envs/coohoi/lib
+mv libstdc++.so.6 libstdc++.so.6.old
+ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 libstdc++.so.6
+
+再执行 报错
+run.py: error: unrecognized arguments:
+    launch.json中"--test"后不要接空的""
+    /Users/liangjin改成/home/liangjin
+
+
+再执行 报错
+    internal error : libcuda.so!
+    [Warning] [carb.gym.plugin] Failed to create a PhysX CUDA Context Manager. Falling back to CPU.
+    Physics Engine: PhysX
+    Physics Device: cpu
+    GPU Pipeline: disabled
+解决办法：安装vulkan
+    wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+    sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.4.313-noble.list https://packages.lunarg.com/vulkan/1.4.313/lunarg-vulkan-1.4.313-noble.list
+    sudo apt update
+    sudo apt install vulkan-sdk
+    export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/dzn_icd.x86_64.json
 
 
 ```
