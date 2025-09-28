@@ -185,7 +185,7 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
             ],
             "env": {
                 "CUDA_VISIBLE_DEVICES": "0",
-                "LD_LIBRARY_PATH": "\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
+                "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
             },
             "justMyCode":false,
             "stopOnEntry": true
