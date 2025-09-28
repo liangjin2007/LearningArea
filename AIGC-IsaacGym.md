@@ -68,20 +68,24 @@ linux桌面黑屏的问题：
     保存后重启xrdp服务：
         sudo systemctl restart xrdp 
 
-从Windows连接图形界面：
 
-打开Windows “远程桌面连接” 应用
-输入地址：localhost:3390
-登录WSL的用户名和密码
-成功后将进入Ubuntu的Xfce4桌面环境
+从Windows连接图形界面：目前没啥用
+    打开Windows “远程桌面连接” 应用
+    输入地址：localhost:3390
+    登录WSL的用户名和密码
+    成功后将进入Ubuntu的Xfce4桌面环境
+    远程连接可看到桌面
 
+```
+
+
+- 安装isaacgym之前
+```
 sudo apt install plocate # locate xxx命令用于找到系统上的内容， 安装比较费时，估计本地需要建立某种索引。
 在Windows上输入WSL Settings 将WSL网络模式从Nat修改为Mirrored https://zhuanlan.zhihu.com/p/15762609815
+sudo apt-get install g++ gcc make
 libtinfo5的问题 ： sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5
 
-
-
-远程连接可看到桌面
 
 要在wsl2上跑isaacgym，还不够
 https://www.cnblogs.com/erbws/p/18888083#fn1
@@ -117,14 +121,19 @@ cd Motion
 wget https://developer.nvidia.com/isaac-gym-preview-4
 wget wget https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Linux-x86_64.sh
 git clone https://github.com/Winston-Gu/CooHOI.git
-wget https://developer.download.nvidia.com/compute/cuda/12.1.1/local_installers/cuda_12.1.1_530.30.02_linux.run
-    https://developer.nvidia.com/cuda-12-1-1-download-archive?target_os=Linux&target_arch=x86_64&Distribution=WSL-Ubuntu&target_version=2.0&target_type=runfile_local
 
 tar -xvzf isaac-gym-preview-4
 
 安装Anaconda3
 chmod +x Anaconda3-2025.06-0-Linux-x86_64.sh
 ./Anaconda3-2025.06-0-Linux-x86_64.sh
+
+添加国内源
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/win-64
+conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
+
 
 
 学习isaacgym api https://docs.robotsfan.com/isaacgym/programming/simsetup.html
@@ -146,10 +155,6 @@ pip install -e isaacgym/python --use-pep517
 pip install -r requirements.txt 
 提示找不到torch版本1.8.1, 注释掉requirements.txt中第一行 #torch==1.8.1，因为装isaacgym时已经装了pytorch
 提示安装成功。
-    
-sudo sh cuda_12.1.1_530.30.02_linux.run
-
-
 
 
 设置VSCode可跑SingleAgent
@@ -219,6 +224,20 @@ run.py: error: unrecognized arguments:
     sudo apt update
     sudo apt install vulkan-sdk
     export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/dzn_icd.x86_64.json
+
+
+再执行 报错
+    internal error : libcuda.so!
+    [Warning] [carb.gym.plugin] Failed to create a PhysX CUDA Context Manager. Falling back to CPU.
+解决办法：which libcuda.so将找到的路径比如/usr/lib/wsl/lib添加到环境变量LD_LIBRARY_PATH中。 环境变量可以添加到launch.json的"env"中。
+            "env": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
+            },
+
+
+
+https://forums.developer.nvidia.com/t/wsl2-and-isaac-gym-problem/192069/14
 
 
 ```
