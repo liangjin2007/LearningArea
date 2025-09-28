@@ -76,6 +76,8 @@ linux桌面黑屏的问题：
 成功后将进入Ubuntu的Xfce4桌面环境
 
 
+在Windows上输入WSL Settings 将WSL网络模式从Nat修改为Mirrored https://zhuanlan.zhihu.com/p/15762609815
+
 远程连接可看到桌面
 
 要在wsl2上跑isaacgym，还不够
