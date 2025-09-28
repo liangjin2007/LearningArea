@@ -75,8 +75,11 @@ linux桌面黑屏的问题：
 登录WSL的用户名和密码
 成功后将进入Ubuntu的Xfce4桌面环境
 
-
+sudo apt install plocate # locate xxx命令用于找到系统上的内容， 安装比较费时，估计本地需要建立某种索引。
 在Windows上输入WSL Settings 将WSL网络模式从Nat修改为Mirrored https://zhuanlan.zhihu.com/p/15762609815
+libtinfo5的问题 ： sudo ln -s /usr/lib/x86_64-linux-gnu/libtinfo.so.6 /usr/lib/x86_64-linux-gnu/libtinfo.so.5
+
+
 
 远程连接可看到桌面
 
@@ -102,6 +105,11 @@ VSCode可直接操作linux目录了
 ```
 New Terminal -> wsl
 cd ~
+
+code . # 会安装vscode wsl server
+
+
+
 mkdir Motion
 cd Motion
 
