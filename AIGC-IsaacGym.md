@@ -103,6 +103,9 @@ https://www.cnblogs.com/erbws/p/18888083#fn1
 
 ```    
 
+
+## 配置CooHOI
+
 - Windows上打开VSCode,在Extensions中搜索Remove-WSL出来WSL，安装。
 VSCode可直接操作linux目录了
 
@@ -239,8 +242,35 @@ run.py: error: unrecognized arguments:
 
 https://forums.developer.nvidia.com/t/wsl2-and-isaac-gym-problem/192069/14
 
-
 ```
 
+## 导出CooHOI模型为onnx
+```
+pip install onnxruntime
+
+新建amp_network_builder_onnx.py文件，添加如下内容
+    from torch import nn
+    class AMPBuilderONNX(nn.Module):
+        def __init__(self, input_model):
+            super().__init__()
+            self.model = input_model
+            return
+    
+        def forward(self, obs):
+            actor_outputs = self.model.eval_actor(obs)
+            value = self.model.eval_critic(obs)
+            output = actor_outputs + (value,)
+            return output
+
+
+在common_player.py的run函数开头添加
+    # code to write out onnx
+    obs = self.env.task._compute_observations()
+    tensor_model = AMPBuilderONNX(self.model)
+    tensor_model.train(False)
+    torch.onnx.export(tensor_model,(obs,),f"D:/T2M_Runtime/onnx_models/coohoi_twoagents.onnx", input_names=("obs",), output_names=("mu","sigma","value"))
+
+
+```
 
 
