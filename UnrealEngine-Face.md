@@ -12,7 +12,8 @@ pip install librosa
 
 python neurosync_local_api.py
 
-不知道是怎么跟UE5通信的。
+不知道是怎么跟UE5通信的。 TODO： 看视频https://www.youtube.com/watch?v=qN-CSqNEhmk
+
 
 
 
