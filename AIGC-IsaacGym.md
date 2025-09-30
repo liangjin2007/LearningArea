@@ -247,6 +247,11 @@ https://forums.developer.nvidia.com/t/wsl2-and-isaac-gym-problem/192069/14
 ## 导出CooHOI模型为onnx
 ```
 pip install onnxruntime
+pip install onnx
+    # 这个会安装更新的protobuf版本，导致coohoi启动报错。
+    解决办法：回退protobuf的版本 pip install protobuf==3.20.0
+    
+
 
 新建amp_network_builder_onnx.py文件，添加如下内容
     from torch import nn
@@ -265,12 +270,15 @@ pip install onnxruntime
 
 在common_player.py的run函数开头添加
     # code to write out onnx
-    obs = self.env.task._compute_observations()
-    tensor_model = AMPBuilderONNX(self.model)
+    device = 'cpu'
+    obs = torch.zeros((1, 299,), dtype=torch.float32, device=device)
+    tensor_model = AMPBuilderONNX(self.model.a2c_network)
     tensor_model.train(False)
-    torch.onnx.export(tensor_model,(obs,),f"D:/T2M_Runtime/onnx_models/coohoi_twoagents.onnx", input_names=("obs",), output_names=("mu","sigma","value"))
+    tensor_model.to(device)
+    torch.onnx.export(tensor_model,(obs,),f"/home/liangjin/Desktop/Motion/coohoi_twoagents.onnx", input_names=("obs",), output_names=("mu","sigma","value"))
 
 
 ```
 
+## 
 
