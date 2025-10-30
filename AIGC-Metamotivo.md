@@ -399,4 +399,12 @@ vscode launch.json
 Select examples/fbcpr_train_humenv.py
 
 F5
+
+pip install pot
+cuda is not available shit
+
 ```
+
+
+
+
