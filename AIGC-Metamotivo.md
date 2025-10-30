@@ -387,7 +387,7 @@ vscode launch.json
             "console": "integratedTerminal",
             "args": [
                 "--compile",
-                "--motions","D:/T2M_Runtime/humenv-main/data_preparation/test_train_split/large1_small1_train_0.1.txt",
+                "--motions",".../humenvdata_preparation/test_train_split/large1_small1_train_0.1.txt",
                 "--motions_root","D:/T2M_Runtime/AMASS_humenv",
                 "--prioritization"
             ],
@@ -401,9 +401,12 @@ Select examples/fbcpr_train_humenv.py
 F5
 
 pip install pot
-cuda is not available shit
+cuda is not available for torch，重新安装torch pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121  
 
 ```
+
+
+Victory Plugin  https://forums.unrealengine.com/t/ramas-extra-blueprint-nodes-for-ue5-no-c-required/231476
 
 
 
