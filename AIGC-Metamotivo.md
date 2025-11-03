@@ -1,7 +1,149 @@
 # Metamotivo
 
+## 配置
+## 记录
+- gym
+```
+import gymnasium as gym
+
+# Initialise the environment
+env = gym.make("LunarLander-v3", render_mode="human")
+
+# Reset the environment to generate the first observation
+observation, info = env.reset(seed=42)
+for _ in range(1000):
+    # this is where you would insert your policy
+    action = env.action_space.sample()
+
+    # step (transition) through the environment with the action
+    # receiving the next observation, reward and if the episode has terminated or truncated
+    observation, reward, terminated, truncated, info = env.step(action)
+
+    # If the episode has ended then we can reset to start a new episode
+    if terminated or truncated:
+        observation, info = env.reset()
+
+env.close()
+```
+
+- humenv tutorial
+```
+https://github.com/facebookresearch/humenv/blob/main/tutorial.ipynb
+```
+
+- metamotivo
+```
+https://github.com/facebookresearch/metamotivo/tree/main?tab=readme-ov-file
+
+conda create -n metamotivo python=3.10
+conda init powershell
+restart powershell
+
+conda activate metamotivo
+
+pip install huggingface
+pip install huggingface-hub
+
+cd xxx/metamotivo
+pip install -e .
+
+cd xxx/humenv
+pip install -e .
 
 
+pip install mediapy
+
+pip install torchsummary
+
+
+python
+
+from metamotivo.fb_cpr.huggingface import FBcprModel
+model = FBcprModel.from_pretrained("facebook/metamotivo-S-1")
+
+cd xxx/metamotivo/metamotivo
+create a directory called data
+
+create the following code as a download_buffers.py
+    from huggingface_hub import hf_hub_download
+    from metamotivo.buffers.buffers import DictBuffer
+    import h5py
+    
+    local_dir = "metamotivo-S-1-datasets"
+    dataset = "buffer_inference_500000.hdf5"  # a smaller buffer that can be used for reward inference
+    # dataset = "buffer.hdf5"  # the full training buffer of the model
+    buffer_path = hf_hub_download(
+            repo_id="facebook/metamotivo-S-1",
+            filename=f"data/{dataset}",
+            repo_type="model",
+            local_dir=local_dir,
+        )
+    hf = h5py.File(buffer_path, "r")
+    print(hf.keys())
+    
+    # create a DictBuffer object that can be used for sampling
+    data = {k: v[:] for k, v in hf.items()}
+    buffer = DictBuffer(capacity=data["qpos"].shape[0], device="cpu")
+    buffer.extend(data)
+
+python download_buffers.py download the hdf5 buffer.
+
+```
+
+- 导出pytorch模型为onnx 
+```
+https://zhuanlan.zhihu.com/p/498425043
+https://docs.pytorch.org/tutorials/beginner/onnx/export_control_flow_model_to_onnx_tutorial.html
+
+导出代码
+input_observation = torch.zeros((358,), dtype=torch.float32, device=device)
+input_z = torch.zeros((256,), dtype=torch.float32, device=device)
+input_std = torch.zeros((1,), dtype=torch.float32, device=device)
+#调试添加dynamo=true,  torch.onnx.export(model._actor,(input_observation, input_z, input_std,),"D:/T2M_Runtime/onnx_models/fbcpr_actor.onnx", input_names=("observation", "z", "std",), output_names=("action",), dynamo=True)
+torch.onnx.export(model._actor,(input_observation, input_z, input_std,),"D:/T2M_Runtime/onnx_models/fbcpr_actor.onnx", input_names=("observation", "z", "std",), output_names=("action",))
+
+有时需要安装pip install onnxscript
+
+onnx只支持输入输出是Tensor，如果不是Tensor需要修改网络的forward函数。
+
+
+
+
+
+
+```  
+
+
+
+
+- 可视化模型
+```
+pip install torchsummary
+summary(model._backward_map, input_size=input_goal.shape)
+
+# 输出以下内容
+----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Linear-1               [-1, 1, 256]          91,904
+         LayerNorm-2               [-1, 1, 256]             512
+              Tanh-3               [-1, 1, 256]               0
+            Linear-4               [-1, 1, 256]          65,792
+              Norm-5               [-1, 1, 256]               0
+================================================================
+Total params: 158,208
+Trainable params: 0
+Non-trainable params: 158,208
+----------------------------------------------------------------
+Input size (MB): 0.00
+Forward/backward pass size (MB): 0.01
+Params size (MB): 0.60
+Estimated Total Size (MB): 0.61
+```
+
+
+- awass
+https://amass.is.tue.mpg.de/download.php
 
 ### FBModel
 - https://slideslive.com/38968883/learning-one-representation-to-optimize-all-rewards?ref=speaker-17548
