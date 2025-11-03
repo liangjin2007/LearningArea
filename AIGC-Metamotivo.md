@@ -401,7 +401,16 @@ Select examples/fbcpr_train_humenv.py
 F5
 
 pip install pot
-cuda is not available for torch，重新安装torch pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121  
+cuda is not available for torch，重新安装torch pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
+
+triton未安装：
+	git clone https://github.com/openai/triton.git
+	cd triton
+	pip install cmake
+	// comment out the cmake line in python\requirements.txt
+	pip install -r python\requirements.txt
+	pip install -e .
+
 
 ```
 
