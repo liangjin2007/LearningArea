@@ -294,7 +294,7 @@ pip install onnx
 碰到以下代码报错:
     gt = torch.utils.cpp_extension.load(name="gymtorch", sources=sources, extra_cflags=cflags, verbose=True)
 
-安装gcc:
+尝试安装gcc，没解决问题:
     # 安装GCC 10
     sudo apt update
     sudo apt install gcc-10 g++-10 -y
@@ -306,5 +306,9 @@ pip install onnx
     # 验证版本
     gcc --version  # 应显示gcc (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
 
+安装编译需要的东西：
+    sudo apt update && sudo apt install -y build-essential
+    c++ --version成功
+    which c++ 返回/usr/bin/c++
 ```
 
