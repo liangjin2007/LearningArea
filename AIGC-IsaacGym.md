@@ -40,6 +40,12 @@ https://github.com/AnimaVR/NeuroSync_Player?tab=readme-ov-file
     
 ```
 
+```
+错误地将C:\Users\liang\AppData\Local\Packages\ 删除解决办法：
+https://blog.csdn.net/m0_69593912/article/details/143580502
+```
+
+
 - 安装图形化界面及支持远程桌面连接
 ```
 安装必要组件（在WSL终端中执行）：
