@@ -1,6 +1,6 @@
-理出PHC训练果成：
+PHC
 
-以下两个代码仓库都来自CMU PHD ZhengyiLuo。看时间线如果想看PHC训练的代码，最好去看SMPLSim。
+## 以下两个代码仓库都来自CMU PHD ZhengyiLuo。看时间线如果想看PHC训练的代码，最好去看SMPLSim。
 
 - PHC https://github.com/ZhengyiLuo/PHC
 ```
@@ -12,7 +12,7 @@
 Simulating SMPL humanoid, supporting PHC/PHC-MJX/PULSE/SimXR code bases.
 ```
 
-以下两个代码仓库来自facebookresearch
+## 以下两个代码仓库来自facebookresearch
 - humenv https://github.com/facebookresearch/humenv
 ```
 HumEnv is an SMPL humanoid environment enabling systematic model comparison and reproducibility
@@ -29,6 +29,21 @@ The first behavioral foundation model to control a virtual physics-based humanoi
 
 PNN[2016]的思路不是PHC原创。
 PHC使用了简化，去掉了PNN原论文中的Lateral Connection。
+```
+
+
+## MimicKit 
+- 作者主页 https://xbpeng.github.io/
+- 项目地址 https://github.com/xbpeng/MimicKit
+```
+Env:
+  BaseEnv -> SimEnv -> CharEnv -> DeepMimicEnv -> AMPEnv -> ASEEnv
+                                                         -> ADDEnv
+          
+                               -> CharDofTestEnv
+                               -> ViewMotionEnv
+                                                         -> TaskLocationEnv
+                                               -> StaticObjectsEnv
 ```
 
 
