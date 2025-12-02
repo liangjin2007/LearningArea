@@ -121,6 +121,8 @@ cd ~
 
 code . # 会安装vscode wsl server
 
+在Extensions中搜索Python
+点击Python Debugger, 在右侧中点击 Install in wsl
 
 
 mkdir Motion
@@ -154,11 +156,12 @@ mv isaacgym CooHOI/isaacgym
 
 创建环境coohoi
 conda create -n coohoi python=3.8
-conda activate coohoi
+
+conda activate coohoi # 如果这一步提示先要执行conda init，可先执行code .配置visual studio code，安装Python Debugger extension, 再Ctrl+Shift+P选择新建的conda env对应的python，再新建一个launch.json来调试python。
 
 安装isaacgym
 拷贝isaacgym目录到桌面/Motion/CooHOI/中。
-pip install -e isaacgym/python --use-pep517
+pip install -e isaacgym/python --use-pep517 # 会安装cuda, torch等
 
 安装其他依赖
 pip install -r requirements.txt 
@@ -286,5 +289,22 @@ pip install onnx
 
 ```
 
-## 
+## Mimickit
+```
+碰到以下代码报错:
+    gt = torch.utils.cpp_extension.load(name="gymtorch", sources=sources, extra_cflags=cflags, verbose=True)
+
+安装gcc:
+    # 安装GCC 10
+    sudo apt update
+    sudo apt install gcc-10 g++-10 -y
+    
+    # 设置为默认编译器
+    sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
+    sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+    
+    # 验证版本
+    gcc --version  # 应显示gcc (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
+
+```
 
