@@ -24,6 +24,11 @@ cd ../SMPLSim-master
 在requirements.txt中注释掉smplx那一行（前面加#）。
 pip install .
 
+cd data_preparation/smplx
+pip install .
+
+pip install dm_control
+
 尝试安装PHC
 从https://github.com/ZhengyiLuo/PHC下载PHC
 放到SMPLSim-master同级目录
@@ -37,6 +42,7 @@ Ctrl+Shift+P，点击Python Interpretor, 选择humenv那个python。
 安装rich
 pip install rich h5py
 
+pip install numpy==1.24.4
 
 ```
 
