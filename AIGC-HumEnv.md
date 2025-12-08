@@ -37,6 +37,7 @@ Ctrl+Shift+P，点击Python Interpretor, 选择humenv那个python。
 安装rich
 pip install rich h5py
 
+
 ```
 
 ## SMPL
