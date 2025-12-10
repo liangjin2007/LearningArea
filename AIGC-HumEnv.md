@@ -42,7 +42,7 @@ Ctrl+Shift+P，点击Python Interpretor, 选择humenv那个python。
 安装rich
 pip install rich h5py
 
-pip install numpy==1.24.4
+pip install numpy==1.26.4
 
 ```
 
