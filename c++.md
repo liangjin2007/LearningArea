@@ -1,5 +1,32 @@
 ## c++ 11
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP11.md
+```
+现代C++11，写一个函数如下：
+std::vector<double> append(const std::vector<double>& a, const std::vector<double>& b)
+{
+std::vector<double> res;
+res.insert(res.end(), a.begin(), a.end());
+res.insert(res.end(), b.begin(), b.end());
+return res;
+}
+是否有潜在的性能问题？ 特别是在“return res；”的地方。按以前，这里会存在临时std::vector<double>变量的拷贝，当数组较长时会影响性能。
+
+C++11及以上版本的优化机制
+在C++11引入移动语义和返回值优化（RVO/NRVO） 后，return res; 语句通常不会产生完整的拷贝开销，具体优化方式如下：
+
+1. 命名返回值优化（NRVO）
+编译器会直接在调用方的栈空间中构造res，完全避免拷贝。
+
+触发条件：函数中始终返回同一个局部变量，且未对其进行二次修改（如res在函数内唯一且直接返回）。
+你的代码是否满足：满足！res在函数内仅被构造和插入元素，最后直接返回，符合NRVO条件。现代编译器（GCC 4.8+、Clang 3.0+、MSVC 2013+）都会自动触发NRVO。
+2. 移动语义（fallback机制）
+若NRVO未触发（如函数内存在多个返回路径），编译器会调用std::vector的移动构造函数（而非拷贝构造）。
+
+移动构造的代价：仅拷贝指针和大小（O(1)操作），不会复制底层数组数据。
+你的代码是否支持：std::vector已实现移动语义，因此即使NRVO失效，性能损失也极小。
+
+```
+
 
 ## c++ 14
 - https://github.com/AnthonyCalandra/modern-cpp-features/blob/master/CPP14.md
