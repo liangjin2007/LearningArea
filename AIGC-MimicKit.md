@@ -190,6 +190,100 @@ BaseAgent._reset_envs
 
         2.4. SimEnv._update_info(env_ids)
 
+
+build_agent
+    init_std = 0.05, init_output_scale = 0.01
+    logstd = [-2.9957]
+    self._build_actor(config, env)
+    self._build_critic(config, env)
+
+    DistributionGaussianDiagBuilder(torch.nn.Module)
+        self._mean_net = torch.nn.Linear(in_size, out_size)
+        torch.nn.init.uniform_(self._mean_net.weight, -init_output_scale, init_output_scale)
+        torch.nn.init.zeros_(self._mean_net.bias)
+        def forward(self, input):
+            mean = self._mean_net(input)
+    
+            if (self._std_type == StdType.FIXED or self._std_type == StdType.CONSTANT):
+                logstd = torch.broadcast_to(self._logstd_net, mean.shape)
+            elif (self._std_type == StdType.VARIABLE):
+                logstd = self._logstd_net(input)
+            else:
+                assert(False), "Unsupported StdType: {}".format(self._std_type)
+    
+            dist = DistributionGaussianDiag(mean=mean, logstd=logstd)
+            return dist
+
+class DistributionGaussianDiag():
+    def __init__(self, mean, logstd):
+        self._mean = mean
+        self._logstd = logstd
+        self._std = torch.exp(self._logstd)
+        self._dim = self._mean.shape[-1]
+        return
+
+    @property
+    def stddev(self):
+        return self._std
+        
+    @property
+    def logstd(self):
+        return self._logstd
+        
+    @property
+    def mean(self):
+        return self._mean
+        
+    @property
+    def mode(self):
+        return self._mean
+
+    def sample(self):
+        noise = torch.normal(torch.zeros_like(self._mean), torch.ones_like(self._std))
+        x = self._mean + self._std * noise
+        return x
+
+    def log_prob(self, x):
+        diff = x - self._mean
+        logp = -0.5 * torch.sum(torch.square(diff / self._std), dim=-1)
+        logp += -0.5 * self._dim * np.log(2.0 * np.pi) - torch.sum(self._logstd, dim=-1)
+        return logp
+
+    def entropy(self):
+        ent = torch.sum(self._logstd, dim=-1)
+        ent += 0.5 * self._dim * np.log(2.0 * np.pi * np.e)
+        return ent
+        
+    def kl(self, other):
+        assert(isinstance(other, DistributionGaussianDiag))
+        other_var = torch.square(other.stddev)
+        res = torch.sum(other.logstd - self._logstd + (torch.square(self._std) + torch.square(self._mean - other.mean)) / (2.0 * other_var), dim=-1)
+        res += -0.5 * self._dim
+        return res
+
+    def param_reg(self):
+        # only regularize mean, covariance is regularized via entropy reg
+        reg = torch.sum(torch.square(self._mean), dim=-1)
+        return reg
+
+
+Train
+    _train_iter
+        _decide_action
+            norm_obs = self._obs_norm.normalize(obs)
+            norm_action_dist = self._model.eval_actor(norm_obs)
+            norm_a_rand = norm_action_dist.sample()
+            norm_a_mode = norm_action_dist.mode
+            exp_prob = self._get_exp_prob()
+            exp_prob = torch.full([norm_a_rand.shape[0], 1], exp_prob, device=self._device, dtype=torch.float)
+            rand_action_mask = torch.bernoulli(exp_prob)
+            norm_a = torch.where(rand_action_mask == 1.0, norm_a_rand, norm_a_mode)
+            rand_action_mask = rand_action_mask.squeeze(-1)
+
+            # calculate logp of norm_a
+            norm_a_logp = norm_action_dist.log_prob(norm_a)
+
+
 ```
 
 
