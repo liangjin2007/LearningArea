@@ -190,7 +190,7 @@ BaseAgent._reset_envs
 
 
         2.4. SimEnv._update_info(env_ids)
-
+```
 
 ### build_agent
 ```
