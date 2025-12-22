@@ -40,10 +40,9 @@
 - 选择mimickit/run.py 按F5启动训练
 
 ## 2.代码阅读
-- run(...)
-```
-1. build_env会给env设上一个motion ?
 
+### build_env
+```
 build_env(args, num_envs, device, visualize)
     env = env_builder.build_env(deepmimic_humanoid_env.yaml, num_envs, device, visualize)
         DeepMimicEnv.__init__
@@ -93,9 +92,11 @@ build_env(args, num_envs, device, visualize)
                         self._timestep_buf = torch.zeros(num_envs, device=self._device, dtype=torch.int)
                         self._time_buf = torch.zeros(num_envs, device=self._device, dtype=torch.float)
                         obs_space = self.get_obs_space()
+```
 
-2. _reset_envs会从motion进行采样一帧。
 
+### _reset_envs会从motion进行采样一帧。
+```
 BaseAgent._reset_envs
     DeepmimicEnv.reset()
         2.1. CharEnv._reset_envs(env_ids)
@@ -191,6 +192,8 @@ BaseAgent._reset_envs
         2.4. SimEnv._update_info(env_ids)
 
 
+### build_agent
+```
 build_agent
     init_std = 0.05, init_output_scale = 0.01
     logstd = [-2.9957]
@@ -213,7 +216,11 @@ build_agent
     
             dist = DistributionGaussianDiag(mean=mean, logstd=logstd)
             return dist
+```
 
+
+### DistributionGaussianDiag
+```
 class DistributionGaussianDiag():
     def __init__(self, mean, logstd):
         self._mean = mean
@@ -265,23 +272,39 @@ class DistributionGaussianDiag():
         # only regularize mean, covariance is regularized via entropy reg
         reg = torch.sum(torch.square(self._mean), dim=-1)
         return reg
+```
 
-
+### Train
+```
 Train
     _train_iter
-        _decide_action
-            norm_obs = self._obs_norm.normalize(obs)
-            norm_action_dist = self._model.eval_actor(norm_obs)
-            norm_a_rand = norm_action_dist.sample()
-            norm_a_mode = norm_action_dist.mode
-            exp_prob = self._get_exp_prob()
-            exp_prob = torch.full([norm_a_rand.shape[0], 1], exp_prob, device=self._device, dtype=torch.float)
-            rand_action_mask = torch.bernoulli(exp_prob)
-            norm_a = torch.where(rand_action_mask == 1.0, norm_a_rand, norm_a_mode)
-            rand_action_mask = rand_action_mask.squeeze(-1)
+        _rollout_train(num_steps)
+            for i in range(num_steps):
+                action, action_info = self._decide_action(self._curr_obs, self._curr_info)
+                    norm_obs = self._obs_norm.normalize(obs)
+                    norm_action_dist = self._model.eval_actor(norm_obs)
+                    norm_a_rand = norm_action_dist.sample()
+                    norm_a_mode = norm_action_dist.mode
+                    exp_prob = self._get_exp_prob()
+                    exp_prob = torch.full([norm_a_rand.shape[0], 1], exp_prob, device=self._device, dtype=torch.float)
+                    rand_action_mask = torch.bernoulli(exp_prob)
+                    norm_a = torch.where(rand_action_mask == 1.0, norm_a_rand, norm_a_mode)
+                    rand_action_mask = rand_action_mask.squeeze(-1)
+        
+                    # calculate logp of norm_a
+                    norm_a_logp = norm_action_dist.log_prob(norm_a)
+                    norm_a = norm_a.detach()
+                    norm_a_logp = norm_a_logp.detach()
+                    a = self._a_norm.unnormalize(norm_a)
+            
+                    a_info = {
+                        "a_logp": norm_a_logp,
+                        "rand_action_mask": rand_action_mask
+                    }
+                    return a, a_info
+                self._record_data_pre_step(self._curr_obs, self._curr_info, action, action_info)
 
-            # calculate logp of norm_a
-            norm_a_logp = norm_action_dist.log_prob(norm_a)
+
 
 
 ```
