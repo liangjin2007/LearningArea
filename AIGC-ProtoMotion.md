@@ -57,6 +57,12 @@ uv pip install -r /path/to/protomotions/requirements_newton.txt
 碰到问题: cmake找不到
   使用uv pip install cmake ninja 安装cmake
 
+碰到问题openmesh 1.2.1装不上
+  wget https://github.com/liangjin2007/LearningArea/raw/refs/heads/master/openmesh-python-1.2.1.zip
+  unzip openmesh-python-1.2.1.zip
+  cd openmesh-python-1.2.1 Ref https://gitlab.vci.rwth-aachen.de:9000/OpenMesh/openmesh-python/-/tree/1.2.1?ref_type=tags
+  
+
   
 
 
