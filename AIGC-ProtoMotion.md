@@ -21,6 +21,8 @@ git lfs fetch --all
 - Step 3. Clone newton
 ```
 git clone https://github.com/newton-physics/newton
+git checkout tags/beta-1-1
+
 ```
 
 - Step 4. Install uv
@@ -39,11 +41,10 @@ Requirements: Python 3.10+, NVIDIA GPU (compute capability >= 5.0), driver 545+
 Clone Newton and create a virtual environment:
 
 git clone git@github.com:newton-physics/newton.git
+git checkout tags/beta-1-1
 cd newton
 uv venv
 source .venv/bin/activate
-
-
 
 
 uv pip install mujoco --pre -f https://py.mujoco.org/
