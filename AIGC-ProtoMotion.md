@@ -1,4 +1,4 @@
-- Step 1. Clone code
+- Step 1. Clone ProtoMotion code
 ```
 Fork ProtoMotions
 git config --global user.name xxx
@@ -72,3 +72,34 @@ uv pip install cmake ninja
 ```
 成功
 ```
+
+- Step 8. scp Send Windows AMASS npz tar.gz files to Ubuntu Server
+```
+scp D:\Downloads\project.zip liangjin@172.19.4.52:/home/liangjin/
+```
+
+- Step 9. Get ready smpl model pkl datas and use scp to send to Ubuntu Server
+```
+scp D:\ue-simulator\Training\humenv\data_preparation\AMASS\models\smpl_models.zip liangjin@172.19.4.52:/home/liangjin/
+```
+
+- Step 10. unzip AMASS.zip 
+```
+unzip AMASS.zip
+find . -maxdepth 1 -name "*.tar.bz2" -print0 | xargs -0 -I {} tar jxf {} -C /home/liangjin/AMASS_npz/
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
