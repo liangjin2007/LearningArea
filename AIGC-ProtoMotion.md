@@ -6,6 +6,7 @@ git config --global user.emal xxx
 sshkey-rsa xxx
 copy pub key to git ssh-key
 git clone https://github.com/liangjin2007/ProtoMotions.git
+注意 目前必须是main branch, main branch才有newton
 ```
 
 - Step 2. git lfs big files
@@ -21,7 +22,7 @@ git lfs fetch --all
 - Step 3. Clone newton
 ```
 git clone https://github.com/newton-physics/newton
-git checkout tags/beta-1-1
+注意newton必须使用beta-1-1 git checkout tags/beta-1-1
 
 ```
 
