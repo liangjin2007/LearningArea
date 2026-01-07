@@ -52,20 +52,23 @@ Install ProtoMotions and dependencies:
 
 uv pip install -e /path/to/protomotions
 uv pip install -r /path/to/protomotions/requirements_newton.txt
+```
 
+- Step 6. Resolve the installation of openmesh==1.2.1
+```
+安装这个包需要安装cmake及用cmake来编译c++ openmesh，所以需要给linux安装c++环境
+sudo apt-get install g++ gcc make
+uv pip install cmake ninja
 
-碰到问题: cmake找不到
-  使用uv pip install cmake ninja 安装cmake
+参考这个方式 https://blog.csdn.net/wang1zhong1quan/article/details/147615829
+  wget https://github.com/liangjin2007/LearningArea/raw/refs/heads/master/openmesh-1.2.1.tar.gz
+  tar -zxvf openmesh-1.2.1.tar.gz
+  cd openmesh-1.2.1中的几个CMakeLists.txt的cmake_minimum_required(VERSION xxx)为cmake_minimum_required(VERSION 4.2.1)
+  uv pip install -e .
+  安装openmesh==1.2.1成功
+```
 
-碰到问题openmesh 1.2.1装不上
-  wget https://github.com/liangjin2007/LearningArea/raw/refs/heads/master/openmesh-python-1.2.1.zip
-  unzip openmesh-python-1.2.1.zip
-  cd openmesh-python-1.2.1 Ref https://gitlab.vci.rwth-aachen.de:9000/OpenMesh/openmesh-python/-/tree/1.2.1?ref_type=tags
-  
-
-  
-
-
-
-
+- Step 7. 继续安装uv pip install -r /path/to/protomotions/requirements_newton.txt
+```
+成功
 ```
