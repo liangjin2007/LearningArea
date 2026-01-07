@@ -42,12 +42,17 @@ git clone git@github.com:newton-physics/newton.git
 cd newton
 uv venv
 source .venv/bin/activate
-Install Newton dependencies:
+
+
+
 
 uv pip install mujoco --pre -f https://py.mujoco.org/
 uv pip install warp-lang --pre -U -f https://pypi.nvidia.com/warp-lang/
 uv pip install git+https://github.com/google-deepmind/mujoco_warp.git@main
 uv pip install -e .[examples]
+uv pip install . # install newton
+
+
 Install ProtoMotions and dependencies:
 
 uv pip install -e /path/to/protomotions
@@ -83,12 +88,62 @@ scp D:\Downloads\project.zip liangjin@172.19.4.52:/home/liangjin/
 scp D:\ue-simulator\Training\humenv\data_preparation\AMASS\models\smpl_models.zip liangjin@172.19.4.52:/home/liangjin/
 ```
 
-- Step 10. unzip AMASS.zip 
+- Step 10. Process AMASS
 ```
 unzip AMASS.zip
+mkdir AMASS_npz
+mkdir AMASS_pt
+
+# tar jxf all the tar.bz2 files
 find . -maxdepth 1 -name "*.tar.bz2" -print0 | xargs -0 -I {} tar jxf {} -C /home/liangjin/AMASS_npz/
+
+# convert AMASS npz files to ProtoMotions' .pt files.
+
+create a convert_data.sh in /home/liangjin/ProtoMotions
+set the content to:
+source ~/newton/.venv/bin/activate
+export PYTHONPATH="/home/liangjin/ProtoMotions:$PYTHONPATH"
+python ./data/scripts/convert_amass_to_motionlib.py /home/liangjin/AMASS_npz/ /home/liangjin/AMASS_pt --motion-config data/yaml_files/amass_smpl_train.yaml --motion-config data/yaml_files/amass_smpl_test.yaml --motion-config data/yaml_files/amass_smpl_validation.yaml
+
+chmod 777 train.sh
+
+./convert_data.sh
+
 ```
 
+- Step 11. Train
+```
+
+1. wandb
+  Use google account to login https://wandb.ai/liangjin2007-ff
+  wandb key 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
+  wandb login
+  Paste the wandb key
+
+2. Train
+
+cd ProtoMotions
+cp convert_data.sh train.sh
+vim train.sh
+remove the convert_amass_to_motionlib.py related code
+replace with:
+
+source ~/newton/.venv/bin/activate
+
+export PYTHONPATH="/home/liangjin/ProtoMotions:/home/liangjin/newton:$PYTHONPATH"
+
+python /home/liangjin/ProtoMotions/protomotions/train_agent.py \
+    --robot-name smpl \
+    --simulator newton \
+    --experiment-path /home/liangjin/ProtoMotions/examples/experiments/mimic/mlp.py \
+    --experiment-name smpl_mlp_mimic \
+    --motion-file /home/liangjin/AMASS_pt/amass_smpl_train.pt \
+    --num-envs 4096 \
+    --batch-size 16384 \
+    --ngpu 2 \
+    --use-wandb
+
+```
 
 
 
