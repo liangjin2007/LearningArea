@@ -1,3 +1,60 @@
+## Isaacgym
+- Installation
+```
+conda create -n isaacgym python=3.8
+conda activate isaacgym
+wget https://developer.nvidia.com/isaac-gym-preview-4
+tar -xvzf isaac-gym-preview-4
+pip install -e isaacgym/python
+pip install -e /path/to/protomotions
+pip install -r /path/to/protomotions/requirements_isaacgym.txt
+```
+
+- Train
+```
+train.sh
+# To resolve isaacgym problem
+export LD_LIBRARY_PATH=/home/liangjin/anaconda3/envs/isaacgym/lib:$LD_LIBRARY_PATH
+
+export PYTHONPATH="/home/liangjin/ProtoMotions:/home/liangjin/newton:$PYTHONPATH"
+
+python /home/liangjin/ProtoMotions/protomotions/train_agent.py \
+    --robot-name smpl \
+    --simulator isaacgym \
+    --experiment-path /home/liangjin/ProtoMotions/examples/experiments/mimic/mlp.py \
+    --experiment-name smpl_mlp_mimic \
+    --motion-file /home/liangjin/AMASS_pt/amass_smpl_train.pt \
+    --num-envs 512 \
+    --batch-size 1024 \
+    --ngpu 2 \
+    --use-wandb
+```
+
+- Inferece
+```
+Ref https://protomotions.github.io/tutorials/workflows/amass_smpl.html, part Evaluation
+https://protomotions.github.io/user_guide/experiments.html
+
+Run inference on trained model:
+
+python protomotions/inference_agent.py \
+    --checkpoint results/smpl_amass_flat/last.ckpt \
+    --simulator isaacgym
+Full evaluation over all motions:
+
+python protomotions/inference_agent.py \
+    --checkpoint results/smpl_amass_flat/last.ckpt \
+    --simulator isaacgym \
+    --num-envs 1024 \
+    --full-eval
+
+```
+
+- Log Train
+
+## Newton ??
+尝试失败
+
 - Step 1. Clone ProtoMotion code
 ```
 Fork ProtoMotions
