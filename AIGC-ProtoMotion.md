@@ -1,4 +1,4 @@
-## Isaacgym
+## Isaacgym Simulator
 - Installation
 ```
 conda create -n isaacgym python=3.8
@@ -10,6 +10,10 @@ pip install -e /path/to/protomotions
 pip install -r /path/to/protomotions/requirements_isaacgym.txt
 ```
 
+- Data Preprocessing
+```
+
+```
 - Train
 ```
 train.sh
@@ -164,7 +168,7 @@ source ~/newton/.venv/bin/activate
 export PYTHONPATH="/home/liangjin/ProtoMotions:$PYTHONPATH"
 python ./data/scripts/convert_amass_to_motionlib.py /home/liangjin/AMASS_npz/ /home/liangjin/AMASS_pt --motion-config data/yaml_files/amass_smpl_train.yaml --motion-config data/yaml_files/amass_smpl_test.yaml --motion-config data/yaml_files/amass_smpl_validation.yaml
 
-chmod 777 train.sh
+chmod 777 convert_data.sh
 
 ./convert_data.sh
 
