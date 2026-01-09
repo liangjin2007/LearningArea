@@ -37,6 +37,40 @@
     ]
 }
 ```
+- 问题
+```
+## Mimickit
+```
+碰到以下代码报错:
+    gt = torch.utils.cpp_extension.load(name="gymtorch", sources=sources, extra_cflags=cflags, verbose=True)
+
+    尝试安装gcc，没解决问题:
+        # 安装GCC 10
+        sudo apt update
+        sudo apt install gcc-10 g++-10 -y
+        
+        # 设置为默认编译器
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
+        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
+        
+        # 验证版本
+        gcc --version  # 应显示gcc (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
+    
+    安装编译需要的东西：
+        sudo apt update && sudo apt install -y build-essential
+        c++ --version成功
+        which c++ 返回/usr/bin/c++
+
+libcuda.so的问题：
+    launch.json添加
+    "env": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
+    },
+
+```
+
+```
 - 选择mimickit/run.py 按F5启动训练
 
 ## 2.代码阅读
