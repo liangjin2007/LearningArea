@@ -5,6 +5,12 @@
 ## 1.执行训练
 
 - 源代码地址 https://github.com/xbpeng/MimicKit?tab=readme-ov-file
+- 部署
+```
+安装isaacgym
+安装requirements.txt
+下载data放到MimicKit/data/中。这一步在wsl中，我是直接从Windows下载，并拷贝到WSL Ubuntu的MimicKit/data/中。
+```
 - 使用WSL训练（因为isaacgym只能linux系统）
 - VSCode launch.json
 ```
