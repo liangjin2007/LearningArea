@@ -14,7 +14,7 @@ https://github.com/AnimaVR/NeuroSync_Player?tab=readme-ov-file
 
 完成后需要重启电脑
 
-打开Microsoft Store，商店内直接搜索Ubuntu
+打开Microsoft Store，商店内直接搜索Ubuntu, 注意千万别装Ubuntu20.04
 
 选择第一个下载安装
 
@@ -52,16 +52,19 @@ https://blog.csdn.net/m0_69593912/article/details/143580502
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install xorg xfce4 xrdp -y
+
+
 xorg：基础显示服务
 xfce4：轻量级桌面环境
 xrdp：远程桌面协议服务
 配置Xrdp服务：
 
 sudo echo xfce4-session > ~/.xsession  # 设置默认会话为Xfce4
-sudo service xrdp restart              # 重启服务 
 
 修改xrdp端口为3390
-    sudo vim /etc/xrdp/xrdp.ini  
+    sudo vim /etc/xrdp/xrdp.ini
+
+sudo service xrdp restart              # 重启服务 
 
 linux桌面黑屏的问题：
     一、修改XRDP启动脚本（推荐方案）
@@ -288,36 +291,3 @@ pip install onnx
 
 
 ```
-
-## Mimickit
-```
-碰到以下代码报错:
-    gt = torch.utils.cpp_extension.load(name="gymtorch", sources=sources, extra_cflags=cflags, verbose=True)
-
-    尝试安装gcc，没解决问题:
-        # 安装GCC 10
-        sudo apt update
-        sudo apt install gcc-10 g++-10 -y
-        
-        # 设置为默认编译器
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
-        sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
-        
-        # 验证版本
-        gcc --version  # 应显示gcc (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
-    
-    安装编译需要的东西：
-        sudo apt update && sudo apt install -y build-essential
-        c++ --version成功
-        which c++ 返回/usr/bin/c++
-
-libcuda.so的问题：
-    launch.json添加
-    "env": {
-        "CUDA_VISIBLE_DEVICES": "0",
-        "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
-    },
-
-
-```
-
