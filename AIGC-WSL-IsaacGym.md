@@ -46,30 +46,12 @@ https://www.cnblogs.com/erbws/p/18888083#fn1
     tar -xvzf isaac-gym-preview-4
     拷贝isaacgym到想要部署的python代码中，比如mv isaacgym CooHOI/isaacgym
     pip install -e isaacgym/python --use-pep517 # 会安装cuda, torch等
+
+    # 解决libpython3.8的问题
     sudo cp /home/liangjin/anaconda3/envs/isaacgym/lib/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu
-    
 
-学习isaacgym api https://docs.robotsfan.com/isaacgym/programming/simsetup.html
-学习rl games api https://github.com/Denys88/rl_games/tree/master/docs
-
-cd ~/Motion
-mv isaacgym CooHOI/isaacgym
-
-
-创建环境coohoi
-conda create -n coohoi python=3.8
-
-conda activate coohoi # 如果这一步提示先要执行conda init，可先执行code .配置visual studio code，安装Python Debugger extension, 再Ctrl+Shift+P选择新建的conda env对应的python，再新建一个launch.json来调试python。
-
-安装isaacgym
-拷贝isaacgym目录到桌面/Motion/CooHOI/中。
-pip install -e isaacgym/python --use-pep517 # 会安装cuda, torch等
-
-安装其他依赖
-pip install -r requirements.txt 
-提示找不到torch版本1.8.1, 注释掉requirements.txt中第一行 #torch==1.8.1，因为装isaacgym时已经装了pytorch
-提示安装成功。
-
+    # 解决which c++返回空的问题
+    sudo apt update && sudo apt install -y build-essential 
 
 设置VSCode可跑SingleAgent
 VSCode安装Extensions Python (否则Command + Shift + P中没有Python: Select Interpreter)
@@ -106,51 +88,4 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
         }
     ]
 }
-
-VSCode中找到coohoi/run.py使它为当前active file
-F5调试
-
-报错ImportError: libpython3.8.so.1.0: cannot open shared object file: No such file or directory
-解决办法：
-    sudo cp /home/liangjin/anaconda3/envs/coohoi/lib/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu
-    
-执行 再报错 GLIbCXX_xxx找不到
-
-cd /home/liangjin/anaconda3/envs/coohoi/lib
-mv libstdc++.so.6 libstdc++.so.6.old
-ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6 libstdc++.so.6
-
-再执行 报错
-run.py: error: unrecognized arguments:
-    launch.json中"--test"后不要接空的""
-    /Users/liangjin改成/home/liangjin
-
-
-再执行 报错
-    internal error : libcuda.so!
-    [Warning] [carb.gym.plugin] Failed to create a PhysX CUDA Context Manager. Falling back to CPU.
-    Physics Engine: PhysX
-    Physics Device: cpu
-    GPU Pipeline: disabled
-解决办法：安装vulkan
-    wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
-    sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-1.4.313-noble.list https://packages.lunarg.com/vulkan/1.4.313/lunarg-vulkan-1.4.313-noble.list
-    sudo apt update
-    sudo apt install vulkan-sdk
-    export VK_ICD_FILENAMES=/usr/share/vulkan/icd.d/dzn_icd.x86_64.json
-
-
-再执行 报错
-    internal error : libcuda.so!
-    [Warning] [carb.gym.plugin] Failed to create a PhysX CUDA Context Manager. Falling back to CPU.
-解决办法：which libcuda.so将找到的路径比如/usr/lib/wsl/lib添加到环境变量LD_LIBRARY_PATH中。 环境变量可以添加到launch.json的"env"中。
-            "env": {
-                "CUDA_VISIBLE_DEVICES": "0",
-                "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
-            },
-
-
-
-https://forums.developer.nvidia.com/t/wsl2-and-isaac-gym-problem/192069/14
-
 ```
