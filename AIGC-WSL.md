@@ -82,3 +82,21 @@ linux桌面黑屏的问题：
 
 ```
 
+### SSH连接WSL
+```
+# 安装OpenSSH服务
+sudo apt update && sudo apt install openssh-server -y
+
+# 修改SSH配置文件
+需要修改/取消注释的核心配置：
+    Port 22（默认端口，若冲突可改为其他端口如2222）
+    PasswordAuthentication yes（允许密码登录，新手推荐先开启）
+    PermitRootLogin no（禁用root直接登录，可选但更安全）
+保存后重启SSH服务：
+    sudo service ssh restart
+
+测试连接
+powershell中输入 ssh liangjin@127.0.0.1
+press yes, then 输入密码，连接成功
+
+```
