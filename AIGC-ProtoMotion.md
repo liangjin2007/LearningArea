@@ -1,6 +1,9 @@
 ## Isaacgym Simulator
 - Installation
 ```
+git clone https://github.com/liangjin2007/ProtoMotions.git
+sudo apt install git-lfs
+git lfs fetch --all
 conda create -n isaacgym python=3.8
 conda activate isaacgym
 wget https://developer.nvidia.com/isaac-gym-preview-4
