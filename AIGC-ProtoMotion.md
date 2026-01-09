@@ -15,8 +15,9 @@ pip install -r /path/to/protomotions/requirements_isaacgym.txt
 
 - Data Preprocessing
 ```
-
+See below
 ```
+
 - Train
 ```
 train.sh
@@ -36,6 +37,73 @@ python /home/liangjin/ProtoMotions/protomotions/train_agent.py \
     --ngpu 2 \
     --use-wandb
 ```
+
+
+- Fix wandb
+```
+训练没有看到曲线信息
+
+使用WSL尝试训练1个env：
+    1. train.yaml太大，无法生成.pt文件，所以下面的launch.json中使用了test.pt
+    2. num-envs设为1时，batch-size必须设为32
+    3. num-envs设为1时会碰到python error
+        需要修复几处/protomotions/agents/utils/metering.py 文件中的错误
+
+    4. 在train_agent.py的import wandb后添加:
+        # 替换为你的WandB API密钥
+        WANDB_API_KEY = "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"
+        # 显式登录，跳过命令行输入
+        wandb.login(key=WANDB_API_KEY)
+
+
+
+
+
+
+WSL训练的launch.json    
+    {
+        // Use IntelliSense to learn about possible attributes.
+        // Hover to view descriptions of existing attributes.
+        // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+        "version": "0.2.0",
+        "configurations": [
+    
+            {
+                "name": "Python Debugger: Current File",
+                "type": "debugpy",
+                "request": "launch",
+                "program": "${file}",
+                "console": "integratedTerminal",
+                // parameters for python data/scripts/convert_amass_to_motionlib.py xxx
+                // "args": [
+                //     "/home/liangjin/Desktop/AMASS_npz/", "/home/liangjin/Desktop/AMASS_pt/",
+                //     "--motion-config", "/home/liangjin/Desktop/ProtoMotions/data/yaml_files/amass_smpl_train.yaml"
+                //     // "--motion-config", "/home/liangjin/Desktop/ProtoMotions/data/yaml_files/amass_smpl_test.yaml"
+                //     //"--motion-config", "/home/liangjin/Desktop/ProtoMotions/data/yaml_files/amass_smpl_validation.yaml"
+                // ],
+                // parameters for training python protomotions/train_agent.py
+                "args": [
+                    "--robot-name", "smpl",
+                    "--simulator", "isaacgym",
+                    "--experiment-path", "/home/liangjin/Desktop/ProtoMotions/examples/experiments/mimic/mlp.py",
+                    "--experiment-name", "smpl_mlp_mimic",
+                    "--motion-file", "/home/liangjin/Desktop/AMASS_pt/amass_smpl_test.pt",
+                    "--num-envs","1",
+                    "--batch-size","32",
+                    "--ngpu","1",
+                    "--use-wandb"
+                ],    
+                "env": {
+                    "CUDA_VISIBLE_DEVICES": "0",
+                    "LD_LIBRARY_PATH": "/usr/lib/wsl/lib:\"${env:CONDA_PREFIX}/lib\":\"${env:LD_LIBRARY_PATH}\""
+                },
+            }
+        ]
+    }
+
+
+```
+
 
 - Inferece
 ```
