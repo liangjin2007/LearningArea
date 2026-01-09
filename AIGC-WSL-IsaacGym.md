@@ -37,8 +37,8 @@ https://www.cnblogs.com/erbws/p/18888083#fn1
     conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/pytorch/
 
     创建环境coohoi
-    conda create -n coohoi python=3.8  # 注意isaacgym需要3.8版本python
-    conda activate coohoi # 如果这一步提示先要执行conda init，可先执行code .配置visual studio code，安装Python Debugger extension, 再Ctrl+Shift+P选择新建的conda env对应的python，再新建一个launch.json来调试python。
+    conda create -n isaacgym python=3.8  # 注意isaacgym需要3.8版本python
+    conda activate isaacgym # 如果这一步提示先要执行conda init，可先执行code .配置visual studio code，安装Python Debugger extension, 再Ctrl+Shift+P选择新建的conda env对应的python，再新建一个launch.json来调试python。
 
 
 安装isaacgym
@@ -46,7 +46,8 @@ https://www.cnblogs.com/erbws/p/18888083#fn1
     tar -xvzf isaac-gym-preview-4
     拷贝isaacgym到想要部署的python代码中，比如mv isaacgym CooHOI/isaacgym
     pip install -e isaacgym/python --use-pep517 # 会安装cuda, torch等
-
+    sudo cp /home/liangjin/anaconda3/envs/isaacgym/lib/libpython3.8.so.1.0 /usr/lib/x86_64-linux-gnu
+    
 
 学习isaacgym api https://docs.robotsfan.com/isaacgym/programming/simsetup.html
 学习rl games api https://github.com/Denys88/rl_games/tree/master/docs
