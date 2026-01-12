@@ -16,6 +16,11 @@ pip install -r /path/to/protomotions/requirements_isaacgym.txt
 - Data Preprocessing
 ```
 See below
+
+export PYTHONPATH="/home/liangjin/ProtoMotions:$PYTHONPATH"
+
+python ./data/scripts/convert_amass_to_motionlib.py /home/liangjin/AMASS_npz/ /home/liangjin/AMASS_pt --motion-config data/yaml_files/amass_smpl_train.yaml --motion-config data/yaml_files/amass_smpl_test.yaml --motion-config data/yaml_files/amass_smpl_validation.yaml
+
 ```
 
 - Train
@@ -115,10 +120,24 @@ Ref https://protomotions.github.io/tutorials/workflows/amass_smpl.html, part Eva
 https://protomotions.github.io/user_guide/experiments.html
 
 Run inference on trained model:
-
 python protomotions/inference_agent.py \
     --checkpoint results/smpl_amass_flat/last.ckpt \
     --simulator isaacgym
+
+
+evaluate.sh
+# To resolve isaacgym problem
+export LD_LIBRARY_PATH=/home/liangjin/anaconda3/envs/isaacgym/lib:$LD_LIBRARY_PATH
+
+export PYTHONPATH="/home/liangjin/ProtoMotions:/home/liangjin/newton:$PYTHONPATH"
+
+python /home/liangjin/ProtoMotions/protomotions/inference_agent.py \
+    --simulator isaacgym \
+    --checkpoint /home/liangjin/ProtoMotions/results/smpl_mlp_mimic/last.ckpt \
+    --motion-file /home/liangjin/AMASS_pt/amass_smpl_test.pt
+
+
+
 Full evaluation over all motions:
 
 python protomotions/inference_agent.py \
@@ -128,8 +147,6 @@ python protomotions/inference_agent.py \
     --full-eval
 
 ```
-
-- Log Train
 
 ## Newton ??
 尝试失败
