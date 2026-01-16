@@ -43,6 +43,34 @@
     ]
 }
 ```
+
+- 支持newton物理引擎
+- 
+```
+要安装newton, 需要python=3.10以上。与之前安装的isaacgym需要python=3.8冲突。
+
+# 创建新conda环境
+conda create -n mimickit_newton python==3.10
+conda activate mimickit_newton.
+
+# 安装newton
+git clone https://github.com/newton-physics/newton
+cd newton
+git checkout cde9610aff71995d793f9b60e6dc26299e29885c
+（官网推荐使用uv进行安装。)等于我还得再装个uv来管理环境，导致跟已经装了的conda会产生冲突。
+尝试直接pip install -e . 来安装newton，也提示newton-0.2.0安装成功。
+
+# 更新mimickit代码
+git pull
+
+# 修改vscode中的launch.json，添加新的参数
+--engine_config","/home/liangjin/Desktop/MimicKit/data/engines/isaac_gym_engine.yaml"
+
+```
+
+
+
+
 - 问题
 ```
 ## Mimickit
