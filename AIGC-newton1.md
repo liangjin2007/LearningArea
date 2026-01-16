@@ -22,11 +22,14 @@ su liangjin
 git lfs fetch --all
 ```
 
-- Step 3. Clone newton
+- Step 3. Clone newton and install newton
 ```
 git clone https://github.com/newton-physics/newton
-注意newton必须使用beta-1-1 git checkout tags/beta-1-1
+cd newton
+git checkout cde9610aff71995d793f9b60e6dc26299e29885c
+（官网推荐使用uv进行安装。)等于我还得再装个uv来管理环境，导致跟已经装了的conda会产生冲突。
 
+尝试直接pip install -e . 来安装newton，也提示newton-0.2.0安装成功。
 ```
 
 - Step 4. Install uv
