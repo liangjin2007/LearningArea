@@ -100,7 +100,10 @@ git pull
 
 # 修改vscode中的launch.json，添加新的参数
 --engine_config","/home/liangjin/Desktop/MimicKit/data/engines/isaac_gym_engine.yaml"
+另外，为了调试set_root_pos等接口实际是怎么设置到mujoco中的，添加
+"--devices", "cpu"
 
+vscode launch.json内容
 {
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
@@ -144,7 +147,8 @@ git pull
                 "--agent_config", "/home/liangjin/Desktop/MimicKit/data/agents/deepmimic_smpl_ppo_agent.yaml",
                 "--visualize", "true",
                 "--engine_config","/home/liangjin/Desktop/MimicKit/data/engines/newton_engine.yaml",
-                "--log_file", "output/model.pt"
+                "--log_file", "output/model.pt",
+                "--devices", "cpu"
             ],
             "env": {
                 "CUDA_VISIBLE_DEVICES": "0",
