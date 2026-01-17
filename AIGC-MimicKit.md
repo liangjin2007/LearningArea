@@ -1,7 +1,3 @@
-# 目录
-
-## 执行训练
-
 - 源代码地址 https://github.com/xbpeng/MimicKit?tab=readme-ov-file
 - 部署
 ```
@@ -41,6 +37,41 @@
     ]
 }
 ```
+
+- 转pkl为json
+```
+import os
+import pickle
+import json
+import numpy as np
+
+in_pickle_file = '/home/liangjin/Desktop/MimicKit/data/motions/smpl/smpl_walk.pkl'
+out_json_file = '/home/liangjin/Desktop/smpl_walk.json'
+
+with open(in_pickle_file, "rb") as filestream:
+    in_dict = pickle.load(filestream)
+
+    loop_mode_val = in_dict["loop_mode"]
+    fps = in_dict["fps"]
+    frames = in_dict["frames"]
+    frames = np.array(frames, dtype=np.float32)
+
+    json_dict = {}
+
+    trans = frames[..., 0:3]
+    pose_aa = frames[..., 3:]
+
+    json_dict['trans'] = trans.tolist()
+    json_dict['pose_aa'] = pose_aa.tolist()
+
+    json_str = json.dumps(json_dict)
+    json_binary = json_str.encode("utf-8")
+    with open(out_json_file,  'wb') as f:
+        f.write(json_binary)     
+```
+
+
+
 
 ### 支持newton物理引擎
 ```
