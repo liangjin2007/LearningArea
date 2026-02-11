@@ -1,3 +1,23 @@
+## [2025]PhysCtrl https://openreview.net/pdf?id=AHEKhff4Oa
+有关工作 
+- Neural Physical Dynamics
+```
+基于数值方法的传统物理模拟 FEM, PBD, MPM, SPH, mass-spring 系统
+
+PINN: Physical Informed Neural Networks。用神经网络近似偏微分方程的解以及将物理约束放到神经网络里。缺点是：per-scene case，且论文实现的是流体。
+
+ElastoGen：替换模拟中的一部分为神经网络以实现更快的推理。缺点：依赖Voxel Representation，只支持弹性材质，需要一个完全的3d模型作为输入。
+
+GNN： 有好几篇论文，已经显示出能实现多种材质的模拟。缺点：依赖下一步动力学预测，容易累计误差或者漂移。
+
+
+
+
+```
+
+
+
+
 ## MuJoCo https://github.com/google-deepmind/mujoco?tab=readme-ov-file
 ## opensim https://simtk.org/projects/opensim
 ## https://openaccess.thecvf.com/content/CVPR2024/papers/Ugrinovic_MultiPhys_Multi-Person_Physics-aware_3D_Motion_Estimation_CVPR_2024_paper.pdf
