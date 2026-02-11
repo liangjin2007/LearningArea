@@ -10,11 +10,16 @@ ElastoGen：替换模拟中的一部分为神经网络以实现更快的推理�
 
 GNN： 有好几篇论文，已经显示出能实现多种材质的模拟。缺点：依赖下一步动力学预测，容易累计误差或者漂移。
 
+PhysCtrl： 使用点云表示 + spatial time trajectory diffusion model
+```
 
+- Controllable Video Generative Models
+```
+text-video对作为输入，训练视频生成模型。
+也可把相机输入、人物姿势、点移动作为额外控制信号。
 
 
 ```
-
 
 
 
