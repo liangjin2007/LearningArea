@@ -1,6 +1,8 @@
 # 参考链接 
 - https://zhuanlan.zhihu.com/p/676940299
 - EasyRL_v1.0.6.pdf
+- [[RLHF]怎样让 PPO 训练更稳定？早期人类征服 RLHF 的驯化经验](https://zhuanlan.zhihu.com/p/666455333)
+
 
 ## 强化学习概念
 ```
