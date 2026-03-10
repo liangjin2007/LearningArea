@@ -17,6 +17,11 @@
 
 安装方式2：
   安装opencode-desktop-windows-x64.exe
+
+我这边是两种方式都装了，貌似在设置API key的时候最好使用TUI。
+
+
+
 ```
 
 - 简单开始
@@ -26,11 +31,22 @@
 Tab切换Plan和Build模式
 撤销修改 /undo
 重做命令 /redo
-与团队分享 /share
+
+免费的模型有限额。
 ```
 
-- 配置
+- 配置Coding Plan为智谱Coding Plan
 ```
-使用 OpenCode JSON 配置
+参考 https://docs.bigmodel.cn/cn/coding-plan/tool/opencode#2-%E8%BF%90%E8%A1%8C-opencode-auth-login-%E5%B9%B6%E9%80%89%E6%8B%A9-zhipu-ai-coding-plan
+
+打开powershell
+opencode auth login
+
+Select provider为Zhipu AI Coding Plan, 按enter
+
+提示输入API key
+需要先购买
+
+
 ```
 
