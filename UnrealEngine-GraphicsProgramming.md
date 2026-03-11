@@ -128,4 +128,210 @@ DrawMesh	实际发出 RHI 绘制调用。
 
 ## 并行渲染
 - ![并行渲染图](https://d1iv7db44yhgxn.cloudfront.net/documentation/images/54910761-17ed-4578-af6c-3638b5043a9e/parallel_rendering_00.png)
-- 
+
+## 渲染依赖图
+https://dev.epicgames.com/documentation/zh-cn/unreal-engine/render-dependency-graph-in-unreal-engine
+
+- RDG编程指南
+```
+
+1.着色器参数结构体
+  BEGIN_SHADER_PARAMETER_STRUCT(FMyShaderParameters, /** MODULE_API_TAG */)
+  		SHADER_PARAMETER(FVector2D, ViewportSize)
+  		SHADER_PARAMETER(FVector4, Hello)
+  		SHADER_PARAMETER(float, World)
+  		SHADER_PARAMETER_ARRAY(FVector, FooBarArray, [16])
+   
+  		SHADER_PARAMETER_TEXTURE(Texture2D, BlueNoiseTexture)
+  		SHADER_PARAMETER_SAMPLER(SamplerState, BlueNoiseSampler)
+   
+  		SHADER_PARAMETER_TEXTURE(Texture2D, SceneColorTexture)
+  		SHADER_PARAMETER_SAMPLER(SamplerState, SceneColorSampler)
+   
+  		SHADER_PARAMETER_UAV(RWTexture2D, SceneColorOutput)
+  	END_SHADER_PARAMETER_STRUCT()
+
+2.编译时反射元数据：
+  const FShaderParametersMetadata* ParameterMetadata = FMyShaderParameters::FTypeInfo::GetStructMetadata();
+
+3.着色器绑定:
+  着色器参数结构体与 FShader 成对提供，以生成提交到RHI命令列表所需的绑定。
+  
+  你可以通过在 FShader 派生类中将参数结构体声明为 FParameters 类型来实现。
+  
+  它可以作为内联定义或通过using / typedef指令实现。然后，使用 SHADER_USE_PARAMETER_STRUCT 宏为将注册绑定的类生成一个构造函数。
+  
+  第一个着色器类：
+  
+  	class FMyShaderCS : public FGlobalShader
+  	{
+  		DECLARE_GLOBAL_SHADER(FMyShaderCS);
+   
+  		// 生成一个构造函数，该构造函数将使用此FShader实例注册FParameter绑定。
+  		SHADER_USE_PARAMETER_STRUCT(FMyShaderCS, FGlobalShader);
+   
+  		// 将FParameters类型分配给着色器——使用内联定义或using指令。
+  		using FParameters = FMyShaderParameters;
+  	};
+
+
+4.将着色器参数绑定到RHI命令列表是通过实例化结构体、填充数据并调用 SetShaderParameters 辅助函数来完成的。
+  TShaderMapRef<FMyShaderCS> ComputeShader(View.ShaderMap);
+	RHICmdList.SetComputeShader(ComputeShader.GetComputeShader());
+ 
+	FMyShaderCS::FParameters ShaderParameters;
+ 
+	// 参数赋值。
+	ShaderParameters.ViewportSize = View.ViewRect.Size();
+	ShaderParameters.World = 1.0f;
+	ShaderParameters.FooBarArray[4] = FVector(1.0f, 0.5f, 0.5f);
+ 
+	// 参数提交。
+	SetShaderParameters(RHICmdList, ComputeShader, ComputeShader.GetComputeShader(), Parameters);
+ 
+	RHICmdList.DispatchComputeShader(GroupCount.X, GroupCount.Y, GroupCount.Z);
+
+5.统一缓冲区
+  统一缓冲区（Uniform Buffer） 将着色器参数作为一组RHI资源，本身将作为着色器参数绑定。每个统一缓冲区都在HLSL中定义了一个全局命名空间。使用 BEGIN_UNIFORM_BUFFER_STRUCT 和 END_UNIFORM_BUFFER_STRUCT 宏声明统一缓冲区。
+  
+  定义统一缓冲区：
+  
+  	BEGIN_UNIFORM_BUFFER_STRUCT(FSceneTextureUniformParameters, RENDERER_API)
+  		SHADER_PARAMETER_TEXTURE(Texture2D, SceneColorTexture)
+  		SHADER_PARAMETER_SAMPLER(SamplerState, SceneColorTextureSampler)
+  		SHADER_PARAMETER_TEXTURE(Texture2D, SceneDepthTexture)
+  		SHADER_PARAMETER_SAMPLER(SamplerState, SceneDepthTextureSampler)
+   
+  		// ...
+  	END_UNIFORM_BUFFER_STRUCT()
+
+
+  在C++源文件中使用 IMPLEMENT_UNIFORM_BUFFER_STRUCT 向着色器系统注册统一缓冲区定义并生成其HLSL定义。
+    实现统一缓冲区：
+    	IMPLEMENT_UNIFORM_BUFFER_STRUCT(FSceneTextureUniformParameters, "SceneTexturesStruct")
+ 
+  统一缓冲区参数由着色器自动生成，使用 UniformBuffer.Member 语法编译和访问。
+  
+  HLSL中的统一缓冲区：
+  
+  	// 包含统一缓冲区声明的生成文件。由Common.ush自动包含。
+  	#include "/Engine/Generated/GeneratedUniformBuffers.ush"
+   
+  	// 引用统一缓冲区成员（类似于结构体）。
+  	Texture2DSample(SceneTexturesStruct.SceneColorTexture, SceneTexturesStruct.SceneColorTextureSampler);
+
+  现在，SHADER_PARAMTER_STRUCT_REF 宏可用于将统一缓冲区作为参数包含在父着色器参数结构体中。
+    	BEGIN_SHADER_PARAMETER_STRUCT(FParameters, )
+    		// ...
+     
+    		// 定义一个引用计数的TUniformBufferRef<FSceneTextureUniformParameters>实例。
+    		SHADER_PARAMETER_STRUCT_REF(FSceneTextureUniformParameters, SceneTextures)
+    	END_SHADER_PARAMETER_STRUCT()
+
+
+
+6.静态绑定
+每个着色器的着色器参数都是唯一绑定的，每个着色器阶段（例如，顶点和像素）都需要自己的着色器。使用 Set{Graphics, Compute}PipelineState ，在RHI命令列表中将着色器作为管线状态对象（Pipeline State Object）（PSO）绑定在一起。
+注意：在命令列表绑定一个管线状态 会使所有着色器绑定 无效。
+
+设置PSO后，需要绑定所有着色器参数。例如，考虑让一组典型绘制调用的命令流共享PSO。
+
+设置PSO A
+对于每个绘制调用
+  设置顶点着色器参数
+  设置像素着色器参数
+  绘制
+设置PSO B
+对于每个绘制调用
+  设置顶点着色器参数
+  设置像素着色器参数
+  绘制
+这种方法的一个问题是渲染器中的网格绘制命令会被缓存并在多个通道和视图之间共享。为每帧的每个通道/视图组合生成一组独特的绘制命令是非常低效的。但是，网格绘制命令还需要知道通道/视图统一缓冲区资源，以便正确绑定它们。为了解决此问题，统一缓冲区使用了一个 静态 绑定模型。
+
+使用静态绑定声明时，统一缓冲区直接绑定到RHI命令列表的 静态插槽，而不是为每个单独的着色器提供的 唯一插槽。当着色器请求统一缓冲区时，命令列表直接从静态插槽中提取绑定。现在，绑定以 通道 频率发生，而非 PSO 频率。
+
+采用与上面相同的示例，但着色器输入来自静态统一缓冲区：
+
+设置静态统一缓冲区
+设置PSO A
+对于每个绘制调用
+  绘制
+设置PSO B
+  对于每个绘制调用
+绘制
+此模型允许每个绘制调用从命令列表继承着色器绑定。
+
+定义静态统一缓冲区
+要使用静态绑定来定义统一缓冲区，请使用 IMPLEMENT_STATIC_UNIFORM_BUFFER_STRUCT 宏。需要额外的插槽声明。它由 IMPLEMENT_STATIC_UNIFORM_BUFFER_SLOT 宏指定。
+多个静态统一缓冲区定义可以引用同一个静态插槽，但一次只能绑定其中一个。最好尽可能重用插槽，以减少引擎中插槽的总数。
+静态统一缓冲区：
+
+	// 按名称定义一个唯一的静态插槽。
+	IMPLEMENT_STATIC_UNIFORM_BUFFER_SLOT(SceneTextures);
+ 
+	// 使用SceneTextures插槽的静态绑定定义SceneTexturesStruct统一缓冲区。
+	IMPLEMENT_STATIC_UNIFORM_BUFFER_STRUCT(FSceneTextureUniformParameters, "SceneTexturesStruct", SceneTextures);
+ 
+	// 定义具有相同静态插槽的MobileSceneTextures统一缓冲区。一次只能绑定一个。
+	IMPLEMENT_STATIC_UNIFORM_BUFFER_STRUCT(FMobileSceneTextureUniformParameters, "MobileSceneTextures", SceneTextures);
+
+  使用 RHICmdList.SetStaticUniformBuffers 方法绑定静态统一缓冲区。RDG在执行每个通道之前自动将静态统一缓冲区绑定到命令列表。任何静态统一缓冲区都应包含在通道参数结构体中。
+
+
+7.渲染图生成器
+{
+		FRDGBuilder GraphBuilder(RHICmdList);
+ 
+		FMyShaderCS::FParameters* PassParameters = GraphBuilder.AllocParameters<FMyShaderCS::FParameters>();
+		//...
+		PassParameters->SceneColorTexture = SceneColor;
+		PassParameters->SceneColorSampler = TStaticSamplerState<SF_Point, AM_Clamp, AM_Clamp>::GetRHI();
+		PassParameters->SceneColorOutput = GraphBuilder.CreateUAV(NewSceneColor);
+ 
+		GraphBuilder.AddPass(
+			// 使用printf语义，用于分析器的通道友好名称。
+			RDG_EVENT_NAME("MyShader %d%d", View.ViewRect.Width(), View.ViewRect.Height()),
+			// 提供给RDG的参数。
+			PassParameters,
+			// 发出计算命令。
+			ERDGPassFlags::Compute,
+			// 推迟到执行。可以与其他通道并行执行。
+			[PassParameters, ComputeShader, GroupCount] (FRHIComputeCommandList& RHICmdList)
+		{
+			FComputeShaderUtils::Dispatch(RHICmdList, ComputeShader, PassParameters, GroupCount);
+		});
+ 
+		// 执行图。
+		GraphBuilder.Execute();
+	}
+
+
+8.RDG资源和视图
+// 创建一个新的临时纹理实例。此时未分配GPU内存，仅分配了描述符。
+	FRDGTexture* Texture = GraphBuilder.CreateTexture(FRDGTextureDesc::Create2D(...), TEXT("MyTexture"));
+ 
+	// 无效！将触发断言。如果在通道上声明，则仅允许在通道Lambda中使用！
+	FRHITexture* TextureRHI = Texture->GetRHI();
+ 
+	// 创建一个新的UAV，引用特定mip级别的纹理。
+	FRDGTextureUAV* TextureUAV = GraphBuilder.CreateUAV(FRDGTextureUAVDesc(Texture, MipLevel));
+ 
+	// 无效！
+	FRHIUnorderedAccessView* UAVRHI = TextureUAV->GetRHI();
+ 
+	// 创建一个新的临时结构化缓冲区实例。
+	FRDGBuffer* Buffer = GraphBuilder.CreateBuffer(FRDGBufferDesc::CreateBufferDesc(...), TEXT("MyBuffer"));
+ 
+	// 无效！
+	FRHIBuffer* BufferRHI= Buffer->GetRHI();
+ 
+	// 创建一个新的SRV，引用具有R32浮点格式的缓冲区。
+	FRDGBufferSRV* BufferSRV = GraphBuilder.CreateSRV(Buffer, PF_R32_FLOAT);
+ 
+	// 无效！
+	FRHIShaderResourceView* SRVRHI = TextureSRV->GetRHI();
+
+
+```
+
+
