@@ -7,7 +7,7 @@ git config lfs.https://git.feeling-ai.info/liang.jin/ue-feelingai.git/info/lfs.l
 ssh-keygen -t rsa
 copy the content of .ssh/xxx.pub to add ssh key
 git clone xxx
-git submodule update --init --recursive
+
 cd xxx
 git checkout xxx 放弃修改，
 git branch xxx 创建本地branch
@@ -16,6 +16,15 @@ git push origin -d xxx 删除服务器上的branch
 
 git add . 暂存所有本地修改
 git reset . revert 'git add'
+
+
+submodules:
+git submodule --init
+git submodule update --init --recursive
+git submodule status
+git submodule add https://github.com/prajwalshettydev/UnrealGenAISupport.git Plugins/UnrealGenAISupport
+
+
 
 放弃本地新添加的目录和文件 git clean -fd
 
