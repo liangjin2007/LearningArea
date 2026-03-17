@@ -1,4 +1,4 @@
-## pytorch
+## Pytorch
 - [API文档](https://docs.pytorch.org/docs/stable/index.html)
 - [Deep-Learning-With-Pytorch-Tutorials](https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git)
 - [NVIDA DeepLearningExamples](https://github.com/NVIDIA/DeepLearningExamples/tree/master) 进阶学习
