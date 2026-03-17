@@ -67,9 +67,14 @@ Hinge Loss
 我们能否把这个模型直接当做生成模型 ? -> no
 因为没学z的分布导致随便采样一个z，我们并不知道哪些能够生成有用的图片。
 ```
-## VAE https://zhuanlan.zhihu.com/p/348498294
+## VAE 
+- https://zhuanlan.zhihu.com/p/348498294
+- https://zhuanlan.zhihu.com/p/34998569
 ```
 在Autoencoder的基础上，显性的对z的分布p（z）进行建模，使得自编码器成为一个合格的生成模型，我们就得到了Variational Autoencoders。
+
+p(X) = Sum p(X|Z) p(Z)
+
 
 
 ```
