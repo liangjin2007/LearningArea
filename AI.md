@@ -79,6 +79,10 @@ p(X) = Sum p(X|Z) p(Z)
 
 ```
 ## Conditioned VAE
+## TRPO
+```
+https://zhuanlan.zhihu.com/p/26308073
+```
 ## Positional Embedding
 ## Transformer
 ## Diffusion
