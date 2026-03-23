@@ -1,3 +1,57 @@
+## FEM离散化和reduction
+```
+siggraph 2012 course notes
+
+知识梳理：
+ Model Reduction 数学公式： 常微分方程 u的2阶导数=F(u, u的1阶导数, t) -> 近似常微分方程 u = U q -> 变成q的一个常微分方程。
+ Arpack solver 求特征值和特征向量
+ 1. Linear modal analysis reduction: M u的2阶导 + D u的1阶导 + K u = f， 模拟小变形
+  M为mass， D为damping, K为stiffness
+  Solve generalized eigenvalue problem ： A x = λ B x
+ 2. Model reduction of nonlinear deformations：Mu¨ + Du˙ + fint(u) = f .
+ 3.Applications of Model Reduction
+
+Vega开源A free physics library to simulate 3D nonlinear deformable objects
+ Linear FEM
+ Co-rotational linear FEM
+ Invertible FEM
+ Saint-Venant Kirchhoff FEM
+ Mass-spring Systems
+```
+## IK
+```
+剑桥Technical Report ： Inverse Kinematics: a review of existingtechniques and introduction of a new fast iterative solver
+
+
+The joint angles are also written as a column vector θ = (θ1, ..., θn)
+s = f (θ) This is called the Forward Kinematics (FK) solution
+The goal of Inverse Kinematics (IK) is to find a vector θ such that ⃗s is equal to a given
+desired configuration ⃗sd: θ = f^−1(sd)
+
+方法：
+  1.Jacobbi Inverse Methods
+    Jacobian Pseudo-inverse
+    Jacobian Transpose
+    Singular Value Decomposition
+    Damped Least Squares
+    Pseudo-inverse Damped Least Squares
+    Selectively Damped Least Squares
+    Incorporating constraints
+    Feedback Inverse Kinematics
+2.Newton Methods
+3.IK using Sequential Monte Carlo Methods 
+4.Style or Mesh-based Inverse Kinematics
+  Learning method to learning the meaningful space
+5.Heuristic Inverse Kinematics Algorithms
+  CCD Cyclic Coordinate Descent method
+    Inductive Inverse Kinematic Algorithm
+  Triangulation Inverse Kinematics
+  Sequential Inverse Kinematics
+6.FABRIK: A new heuristic IK methodology 
+  FABRIK with Multiple End Effectors
+  Applying Constraints to FABRIK
+```
+
 ## [2025]PhysCtrl https://openreview.net/pdf?id=AHEKhff4Oa
 有关工作 
 - Neural Physical Dynamics
