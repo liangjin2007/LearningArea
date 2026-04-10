@@ -1,11 +1,27 @@
 ## 1.Simplygon
 https://www.simplygon.com/features
 
+"二十多年来，Simplygon 与开发者紧密合作，持续推动自动化 3D 内容优化技术的发展。"
+
+- 网格重建器
+```
+Simplygon 的网格重建技术已被用于优化数百款 3A 级游戏的远景。网格重建器接收 3D 场景作为输入，并输出新的轻量级代理对象，通过简化复杂几何形状来实现更高效的渲染。
+```
+- 集群化 Meshlet 优化
+```
+聚类简化
+```
+- 植被优化
+```
+适用于 Foliage 的公告牌云
+```
+
 
 
 
 ## 2.InstaLOD 
 https://instalod.com/?theme=light
+若以2017年首次公开为起点，截至2026年，InstaLOD已持续研发至少9年。
 
 4款产品 InstaLOD, InstaMat, RSX Engine, PolyVerse。
 
@@ -77,3 +93,10 @@ JSON API
 独立的插件： Maya, UE, VERD, Blender, Unity, 3dsmax
 通过 InstaLOD License Management Web App 解决License的问题
 ```
+
+## 3.Web编辑器
+- Astral3D https://github.com/mlt131220/Astral3D
+- https://github.com/BabylonJS/Babylon.js
+
+
+
