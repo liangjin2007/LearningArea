@@ -19,7 +19,6 @@ git reset . revert 'git add'
 
 
 submodules:
-git submodule --init
 git submodule update --init --recursive
 git submodule status
 git submodule add https://github.com/prajwalshettydev/UnrealGenAISupport.git Plugins/UnrealGenAISupport
