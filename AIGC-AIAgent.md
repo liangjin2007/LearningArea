@@ -1,5 +1,11 @@
 ## AI Agent 开发 × 面试求职 = 一站式解决方案
 - [github 4.6k star](https://github.com/adongwanai/AgentGuide/tree/main)
+- ![Open Source LLM Development Landscape](https://raw.githubusercontent.com/adongwanai/Awesome-Awesome-LLMs/main/20251210154458267.png)
+
+## AI Agent workflow
+- [500-AI-Agents-Projects](https://github.com/ashishpatel26/500-AI-Agents-Projects)
+  - AI NPC behaviour
+  - AI Game companion
 
 ## OpenGame
 - [OpenGame, 2.3k star](https://github.com/leigest519/OpenGame)
