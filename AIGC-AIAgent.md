@@ -6,7 +6,7 @@
 
 ## Claude-Code-Game-Studios 
 - [Claude-Code-Game-Studios , 19k star](https://github.com/Donchitos/Claude-Code-Game-Studios)
-- It seems not recommended because it's spending credits heavily just https://www.reddit.com/r/gamedev/comments/1ssodcu/i_just_tried_claude_code_game_studios_for_the/
+- It seems not recommended because it's spending credits heavily just writing GDD https://www.reddit.com/r/gamedev/comments/1ssodcu/i_just_tried_claude_code_game_studios_for_the/
 ```
 游戏设计文档（Game Design Document，GDD）是游戏开发的核心蓝图，贯穿项目全周期。其作用与核心内容如下：
 
