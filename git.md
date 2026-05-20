@@ -8,6 +8,15 @@ ssh-keygen -t rsa
 copy the content of .ssh/xxx.pub to add ssh key
 git clone xxx
 
+git lfs track *.fbx
+git lfs track *.glb
+git lfs track *.pdf
+git lfs track *.pdf
+增大 Git 缓冲区（最常用）
+git config http.postBuffer 524288000
+
+
+
 cd xxx
 git checkout xxx 放弃修改，
 git branch xxx 创建本地branch
