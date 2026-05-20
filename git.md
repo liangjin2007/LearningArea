@@ -128,3 +128,16 @@ git push origin :refs/tags/tagName
 git tag git tag -l git tag --list 本地所有tag
 git tag -l "v1.1.*"匹配v1.1.x的tag
 ```
+
+- error相关
+```
+1.
+error: RPC failed; HTTP 524 curl 22 The requested URL returned error: 524
+send-pack: unexpected disconnect while reading sideband packet
+
+你遇到的错误信息包含两部分：HTTP 524 和 unexpected disconnect while reading sideband packet，通常是由于 Git 推送（push）过程中数据量过大、网络不稳定或 GitLab 服务器端超时导致连接中断。
+
+增大 Git 缓冲区（最常用）
+git config http.postBuffer 524288000
+
+```
