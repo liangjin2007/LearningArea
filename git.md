@@ -15,6 +15,9 @@ git lfs track *.pdf
 增大 Git 缓冲区（最常用）
 git config http.postBuffer 524288000
 
+从http切到ssh
+git remote set-url origin git@gitlab.com:username/repo.git
+ 
 
 
 cd xxx
