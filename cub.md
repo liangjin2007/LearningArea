@@ -241,3 +241,29 @@ NumItemsT num_items,
 cudaStream_t stream = nullptr
 )
 ```
+
+-cub::DeviceRunLengthEncode
+```
+cub::DeviceRunLengthEncode::Encode(
+void *d_temp_storage,
+size_t &temp_storage_bytes,
+InputIteratorT d_in,
+UniqueOutputIteratorT d_unique_out,
+LengthsOutputIteratorT d_counts_out,
+NumRunsOutputIteratorT d_num_runs_out,
+NumItemsT num_items,
+cudaStream_t stream = nullptr
+)
+
+
+cub::DeviceRunLengthEncode::NonTrivialRuns(
+void *d_temp_storage,
+size_t &temp_storage_bytes,
+InputIteratorT d_in,
+OffsetsOutputIteratorT d_offsets_out,
+LengthsOutputIteratorT d_lengths_out,
+NumRunsOutputIteratorT d_num_runs_out,
+NumItemsT num_items,
+cudaStream_t stream = nullptr
+)
+```
