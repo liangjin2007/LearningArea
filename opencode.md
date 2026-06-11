@@ -4,8 +4,13 @@
 ```
 Primary Agents: Build and Plan
 SubAgents: General, Explore, Scout, Compaction, Title, Summary
-
 Usage
 @general help me search for this function
 
+Configure agents in opencode.json
+
+Using markdown file to define agents
+
 ```
+
+## 
