@@ -100,6 +100,19 @@ git push -u origin backup-2025-03-31
   git revert <hash>
   git push
 
+
+拉取代码后本地只有一个空文件夹A -> 需要放弃之前提交的带.git的文件夹A。
+   先删除本地文件夹A
+     git add .
+     git commit .
+     git push
+  再把源代码添加，注意要把文件里的.git, .gitattributes, .gitignore, .gitmodules等删除。
+
+  
+   
+
+
+
 ```
 
 
