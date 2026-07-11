@@ -5,4 +5,7 @@
 - Strand based hair rendering
 ```
 https://github.com/AEspinosaDev/Three-Hair
+https://github.com/Jhonve/HairStrandsRendering
+https://github.com/AEspinosaDev/WebGL-RealTimeFur-SEDDI
+https://github.com/Scthe/frostbitten-hair-webgpu
 ```
