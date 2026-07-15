@@ -96,6 +96,9 @@ git checkout -b backup-2025-03-31
 更新到服务器
 git push -u origin backup-2025-03-31
 
+git pull代码时提示冲突如何解决：
+ 使用notepad++打开冲突文件搜 < HEAD找到冲突的地方进行修改，修改完保存。 git add <文件> , 然后git commit -m ""， 再git push
+
 放弃 merge：如果你确定要放弃当前的 merge，可以使用 `git merge –abort` 命令
 
 
