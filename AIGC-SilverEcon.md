@@ -29,6 +29,10 @@ https://github.com/opensim-org/opensim-core, 1.1k star
 [2026]3D Generation for Embodied AI and Robotic Simulation: A Survey
 ```
 
+- 人体解剖学器官结构
+```
+https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+```
 
 
 
