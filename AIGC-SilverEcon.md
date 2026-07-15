@@ -32,7 +32,10 @@ https://github.com/opensim-org/opensim-core, 1.1k star
 - 人体解剖学器官结构
 ```
 https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
+https://lifesciencedb.jp/bp3d/
 ```
+
+
 
 
 
@@ -42,5 +45,6 @@ https://github.com/AEspinosaDev/Three-Hair
 https://github.com/Jhonve/HairStrandsRendering
 https://github.com/AEspinosaDev/WebGL-RealTimeFur-SEDDI
 https://github.com/Scthe/frostbitten-hair-webgpu
+https://github.com/digital-salon/Digital-Salon
 ```
 
