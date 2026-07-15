@@ -12,6 +12,24 @@ https://dev.epicgames.com/community/learning/tutorials/W4mV/unreal-engine-chaos-
 https://github.com/Z-Anatomy/Models-of-human-anatomy
 ```
 
+- Robot-Interaction
+```
+[2026]Embodied Human Simulation for Quantitative Design and Analysis of Interactive Robotics
+```
+
+- opensim-core
+```
+https://github.com/opensim-org/opensim-core, 1.1k star
+12年前开始有初始提交，像是某个实验室的代码。
+
+```
+
+- Survey
+```
+[2026]3D Generation for Embodied AI and Robotic Simulation: A Survey
+```
+
+
 
 
 - Strand based hair rendering
