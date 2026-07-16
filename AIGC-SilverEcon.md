@@ -35,9 +35,20 @@ https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
 https://lifesciencedb.jp/bp3d/
 ```
 
+- ProtoMotions3
+```
+https://www.linkedin.com/posts/mahmoudrabie2004_opensourceaiprojects-didyouknowthat-activity-7402446984105689088-K53x
+```
 
+- assistive-gym
+```
+https://github.com/FedericoPivotto/assistive-gym
+```
 
-
+- ASAP
+```
+https://github.com/LeCAR-Lab/ASAP
+```
 
 - Strand based hair rendering
 ```
