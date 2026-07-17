@@ -3,6 +3,11 @@
 https://huggingface.co/microsoft/TRELLIS.2-4B/tree/main
 ```
 
+- hugging face password
+```
+Xr1
+```
+
 - Download models
 ```
 # Make sure git-xet is installed (https://hf.co/docs/hub/git-xet)
