@@ -29,5 +29,5 @@ hf download microsoft/TRELLIS.2-4B
 ```
 git config --global user.name "xxx"
 git config --global user.email "xxx"
-
+ssh-keygen -t rsa
 ```
