@@ -24,3 +24,10 @@ powershell -ExecutionPolicy ByPass -c "irm https://hf.co/cli/install.ps1 | iex"
 # Download the model
 hf download microsoft/TRELLIS.2-4B
 ```
+
+- Use Ubuntu to setup
+```
+git config --global user.name "xxx"
+git config --global user.email "xxx"
+
+```
