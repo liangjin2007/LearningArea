@@ -30,4 +30,15 @@ hf download microsoft/TRELLIS.2-4B
 git config --global user.name "xxx"
 git config --global user.email "xxx"
 ssh-keygen -t rsa
+
+# clone download
+git clone -b main https://github.com/microsoft/TRELLIS.2.git --recursive
+
+# create env trellis2
+./setup.sh --new-env --basic --flash-attn --nvdiffrast --nvdiffrec --cumesh --o-voxel --flexgemm
+
+# Setup hf
+powershell -ExecutionPolicy ByPass -c "irm https://hf.co/cli/install.ps1 | iex"
+# Download the model
+hf download microsoft/TRELLIS.2-4B
 ```
