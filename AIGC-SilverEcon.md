@@ -49,9 +49,6 @@ Researchers and engineering labs have successfully created musculoskeletal simul
 直接回答：
 是的，这是一条明确且活跃的研究方向，在搜索结果中虽然没有直接命中完全对应的论文（搜索结果主要涉及 VLA+RL Survey、模拟器平台、具身数据等），但从你描述的问题来看——"body 层次不变、几何/物理参数变化的 MJCF 系列上训练一个通用 policy"——这正是学术界称为 Morphology Generalization（形态泛化）、Cross-Embodiment Learning 或 Structure-Aware Policy Learning 的核心问题。下面按技术路线分类梳理相关研究脉络。
 
-https://www.n.cn/share/r1/8e65f926107b4f0bbd86246674d2ba7d?from=pc
-
-
 ```
 
 
@@ -59,67 +56,18 @@ https://www.n.cn/share/r1/8e65f926107b4f0bbd86246674d2ba7d?from=pc
 ```
 https://dev.epicgames.com/community/learning/tutorials/W4mV/unreal-engine-chaos-flesh-muscle-simulation-tutorial-5-5
 ```
-
-- Ziva
-```
-https://github.com/Z-Anatomy/Models-of-human-anatomy
-```
-
-- Robot-Interaction
-```
-[2026]Embodied Human Simulation for Quantitative Design and Analysis of Interactive Robotics
-```
-
-- musclemimic https://github.com/amathislab/musclemimic
-- https://github.com/LNSGroup/msgym
+- https://www.n.cn/share/r1/8e65f926107b4f0bbd86246674d2ba7d?from=pc
+- musclemimic https://github.com/amathislab/musclemimic, 206 star, [2026]Towards Embodied AI with MuscleMimic: Unlocking full-body musculoskeletal motor learning at scale
+- https://github.com/LNSGroup/msgym, 33 star
 - https://arxiv.org/pdf/2601.19707
 - https://github.com/amathislab/musclemimic_models
-
-- opensim-core
-```
-https://github.com/opensim-org/opensim-core, 1.1k star
-12年前开始有初始提交，像是某个实验室的代码。
-
-```
-
-- Survey
-```
-[2026]3D Generation for Embodied AI and Robotic Simulation: A Survey
-```
-
-- 人体解剖学器官结构
-```
-https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html
-https://lifesciencedb.jp/bp3d/
-```
-
-
-- MASS Pytorch based 人体肌肉模拟举重 https://github.com/lsw9021/MASS
-
-
-- ProtoMotions3
-```
-https://www.linkedin.com/posts/mahmoudrabie2004_opensourceaiprojects-didyouknowthat-activity-7402446984105689088-K53x
-```
-
-- assistive-gym
-```
-https://github.com/FedericoPivotto/assistive-gym
-```
-
-- ASAP
-```
-https://github.com/LeCAR-Lab/ASAP
-```
-
-- RLinf https://github.com/RLinf/RLinf , 4.3k star, 高性能架构，似乎是计算机系出的一个开源代码。
-
-- musclemimic
-```
-[2026]Towards Embodied AI with MuscleMimic: Unlocking full-body musculoskeletal motor learning at scale
-https://github.com/amathislab/musclemimic
-```
-
+- https://github.com/opensim-org/opensim-core, 1.1k star
+- Survey, [2026]3D Generation for Embodied AI and Robotic Simulation: A Survey
+- ProtoMotions3, https://www.linkedin.com/posts/mahmoudrabie2004_opensourceaiprojects-didyouknowthat-activity-7402446984105689088-K53x
+- https://github.com/LeCAR-Lab/ASAP, 2.1k star
+- https://github.com/RLinf/RLinf , 4.3k star, 高性能架构，似乎是计算机系出的一个开源代码。
+- https://www.pi.website/blog/pi0, 灵巧手通用策略模型
+- https://github.com/Z-Anatomy/Models-of-human-anatomy
 - MyoSuite
 ```
 1. MyoSuite is a collection of environments/tasks to be solved by musculoskeletal models simulated with the MuJoCo physics engine and wrapped in the OpenAI gym API.
