@@ -73,11 +73,29 @@ https://github.com/LeCAR-Lab/ASAP
 https://github.com/amathislab/musclemimic
 ```
 
+- MyoSuite
+```
+1. MyoSuite is a collection of environments/tasks to be solved by musculoskeletal models simulated with the MuJoCo physics engine and wrapped in the OpenAI gym API.
+2. paper MyoSuite2022, MyoSuite -- A contact-rich simulation suite for musculoskeletal motor control,
+3. updated 2 months ago
+4. github address, https://github.com/myohub/myosuite, 1.2k star
+```
+
+- musclemimic_models
+```
+1. Musculoskeletal models released from musclemimic research: fullbody musculoskeletal model
+https://github.com/amathislab/musclemimic_models, 53 star
+```
+
+
 - are there any research paper or open source code framework related to general purpose robot behavior foundation model?
 ```
 pi0 灵巧手通用策略模型 https://www.pi.website/blog/pi0
 
 ```
+
+
+
 
 
 - Strand based hair rendering
