@@ -83,16 +83,6 @@ https://github.com/amathislab/musclemimic_models, 53 star
 ```
 
 
-- are there any research paper or open source code framework related to general purpose robot behavior foundation model?
-```
-pi0 灵巧手通用策略模型 https://www.pi.website/blog/pi0
-
-```
-
-
-
-
-
 - Strand based hair rendering
 ```
 https://github.com/AEspinosaDev/Three-Hair
