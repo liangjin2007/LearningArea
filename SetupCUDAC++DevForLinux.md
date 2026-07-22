@@ -12,10 +12,16 @@ sudo dpkg -i cuda-repo-ubuntu2404-12-8-local_12.8.0-570.86.10-1_amd64.deb
 sudo cp /var/cuda-repo-ubuntu2404-12-8-local/cuda-*-keyring.gpg /usr/share/keyrings/
 sudo apt-get update
 sudo apt-get -y install cuda-toolkit-12-8
+echo 'export PATH=/usr/local/cuda-13.0/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/local/cuda-13.0/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
 ```
 - 找不到nvcc
 ```
 sudo apt install nvidia-cuda-toolkit # 这个命令会安装一大堆东西，包括g++等
+貌似不对。
+
+
 ```
 
 - 安装nvidia driver
