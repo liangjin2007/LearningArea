@@ -37,7 +37,15 @@ xxx2.9.0.xxx.zip
 sudo apt install ninja-build
 ```
 
-CMake GUI中选择源代码目录，选择binary 目录，选择目标为第三个ninja
+- 写Setup.sh
+```
+执行Setup.sh
+```
+
+- 
+
+
+
 
 
 ## 代码问题汇总
