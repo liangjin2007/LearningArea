@@ -50,7 +50,17 @@
 
     :: Option 2: Using python in your virtual environment
     python scripts\tutorials\00_sim\create_empty.py
-     
+
+    // 问题1： xxx.dll问题
+    //   降级h5py： python.exe -m pip install "h5py==3.15.1"
+
+    // 问题2： rxxXXX crash.
+    // 固有问题。 解决办法：驱动 595.79太高，需要降级为591.74
+    // 从https://www.nvidia.cn/geforce/drivers/details/260464/ 下载591.74驱动。
+    
+    再用isaaclab.bat -p scripts\tutorials\00_sim\create_empty.py 就能启动IsaacSim 5.1.0窗口。
+
+ 
 ```
 
 
