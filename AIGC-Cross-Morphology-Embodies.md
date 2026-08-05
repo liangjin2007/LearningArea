@@ -9,7 +9,7 @@
 ## 1.embodiment-scaling-laws
 - 链接 https://github.com/BoAi01/embodiment-scaling-laws
 ```
-1.1. 安装IsaacLab https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html
+1.1. 安装IsaacSim https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html
   Enable long path support : HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem LongPathsEnabled
   下载anaconda3
   conda create -n env_isaaclab python=3.11
@@ -18,6 +18,39 @@
   Installing dependencies
     Install Isaac Sim pip packages: pip install "isaacsim[all,extscache]==5.1.0" --extra-index-url https://pypi.nvidia.com
     Install a CUDA-enabled PyTorch build that matches your system architecture:pip install -U torch==2.7.0 torchvision==0.22.0 --index-url https://download.pytorch.org/whl/cu128
+
+1.2.安装IsaacLab
+  git clone https://github.com/isaac-sim/IsaacLab.git --branch main
+  cd IsaacLab
+  安装依赖
+  isaaclab.bat --help
+    usage: isaaclab.bat [-h] [-i] [-f] [-p] [-s] [-v] [-d] [-n] [-c] -- Utility to manage Isaac Lab.
+    
+    optional arguments:
+       -h, --help           Display the help content.
+       -i, --install [LIB]  Install the extensions inside Isaac Lab and learning frameworks (rl_games, rsl_rl, sb3, skrl) as extra dependencies. Default is 'all'.
+       -f, --format         Run pre-commit to format the code and check lints.
+       -p, --python         Run the python executable provided by Isaac Sim or virtual environment (if active).
+       -s, --sim            Run the simulator executable (isaac-sim.bat) provided by Isaac Sim.
+       -t, --test           Run all python pytest tests.
+       -v, --vscode         Generate the VSCode settings file from template.
+       -d, --docs           Build the documentation from source using sphinx.
+       -n, --new            Create a new external project or internal task from template.
+       -c, --conda [NAME]   Create the conda environment for Isaac Lab. Default name is 'env_isaaclab'.
+       -u, --uv [NAME]      Create the uv environment for Isaac Lab. Default name is 'env_isaaclab'.
+
+  安装isaaclab依赖
+    打开Anaconda powershell prompt
+    conda activate env_isaaclab
+    isaaclab.bat --install :: or "isaaclab.bat -i"
+  Verifying the Isaac Lab installation
+    :: Option 1: Using the isaaclab.bat executable
+    :: note: this works for both the bundled python and the virtual environment
+    isaaclab.bat -p scripts\tutorials\00_sim\create_empty.py
+
+    :: Option 2: Using python in your virtual environment
+    python scripts\tutorials\00_sim\create_empty.py
+     
 ```
 
 
