@@ -4,9 +4,9 @@
 其中Cross-Morphology指的是一个模型可以用做不同机器人的策略(Policy)模型。
 
 **目录**
-- [1.embodiment-scaling-laws](#1.embodiment-scaling-laws)
+- [1.IsaacLab安装](#1.IsaacLab安装)
 
-## 1.embodiment-scaling-laws
+## 1.IsaacLab安装
 - 链接 https://github.com/BoAi01/embodiment-scaling-laws
 ```
 1.1. 安装IsaacSim https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html
@@ -60,7 +60,8 @@
     
     再用isaaclab.bat -p scripts\tutorials\00_sim\create_empty.py 就能启动IsaacSim 5.1.0窗口。
 
- 
+    Asset Caching: isaaclab.bat -s
+
 ```
 
 
