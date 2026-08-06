@@ -65,6 +65,7 @@
 ```
 
 ## 2. IsaacLab 
+- quick start
 ```
 Generate Your Own Project
   isaaclab.bat --new
@@ -84,5 +85,10 @@ Create new project or task: https://isaac-sim.github.io/IsaacLab/main/source/ove
 ```
 - Project Structure
 ![Project Structure](https://isaac-sim.github.io/IsaacLab/main/_images/walkthrough_project_setup.svg)
+
+- 
+
+
+
 
 https://github.com/UMass-Embodied-AGI/Genesis-Humanoid
