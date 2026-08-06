@@ -64,7 +64,25 @@
 
 ```
 
+## 2. IsaacLab 
+```
+Generate Your Own Project
+  isaaclab.bat --new
+    选External
+    ...
+    选path
+    选name
+安装和Run
+  cd path
+  python -m pip install -e source/<given-project-name>
+Configurations
+Robots
+Apps and Sims
+  a Standalone app
 
-
+Create new project or task: https://isaac-sim.github.io/IsaacLab/main/source/overview/own-project/template.html
+```
+- Project Structure
+![Project Structure](https://isaac-sim.github.io/IsaacLab/main/_images/walkthrough_project_setup.svg)
 
 https://github.com/UMass-Embodied-AGI/Genesis-Humanoid
