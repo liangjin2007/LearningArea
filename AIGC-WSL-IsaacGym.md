@@ -89,3 +89,13 @@ Create a launch.json Python Debugger: Current File with Arguments如下：
     ]
 }
 ```
+
+- ssh远程渲染
+```
+# 1. 安装Xvfb（不同发行版命令不同）
+# Debian/Ubuntu
+sudo apt install libglx-mesa0
+
+# 5. 运行您的GLFW程序
+./your_application  # 替换为实际程序路径
+```
