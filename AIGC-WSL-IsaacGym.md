@@ -99,3 +99,23 @@ sudo apt install libglx-mesa0
 # 5. 运行您的GLFW程序
 ./your_application  # 替换为实际程序路径
 ```
+
+- 定时任务
+```
+contab -e
+    选择编辑器
+    # 每天凌晨2点执行
+    0 2 * * * /home/user/scripts/xxx.sh
+    
+    # 每周一、三、五的18:30执行
+    30 18 * * 1,3,5 /home/user/scripts/xxx.sh
+    
+    # 每小时的第15分钟执行
+    15 * * * * /home/user/scripts/xxx.sh
+    
+    # 每月1号和15号的10:00执行
+    0 10 1,15 * * /home/user/scripts/xxx.sh
+
+查看当前定时器
+contab -l
+```
