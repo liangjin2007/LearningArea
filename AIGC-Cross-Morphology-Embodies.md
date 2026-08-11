@@ -217,7 +217,35 @@ def compute_rewards(...):
 ```
 
 ### 2.8. Environment Design
+```
+Define the robot
+  jetbot.py ArticulationCfg(spawn=xxx, actuators={xxx})
 
+Environment Configuration
+  @configclass
+  class IsaacLabTutorialEnvCfg(DirectRLEnvCfg):
+      # env
+      decimation = 2
+      episode_length_s = 5.0
+      # - spaces definition
+      action_space = 2
+      observation_space = 3
+      state_space = 0
+      # simulation
+      sim: SimulationCfg = SimulationCfg(dt=1 / 120, render_interval=decimation)
+      # robot(s)
+      robot_cfg: ArticulationCfg = JETBOT_CONFIG.replace(prim_path="/World/envs/env_.*/Robot")
+      # scene
+      scene: InteractiveSceneCfg = InteractiveSceneCfg(num_envs=100, env_spacing=4.0, replicate_physics=True)
+      dof_names = ["left_wheel_joint", "right_wheel_joint"]
+Define the training simulation and manage cloning
+
+Apply the actions from the agent to the robot
+
+Calculate and return the rewards and observations
+
+Manage resetting and terminal states
+```
 
 
 
