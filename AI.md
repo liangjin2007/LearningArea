@@ -250,6 +250,349 @@ fc_mu = mlp1(h) # mlp1为 latent_dim -> 256 + n_classes
 fc_logvar = mlp2(h) # mlp1为 latent_dim -> 256 + n_classes
 decoder(fc_mu, fc_logvar)
 ```
+## 重参数化 https://zhuanlan.zhihu.com/p/561328468
+针对离散选择问题。
+
+```
+（1）使用argmax函数不可导；
+
+（2）单纯采用argmax函数失去了采样的意义，缺乏探索性。
+```
+- 连续高斯重参数化技巧（Gaussian reparameterization trick）
+```
+def reparameterize(self, mu, logvar):
+    std = torch.exp(0.5 * logvar)
+    eps = torch.randn_like(std)
+    return mu + std * eps
+```
+- Gumbel-Softmax
+```
+import os
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+from torchvision.utils import save_image
+
+
+class CategoricalCVAE(nn.Module):
+    """Conditional VAE with a discrete (categorical) latent, trained via
+    Gumbel-Softmax reparameterization (Jang et al. 2017 / Maddison et al. 2017).
+
+    The latent is a single categorical variable with `n_categories` classes.
+                          
+                                                                 
+                                                                                
+                                                                        
+                                                                             
+                                                                                         
+
+    Condition c is the digit label (one-hot, 10-dim), concatenated into both the
+    encoder's first FC layer and the decoder's input.
+    """
+
+    def __init__(self, n_categories=32, n_classes=10, in_channels=1, tau=1.0):
+        super().__init__()
+        self.n_categories = n_categories
+        self.n_classes = n_classes
+        self.tau = tau
+
+        self.encoder = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 256),
+            nn.ReLU(True),
+        )
+        self.fc_logits = nn.Linear(256 + n_classes, n_categories)
+
+        self.decoder = nn.Sequential(
+            nn.Linear(n_categories + n_classes, 256),
+            nn.ReLU(True),
+            nn.Linear(256, 64 * 7 * 7),
+            nn.ReLU(True),
+            nn.Unflatten(1, (64, 7, 7)),
+            nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(32, in_channels, kernel_size=4, stride=2, padding=1),
+            nn.Sigmoid(),
+        )
+
+    def forward(self, x, c, tau=None, hard=True):
+        """Return reconstruction, latent logits, and relaxed one-hot sample.
+                                                                           
+                                                                                  
+                                                          
+                                                                            
+                                                
+
+        hard=True  -> straight-through estimator (forward one-hot, backward soft)
+        hard=False -> fully relaxed (soft) sample used for decoding
+        """
+        tau = self.tau if tau is None else tau
+        h = self.encoder(x)
+        h = torch.cat([h, c], dim=1)
+        logits = self.fc_logits(h)
+
+        # Gumbel-Softmax reparameterization: differentiable sample from a
+        # categorical distribution q(z|x) = softmax(logits)
+        z = F.gumbel_softmax(logits, tau=tau, hard=hard, dim=-1)
+        zc = torch.cat([z, c], dim=1)
+        return self.decoder(zc), logits, z
+
+    def sample(self, n_per_class, device="cpu", tau=0.5):
+        """Generate n_per_class images per digit using uniform-prior latents.
+
+        z ~ Categorical(1/K): pick one of the n_categories classes uniformly.
+        """
+        self.eval()
+        grid_rows = []
+        for label in range(self.n_classes):
+            c = F.one_hot(torch.tensor(label), self.n_classes).float().unsqueeze(0)
+            c = c.repeat(n_per_class, 1).to(device)
+            idx = torch.randint(0, self.n_categories, (n_per_class,))
+            z = F.one_hot(idx, self.n_categories).float().to(device)
+            with torch.no_grad():
+                imgs = self.decoder(torch.cat([z, c], dim=1))
+            grid_rows.append(imgs)
+        return torch.cat(grid_rows, dim=0)
+
+
+def categorical_cvae_loss(x_recon, x, logits):
+    """Discrete-latent CVAE loss (ELBO negative), reduction='sum'.
+
+    recon = -E[log p(x|z)] via BCE        (MNIST pixels in [0, 1])
+    kl    = KL(q(z|x) || Uniform(1/K))     computed from the softmax probs
+    """
+    recon = F.binary_cross_entropy(x_recon, x, reduction="sum")
+
+    probs = F.softmax(logits, dim=-1)  # q(z|x) over K classes
+    k = probs.size(-1)
+    kl = torch.sum(probs * torch.log(probs * k))  # sum_i pi_i * log(K * pi_i)
+
+    return recon + kl, recon, kl
+
+
+def main():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    epochs, batch_size, n_categories = 20, 128, 32
+    tau_start, tau_end = 1.0, 0.5  # anneal temperature over training
+    sample_dir = "samples"
+    os.makedirs(sample_dir, exist_ok=True)
+
+    tf = transforms.Compose(
+        [transforms.ToTensor(), transforms.Lambda(lambda t: t.view(-1, 1, 28, 28))]
+    )
+    train_loader = DataLoader(
+        datasets.MNIST("./data", train=True, download=True, transform=tf),
+        batch_size=batch_size,
+        shuffle=True,
+    )
+
+    model = CategoricalCVAE(n_categories=n_categories).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+    for epoch in range(1, epochs + 1):
+        tau = tau_start * (tau_end / tau_start) ** ((epoch - 1) / (epochs - 1))
+        total_recon, total_kl = 0.0, 0.0
+        model.train()
+        for x, y in train_loader:
+            x = x.to(device)
+            c = F.one_hot(y, model.n_classes).float().to(device)
+            x_recon, logits, _ = model(x, c, tau=tau)
+            loss, recon, kl = categorical_cvae_loss(x_recon, x, logits)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_recon += recon.item()
+            total_kl += kl.item()
+
+        n = len(train_loader.dataset)
+        print(
+            f"epoch {epoch:02d} | tau={tau:.3f} | recon={total_recon / n:.3f} | "
+            f"kl={total_kl / n:.3f} | total={total_recon + total_kl:.2f}"
+        )
+
+        samples = model.sample(n_per_class=8, device=device)
+        save_image(
+            samples,
+            f"{sample_dir}/discrete_cvae_samples_epoch{epoch:02d}.png",
+            nrow=8,
+            padding=2,
+        )
+
+
+if __name__ == "__main__":
+    main()
+```
+- Random Choice
+```
+import os
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+from torchvision.utils import save_image
+
+
+class SoftmaxRandomChoiceCVAE(nn.Module):
+    """Conditional VAE with a discrete (categorical) latent sampled via the
+    "Softmax + Random Choice" scheme.
+
+    Unlike Gumbel-Softmax (which injects Gumbel noise into logits then applies
+    softmax), this method:
+      1. softmax(logits)      -> categorical probabilities q(z|x)
+      2. Random Choice        -> torch.multinomial(probs) gives a hard one-hot z
+      3. Straight-Through (ST)-> forward uses the hard one-hot, backward
+                                 substitutes the softmax probabilities as the
+                                 surrogate gradient (z = z_hard + probs - probs.detach())
+
+    Condition c is the digit label (one-hot, 10-dim), concatenated into both
+    the encoder's first FC layer and the decoder's input.
+    """
+
+    def __init__(self, n_categories=32, n_classes=10, in_channels=1):
+        super().__init__()
+        self.n_categories = n_categories
+        self.n_classes = n_classes
+                      
+
+        self.encoder = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 256),
+            nn.ReLU(True),
+        )
+        self.fc_logits = nn.Linear(256 + n_classes, n_categories)
+
+        self.decoder = nn.Sequential(
+            nn.Linear(n_categories + n_classes, 256),
+            nn.ReLU(True),
+            nn.Linear(256, 64 * 7 * 7),
+            nn.ReLU(True),
+            nn.Unflatten(1, (64, 7, 7)),
+            nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(32, in_channels, kernel_size=4, stride=2, padding=1),
+            nn.Sigmoid(),
+        )
+
+    def reparameterize(self, logits):
+        """Softmax + Random Choice with a straight-through estimator."""
+        probs = F.softmax(logits, dim=-1)               # categorical probs
+        idx = torch.multinomial(probs, 1).squeeze(-1)   # random choice (non-diff)
+        z_hard = F.one_hot(idx, self.n_categories).float()
+        # straight-through: forward = z_hard, backward gradient = d(softmax)
+        return z_hard + (probs - probs.detach())
+
+    def forward(self, x, c):
+                                                                   
+           
+                                              
+        h = self.encoder(x)
+        h = torch.cat([h, c], dim=1)
+        logits = self.fc_logits(h)
+        z = self.reparameterize(logits)
+                                                                         
+                                                           
+                                                                
+        zc = torch.cat([z, c], dim=1)
+        return self.decoder(zc), logits, z
+
+    def sample(self, n_per_class, device="cpu"):
+        """Generate n_per_class images per digit using uniform-prior latents.
+
+        z ~ Categorical(1/K): pick one of the n_categories classes uniformly.
+        """
+        self.eval()
+        grid_rows = []
+        for label in range(self.n_classes):
+            c = F.one_hot(torch.tensor(label), self.n_classes).float().unsqueeze(0)
+            c = c.repeat(n_per_class, 1).to(device)
+            idx = torch.randint(0, self.n_categories, (n_per_class,))
+            z = F.one_hot(idx, self.n_categories).float().to(device)
+            with torch.no_grad():
+                imgs = self.decoder(torch.cat([z, c], dim=1))
+            grid_rows.append(imgs)
+        return torch.cat(grid_rows, dim=0)
+
+
+def categorical_cvae_loss(x_recon, x, logits):
+    """Discrete-latent CVAE loss (ELBO negative), reduction='sum'.
+
+    recon = -E[log p(x|z)] via BCE        (MNIST pixels in [0, 1])
+    kl    = KL(q(z|x) || Uniform(1/K))     computed from the softmax probs
+    """
+    recon = F.binary_cross_entropy(x_recon, x, reduction="sum")
+
+    probs = F.softmax(logits, dim=-1)  # q(z|x) over K classes
+    k = probs.size(-1)
+    kl = torch.sum(probs * torch.log(probs * k))  # sum_i pi_i * log(K * pi_i)
+
+    return recon + kl, recon, kl
+
+
+def main():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    epochs, batch_size, n_categories = 20, 128, 32
+                                                                     
+    sample_dir = "samples"
+    os.makedirs(sample_dir, exist_ok=True)
+
+    tf = transforms.Compose(
+        [transforms.ToTensor(), transforms.Lambda(lambda t: t.view(-1, 1, 28, 28))]
+    )
+    train_loader = DataLoader(
+        datasets.MNIST("./data", train=True, download=True, transform=tf),
+        batch_size=batch_size,
+        shuffle=True,
+    )
+
+    model = SoftmaxRandomChoiceCVAE(n_categories=n_categories).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+    for epoch in range(1, epochs + 1):
+                                                                               
+        total_recon, total_kl = 0.0, 0.0
+        model.train()
+        for x, y in train_loader:
+            x = x.to(device)
+            c = F.one_hot(y, model.n_classes).float().to(device)
+            x_recon, logits, _ = model(x, c)
+            loss, recon, kl = categorical_cvae_loss(x_recon, x, logits)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_recon += recon.item()
+            total_kl += kl.item()
+
+        n = len(train_loader.dataset)
+        print(
+            f"epoch {epoch:02d} | recon={total_recon / n:.3f} | "
+            f"kl={total_kl / n:.3f} | total={total_recon + total_kl:.2f}"
+        )
+
+        samples = model.sample(n_per_class=8, device=device)
+        save_image(
+            samples,
+            f"{sample_dir}/softmax_choice_samples_epoch{epoch:02d}.png",
+            nrow=8,
+            padding=2,
+        )
+
+
+if __name__ == "__main__":
+    main()
+```
 ## TRPO
 ```
 https://zhuanlan.zhihu.com/p/26308073
