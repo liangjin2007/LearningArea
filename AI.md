@@ -80,6 +80,8 @@ $z=\mu+\sigma\varepsilon$ 采样。同一 latent 维度下 VAE 该层参数量�
 
 性质差异：AE 学到确定性压缩表示（非生成式）；VAE latent 平滑连续，可任意采样 $z\sim\mathcal{N}(0,I)$ 生成新样本，是真正的生成模型。
 
+每个输入X对应编码/输出为一个分布。
+
 ```
 在Autoencoder的基础上，显性的对z的分布p（z）进行建模，使得自编码器成为一个合格的生成模型，我们就得到了Variational Autoencoders。
 
