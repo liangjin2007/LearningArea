@@ -56,9 +56,9 @@ Logistic Loss
 Hinge Loss
 ```
 ## 统计学习方法 MLE & MAP https://zhuanlan.zhihu.com/p/345024301
-```
-```
+
 ## Linear-Probe-Fine-Tuning 线性探针
+
 # AE AutoEncoder
 ```
 自编码器类似于一个非线性的PCA，是一个利用神经网络来给复杂数据降维的模型。
@@ -70,8 +70,19 @@ Hinge Loss
 ## VAE 
 - https://zhuanlan.zhihu.com/p/348498294
 - https://zhuanlan.zhihu.com/p/34998569
+架构基本一致（都是 encoder-decoder），区别不在网络层数/拓扑，而在于：
+
+Latent 层输出不同：AE 输出确定性向量 $z$；VAE 输出分布参数 $\mu$ 和 $\log\sigma^2$（两个 head），再经重参数化 
+
+$z=\mu+\sigma\varepsilon$ 采样。同一 latent 维度下 VAE 该层参数量约为 AE 的 2 倍。
+
+训练目标不同：AE 只有重建损失；VAE 额外加 KL 散度项把 latent 推向 $\mathcal{N}(0,I)$，即 $\mathcal{L}=\text{重建}+\beta\cdot KL$（β-VAE 形式）。
+
+性质差异：AE 学到确定性压缩表示（非生成式）；VAE latent 平滑连续，可任意采样 $z\sim\mathcal{N}(0,I)$ 生成新样本，是真正的生成模型。
+
 ```
 在Autoencoder的基础上，显性的对z的分布p（z）进行建模，使得自编码器成为一个合格的生成模型，我们就得到了Variational Autoencoders。
+
 
 p(X) = Sum p(X|Z) p(Z)
 
@@ -91,7 +102,7 @@ Loss
       # KL divergence
       return BCE + KLD
 ```
-## Conditioned VAE
+## Conditioned VAE https://zhuanlan.zhihu.com/p/88750084
 ## TRPO
 ```
 https://zhuanlan.zhihu.com/p/26308073
