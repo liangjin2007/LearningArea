@@ -105,6 +105,8 @@ Loss
       return BCE + KLD
 ```
 ## Conditioned VAE https://zhuanlan.zhihu.com/p/88750084
+- [添加是怎么加的](https://pic2.zhimg.com/v2-85fff6a27c1f96a2d0b675243319407b_1440w.jpg)
+- [训练的时候的策略/Loss有什么不同]()
 ## TRPO
 ```
 https://zhuanlan.zhihu.com/p/26308073
