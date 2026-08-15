@@ -1,7 +1,7 @@
 # 目录
 - [1.OpenCode](#1OpenCode)
 
-## 1.OpenCode
+## 1.OpenCode安装
 
 - 文档 https://opencode.ai/docs/zh-cn/
 - 安装
@@ -19,34 +19,21 @@
   安装opencode-desktop-windows-x64.exe
 
 我这边是两种方式都装了，貌似在设置API key的时候最好使用TUI。
-
-
-
 ```
 
-- 简单开始
+## 2.注册账号
 ```
-选择MiniMax M2.5 Free 模型
-为项目初始化 OpenCode ： /init
-Tab切换Plan和Build模式
-撤销修改 /undo
-重做命令 /redo
-
-免费的模型有限额。
+打开 https://opencode.ai/zh/
+选择Zen/Go，在右上角可看到登录按钮，点击进行注册登录，我使用的是用我的google账号登录。
+登录后可看到有Zen, Go, 使用量, API密钥, 成员，计费，设置这几个Tab
+目前
+```
+## 3.查看目前opencode中目前各个模型的热度
+```
+打开官网https://opencode.ai/
+点Data
+可看到目前最热门模型为deepseek-v4-flash,接着是deepseek-v4-pro.
 ```
 
-- 配置Coding Plan为智谱Coding Plan
-```
-参考 https://docs.bigmodel.cn/cn/coding-plan/tool/opencode#2-%E8%BF%90%E8%A1%8C-opencode-auth-login-%E5%B9%B6%E9%80%89%E6%8B%A9-zhipu-ai-coding-plan
 
-打开powershell
-opencode auth login
-
-Select provider为Zhipu AI Coding Plan, 按enter
-
-提示输入API key
-需要先购买
-
-
-```
 
