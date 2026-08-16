@@ -3,7 +3,10 @@
 - [Deep-Learning-With-Pytorch-Tutorials](https://github.com/dragen1860/Deep-Learning-with-PyTorch-Tutorials.git)
 - [NVIDA DeepLearningExamples](https://github.com/NVIDIA/DeepLearningExamples/tree/master) 进阶学习
 
-## 概率与惊喜 https://zhuanlan.zhihu.com/p/573385147
+## 目录
+- [1.概率与惊喜](#1.概率与惊喜)
+- 
+## 1.概率与惊喜 https://zhuanlan.zhihu.com/p/573385147
 ```
 1.概率
 p(x) ->
@@ -816,7 +819,9 @@ https://zhuanlan.zhihu.com/p/26308073
 - DDPM 高质量生成依赖1000步 
 ![DDPM训练测试算法流程图](https://pic2.zhimg.com/v2-6a41afbb1bf22710efc37646b69ea085_1440w.jpg)
 - DDIM
-## Normalized Flow
+## Normalized Flow 
+- https://medium.com/ai-blog-tw/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BA-normalizing-flow-nice-realnvp-glow-flow-generative-model%E4%B8%8D%E5%8F%AA%E6%9C%89-gan%E8%B7%9F-vae-29f8e471121
+
 ## Transformer https://zhuanlan.zhihu.com/p/525106459
 ## Flow Matching
 ## DiT
