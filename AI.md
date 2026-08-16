@@ -128,6 +128,143 @@ Loss
 ```
 
 ```
+import os
+
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
+from torchvision.utils import save_image
+
+
+class CVAE(nn.Module):
+    """Conditional Variational AutoEncoder for MNIST.
+
+    Condition c is the digit label (one-hot, 10-dim), concatenated into both
+    the encoder's first FC layer and the decoder's input.
+    """
+
+    def __init__(self, latent_dim=32, n_classes=10, in_channels=1):
+        super().__init__()
+        self.latent_dim = latent_dim
+        self.n_classes = n_classes
+
+        self.encoder = nn.Sequential(
+            nn.Conv2d(in_channels, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Conv2d(32, 64, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.Flatten(),
+            nn.Linear(64 * 7 * 7, 256),
+            nn.ReLU(True),
+        )
+        self.fc_mu = nn.Linear(256 + n_classes, latent_dim)
+        self.fc_logvar = nn.Linear(256 + n_classes, latent_dim)
+
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim + n_classes, 256),
+            nn.ReLU(True),
+            nn.Linear(256, 64 * 7 * 7),
+            nn.ReLU(True),
+            nn.Unflatten(1, (64, 7, 7)),
+            nn.ConvTranspose2d(64, 32, kernel_size=4, stride=2, padding=1),
+            nn.ReLU(True),
+            nn.ConvTranspose2d(32, in_channels, kernel_size=4, stride=2, padding=1),
+            nn.Sigmoid(),
+        )
+
+    def reparameterize(self, mu, logvar):
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mu + std * eps
+
+    def forward(self, x, c):
+        h = self.encoder(x)
+        h = torch.cat([h, c], dim=1)
+        mu = self.fc_mu(h)
+        logvar = self.fc_logvar(h)
+        z = self.reparameterize(mu, logvar)
+        zc = torch.cat([z, c], dim=1)
+        return self.decoder(zc), mu, logvar
+
+    def sample(self, n_per_class, device="cpu"):
+        """Generate n_per_class images for each of the n_classes digits."""
+        self.eval()
+        grid_rows = []
+        for label in range(self.n_classes):
+            c = F.one_hot(torch.tensor(label), self.n_classes).float().unsqueeze(0)
+            c = c.repeat(n_per_class, 1).to(device)
+            z = torch.randn(n_per_class, self.latent_dim).to(device)
+            with torch.no_grad():
+                imgs = self.decoder(torch.cat([z, c], dim=1))
+            grid_rows.append(imgs)
+        return torch.cat(grid_rows, dim=0)
+
+
+def cvae_loss(x_recon, x, mu, logvar):
+    """CVAE loss (ELBO negative), reduction='sum'.
+
+    recon = -E[log p(x|z)] via BCE  (MNIST pixels in [0, 1])
+    kl    = KL(q(z|x) || N(0, I))   summed over dims/batch
+    """
+    recon = F.binary_cross_entropy(x_recon, x, reduction="sum")
+    kl = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+    return recon + kl, recon, kl
+
+
+def main():
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    epochs, batch_size, latent_dim = 10, 128, 32
+    sample_dir = "samples"
+    os.makedirs(sample_dir, exist_ok=True)
+
+    tf = transforms.Compose(
+        [transforms.ToTensor(), transforms.Lambda(lambda t: t.view(-1, 1, 28, 28))]
+    )
+    train_loader = DataLoader(
+        datasets.MNIST("./data", train=True, download=True, transform=tf),
+        batch_size=batch_size,
+        shuffle=True,
+    )
+
+    model = CVAE(latent_dim=latent_dim).to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+
+    for epoch in range(1, epochs + 1):
+        total_recon, total_kl = 0.0, 0.0
+        model.train()
+        for x, y in train_loader:
+            x = x.to(device)
+            c = F.one_hot(y, model.n_classes).float().to(device)
+            x_recon, mu, logvar = model(x, c)
+            loss, recon, kl = cvae_loss(x_recon, x, mu, logvar)
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+            total_recon += recon.item()
+            total_kl += kl.item()
+
+        n = len(train_loader.dataset)
+        print(
+            f"epoch {epoch:02d} | recon={total_recon / n:.3f} | "
+            f"kl={total_kl / n:.3f} | total={total_recon + total_kl:.2f}"
+        )
+
+        samples = model.sample(n_per_class=8, device=device)
+        save_image(
+            samples,
+            f"{sample_dir}/cvae_samples_epoch{epoch:02d}.png",
+            nrow=8,
+            padding=2,
+        )
+
+
+if __name__ == "__main__":
+    main()
+```
+
+```
 我看之前你给出的cvae_mnist.py中的如下代码
 def cvae_loss(x_recon, x, mu, logvar):    """CVAE loss (ELBO negative), reduction='sum'.
 
