@@ -5,7 +5,25 @@
 
 ## 目录
 - [1.概率与惊喜](#1.概率与惊喜)
-- 
+- [2.Likelihood](#2.Likelihood)
+- [3.Divergence(散度)](#3.Divergence(散度))
+- [4.MSE](#4.MSE)
+- [5.Loss](#5.Loss)
+- [6.统计学习方法](#6.统计学习方法)
+- [7.Linear-Probe-Fine-Tuning](#7.Linear-Probe-Fine-Tuning)
+- [8.AutoEncoder](#8.AutoEncoder)
+- [9.VAE](#9.VAE)
+- [10.CVAE](#10.CVAE)
+- [11.重参数化](#11.重参数化)
+- [12.GAN](#12.GAN)
+- [13.PositionalEmbedding](#13.PositionalEmbedding)
+- [14.DiffusionModel](#14.DiffusionModel) 
+- [15.NormalizedFlow](#15.NormalizedFlow) 
+- [16.Transformer](#16.Transformer)
+- [17.Flow Matching](#17.Flow Matching)
+- [18.DiT](#18.DiT)
+- [19.ViT](#19.ViT)
+
 ## 1.概率与惊喜 https://zhuanlan.zhihu.com/p/573385147
 ```
 1.概率
@@ -41,7 +59,7 @@ KL-散度经常用于描述两个分布是否接近，也就是作为两个分�
 2. 如果要学习/拟合的对象本身就是一个随机（stochastic）函数，也就是说，一个给定的x，y=f(x) 不存在确定值，而是存在一个分布，那么要学习也应该是一个分布，如果按照mse作为loss，学习到的很可能就只是这个随机现象的均值。所以本质的区别在于，同一个x下的不同观测值之间的波动，是要被看待为噪声，还是要被看待为想拟合的对象的固有属性。
 分类问题的输入是直接观测或者特征，输出是预测值，我们可以由观测或特征可以直接推导出结果吗？一般而言不能，只能增加我们对不同结果的确信程度，因此输出是分布。
 ```
-## Likelihood
+## 2.Likelihood
 ```
 Likelihood（似然）
 给定一组已观测数据 X，likelihood 是在某个参数 θ 下，观测到这些数据的概率（或概率密度值）：
@@ -56,15 +74,36 @@ Likelihood：P(X|θ)，X 固定、θ 可变 —— 描述"参数的好坏"
 在 VAE 里就是 log p(x|z)（重建项）——衡量给定 latent z 能多大程度生成出 x。
 ```
 
-## Divergence(散度)
+## 3.Divergence(散度)
 - Minimize KL Divergence
 ```
+Divergence（散度）
+散度是**衡量两个概率分布 P 和 Q 有多"不像"**的度量（非对称距离）。最常用：
 
+KL Divergence（Kullback-Leibler）：
+
+KL(P || Q) = Σ P(x) · log[P(x) / Q(x)]     （离散）
+KL(P || Q) = ∫ P(x) · log[P(x) / Q(x)] dx   （连续）
+性质：
+
+非对称：KL(P||Q) ≠ KL(Q||P)，方向有语义——"用 Q 近似 P 的代价"
+≥ 0，等于 0 当且仅当 P = Q
+非度量（不满足对称性、三角不等式），所以叫"散度"而非"距离"
+其他散度：JS 散度（对称化 KL，GAN 早期用它）、Wasserstein 距离（WGAN 用）、f-divergence 家族（统一形式 Σ Q·f(P/Q)）。
+
+两者的联系（在 VAE 中的体现）
+VAE 的 ELBO loss 正是二者的组合：
+
+ELBO = E_q[log p(x|z)]    ← likelihood（重建项）
+       - KL(q(z|x) || p(z))  ← divergence（正则项，拉近后验与先验）
+直觉：likelihood 要求"生成得越像越好"，KL 要求"latent 分布别偏离先验太多"。二者博弈 → 平衡生成质量与 latent 空间平滑性。
+
+一句话：likelihood 是"数据固定、参数可变时的出现概率"；divergence 是"两个分布之间的距离度量"；VAE 用 likelihood 保证重建、用 KL 散度保证 latent 正则。
 ```
 
 
 
-## MSE & Linear Regression（Mean Squared Error） 
+## 4.MSE
 ```
 样本xi, yi
 样本上的损失函数 l(yi, f(xi)) = 1/2(yi - f(xi))^2
@@ -74,17 +113,20 @@ Likelihood：P(X|θ)，X 固定、θ 可变 —— 描述"参数的好坏"
 概率理解：
   MLE极大似然估计： 引入噪声概率分布epsilon, 正太分布， -log L(w, b) = -log(Multiply p(yi|xi;w,b)) = -n log(1/sqrt(2 PI sigma^2)) + 1/(2 sigma^2) sum(yi - (w xi + b))^2
 ```
-## 0-1 Loss & Surrogate(代理) Loss  https://zhuanlan.zhihu.com/p/346935187
+## 5.Loss 
+- https://zhuanlan.zhihu.com/p/346935187
 ```
 0-1 Loss: 
 Logistic Loss
 Hinge Loss
 ```
-## 统计学习方法 MLE & MAP https://zhuanlan.zhihu.com/p/345024301
+## 6.统计学习方法 
+- MLE & MAP https://zhuanlan.zhihu.com/p/345024301
 
-## Linear-Probe-Fine-Tuning 线性探针
+## 7.Linear-Probe-Fine-Tuning
+线性探针
 
-# AE AutoEncoder
+# 8.AutoEncoder
 ```
 自编码器类似于一个非线性的PCA，是一个利用神经网络来给复杂数据降维的模型。
 编码器 z = g(X)
@@ -92,7 +134,7 @@ Hinge Loss
 我们能否把这个模型直接当做生成模型 ? -> no
 因为没学z的分布导致随便采样一个z，我们并不知道哪些能够生成有用的图片。
 ```
-## VAE 
+## 9.VAE 
 - https://zhuanlan.zhihu.com/p/348498294
 - https://zhuanlan.zhihu.com/p/34998569
 架构基本一致（都是 encoder-decoder），区别不在网络层数/拓扑，而在于：
@@ -315,7 +357,8 @@ loss = recon + kl
 减号是"对数似然"和"损失"的方向差异：likelihood 要最大化，loss 要最小化，所以 recon 实际是负对数似然（NLL），写成"损失"形式。
 隐含假设：把像素当成独立 Bernoulli（0/1 二值概率），忽略了像素的连续强度信息——这是 MNIST 场景的常见近似。若改用高斯似然（p(x|z) = N(x; x_recon, I)），推导可得 recon 对应 MSE：-log p(x|z) ∝ ||x - x_recon||²。
 ```
-## Conditioned VAE https://zhuanlan.zhihu.com/p/88750084
+## 10.CVAE
+- https://zhuanlan.zhihu.com/p/88750084
 - ![添加是怎么加的](https://pic2.zhimg.com/v2-85fff6a27c1f96a2d0b675243319407b_1440w.jpg)
 - 样例代码
 ```
@@ -461,7 +504,8 @@ fc_mu = mlp1(h) # mlp1为 latent_dim -> 256 + n_classes
 fc_logvar = mlp2(h) # mlp1为 latent_dim -> 256 + n_classes
 decoder(fc_mu, fc_logvar)
 ```
-## 重参数化 https://zhuanlan.zhihu.com/p/561328468
+## 11.重参数化 
+- https://zhuanlan.zhihu.com/p/561328468
 针对离散选择问题。
 
 ```
@@ -804,28 +848,21 @@ def main():
 if __name__ == "__main__":
     main()
 ```
-## GAN
-
-## TRPO
-```
-https://zhuanlan.zhihu.com/p/26308073
-```
-## Positional Embedding
-## SDE(随机微分方程)
-
-## Diffusion Model 
+## 12.GAN
+## 13.PositionalEmbedding
+## 14.DiffusionModel 
 - https://zhuanlan.zhihu.com/p/525106459
 - https://www.zhihu.com/question/536012286/answer/2533146567
 - DDPM 高质量生成依赖1000步 
 ![DDPM训练测试算法流程图](https://pic2.zhimg.com/v2-6a41afbb1bf22710efc37646b69ea085_1440w.jpg)
 - DDIM
-## Normalized Flow 
+## 15.NormalizedFlow 
 - https://medium.com/ai-blog-tw/%E6%B7%B1%E5%85%A5%E6%B7%BA%E5%87%BA-normalizing-flow-nice-realnvp-glow-flow-generative-model%E4%B8%8D%E5%8F%AA%E6%9C%89-gan%E8%B7%9F-vae-29f8e471121
-
-## Transformer https://zhuanlan.zhihu.com/p/525106459
-## Flow Matching
-## DiT
-## ViT
+## 16.Transformer
+- https://zhuanlan.zhihu.com/p/525106459
+## 17.Flow Matching
+## 18.DiT
+## 19.ViT
 
 
 
