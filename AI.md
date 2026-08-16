@@ -38,6 +38,28 @@ KL-散度经常用于描述两个分布是否接近，也就是作为两个分�
 2. 如果要学习/拟合的对象本身就是一个随机（stochastic）函数，也就是说，一个给定的x，y=f(x) 不存在确定值，而是存在一个分布，那么要学习也应该是一个分布，如果按照mse作为loss，学习到的很可能就只是这个随机现象的均值。所以本质的区别在于，同一个x下的不同观测值之间的波动，是要被看待为噪声，还是要被看待为想拟合的对象的固有属性。
 分类问题的输入是直接观测或者特征，输出是预测值，我们可以由观测或特征可以直接推导出结果吗？一般而言不能，只能增加我们对不同结果的确信程度，因此输出是分布。
 ```
+## Likelihood
+```
+Likelihood（似然）
+给定一组已观测数据 X，likelihood 是在某个参数 θ 下，观测到这些数据的概率（或概率密度值）：
+
+L(θ) = P(X | θ)   # 数据 X 固定，θ 可变
+关键区分：
+
+Probability：P(X|θ)，θ 固定、X 可变 —— 描述"结果"
+Likelihood：P(X|θ)，X 固定、θ 可变 —— 描述"参数的好坏"
+最大似然估计 (MLE)：找使 L(θ) 最大的 θ。实践中常用 log-likelihood（log L(θ)），因为连乘变连加、数值稳定。例：给定 100 次抛硬币结果，求正面的 θ，MLE = 正面次数/100。
+
+在 VAE 里就是 log p(x|z)（重建项）——衡量给定 latent z 能多大程度生成出 x。
+```
+
+## Divergence(散度)
+- Minimize KL Divergence
+```
+
+```
+
+
 
 ## MSE & Linear Regression（Mean Squared Error） 
 ```
@@ -103,6 +125,55 @@ Loss
       KLD = torch.sum(KLD_element).mul_(-0.5)
       # KL divergence
       return BCE + KLD
+```
+
+```
+我看之前你给出的cvae_mnist.py中的如下代码
+def cvae_loss(x_recon, x, mu, logvar):    """CVAE loss (ELBO negative), reduction='sum'.
+
+
+    recon = -E[log p(x|z)] via BCE  (MNIST pixels in [0, 1])
+    kl    = KL(q(z|x) || N(0, I))   summed over dims/batch
+    """
+    recon = F.binary_cross_entropy(x_recon, x, reduction="sum")
+    kl = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
+    return recon + kl, recon, kl
+
+请问为什么E_q[log p(x|z)]就是F.binary_cross_entropy(x_recon, x, reduction="sum")，帮我推导一下
+这是纯推导问题，直接回答（不涉及文件改动）。
+
+结论先给
+recon = BCE(x_recon, x, reduction='sum') 并不等于 E_q[log p(x|z)]，而是它的相反数：
+
+recon = -E_q[log p(x|z)]
+所以 cvae_loss 返回的 recon + kl 是负 ELBO（对应 docstring 里的 "ELBO negative"），最小化它 = 最大化 ELBO。
+
+推导
+第 1 步：定义似然模型。 MNIST 像素 ∈ [0,1]，decoder 输出 x_recon（Sigmoid 后 ∈ (0,1)），把它解释为每个像素独立的 Bernoulli 概率：
+
+p_θ(x | z) = Π_i p_i^{x_i} · (1 - p_i)^{1-x_i},    p_i = x_recon_i
+第 2 步：取对数，拆开连乘：
+
+log p_θ(x | z) = Σ_i [ x_i·log p_i + (1 - x_i)·log(1 - p_i) ]      …(1)
+第 3 步：期望的蒙特卡洛估计。 E_q(z|x)[log p(x|z)] 无法解析计算，用一次采样近似（VAE 标准做法，每个样本重参数化采一个 z）：
+
+E_q[log p(x|z)] ≈ log p_θ(x | z^*)      （z^* 为一次采样）
+第 4 步：看 BCE 的展开式。 PyTorch 的 F.binary_cross_entropy 对单样本、reduction='sum' 时是：
+
+BCE = -Σ_i [ x_i·log p_i + (1-x_i)·log(1-p_i) ]      …(2)
+对比 (1)(2)：
+
+BCE = -log p_θ(x | z)   ⇒   log p_θ(x|z) = -BCE
+对 batch 求和（sum 累积所有样本和像素）后两边同取期望：
+
+E_q[log p(x|z)] = -BCE_sum        ⇒   recon = -E_q[log p(x|z)]   ∎
+最后拼上 KL
+loss = recon + kl
+     = -E_q[log p(x|z)] + KL(q(z|x) || p(z))
+     = -ELBO
+两个值得注意的点
+减号是"对数似然"和"损失"的方向差异：likelihood 要最大化，loss 要最小化，所以 recon 实际是负对数似然（NLL），写成"损失"形式。
+隐含假设：把像素当成独立 Bernoulli（0/1 二值概率），忽略了像素的连续强度信息——这是 MNIST 场景的常见近似。若改用高斯似然（p(x|z) = N(x; x_recon, I)），推导可得 recon 对应 MSE：-log p(x|z) ∝ ||x - x_recon||²。
 ```
 ## Conditioned VAE https://zhuanlan.zhihu.com/p/88750084
 - ![添加是怎么加的](https://pic2.zhimg.com/v2-85fff6a27c1f96a2d0b675243319407b_1440w.jpg)
@@ -593,14 +664,24 @@ def main():
 if __name__ == "__main__":
     main()
 ```
+## GAN
+
 ## TRPO
 ```
 https://zhuanlan.zhihu.com/p/26308073
 ```
 ## Positional Embedding
-## Transformer https://zhuanlan.zhihu.com/p/525106459
+## SDE(随机微分方程)
 
-## Diffusion
+## Diffusion Model 
+- https://zhuanlan.zhihu.com/p/525106459
+- https://www.zhihu.com/question/536012286/answer/2533146567
+- DDPM 高质量生成依赖1000步 
+![DDPM训练测试算法流程图](https://pic2.zhimg.com/v2-6a41afbb1bf22710efc37646b69ea085_1440w.jpg)
+- DDIM
+## Normalized Flow
+## Transformer https://zhuanlan.zhihu.com/p/525106459
+## Flow Matching
 ## DiT
 ## ViT
 
