@@ -100,7 +100,10 @@ git pull代码时提示冲突如何解决：
  使用notepad++打开冲突文件搜 < HEAD找到冲突的地方进行修改，修改完保存。 git add <文件> , 然后git commit -m ""， 再git push
 
 放弃 merge：如果你确定要放弃当前的 merge，可以使用 `git merge –abort` 命令
-
+如果想要让冲突文件使用线上版本：
+git stash # 暂存本地文件
+git checkout origin/main -- <文件名>
+git stash pop
 
 放弃一个已经Push的提交，并保留历史
   git log查看hash
