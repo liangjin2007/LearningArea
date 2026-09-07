@@ -25,6 +25,21 @@ git checkout xxx 放弃修改，
 git branch xxx 创建本地branch
 git push origin xxx 上传本地的branch
 git push origin -d xxx 删除服务器上的branch
+git branch xxx // 创建本地branch
+git push origin xxx //上传本地的branch
+git checkout xxx //切到xxx branch。
+
+从xxx branch合并到main的操作后面需要讨论后决定是否merge。
+
+把一个分支（branch）的修改合并到 main 分支，最简单的方法是使用 git checkout 和 git merge 命令。 
+
+操作步骤切换到 main 分支
+打开终端并输入命令，git checkout main
+拉取最新代码：git pull
+把你的目标分支（假设分支名为 feature）合并到当前的 main 分支：git merge feature
+推送到远程仓库将合并后的最新代码推送到远程服务器：git push
+如果在合并时提示 Conflict（冲突），你需要手动打开冲突文件修改冲突内容，然后执行 git add <file> 和 git commit 完成合并
+
 
 git add . 暂存所有本地修改
 git reset . revert 'git add'
