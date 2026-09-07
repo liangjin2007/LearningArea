@@ -29,6 +29,10 @@ git branch xxx // 创建本地branch
 git push origin xxx //上传本地的branch
 git checkout xxx //切到xxx branch。
 
+git branch // 显示本地有哪些branch
+git branch --show-current // 显示当前branch
+
+
 从xxx branch合并到main的操作后面需要讨论后决定是否merge。
 
 把一个分支（branch）的修改合并到 main 分支，最简单的方法是使用 git checkout 和 git merge 命令。 
