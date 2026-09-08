@@ -53,8 +53,11 @@ submodules:
 git submodule update --init --recursive
 git submodule status
 git submodule add https://github.com/prajwalshettydev/UnrealGenAISupport.git Plugins/UnrealGenAISupport
-
-
+删除submodule
+git submodule deinit -f Plugins/UnrealGenAISupport
+git rm -f Plugins/UnrealGenAISupport
+git commit .
+git push
 
 放弃本地新添加的目录和文件 git clean -fd
 
