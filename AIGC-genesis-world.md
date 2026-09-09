@@ -184,6 +184,25 @@ The simulation timestep is a duration in seconds, defaulting to dt = 1e-2 (10 ms
 
 gs.options.SimOptions(dt=0.01)
 ```
+### Tensor shapes and batching
+```
+Genesis World simulates many environments in parallel (see Parallel simulation), so most quantities carry an optional leading batch dimension. The docs and docstrings describe shapes with a bracket notation:
+
+distances  # shape ([n_envs,] n_probes)
+points     # shape ([n_envs,] n_probes, 3)
+The [n_envs,] bracket means: present when the scene is built with multiple environments, absent otherwise. A scene built with scene.build(n_envs=4096) returns tensors with a leading 4096 dimension; a scene built without n_envs drops that dimension entirely rather than using a size-1 axis.
+
+Methods that read or write per-environment state take an envs_idx argument to address a subset of environments. Passing envs_idx=None (the default) applies to all of them; passing a tensor of indices selects only those rows along the batch dimension.
+```
+### Data types and precision
+```
+
+```
+### Checkpoints and simulation states
+State model
+```
+
+```
 ## Integrate MuscleMimic's fullbody
 ```
 看MuscleMimic的代码musclemimic\environments\humanoids\myofullbody.py, 它是用python调用mujoco package的API去创建一个全身的MJCF出来。
