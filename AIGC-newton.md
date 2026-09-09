@@ -11,4 +11,6 @@ or
 
 cd newton
 python.exe -m pip install -e ".[examples]"
+
+python -m newton.examples
 ```
