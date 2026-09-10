@@ -1,5 +1,5 @@
 ```
-conda create -n newton python=3.10
+conda create -n newton python=3.12
 conda activate newton
 
 pip install scikit-learn
