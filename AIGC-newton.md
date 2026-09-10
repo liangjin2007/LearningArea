@@ -2,6 +2,7 @@
 conda create -n newton python=3.10
 conda activate newton
 
+pip install scikit-learn
 python.exe -m pip install --no-build-isolation --no-cache-dir "imgui_bundle>=1.92.0"
 
 pip install "newton[examples]"
