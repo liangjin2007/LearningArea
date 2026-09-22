@@ -11,6 +11,6 @@ Configure agents in opencode.json
 
 Using markdown file to define agents
 
+要添加pdf skill，需要安装python包 python.exe -m pip install pypdf
 ```
 
-## 
