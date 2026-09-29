@@ -1,6 +1,8 @@
 ## 目录
 - [1.Survey](#1Survey)
 - [2.Rigid_Deformable_Articulated_Object_Generation](#2Rigid_Deformable_Articulated_Object_Generation)
+- [3.SceneGeneration](#3SceneGeneration)
+- [4.SimulationPlatform](#4SimulationPlatform)
 ## 1.Survey
 - [2026][Robotics:Science and Systems]SimToolReal: An Object-Centric Policy for Zero-Shot Dexterous Tool Manipulation
   - 单臂+灵巧手抓工具benchmark 
@@ -32,8 +34,16 @@
   - https://github.com/URDF-Anything-plus/Code, 53 star
 - [2026][CVPR]PhysX-Anything: Simulation-Ready Physical 3D Assets from Single Image
   - https://github.com/ziangcao0312/PhysX-Anything, 945 star
+- Dataset
+  - PhysXNet, PhysX-Mobility, and PhysXVerse
+
+## 3.SceneGeneration
 
 
-## 3.Hair Strands related
+## 4.SimulationPlatform
+- [2025]RoboVerse
+  - https://github.com/RoboVerseOrg/RoboVerse， 1.9 k star
+
+## 4.Hair Strands related
 - [2025][sig]Strands2Cards: Automatic Generation of Hair Cards from Strands
 - https://github.com/kenji-tojo/strns2cards
