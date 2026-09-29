@@ -38,7 +38,8 @@
   - PhysXNet, PhysX-Mobility, and PhysXVerse
 
 ## 3.SceneGeneration
-
+- [2026][ICLR]ReconViaGen: Towards Accurate Multi-view 3D Object Reconstruction via Generation
+  - https://github.com/GAP-LAB-CUHK-SZ/ReconViaGen
 
 ## 4.SimulationPlatform
 - [2025]RoboVerse
