@@ -1,5 +1,6 @@
 ## 目录
 - [1.Survey](#1Survey)
+- [2.Rigid_Deformable_Articulated_Object_Generation](#2Rigid_Deformable_Articulated_Object_Generation)
 ## 1.Survey
 - [2026][Robotics:Science and Systems]SimToolReal: An Object-Centric Policy for Zero-Shot Dexterous Tool Manipulation
   - 单臂+灵巧手抓工具benchmark 
@@ -17,7 +18,22 @@
 
 - [2024]PhysGaussian: Physics-Integrated 3D Gaussians for Generative Dynamics
   - integrates physically grounded Newtonian dynamics within 3D Gaussians
- 
-## Hair Strands related
+
+
+
+## 2.Rigid_Deformable_Articulated_Object_Generation
+- [2023][CVPR]Infinite Photorealistic Worlds using Procedural Generation
+  - https://github.com/princeton-vl/infinigen, princeton, 7.3k star, updated last month.
+- [2024][RSS]URDFormer
+  - https://github.com/WEIRDLabUW/urdformer
+- PhysX-Omni: Unified Simulation-Ready Physical 3D Generation for Rigid, Deformable, and Articulated Objects
+  - https://github.com/physx-omni/PhysX-Omni, 319 star
+- [2026]URDF-Anything+:End-to-End Generation for Simulation-Ready Articulated Assets
+  - https://github.com/URDF-Anything-plus/Code, 53 star
+- [2026][CVPR]PhysX-Anything: Simulation-Ready Physical 3D Assets from Single Image
+  - https://github.com/ziangcao0312/PhysX-Anything, 945 star
+
+
+## 3.Hair Strands related
 - [2025][sig]Strands2Cards: Automatic Generation of Hair Cards from Strands
 - https://github.com/kenji-tojo/strns2cards
