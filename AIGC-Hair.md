@@ -1,1 +1,5 @@
-https://github.com/Meshcapade/difflocks
+-[2025]difflocks 
+  - https://github.com/Meshcapade/difflocks
+- [2026]HairGPT: Strand-as-Language Autoregressive Modeling for Realistic 3D Hairstyle Synthesis
+  - Deemos Technology
+- 
