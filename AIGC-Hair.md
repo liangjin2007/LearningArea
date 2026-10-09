@@ -1,4 +1,8 @@
--[2025]difflocks 
+- [2024]UniHair
+  - https://github.com/PAULYZHENG/UniHair， star 78 
+  - Gaussian Hair, just for visualization
+
+- [2025]difflocks 
   - https://github.com/Meshcapade/difflocks，190star
 
 - [2025]CHARM
