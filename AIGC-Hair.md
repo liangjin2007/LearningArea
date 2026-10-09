@@ -10,6 +10,8 @@
   - https://github.com/Vanessik/Im2Haircut, 62 star
   - 62 star 
 
+- [2025][sig]Strands2Cards: Automatic Generation of Hair Cards from Strands
+  - https://github.com/kenji-tojo/strns2cards
 
 - [2025]TANGLED
   - 无代码 任意视角/风格 + lineart + MultiHair 数据集
