@@ -44,10 +44,13 @@
 
 ## 4.SimulationPlatform
 - [2025]RoboVerse
-  - https://github.com/RoboVerseOrg/RoboVerse， 1.9 k star
+  - https://github.com/RoboVerseOrg/RoboVerse， 1.9k star
 - []FEBio
   - https://github.com/febiosoftware/FEBio
   - CPU代码
-- []
+- []artisynth
   - https://github.com/artisynth/artisynth_core
   - Java写的 
+- []SOFA
+  - https://github.com/sofa-framework/sofa, 1.3k star
+  - 有基于CUDA的代码
