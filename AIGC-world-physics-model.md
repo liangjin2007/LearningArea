@@ -54,3 +54,8 @@
 - []SOFA
   - https://github.com/sofa-framework/sofa, 1.3k star
   - 有基于CUDA的代码
+- []HAELE 3D is a family of interactive 3D anatomy and drawing reference tools for artists, available on Steam.
+  Key Software in the Series
+  • HAELE 3D - Pose Studio Max: A comprehensive full-body anatomy and gesture reference tool featuring realistic and simplified models, skeletal/muscular systems, props, and VR mode support.
+  • HAELE 3D - Portrait Studio Pro: Specialized in human faces, heads, expressions (90+ expressions), and cranial anatomy.
+  • HAELE 3D - Hand Poses / Feet Poses: Focused tools for detailed hand and foot articulation, skin tones, and texture adjustments.
