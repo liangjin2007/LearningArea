@@ -45,4 +45,9 @@
 ## 4.SimulationPlatform
 - [2025]RoboVerse
   - https://github.com/RoboVerseOrg/RoboVerse， 1.9 k star
-
+- []FEBio
+  - https://github.com/febiosoftware/FEBio
+  - CPU代码
+- []
+  - https://github.com/artisynth/artisynth_core
+  - Java写的 
