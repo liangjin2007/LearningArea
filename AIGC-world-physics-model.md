@@ -46,6 +46,3 @@
 - [2025]RoboVerse
   - https://github.com/RoboVerseOrg/RoboVerse， 1.9 k star
 
-## 4.Hair Strands related
-- [2025][sig]Strands2Cards: Automatic Generation of Hair Cards from Strands
-- https://github.com/kenji-tojo/strns2cards
