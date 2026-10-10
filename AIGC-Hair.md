@@ -29,3 +29,27 @@
   - https://humansensinglab.github.io/CGHair/， 无代码
  
 - [2026]
+
+## 头发和衣服可实现如下版本
+```
+输入头发ai 3d资产 + 衣服3d资产
+
+-> 处理头发： 转密度场 -> trace 发丝(CTHair?) -> 转卡片mesh(strns2cards)
+
+-> 处理衣服:  四边形网格化 -> 使用类LightDrape方法（通过骨架对齐和模拟, 用libuipc改进穿插效果）穿到身体上 -> 绑定权重自动生成（https://github.com/rin-23/RobustSkinWeightsTransferCode）
+```
+
+## 可模拟身体Setup及模拟器方向
+```
+Real-Time Simulation of Deformable Tactile Sensors in Robotic Grasping using Graph Neural Networks with Inductive Biases， https://tacgraspnets.github.io/
+
+类似于UE MLDeformer做
+
+```
+
+
+
+
+
+
+
