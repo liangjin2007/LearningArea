@@ -24,8 +24,21 @@
 
 
 ## 2.Rigid_Deformable_Articulated_Object_Generation
+- [2022][CVPR]Ditto: Building Digital Twins of Articulated Objects from Interaction
+  - https://github.com/UT-Austin-RPL/Ditto
+  - before, after point cloud, estimate articulator 位置
 - [2023][CVPR]Infinite Photorealistic Worlds using Procedural Generation
   - https://github.com/princeton-vl/infinigen, princeton, 7.3k star, updated last month.
+- [2024][CVPR]
+  - https://github.com/3dlg-hcvc/cage
+  - DDPM based
+  - Graph structure to describe articulated 3d objects
+  - Node attributes
+    - Bounding box
+    - Joint Type
+    - Joint Axis
+    - Joint Range
+    - Semantic Label
 - [2024][RSS]URDFormer
   - https://github.com/WEIRDLabUW/urdformer
 - PhysX-Omni: Unified Simulation-Ready Physical 3D Generation for Rigid, Deformable, and Articulated Objects
