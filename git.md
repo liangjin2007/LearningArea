@@ -22,8 +22,11 @@ git remote set-url origin git@gitlab.com:username/repo.git
 
 cd xxx
 git checkout xxx 放弃修改，
+git branch 列出当前本地有哪些分支
 git branch xxx 创建本地branch
 git push origin xxx 上传本地的branch
+git branch -d xxx 删除本地分支，需要先切到别的分支
+git branch -D xxx 强制删除本地分支，需要先切到别的分支
 git push origin -d xxx 删除服务器上的branch
 git branch xxx // 创建本地branch
 git push origin xxx //上传本地的branch
