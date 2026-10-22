@@ -14,6 +14,8 @@
 
 ## 1.IsaacLab安装
 ```
+https://docs.isaacsim.omniverse.nvidia.com/latest/installation/requirements.html
+
 1.1. 安装IsaacSim https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html
   Enable long path support : HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem LongPathsEnabled
   下载anaconda3
