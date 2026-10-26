@@ -12,8 +12,13 @@
 - @configclass decorator
 
 
-## 1.IsaacLab安装
+## 1.IsaacLab3.0.0安装
 ```
+Python3.12
+cuda 13.0
+nvidia driver 595.97, 我装了596.21。
+IsaacSim 6.2.0 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html
+  先下载安装文件
 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/requirements.html
 
 1.1. 安装IsaacSim https://isaac-sim.github.io/IsaacLab/main/source/setup/installation/pip_installation.html
