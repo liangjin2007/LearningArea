@@ -12,10 +12,12 @@
 - @configclass decorator
 
 
-## 1.IsaacLab3.0.0安装
+## 1.IsaacLab2.3.2安装
 ```
-Python3.12
-cuda 13.0
+git clone https://github.com/isaac-sim/IsaacLab.git
+git checkout v2.3.2
+Python3.11
+cuda 12.x
 nvidia driver 595.97, 我装了596.21。
 IsaacSim 6.2.0 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html
   先下载安装文件
@@ -288,6 +290,9 @@ from isaaclab.sim import SimulationCfg, SimulationContext
 
 ```
 
+## 灵巧手
+- https://github.com/Zhenhao-Zhang/UniHM
+- 
 
 
 
