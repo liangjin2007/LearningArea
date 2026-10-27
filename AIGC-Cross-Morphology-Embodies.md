@@ -19,7 +19,7 @@ git checkout v2.3.2
 Python3.11
 cuda 12.x
 nvidia driver 595.97, 我装了596.21。
-IsaacSim 6.2.0 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html
+IsaacSim 5.1.0 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/download.html
   先下载安装文件
 https://docs.isaacsim.omniverse.nvidia.com/latest/installation/requirements.html
 
